@@ -1,0 +1,65 @@
+crop: paddy
+disease:
+  name: sheath_blight
+  local_name: hawar seludang
+  pathogen:
+    type: fungi
+    species: Rhizoctonia solani
+  symptoms:
+    visual:
+    - Oval to ellipsoid water-soaked greenish-grey lesions on the leaf sheath, first
+      appearing near the water line
+    - Mature lesions develop a greyish-white centre with an irregular brown margin,
+      giving a characteristic "snake-skin" banded pattern
+    - Small, raised brown to dark-brown sclerotia form on or near infected sheaths
+      and lesions spread upward toward the flag leaf
+    growth: A major yield-limiting disease in Malaysian granary areas (MADA, KADA,
+      IADA) where intensive double-cropping and high planting density favour spread;
+      typical yield losses of 10-25%, rising to 40-50% in severe outbreaks affecting
+      the flag leaf and grain filling
+  severity_stages:
+  - stage: early
+    signs: Isolated water-soaked oval lesions on lower leaf sheaths at or just above
+      the water line, usually at tillering to panicle initiation
+  - stage: moderate
+    signs: Lesions enlarge and coalesce into banded snake-skin patterns, climbing
+      to upper sheaths and lower leaves; sclerotia begin to form
+  - stage: severe
+    signs: Infection reaches the flag leaf and upper canopy, causing blighting and
+      death of leaves, unfilled or partially filled panicles, lodging, and abundant
+      sclerotia
+  treatments:
+  - compound: hexaconazole
+    trade_name: Anvil 5SC
+    dosage: 1 mL per litre water (approximately 1.0 L product per hectare)
+    method: foliar spray
+    frequency: Apply at panicle initiation/early booting; repeat once after 10-14
+      days if disease pressure persists
+    pre_harvest_interval_days: null
+    regulatory_status: MY_approved
+  - compound: validamycin A
+    trade_name: Validacin 3L
+    dosage: 2-3 mL per litre water (approximately 1.5 L product per hectare)
+    method: foliar spray
+    frequency: Apply at first appearance of lesions, directed at the lower canopy;
+      repeat after 10-14 days if needed
+    pre_harvest_interval_days: null
+    regulatory_status: MY_approved
+  cultural_controls:
+  - Avoid excessive nitrogen fertiliser and apply balanced, split N-P-K fertilisation
+    to prevent dense, susceptible canopies
+  - Use recommended seeding/transplanting rates to reduce plant density and improve
+    air circulation; practise field sanitation by ploughing in stubble and removing
+    weeds and grassy hosts to bury sclerotia
+  source_citations:
+  - MARDI - Manual Teknologi Penanaman Padi (paddy disease management section)
+  - Department of Agriculture (DOA) Malaysia pest and disease guidelines for rice;
+    IRRI Rice Knowledge Bank - Sheath blight (secondary reference)
+  confidence_score: 0.72
+  last_updated: '2026-05-20'
+_source_file: seed_generator
+professor_review:
+  verdict: FLAG
+  date: '2026-06-12'
+  reviewer: Professor Ahmad Fauzi (AI agronomist agent)
+  issues_count: 6

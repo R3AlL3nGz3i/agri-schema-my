@@ -1,0 +1,63 @@
+crop: banana
+disease:
+  name: sigatoka_leaf_spot
+  local_name: penyakit bintik daun Sigatoka (Sigatoka hitam)
+  pathogen:
+    type: fungi
+    species: Mycosphaerella fijiensis
+  symptoms:
+    visual:
+    - Bintik klorotik kuning-hijau kecil dan jalur halus pada permukaan bawah daun,
+      selari dengan urat daun
+    - Jalur memanjang bertukar warna coklat kemerahan kemudian hitam, membentuk bintik
+      bujur dengan pusat kelabu dan halo kuning
+    - Daun mengalami nekrosis meluas, kering dan mereput awal bermula dari daun bawah
+    growth: Mengurangkan kawasan fotosintesis sehingga 50% atau lebih; menyebabkan
+      buah masak pramatang, berat tandan menurun dan jangka hayat simpan buah dipendekkan.
+      Penyakit utama yang menjejaskan pengeluaran pisang komersial di Malaysia, terutama
+      pada musim hujan dan kawasan lembap.
+  severity_stages:
+  - stage: early
+    signs: Bintik dan jalur klorotik halus pada daun ke-3 hingga ke-4 dari pucuk,
+      paling jelas pada permukaan bawah daun; kurang 10% kawasan daun terjejas
+  - stage: moderate
+    signs: Jalur bergabung membentuk bintik nekrotik bertompok dengan pusat kelabu
+      dan halo kuning pada beberapa helai daun; 10-30% kawasan daun mati
+  - stage: severe
+    signs: Nekrosis meluas, daun runtuh dan kering; kurang daripada 4-6 helai daun
+      berfungsi tinggal; buah masak pramatang dan tandan tidak boleh dipasarkan
+  treatments:
+  - compound: mancozeb
+    trade_name: Dithane M-45
+    dosage: 2.5 g per litre air
+    method: foliar spray
+    frequency: Setiap 7-14 hari mengikut tekanan penyakit, lebih kerap pada musim
+      hujan
+    pre_harvest_interval_days: null
+    regulatory_status: MY_approved
+  - compound: propiconazole
+    trade_name: Tilt 250 EC
+    dosage: 0.5 ml per litre air
+    method: foliar spray
+    frequency: Setiap 14-21 hari, berselang-seli dengan racun kulat protektan untuk
+      elak rintangan
+    pre_harvest_interval_days: null
+    regulatory_status: MY_approved
+  cultural_controls:
+  - Buang dan musnahkan (potong/bakar) daun yang dijangkiti secara berkala untuk kurangkan
+    sumber inokulum (deleafing/sanitasi)
+  - Jarak tanaman yang sesuai dan saliran baik untuk pengudaraan; elakkan pengairan
+    atas daun dan kawal rumpai untuk kurangkan kelembapan kanopi
+  source_citations:
+  - MARDI - Manual Penanaman Pisang (Banana Cultivation Manual), Institut Penyelidikan
+    dan Kemajuan Pertanian Malaysia
+  - Jabatan Pertanian Malaysia (DOA) - Pakej Teknologi Tanaman Pisang; FAO - Black
+    Sigatoka disease management guidelines
+  confidence_score: 0.72
+  last_updated: '2026-05-21'
+_source_file: seed_generator
+professor_review:
+  verdict: FLAG
+  date: '2026-06-12'
+  reviewer: Professor Ahmad Fauzi (AI agronomist agent)
+  issues_count: 6

@@ -1,0 +1,64 @@
+crop: chilli
+disease:
+  name: powdery_mildew
+  local_name: embun tepung
+  pathogen:
+    type: fungi
+    species: Leveillula taurica
+  symptoms:
+    visual:
+    - White powdery fungal growth concentrated on the underside (abaxial surface)
+      of leaves, a distinguishing trait of Leveillula taurica versus other powdery
+      mildews
+    - Pale yellow to chlorotic blotches on the upper leaf surface directly above the
+      powdery patches, later turning brown and necrotic
+    - Upward curling of affected leaves followed by premature shedding of older, lower
+      leaves first
+    growth: Progressive defoliation from the lower canopy upward reduces photosynthetic
+      area and exposes fruit to sunscald; yield losses of roughly 20-50% reported
+      in severe dry-season outbreaks in major chilli areas such as Kelantan, Johor
+      and Pahang
+  severity_stages:
+  - stage: early
+    signs: Scattered faint chlorotic flecks on the upper surface of older leaves with
+      sparse, barely visible white powdery patches on the corresponding underside
+  - stage: moderate
+    signs: Yellow blotches enlarge and coalesce, distinct white powdery sporulation
+      visible on the lower leaf surface, leaf margins curl and a few lower leaves
+      begin to drop
+  - stage: severe
+    signs: Extensive defoliation from the base upward leaving only young top leaves,
+      fruit exposed to sunscald, plants stunted with reduced fruit set
+  treatments:
+  - compound: wettable sulphur (sulfur 80% WG)
+    trade_name: Kumulus DF
+    dosage: 2.5 g per litre water
+    method: foliar spray
+    frequency: every 7-10 days while disease pressure persists
+    pre_harvest_interval_days: null
+    regulatory_status: MY_approved
+  - compound: hexaconazole (50 g/L SC)
+    trade_name: Anvil 5SC
+    dosage: 1 ml per litre water
+    method: foliar spray
+    frequency: every 10-14 days, alternated with non-triazole fungicides to limit
+      resistance
+    pre_harvest_interval_days: 14
+    regulatory_status: MY_approved
+  cultural_controls:
+  - Use wider plant spacing and prune dense lower foliage to improve air circulation
+    and lower canopy humidity
+  - Remove and destroy infected leaves and crop debris, avoid overhead irrigation,
+    and apply balanced fertiliser without excess nitrogen
+  source_citations:
+  - MARDI - Pakej Teknologi Penanaman Cili (chilli cultivation technology package)
+  - Jabatan Pertanian Malaysia (DOA) - guide to identification and control of chilli
+    pests and diseases
+  confidence_score: 0.74
+  last_updated: '2026-05-21'
+_source_file: seed_generator
+professor_review:
+  verdict: FLAG
+  date: '2026-06-12'
+  reviewer: Professor Ahmad Fauzi (AI agronomist agent)
+  issues_count: 4

@@ -1,0 +1,70 @@
+crop: paddy
+disease:
+  name: brown_plant_hopper
+  local_name: Bena perang
+  pathogen:
+    type: pest
+    species: Nilaparvata lugens
+  symptoms:
+    visual:
+    - Yellowing then orange-brown drying of plants spreading outward in circular patches,
+      known as "hopperburn"
+    - Black sooty mould growth on leaves and lower stems, developing on honeydew excreted
+      by the hoppers
+    - Clusters of small brown wedge-shaped nymphs and adults at the base of tillers,
+      just above the water line
+    growth: One of the most economically destructive rice pests in Malaysian granary
+      areas; severe hopperburn can cause total yield loss in affected patches. Documented
+      recurring outbreaks in MADA (Kedah/Perlis) and Tanjung Karang. Also transmits
+      rice ragged stunt virus and grassy stunt virus, compounding losses.
+  severity_stages:
+  - stage: early
+    signs: Low numbers of nymphs and adults found at tiller bases when plants are
+      parted; light honeydew and early sooty mould specks; no visible canopy damage;
+      population still below the action threshold.
+  - stage: moderate
+    signs: Population builds above the economic threshold (roughly more than 8-10
+      hoppers per hill); localised patches of leaf yellowing and noticeable sooty
+      mould; plants begin to wilt during the day.
+  - stage: severe
+    signs: Extensive circular hopperburn patches of dried, collapsed plants; lodging;
+      total loss within affected patches and rapid lateral spread; possible virus
+      symptoms (stunting, ragged leaves).
+  treatments:
+  - compound: buprofezin
+    trade_name: Applaud 10 WP
+    dosage: 1.0 g per litre water; apply 400-500 L spray solution per hectare
+    method: foliar spray directed at the base of the plants
+    frequency: Apply at first detection of nymphs above threshold; repeat once after
+      10-14 days if monitoring shows continued buildup
+    pre_harvest_interval_days: 14
+    regulatory_status: MY_approved
+  - compound: pymetrozine
+    trade_name: Plenum 50 WG
+    dosage: 0.3 g per litre water; apply 400-500 L spray solution per hectare
+    method: foliar spray
+    frequency: Single application at the economic threshold; a second application
+      after 14 days only if the threshold is again exceeded
+    pre_harvest_interval_days: 21
+    regulatory_status: MY_approved
+  cultural_controls:
+  - Practise synchronised planting within a granary block and observe the rice-free
+    fallow (turn-around) period to break the pest's breeding cycle
+  - Avoid excessive nitrogen fertiliser, which produces lush growth that favours rapid
+    hopper population buildup
+  - Plant BPH-resistant or tolerant rice varieties released by MARDI and rotate them
+    to manage biotype shifts
+  - Conserve natural enemies (mirid bug Cyrtorhinus lividipennis, spiders) by avoiding
+    prophylactic broad-spectrum spraying, which causes pest resurgence
+  source_citations:
+  - MARDI - Pakej Teknologi Penanaman Padi (rice cultivation technology package)
+  - DOA Malaysia - garis panduan pengurusan perosak padi bersepadu
+  - IRRI Rice Knowledge Bank, Brown Planthopper
+  confidence_score: 0.72
+  last_updated: '2026-05-20'
+_source_file: seed_generator
+professor_review:
+  verdict: FLAG
+  date: '2026-06-12'
+  reviewer: Professor Ahmad Fauzi (AI agronomist agent)
+  issues_count: 5

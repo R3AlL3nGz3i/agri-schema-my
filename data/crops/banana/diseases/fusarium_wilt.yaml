@@ -1,0 +1,82 @@
+crop: banana
+disease:
+  name: fusarium_wilt
+  local_name: Penyakit layu Fusarium (layu Panama)
+  pathogen:
+    type: fungi
+    species: Fusarium oxysporum f.sp. cubense
+  symptoms:
+    visual:
+    - Yellowing of older (lower) leaves starting at the margins and progressing upward
+      through the canopy
+    - Wilted leaves buckle at the petiole base and collapse, hanging down around the
+      pseudostem as a "skirt" of dead foliage
+    - Reddish-brown to yellow vascular discolouration visible when the pseudostem
+      or rhizome is cut, often with longitudinal splitting of the pseudostem base
+    growth: Major lethal disease of banana in Malaysia; infected plants usually die
+      before producing a marketable bunch. Tropical Race 4 (TR4), first confirmed
+      on Cavendish in Malaysia in the 1990s, has caused abandonment of commercial
+      plantations and serious losses for smallholders. Race 1 continues to affect
+      ABB-group cultivars such as Pisang Awak and Pisang Embun. There is NO curative
+      chemical treatment once a plant is infected — management is entirely preventive
+      and cultural.
+  severity_stages:
+  - stage: early
+    signs: Slight marginal yellowing of the oldest one or two leaves; faint vascular
+      streaking visible only when the rhizome or pseudostem is cut; plant otherwise
+      appears healthy
+  - stage: moderate
+    signs: Progressive yellowing and wilting of several older leaves, leaf collapse
+      forming a skirt of dead foliage; distinct reddish-brown vascular discolouration
+      through the pseudostem; plant stunted
+  - stage: severe
+    signs: Collapse of the entire crown, splitting of the pseudostem base, extensive
+      dark vascular and rhizome rot, plant death; bunch fails to fill or aborts
+  treatments:
+  - compound: Trichoderma harzianum (biocontrol — suppressant only, not curative)
+    trade_name: null
+    dosage: 50 g per planting hole mixed with soil at planting; or 10 g per litre
+      water as soil drench applied at the base of the mat every 3-4 months as a suppressive
+      measure. This is a biological antagonist that reduces soil inoculum pressure
+      — it does NOT cure infected plants.
+    method: soil incorporation at planting or soil drench at mat base
+    frequency: at planting, then every 3-4 months preventively
+    pre_harvest_interval_days: 0
+    regulatory_status: MY_approved
+  - compound: Propiconazole (corm dip — preventive planting treatment only)
+    trade_name: Tilt 250EC
+    dosage: 1 ml per litre water; immerse pared corms or suckers for 30 minutes before
+      planting. Preventive only — has no curative activity on established infection.
+      PHI does not apply as this is a pre-planting treatment.
+    method: corm or sucker dip before planting
+    frequency: once, on planting material only — not repeated during crop cycle
+    pre_harvest_interval_days: 0
+    regulatory_status: MY_approved
+  cultural_controls:
+  - Plant TR4-resistant or tolerant cultivars (e.g. GCTCV Cavendish selections released
+    by INIBAP/Bioversity); avoid susceptible varieties in land with a history of Fusarium
+    wilt
+  - Use only clean, disease-free tissue-cultured plantlets from certified nurseries
+    rather than suckers taken from infected fields
+  - Enforce strict farm biosecurity — disinfect tools, footwear and vehicles with
+    70% ethanol or 5% sodium hypochlorite; restrict movement of soil, suckers and
+    runoff water from infected blocks
+  - Promptly rogue and destroy infected plants in situ (do not move them off site);
+    quarantine and fence off infested zones; mark infested soil permanently
+  - Improve drainage to avoid waterlogging; raise soil organic matter and pH; fallow
+    or rotate infested land with non-host crops (e.g. pineapple, sugarcane) for at
+    least 5 years before replanting banana
+  source_citations:
+  - 'MARDI — Pakej Teknologi Penanaman Pisang: pengurusan penyakit layu Fusarium (Panama)'
+  - Jabatan Pertanian Malaysia (DOA) — risalah penyakit layu Panama pisang dan langkah
+    biosekuriti
+  - FAO / World Banana Forum — Technical guidance on Fusarium wilt Tropical Race 4
+    (TR4) management (fao.org)
+  confidence_score: 0.72
+  last_updated: '2026-06-12'
+_source_file: seed_generator
+professor_review:
+  verdict: PASS
+  date: '2026-06-12'
+  reviewer: Professor Ahmad Fauzi (AI agronomist agent)
+  issues_count: 5

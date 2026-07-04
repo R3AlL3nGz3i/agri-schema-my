@@ -1,0 +1,69 @@
+crop: tomato
+disease:
+  name: bacterial_canker
+  local_name: kanker bakteria
+  pathogen:
+    type: bacteria
+    species: Clavibacter michiganensis subsp. michiganensis
+  symptoms:
+    visual:
+    - Layu sebelah (unilateral) pada daun bawah — tepi daun melengkung ke atas, mengering
+      dan perang sementara bahagian lain pokok kelihatan sihat
+    - Jaluran perang muda hingga keperangan pada batang dan tangkai daun yang akhirnya
+      merekah membentuk kanker terbuka
+    - Bintik 'mata burung' pada buah — bintik kecil putih dengan pusat perang gelap,
+      bertimbul; bila batang dipotong kelihatan reput vaskular kekuningan dengan lelehan
+      bakteria
+    growth: Penyakit bawaan benih (seedborne) yang serius; kehilangan hasil boleh
+      mencapai 70-80% dalam wabak teruk, terutama di kawasan penanaman tanah tinggi
+      (Cameron Highlands, Kundasang Sabah). Tiada rawatan kimia yang menyembuhkan
+      sepenuhnya — pengurusan bergantung pada pencegahan.
+  severity_stages:
+  - stage: early
+    signs: Tepi daun bawah melengkung dan layu sedikit secara sebelah; tiada simptom
+      batang yang ketara; pokok masih kelihatan sihat dari jauh
+  - stage: moderate
+    signs: Pengeringan tepi daun (leaf scorch) merebak ke atas; jaluran cerah muncul
+      pada batang dan tangkai; reput vaskular kekuningan kelihatan apabila batang
+      dipotong
+  - stage: severe
+    signs: Kanker batang merekah terbuka; pokok reput, kerdil dan mati; buah menunjukkan
+      bintik 'mata burung'; pereputan ladang berkelompok
+  treatments:
+  - compound: Copper hydroxide
+    trade_name: Kocide 3000
+    dosage: 1.5g per litre water
+    method: foliar spray
+    frequency: Setiap 7-10 hari sebagai langkah pencegahan/penyekatan, bermula awal
+      pertumbuhan
+    pre_harvest_interval_days: null
+    regulatory_status: MY_approved
+  - compound: Copper oxychloride
+    trade_name: Cupravit OB 21
+    dosage: 3g per litre water
+    method: foliar spray
+    frequency: Setiap 7-10 hari, berselang dengan produk kuprum lain
+    pre_harvest_interval_days: null
+    regulatory_status: MY_approved
+  cultural_controls:
+  - Guna benih bersijil bebas penyakit; rawat benih dengan air panas (50°C selama
+    25 minit) kerana patogen ini bawaan benih
+  - Amalkan giliran tanaman 2-3 tahun, elakkan tanaman keluarga terung (Solanaceae)
+    berturut-turut
+  - Cabut dan musnahkan (bakar/tanam dalam) pokok berjangkit serta sisa tanaman; jangan
+    kompos
+  - Sanitasi alat, pancang, tangan dan rumah lindung dengan peluntur/disinfektan antara
+    pokok dan antara pusingan tanaman; elakkan kerja semasa daun basah
+  source_citations:
+  - MARDI — Pakej Teknologi Penanaman Tomato (panduan amalan tanaman tomato)
+  - 'Jabatan Pertanian Malaysia (DOA) — Senarai Racun Perosak Berdaftar di bawah Akta
+    Racun Makhluk Perosak 1974; rujukan sekunder: FAO/EPPO datasheet on Clavibacter
+    michiganensis subsp. michiganensis'
+  confidence_score: 0.74
+  last_updated: '2026-05-21'
+_source_file: seed_generator
+professor_review:
+  verdict: FLAG
+  date: '2026-06-12'
+  reviewer: Professor Ahmad Fauzi (AI agronomist agent)
+  issues_count: 6

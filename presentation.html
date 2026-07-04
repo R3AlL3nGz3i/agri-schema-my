@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AgriSchema-MY — Hackathon Pitch</title>
+<style>
+  :root {
+    --green: #2d7a3a;
+    --green-light: #4caf64;
+    --green-dim: #1a4d24;
+    --gold: #f5c842;
+    --red: #e05252;
+    --orange: #e07c2a;
+    --bg: #0d1a0f;
+    --bg2: #111e13;
+    --text: #e8f5ea;
+    --muted: #7a9b7e;
+    --border: #2a4a2e;
+    --card: #152018;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+  }
+
+  /* ---- SLIDE ENGINE ---- */
+  .deck { width: 100%; height: 100%; position: relative; }
+
+  .slide {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 60px 80px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.35s ease;
+    text-align: center;
+  }
+  .slide.active {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  /* ---- NAVIGATION ---- */
+  .nav {
+    position: fixed;
+    bottom: 28px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    z-index: 100;
+  }
+  .nav button {
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: var(--text);
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .nav button:hover { background: var(--green-dim); }
+  .nav .counter {
+    font-size: 13px;
+    color: var(--muted);
+    min-width: 60px;
+    text-align: center;
+  }
+
+  .progress-bar {
+    position: fixed;
+    top: 0; left: 0;
+    height: 3px;
+    background: var(--green-light);
+    transition: width 0.35s ease;
+    z-index: 100;
+  }
+
+  /* ---- SLIDE NUMBER ---- */
+  .slide-num {
+    position: fixed;
+    top: 20px;
+    right: 28px;
+    font-size: 12px;
+    color: var(--muted);
+    font-weight: 500;
+    letter-spacing: 1px;
+  }
+
+  /* ---- TYPOGRAPHY ---- */
+  h1 { font-size: clamp(2.4rem, 5vw, 4rem); font-weight: 800; line-height: 1.1; }
+  h2 { font-size: clamp(1.6rem, 3.5vw, 2.6rem); font-weight: 700; line-height: 1.2; }
+  h3 { font-size: clamp(1.1rem, 2.5vw, 1.7rem); font-weight: 600; }
+  p  { font-size: clamp(1rem, 2vw, 1.3rem); line-height: 1.7; color: var(--muted); }
+
+  .accent { color: var(--green-light); }
+  .gold   { color: var(--gold); }
+  .red    { color: var(--red); }
+  .dim    { color: var(--muted); font-size: 0.85em; }
+
+  .tagline {
+    font-size: clamp(1.1rem, 2.2vw, 1.5rem);
+    color: var(--muted);
+    margin-top: 16px;
+    max-width: 720px;
+  }
+
+  .mono {
+    font-family: 'Cascadia Code', 'Fira Code', monospace;
+    font-size: 0.9em;
+  }
+
+  /* ---- CARDS ---- */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px 28px;
+  }
+
+  .card-row {
+    display: flex;
+    gap: 20px;
+    width: 100%;
+    max-width: 1100px;
+    align-items: stretch;
+  }
+
+  .card-row .card {
+    flex: 1;
+    text-align: left;
+  }
+
+  /* ---- BADGE ---- */
+  .badge {
+    display: inline-block;
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+  .badge-green  { background: #1a4d24; color: #4caf64; border: 1px solid #2d7a3a; }
+  .badge-gold   { background: #3d320a; color: var(--gold); border: 1px solid #6d5a1a; }
+  .badge-red    { background: #3d1010; color: var(--red); border: 1px solid #6d2020; }
+  .badge-orange { background: #3d200a; color: var(--orange); border: 1px solid #6d3a0a; }
+
+  /* ---- TABLE ---- */
+  table { width: 100%; border-collapse: collapse; font-size: 1rem; text-align: left; }
+  th { color: var(--green-light); font-weight: 700; padding: 10px 16px; border-bottom: 1px solid var(--border); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.5px; }
+  td { padding: 10px 16px; border-bottom: 1px solid #1a2e1e; color: var(--text); }
+  tr:last-child td { border-bottom: none; }
+  td.check { color: var(--green-light); font-size: 1.2rem; }
+  td.cross  { color: var(--red); font-size: 1.2rem; }
+
+  /* ---- PIPE DIAGRAM ---- */
+  .pipeline {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    flex-wrap: nowrap;
+    max-width: 1100px;
+    width: 100%;
+  }
+  .pipe-step {
+    flex: 1;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 10px;
+    text-align: center;
+    font-size: 0.8rem;
+    color: var(--text);
+    min-width: 0;
+  }
+  .pipe-step .icon { font-size: 1.6rem; margin-bottom: 6px; display: block; }
+  .pipe-step .label { font-weight: 600; display: block; font-size: 0.78rem; }
+  .pipe-step .sub { color: var(--muted); font-size: 0.7rem; margin-top: 2px; display: block; }
+  .pipe-arrow {
+    color: var(--green-light);
+    font-size: 1.2rem;
+    padding: 0 4px;
+    flex-shrink: 0;
+  }
+
+  /* ---- STAT GRID ---- */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    max-width: 1000px;
+    width: 100%;
+  }
+  .stat {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 22px 16px;
+    text-align: center;
+  }
+  .stat .num {
+    font-size: 2.4rem;
+    font-weight: 900;
+    color: var(--green-light);
+    display: block;
+  }
+  .stat .label {
+    font-size: 0.82rem;
+    color: var(--muted);
+    margin-top: 4px;
+    display: block;
+  }
+
+  /* ---- SIDE BY SIDE ---- */
+  .compare {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    max-width: 1100px;
+    width: 100%;
+    text-align: left;
+  }
+  .compare .panel {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+  }
+  .compare .panel.bad  { border-color: #4d1a1a; }
+  .compare .panel.good { border-color: #1a4d24; }
+  .panel-header {
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .panel.bad  .panel-header { color: var(--red); }
+  .panel.good .panel-header { color: var(--green-light); }
+  .panel p { font-size: 0.9rem; }
+  .field-row {
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+    margin-top: 10px;
+    font-size: 0.85rem;
+  }
+  .field-label { color: var(--muted); min-width: 110px; flex-shrink: 0; }
+  .field-val   { color: var(--text); }
+
+  /* ---- VERDICT BARS ---- */
+  .verdict-row { display: flex; gap: 16px; align-items: center; margin-bottom: 10px; }
+  .verdict-label { width: 70px; text-align: right; font-size: 0.85rem; font-weight: 700; }
+  .verdict-bar   { height: 28px; border-radius: 6px; display: flex; align-items: center; padding-left: 12px; font-size: 0.8rem; font-weight: 600; }
+  .bar-pass   { background: #1a4d24; color: var(--green-light); border: 1px solid #2d7a3a; }
+  .bar-flag   { background: #3d320a; color: var(--gold); border: 1px solid #6d5a1a; }
+  .bar-reject { background: #3d1010; color: var(--red); border: 1px solid #6d2020; }
+
+  /* ---- LIST ---- */
+  .bullets { text-align: left; max-width: 780px; width: 100%; }
+  .bullets li {
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 1.05rem;
+    color: var(--text);
+    list-style: none;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    line-height: 1.5;
+  }
+  .bullets li:last-child { border-bottom: none; }
+  .bullets li .dot { color: var(--green-light); font-size: 1.2rem; flex-shrink: 0; }
+
+  /* ---- TITLE SLIDE LOGO ---- */
+  .logo-circle {
+    width: 88px; height: 88px;
+    background: var(--green-dim);
+    border: 2px solid var(--green);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 2.8rem;
+    margin-bottom: 24px;
+  }
+
+  /* ---- ROADMAP ---- */
+  .roadmap { display: flex; gap: 0; max-width: 1000px; width: 100%; }
+  .roadmap-item {
+    flex: 1;
+    position: relative;
+    padding: 20px 16px;
+    background: var(--card);
+    border-top: 3px solid var(--border);
+    text-align: left;
+    font-size: 0.85rem;
+  }
+  .roadmap-item.active-phase { border-top-color: var(--green-light); }
+  .roadmap-item h4 { color: var(--green-light); font-size: 0.9rem; margin-bottom: 8px; }
+  .roadmap-item p  { font-size: 0.8rem; }
+  .phase-tag {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 6px;
+    display: block;
+  }
+
+  /* ---- ASK SLIDE ---- */
+  .ask-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 18px; max-width: 960px; width: 100%; }
+  .ask-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 26px 20px;
+    text-align: center;
+  }
+  .ask-card .icon { font-size: 2rem; margin-bottom: 12px; display: block; }
+  .ask-card h4 { font-size: 1rem; margin-bottom: 8px; }
+  .ask-card p  { font-size: 0.82rem; }
+
+  /* separators */
+  .sep { height: 1px; background: var(--border); width: 60px; margin: 16px auto; }
+
+  .subtitle { color: var(--muted); font-size: 0.9rem; margin-top: 6px; }
+
+  @media (max-width: 900px) {
+    .slide { padding: 40px 30px; }
+    .stats { grid-template-columns: repeat(2,1fr); }
+    .compare { grid-template-columns: 1fr; }
+    .pipeline { flex-wrap: wrap; }
+  }
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progress"></div>
+<div class="slide-num" id="slideNum"></div>
+
+<div class="deck" id="deck">
+
+  <!-- 1. TITLE -->
+  <div class="slide">
+    <div class="logo-circle">🌾</div>
+    <h1>AgriSchema<span class="accent">-MY</span></h1>
+    <p class="tagline">The first open, structured, machine-readable crop disease knowledge base for Malaysian agriculture — every entry grounded, cited, and regulation-aware.</p>
+    <div class="sep"></div>
+    <p class="dim">NASA Space Apps Challenge 2026 · Hackathon Pitch</p>
+  </div>
+
+  <!-- 2. HOOK — the problem in 10 seconds -->
+  <div class="slide">
+    <h2>Ask any LLM about your sick chilli plant.</h2>
+    <div class="sep"></div>
+    <div class="compare" style="margin-top:0;">
+      <div class="panel bad">
+        <div class="panel-header">💬 ChatGPT / vanilla LLM</div>
+        <p style="color:#c8a0a0;font-style:italic;font-size:0.95rem;">
+          "You can spray <strong>Mancozeb</strong> at 2–3 g/L twice a week.
+          Alternatively, <strong>Chlorothalonil</strong> is very effective —
+          apply every 5 days..."
+        </p>
+        <div class="field-row" style="margin-top:16px;">
+          <span class="field-label red">Source</span>
+          <span class="field-val red">None</span>
+        </div>
+        <div class="field-row">
+          <span class="field-label red">Regulatory</span>
+          <span class="field-val red">Not checked</span>
+        </div>
+        <div class="field-row">
+          <span class="field-label red">Safe dosage?</span>
+          <span class="field-val red">Unknown</span>
+        </div>
+        <div class="field-row">
+          <span class="field-label red">PHI days</span>
+          <span class="field-val red">Not mentioned</span>
+        </div>
+      </div>
+      <div class="panel good">
+        <div class="panel-header">🌾 AgriSchema-MY</div>
+        <p style="color:#a0c8a0;font-style:italic;font-size:0.95rem;">
+          "Sunken dark spots = <strong>Anthracnose</strong> (<em>Colletotrichum scovillei</em>).
+          Spray <strong>Mancozeb 80WP</strong> at 2.5 g/L as foliar spray."
+        </p>
+        <div class="field-row" style="margin-top:16px;">
+          <span class="field-label accent">Source</span>
+          <span class="field-val">MARDI Bulletin No. 212 (2023)</span>
+        </div>
+        <div class="field-row">
+          <span class="field-label accent">Regulatory</span>
+          <span class="field-val"><span class="badge badge-green">MY_APPROVED</span></span>
+        </div>
+        <div class="field-row">
+          <span class="field-label accent">Safe dosage?</span>
+          <span class="field-val">Verified, MARDI-sourced</span>
+        </div>
+        <div class="field-row">
+          <span class="field-label accent">PHI days</span>
+          <span class="field-val">7 days before harvest</span>
+        </div>
+      </div>
+    </div>
+    <p style="margin-top:24px;" class="dim">Would you spray your food crop based on the left panel?</p>
+  </div>
+
+  <!-- 3. PROBLEM -->
+  <div class="slide">
+    <h2>Malaysia has <span class="accent">440,000+</span> smallholders.</h2>
+    <div class="sep"></div>
+    <ul class="bullets">
+      <li><span class="dot">⚠</span><span>Wrong treatment = <strong>lost harvest</strong>. A misidentified fungal vs. bacterial pathogen means the wrong compound — and total crop failure.</span></li>
+      <li><span class="dot">⚠</span><span>Banned chemical = <strong>rejected export</strong>. Malaysia's <span class="mono">MY_banned</span> list is real. An LLM doesn't know it exists.</span></li>
+      <li><span class="dot">⚠</span><span>Wrong dosage = <strong>residue violation</strong>. PHI (pre-harvest interval) days are the difference between safe produce and a food-safety prosecution.</span></li>
+      <li><span class="dot">📄</span><span>The knowledge <em>exists</em> — but it's locked in <strong>MARDI PDF bulletins</strong>, invisible to every AI system and agritech app ever built.</span></li>
+    </ul>
+  </div>
+
+  <!-- 4. GAP MAP -->
+  <div class="slide">
+    <h2>Nobody has filled this gap.</h2>
+    <div class="sep"></div>
+    <div class="card" style="max-width:900px;width:100%;">
+      <table>
+        <tr>
+          <th>Resource</th>
+          <th>Structured?</th>
+          <th>MY Regulatory?</th>
+          <th>Treatment Dosage?</th>
+          <th>Machine-Readable?</th>
+        </tr>
+        <tr>
+          <td>CABI PlantwisePlus (15K entries)</td>
+          <td class="cross">✗ prose factsheets</td>
+          <td class="cross">✗</td>
+          <td class="cross">✗</td>
+          <td class="cross">✗</td>
+        </tr>
+        <tr>
+          <td>PlantVillage / Kaggle</td>
+          <td class="cross">✗ image classification</td>
+          <td class="cross">✗</td>
+          <td class="cross">✗</td>
+          <td class="cross">✗</td>
+        </tr>
+        <tr>
+          <td>HuggingFace agri datasets</td>
+          <td class="cross">✗ images only</td>
+          <td class="cross">✗</td>
+          <td class="cross">✗</td>
+          <td class="cross">✗</td>
+        </tr>
+        <tr>
+          <td><strong class="accent">AgriSchema-MY</strong></td>
+          <td class="check">✓ versioned YAML schema</td>
+          <td class="check">✓ MY_approved / restricted / banned</td>
+          <td class="check">✓ compound + dosage + PHI</td>
+          <td class="check">✓ API + HuggingFace</td>
+        </tr>
+      </table>
+    </div>
+    <p style="margin-top:16px;" class="dim">Verified by competitive research — June 2026. No overlap found.</p>
+  </div>
+
+  <!-- 5. THE SOLUTION -->
+  <div class="slide">
+    <h2>What we built</h2>
+    <div class="sep"></div>
+    <div class="card-row" style="max-width:1000px;">
+      <div class="card" style="text-align:left;">
+        <div style="font-size:1.8rem;margin-bottom:10px;">📦</div>
+        <h3>Dataset</h3>
+        <p style="margin-top:8px;">23 validated YAML entries, 9 Malaysian crops. Each entry: pathogen ID, symptom severity stages, dosed treatment protocol, <span class="mono">MY_approved</span> badge, MARDI/DOA citation, confidence score.</p>
+      </div>
+      <div class="card" style="text-align:left;">
+        <div style="font-size:1.8rem;margin-bottom:10px;">⚙️</div>
+        <h3>Multi-Agent Pipeline</h3>
+        <p style="margin-top:8px;">Seed Generator → Schema Validator (CI) → Professor Agent (AI agronomist, PASS/FLAG/REJECT) → Vector Embedder (ChromaDB). Agents generate; agents audit.</p>
+      </div>
+      <div class="card" style="text-align:left;">
+        <div style="font-size:1.8rem;margin-bottom:10px;">🔌</div>
+        <h3>Grounded API</h3>
+        <p style="margin-top:8px;">FastAPI <span class="mono">/diagnose</span> endpoint. Symptom text (English or Bahasa Melayu) → Chroma semantic search → Claude-ranked diagnosis card with regulatory badge + MARDI citation.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. PIPELINE ARCHITECTURE -->
+  <div class="slide">
+    <h2>The pipeline is itself <span class="accent">multi-agent</span>.</h2>
+    <div class="sep"></div>
+    <div class="pipeline">
+      <div class="pipe-step">
+        <span class="icon">📄</span>
+        <span class="label">MARDI PDFs</span>
+        <span class="sub">4 bulletins ingested</span>
+      </div>
+      <div class="pipe-arrow">→</div>
+      <div class="pipe-step" style="border-color:#2d7a3a;">
+        <span class="icon">🤖</span>
+        <span class="label">Seed Agent</span>
+        <span class="sub">Claude extracts structured YAML</span>
+      </div>
+      <div class="pipe-arrow">→</div>
+      <div class="pipe-step" style="border-color:#2d7a3a;">
+        <span class="icon">✅</span>
+        <span class="label">Schema Validator</span>
+        <span class="sub">CI on every PR — 100% pass</span>
+      </div>
+      <div class="pipe-arrow">→</div>
+      <div class="pipe-step" style="border-color:#f5c842;">
+        <span class="icon">🎓</span>
+        <span class="label">Professor Agent</span>
+        <span class="sub">AI agronomist: PASS / FLAG / REJECT</span>
+      </div>
+      <div class="pipe-arrow">→</div>
+      <div class="pipe-step" style="border-color:#2d7a3a;">
+        <span class="icon">🔍</span>
+        <span class="label">ChromaDB</span>
+        <span class="sub">Vector embed — BM + EN queries</span>
+      </div>
+      <div class="pipe-arrow">→</div>
+      <div class="pipe-step" style="border-color:#2d7a3a;">
+        <span class="icon">🔌</span>
+        <span class="label">FastAPI</span>
+        <span class="sub">/diagnose · /query · /stats</span>
+      </div>
+    </div>
+    <p style="margin-top:24px;" class="dim">One agent generates. Another agent audits. The audit trail is published — that's the transparency story.</p>
+  </div>
+
+  <!-- 7. QUALITY GATE -->
+  <div class="slide">
+    <h2>Our quality gate <span class="accent">rejects our own data</span>.</h2>
+    <div class="sep"></div>
+    <div class="card-row" style="max-width:900px;align-items:flex-start;">
+      <div class="card" style="text-align:left;flex:1.2;">
+        <h3 style="margin-bottom:18px;">Professor Agent — <em>Ahmad Fauzi, MARDI</em></h3>
+        <div class="verdict-row">
+          <span class="verdict-label accent">PASS</span>
+          <div class="verdict-bar bar-pass" style="width:220px;">6 entries — publishable</div>
+        </div>
+        <div class="verdict-row">
+          <span class="verdict-label gold">FLAG</span>
+          <div class="verdict-bar bar-flag" style="width:380px;">17 entries — fix before publish</div>
+        </div>
+        <div class="verdict-row">
+          <span class="verdict-label red">REJECT</span>
+          <div class="verdict-bar bar-reject" style="width:70px;">1 entry — dropped</div>
+        </div>
+        <p style="margin-top:16px;font-size:0.85rem;">Per-field issues: severity, field name, suggestion. Published in the repo.</p>
+      </div>
+      <div class="card" style="flex:1;text-align:left;">
+        <h3 style="margin-bottom:14px;">Why this matters</h3>
+        <ul style="list-style:none;font-size:0.9rem;line-height:2;">
+          <li>🔴 <strong>Fabricated citation</strong> → REJECT</li>
+          <li>🟡 <strong>Missing PHI days</strong> → FLAG</li>
+          <li>🟡 <strong>Dosage outside MARDI range</strong> → FLAG</li>
+          <li>🟢 <strong>Verified, safe, citable</strong> → PASS</li>
+        </ul>
+        <div class="sep" style="margin:14px 0;"></div>
+        <p style="font-size:0.82rem;">A system that flags its own data and publishes the flags is <em>more trustworthy</em> than one that claims 100%.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 8. NUMBERS -->
+  <div class="slide">
+    <h2>Numbers we can <span class="accent">defend on stage</span>.</h2>
+    <div class="sep"></div>
+    <div class="stats">
+      <div class="stat">
+        <span class="num">23</span>
+        <span class="label">Schema-valid entries<br>across 9 Malaysian crops</span>
+      </div>
+      <div class="stat">
+        <span class="num">100%</span>
+        <span class="label">Schema CI pass rate<br>structure is solid</span>
+      </div>
+      <div class="stat">
+        <span class="num">78%</span>
+        <span class="label">Retrieval hit-rate<br>7 of 9 golden queries</span>
+      </div>
+      <div class="stat">
+        <span class="num">BM+EN</span>
+        <span class="label">Bilingual retrieval<br>Bahasa Melayu queries work</span>
+      </div>
+    </div>
+    <div class="sep"></div>
+    <p class="dim">The 2 retrieval misses are explained: one disease isn't in the dataset yet, one was excluded by the professor gate. <strong>The gate is real.</strong></p>
+  </div>
+
+  <!-- 9. CROPS -->
+  <div class="slide">
+    <h2>9 crops. <span class="accent">Malaysia's core agricultural base.</span></h2>
+    <div class="sep"></div>
+    <div class="card-row" style="flex-wrap:wrap;max-width:960px;">
+      <div class="card" style="text-align:center;min-width:120px;flex:0 0 auto;padding:16px 20px;">
+        <div style="font-size:1.8rem;">🌾</div>
+        <div style="font-size:0.85rem;margin-top:6px;font-weight:600;">Paddy</div>
+        <div class="dim">6 diseases</div>
+      </div>
+      <div class="card" style="text-align:center;min-width:120px;flex:0 0 auto;padding:16px 20px;">
+        <div style="font-size:1.8rem;">🍌</div>
+        <div style="font-size:0.85rem;margin-top:6px;font-weight:600;">Banana</div>
+        <div class="dim">3 diseases</div>
+      </div>
+      <div class="card" style="text-align:center;min-width:120px;flex:0 0 auto;padding:16px 20px;">
+        <div style="font-size:1.8rem;">🌶️</div>
+        <div style="font-size:0.85rem;margin-top:6px;font-weight:600;">Chilli</div>
+        <div class="dim">3 diseases</div>
+      </div>
+      <div class="card" style="text-align:center;min-width:120px;flex:0 0 auto;padding:16px 20px;">
+        <div style="font-size:1.8rem;">🍅</div>
+        <div style="font-size:0.85rem;margin-top:6px;font-weight:600;">Tomato</div>
+        <div class="dim">4 diseases</div>
+      </div>
+      <div class="card" style="text-align:center;min-width:120px;flex:0 0 auto;padding:16px 20px;">
+        <div style="font-size:1.8rem;">🌴</div>
+        <div style="font-size:0.85rem;margin-top:6px;font-weight:600;">Oil Palm</div>
+        <div class="dim">1 disease</div>
+      </div>
+      <div class="card" style="text-align:center;min-width:120px;flex:0 0 auto;padding:16px 20px;">
+        <div style="font-size:1.8rem;">🫧</div>
+        <div style="font-size:0.85rem;margin-top:6px;font-weight:600;">Rubber</div>
+        <div class="dim">3 diseases</div>
+      </div>
+      <div class="card" style="text-align:center;min-width:120px;flex:0 0 auto;padding:16px 20px;">
+        <div style="font-size:1.8rem;">👑</div>
+        <div style="font-size:0.85rem;margin-top:6px;font-weight:600;">Durian</div>
+        <div class="dim">2 diseases</div>
+      </div>
+      <div class="card" style="text-align:center;min-width:120px;flex:0 0 auto;padding:16px 20px;">
+        <div style="font-size:1.8rem;">🍫</div>
+        <div style="font-size:0.85rem;margin-top:6px;font-weight:600;">Cocoa</div>
+        <div class="dim">1 disease</div>
+      </div>
+    </div>
+    <p class="dim" style="margin-top:20px;">Road to 50+ entries: durian, banana, papaya, sayuran targets queued for next seed run.</p>
+  </div>
+
+  <!-- 10. ROADMAP -->
+  <div class="slide">
+    <h2>The roadmap is <span class="accent">already scoped</span>.</h2>
+    <div class="sep"></div>
+    <div class="roadmap">
+      <div class="roadmap-item active-phase">
+        <span class="phase-tag">Now — Phase 1</span>
+        <h4>Foundation ✓</h4>
+        <p>23 schema-valid entries, multi-agent pipeline, CI quality gate, FastAPI + ChromaDB, golden-query eval</p>
+      </div>
+      <div class="roadmap-item">
+        <span class="phase-tag">Jul–Oct 2026</span>
+        <h4>Scale + Demo</h4>
+        <p>50+ entries, /diagnose endpoint, photo diagnosis (Claude Vision), single-page demo UI, HuggingFace publish</p>
+      </div>
+      <div class="roadmap-item">
+        <span class="phase-tag">NASA Space Apps Oct</span>
+        <h4>Earth Observation Layer</h4>
+        <p>NASA soil moisture + NDVI → disease risk overlay. Open data in (NASA), open data out (CC BY 4.0)</p>
+      </div>
+      <div class="roadmap-item">
+        <span class="phase-tag">2027</span>
+        <h4>Regional Expansion</h4>
+        <p>Indonesia, Thailand, Vietnam. Same locked-PDF problem, 10× the market. Open-core API monetisation</p>
+      </div>
+    </div>
+    <div class="sep"></div>
+    <p class="dim">CC BY 4.0 data · MIT code · never vendor-locked</p>
+  </div>
+
+  <!-- 11. ASK -->
+  <div class="slide">
+    <h2>The data layer for tropical agri-AI <span class="accent">is now open</span>.</h2>
+    <div class="sep"></div>
+    <div class="ask-grid">
+      <div class="ask-card">
+        <span class="icon">⭐</span>
+        <h4>Star the repo</h4>
+        <p class="dim">github.com/agri-schema-my</p>
+      </div>
+      <div class="ask-card">
+        <span class="icon">🔌</span>
+        <h4>Try the API</h4>
+        <p class="dim">POST /diagnose — symptom text in, grounded citation out. English or Bahasa Melayu.</p>
+      </div>
+      <div class="ask-card">
+        <span class="icon">🤗</span>
+        <h4>Use the dataset</h4>
+        <p class="dim">HuggingFace Datasets. CC BY 4.0 — free to use with attribution.</p>
+      </div>
+      <div class="ask-card">
+        <span class="icon">🌾</span>
+        <h4>Contribute</h4>
+        <p class="dim">Agronomist? Add an entry. CI validates it. Professor Agent reviews it.</p>
+      </div>
+      <div class="ask-card">
+        <span class="icon">🤝</span>
+        <h4>Partner (MARDI / UPM)</h4>
+        <p class="dim">Human agronomist spot-check = instant credibility. 10 entries, 1 hour.</p>
+      </div>
+      <div class="ask-card">
+        <span class="icon">🚀</span>
+        <h4>Build on it</h4>
+        <p class="dim">Pest ID app, extension officer tool, insurance risk model — the grounding layer is here.</p>
+      </div>
+    </div>
+    <div class="sep"></div>
+    <p style="font-size:0.9rem;color:var(--green-light);font-weight:600;">Every tropical country has the same locked-PDF problem. AgriSchema-MY is the template.</p>
+  </div>
+
+</div><!-- /deck -->
+
+<div class="nav">
+  <button id="prevBtn" onclick="prev()">←</button>
+  <span class="counter" id="counter"></span>
+  <button id="nextBtn" onclick="next()">→</button>
+</div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const total  = slides.length;
+  let cur = 0;
+
+  function show(n) {
+    slides[cur].classList.remove('active');
+    cur = Math.max(0, Math.min(total - 1, n));
+    slides[cur].classList.add('active');
+    document.getElementById('counter').textContent = (cur + 1) + ' / ' + total;
+    document.getElementById('slideNum').textContent = (cur + 1) + ' / ' + total;
+    document.getElementById('progress').style.width = ((cur + 1) / total * 100) + '%';
+  }
+
+  function next() { show(cur + 1); }
+  function prev() { show(cur - 1); }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') { e.preventDefault(); next(); }
+    if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')                    { e.preventDefault(); prev(); }
+  });
+
+  // touch/swipe
+  let touchX = 0;
+  document.addEventListener('touchstart', e => touchX = e.touches[0].clientX);
+  document.addEventListener('touchend',   e => {
+    const dx = e.changedTouches[0].clientX - touchX;
+    if (dx < -50) next();
+    if (dx >  50) prev();
+  });
+
+  show(0);
+</script>
+</body>
+</html>

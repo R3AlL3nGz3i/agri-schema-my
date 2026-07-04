@@ -1,0 +1,68 @@
+crop: durian
+disease:
+  name: patch_canker
+  local_name: penyakit kanker batang (kanker tampal batang durian)
+  pathogen:
+    type: oomycete
+    species: Phytophthora palmivora
+  symptoms:
+    visual:
+    - Dark, water-soaked patches on the lower trunk bark that turn reddish-brown as
+      they enlarge
+    - Reddish-brown gum or resin exudate oozing from cracks in the affected bark (gummosis)
+    - Necrotic reddish-brown inner bark and cambium revealed when the discoloured
+      outer bark is scraped away
+    growth: Durian's most economically damaging disease in Malaysia; girdling cankers
+      cause progressive canopy dieback and tree death within 1-3 years, with heavy
+      losses in premium clones such as Musang King (D197), reducing orchard productivity
+      and tree lifespan.
+  severity_stages:
+  - stage: early
+    signs: Small, dark, water-soaked patches near the trunk base with slight gummosis;
+      bark still firm and lesions not yet spreading.
+  - stage: moderate
+    signs: Lesions enlarge and coalesce with active reddish-brown exudate; outer bark
+      cracks and flakes, inner bark necrosis spreading; partial leaf yellowing in
+      the canopy.
+  - stage: severe
+    signs: Canker girdles the trunk or main branches with extensive bark death; severe
+      canopy dieback and defoliation, leading to tree collapse and death.
+  treatments:
+  - compound: Fosetyl-aluminium
+    trade_name: Aliette 80 WP
+    dosage: 2.5 g per litre water for foliar spray; for canker treatment, 10 g per
+      100 ml water applied as a paste painted onto the scraped lesion
+    method: foliar spray and bark paint after excising infected bark
+    frequency: Every 2-3 weeks until the lesion dries, up to 3-4 applications
+    pre_harvest_interval_days: null
+    regulatory_status: MY_approved
+  - compound: Metalaxyl-M (mefenoxam) + mancozeb
+    trade_name: Ridomil Gold MZ 68 WG
+    dosage: 2 g per litre water applied as a soil drench around the root zone, approximately
+      5-10 litres of solution per mature tree
+    method: soil drench
+    frequency: 2-3 applications at 4-week intervals during wet periods
+    pre_harvest_interval_days: null
+    regulatory_status: MY_approved
+  cultural_controls:
+  - Improve orchard drainage and avoid waterlogging; plant on mounds or raised beds
+    in low-lying areas to reduce Phytophthora build-up in the root zone
+  - Avoid mechanical wounding of the trunk during weeding and grass-cutting, as wounds
+    are infection entry points; keep the trunk base clear and dry
+  - Excise and remove infected bark with a clean, sterilised knife, apply a fungicidal
+    wound dressing, and collect and destroy infected plant debris
+  - Apply Trichoderma-enriched compost or organic mulch around the root zone and maintain
+    adequate tree spacing for good air circulation
+  source_citations:
+  - MARDI – Pakej Teknologi Penanaman Durian, Institut Penyelidikan dan Kemajuan Pertanian
+    Malaysia (MARDI), Serdang
+  - 'Lim, T.K. (1990). Durian: Diseases and Disorders. Tropical Press Sdn. Bhd., Kuala
+    Lumpur'
+  confidence_score: 0.72
+  last_updated: '2026-05-20'
+_source_file: seed_generator
+professor_review:
+  verdict: FLAG
+  date: '2026-06-12'
+  reviewer: Professor Ahmad Fauzi (AI agronomist agent)
+  issues_count: 6

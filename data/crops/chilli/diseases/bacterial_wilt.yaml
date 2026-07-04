@@ -1,0 +1,72 @@
+crop: chilli
+disease:
+  name: bacterial_wilt
+  local_name: Penyakit layu bakteria (dikenali petani sebagai 'layu bakteria cili')
+  pathogen:
+    type: bacteria
+    species: Ralstonia solanacearum
+  symptoms:
+    visual:
+    - Rapid wilting of leaves during peak afternoon heat with apparent recovery overnight,
+      progressing to permanent irreversible wilt while leaves stay green (no yellowing)
+    - Brown discolouration of the vascular tissue (xylem ring) visible when the stem
+      base is cut crosswise
+    - Greyish-white bacterial ooze streaming from a freshly cut stem suspended in
+      clear water (positive streaming test); stunting and adventitious roots on the
+      lower stem
+    growth: One of the most damaging constraints to chilli in lowland Peninsular Malaysia;
+      causes 40-100% plant loss in infected fields, worst during the wet season and
+      on land with a history of solanaceous cropping. No curative chemical control
+      exists, so losses translate directly to abandoned beds.
+  severity_stages:
+  - stage: early
+    signs: Mild transient wilting of the youngest leaves during midday heat; plants
+      appear to recover by evening; no leaf yellowing and no obvious stem symptoms.
+  - stage: moderate
+    signs: Wilting no longer reverses overnight; one side or multiple branches affected;
+      brown vascular streaking seen in the cut stem; positive bacterial ooze (streaming)
+      test.
+  - stage: severe
+    signs: Complete permanent wilt and plant collapse within days; plant death; disease
+      spreads to adjacent plants forming dead patches across the bed.
+  treatments:
+  - compound: Copper hydroxide
+    trade_name: Kocide 3000
+    dosage: 2 g per litre water, applied as ~200 ml of solution drenched at the base
+      of each plant
+    method: soil drench
+    frequency: Every 7-10 days as a suppressive/protective measure during high-risk
+      wet periods (suppressive only, not curative)
+    pre_harvest_interval_days: null
+    regulatory_status: MY_approved
+  - compound: Dazomet
+    trade_name: Basamid G
+    dosage: 30-50 g per square metre incorporated into moist soil, then covered/tarped
+      for 7-14 days with a 2-3 week aeration period before transplanting
+    method: pre-plant soil fumigation (granules incorporated into soil)
+    frequency: Once per cropping cycle, before transplanting only
+    pre_harvest_interval_days: null
+    regulatory_status: MY_approved
+  cultural_controls:
+  - Plant on raised beds with good drainage; avoid waterlogging and avoid field sections
+    with a history of bacterial wilt
+  - Practise 2-3 year crop rotation with non-solanaceous crops (rice, maize, legumes);
+    do not rotate with tomato, eggplant or potato
+  - Use certified disease-free seed and healthy seedlings raised in sterilised media;
+    rogue and destroy infected plants immediately and do not compost them
+  - Graft chilli scions onto bacterial-wilt-tolerant rootstock; disinfect tools, hands
+    and footwear between plants and apply ground limestone to raise soil pH
+  - Carry out soil solarisation during the fallow period to reduce inoculum
+  source_citations:
+  - MARDI Pakej Teknologi Tanaman Cili (MARDI Chilli Cultivation Technology Package)
+  - Jabatan Pertanian Malaysia (DOA) - panduan pengurusan penyakit tanaman sayuran
+    solanaceae
+  - FAO - Bacterial wilt of solanaceous crops caused by Ralstonia solanacearum
+  confidence_score: 0.74
+  last_updated: '2026-05-20'
+_source_file: seed_generator
+professor_review:
+  verdict: FLAG
+  date: '2026-06-12'
+  reviewer: Professor Ahmad Fauzi (AI agronomist agent)
+  issues_count: 6

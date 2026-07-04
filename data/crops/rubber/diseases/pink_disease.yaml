@@ -1,0 +1,73 @@
+crop: rubber
+disease:
+  name: pink_disease
+  local_name: penyakit merah jambu
+  pathogen:
+    type: fungi
+    species: Erythricium salmonicolor
+  symptoms:
+    visual:
+    - Salmon-pink to coral-pink fungal encrustation on the bark, typically at the
+      branch fork or on the lower/shaded side of branches
+    - Early "cobweb" stage of thin white silky mycelial threads over the bark surface,
+      with small reddish-pink pustules (necator stage) appearing on the bark
+    - Bark cracking with latex bleeding (exudation) below the lesion, followed by
+      dieback and bare dead wood on the limb above the infected zone
+    growth: One of the most damaging stem and branch diseases of rubber in Malaysia,
+      most severe on 3-10 year old trees in high-rainfall, humid and poorly ventilated
+      stands; girdling of the fork can kill the entire crown, cause loss of the tapping
+      panel and force premature replanting of affected trees
+  severity_stages:
+  - stage: early
+    signs: Cobweb stage - faint white silky mycelial film on the bark with scattered
+      small reddish-pink specks; bark still intact, no encrustation or dieback yet
+  - stage: moderate
+    signs: Distinct salmon-pink encrustation covering part of the fork or branch;
+      bark begins to crack with localised latex exudation; yellowing and partial shedding
+      of leaves on the affected limb
+  - stage: severe
+    signs: Lesion girdles the fork or branch; bark dies and peels away; extensive
+      dieback and defoliation above the lesion; coral-pink spore pustules on dead
+      bark; crown loss or stem breakage
+  treatments:
+  - compound: Tridemorph
+    trade_name: Calixin 750 EC
+    dosage: Applied as a paint over the lesion plus ~15 cm of healthy bark on each
+      side, undiluted or diluted 1:1 with water (best-estimate; verify against current
+      product label)
+    method: bark paint / band application by brush
+    frequency: Repeat after 7-10 days, 2-3 applications until the lesion dries up
+    pre_harvest_interval_days: null
+    regulatory_status: unknown
+  - compound: Copper oxychloride
+    trade_name: Cobox 50 WP
+    dosage: Mixed into a thick paste (approx. 1 part 50% WP to 1 part water) and painted
+      on scraped lesions; for cobweb-stage spraying use 3g per litre water (best-estimate;
+      verify against current product label)
+    method: bark paint on lesions / foliar spray for early cobweb stage
+    frequency: Repeat at 10-14 day intervals during the wet season until the lesion
+      is controlled
+    pre_harvest_interval_days: null
+    regulatory_status: MY_approved
+  cultural_controls:
+  - Prune and burn infected branches well below the lesion during dry weather, and
+    dress all pruning wounds with a fungicidal/bituminous wound paint
+  - Maintain adequate planting spacing and control weeds and undergrowth to improve
+    canopy ventilation and lower humidity at the branch-fork zone
+  - Carry out regular field inspection of 3-10 year old trees during the monsoon/wet
+    season to detect the cobweb stage early, when treatment is most effective
+  - Plant rubber clones with lower susceptibility to pink disease in areas where the
+    disease is endemic
+  source_citations:
+  - Malaysian Rubber Board / Lembaga Getah Malaysia (RRIM) - extension guidance and
+    Planters' Bulletin on rubber stem diseases (penyakit merah jambu)
+  - FAO and Department of Agriculture (DOA) Malaysia crop protection references on
+    Erythricium salmonicolor (syn. Corticium salmonicolor) on Hevea brasiliensis
+  confidence_score: 0.78
+  last_updated: '2026-05-21'
+_source_file: seed_generator
+professor_review:
+  verdict: FLAG
+  date: '2026-06-12'
+  reviewer: Professor Ahmad Fauzi (AI agronomist agent)
+  issues_count: 7

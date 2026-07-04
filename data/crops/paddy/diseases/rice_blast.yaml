@@ -1,0 +1,54 @@
+crop: paddy
+disease:
+  name: rice_blast
+  local_name: penyakit blas padi
+  pathogen:
+    type: fungi
+    species: Magnaporthe oryzae
+  symptoms:
+    visual:
+    - diamond-shaped lesions with grey centre and brown border on leaves
+    - white to grey lesions on leaf collar (collar rot)
+    - infected panicles turn grey-white and fail to fill grain (neck rot)
+    growth: stunted tillering; dead hearts in vegetative stage; yield loss 20-80%
+      in severe cases
+  severity_stages:
+  - stage: early
+    signs: small brown specks less than 2mm, water-soaked margins
+  - stage: mid
+    signs: diamond-shaped lesions 1-3cm, grey centre visible
+  - stage: severe
+    signs: coalescing lesions, more than 50% leaf area affected, neck rot present
+  treatments:
+  - compound: Tricyclazole
+    trade_name: Beam 75WP
+    dosage: 0.5g per litre water
+    method: foliar spray
+    frequency: twice weekly for 2 weeks at first sign of infection
+    pre_harvest_interval_days: 14
+    regulatory_status: MY_approved
+  - compound: Isoprothiolane
+    trade_name: Fuji-One 40EC
+    dosage: 1.5ml per litre water
+    method: foliar spray
+    frequency: apply at tillering and panicle initiation
+    pre_harvest_interval_days: 21
+    regulatory_status: MY_approved
+  - compound: Azoxystrobin
+    trade_name: Amistar 25SC
+    dosage: 1ml per litre water
+    method: foliar spray
+    frequency: preventive — apply before symptom onset
+    pre_harvest_interval_days: 14
+    regulatory_status: MY_approved
+  source_citations:
+  - MARDI Technical Bulletin No. 245 (2022) — Pengurusan Penyakit Blas Padi
+  - Jabatan Pertanian Pekeliling Teknikal BIL.3/2021 — Kawalan Penyakit Utama Padi
+  - FAO AGROVOC concept rice_blast (agrovoc.fao.org)
+  confidence_score: 0.72
+  last_updated: '2026-05-20'
+professor_review:
+  verdict: FLAG
+  date: '2026-06-12'
+  reviewer: Professor Ahmad Fauzi (AI agronomist agent)
+  issues_count: 6

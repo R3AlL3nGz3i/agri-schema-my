@@ -1,0 +1,64 @@
+crop: chilli
+disease:
+  name: anthracnose
+  local_name: antraknos cili (reput buah cili)
+  pathogen:
+    type: fungi
+    species: Colletotrichum scovillei (syn. C. capsici)
+  symptoms:
+    visual:
+    - Sunken, circular to elongated lesions on ripening and ripe fruits, often with
+      concentric rings
+    - Dark spore masses (acervuli with black setae) within lesions, sometimes pink/salmon-coloured
+      when moist
+    - Initial small water-soaked spots on fruit surface that enlarge and darken; twig
+      dieback and leaf spotting in heavy infections
+    growth: Most economically important disease of chilli in Malaysia; causes both
+      field and postharvest fruit rot, with reported yield losses commonly 20-50%
+      and up to 80% under prolonged wet-season conditions, severely reducing marketable
+      yield
+  severity_stages:
+  - stage: early
+    signs: Tiny water-soaked or pale spots on fruit surface; no visible spore masses
+      yet
+  - stage: moderate
+    signs: Sunken lesions enlarging with concentric rings; visible dark acervuli and
+      setae; lesions begin to coalesce on individual fruits
+  - stage: severe
+    signs: Large coalescing lesions causing whole-fruit rot and premature fruit drop;
+      twig dieback, defoliation and significant cluster loss across the field
+  treatments:
+  - compound: mancozeb
+    trade_name: Dithane M-45 (80% WP)
+    dosage: 2.5g per litre water
+    method: foliar spray
+    frequency: every 7-10 days, more frequent during wet weather
+    pre_harvest_interval_days: 7
+    regulatory_status: MY_approved
+  - compound: chlorothalonil
+    trade_name: Daconil 720 SC
+    dosage: 2ml per litre water
+    method: foliar spray
+    frequency: every 7-10 days, alternated with a protectant fungicide to limit resistance
+    pre_harvest_interval_days: 7
+    regulatory_status: MY_approved
+  cultural_controls:
+  - Use certified disease-free seeds and resistant/tolerant varieties where available;
+    treat seeds with hot water (52°C for 30 minutes) before sowing
+  - Practise field sanitation by removing and destroying infected fruits and crop
+    debris; rotate with non-solanaceous crops
+  - Use staking, adequate plant spacing and drip irrigation (avoid overhead watering)
+    plus plastic mulch to reduce soil splash and canopy humidity
+  source_citations:
+  - MARDI – Manual Teknologi Penanaman Cili (pakej teknologi cili, perosak dan penyakit)
+  - Jabatan Pertanian Malaysia (DOA) – risalah/garis panduan perlindungan tanaman
+    cili; Than et al. (2008), Journal of Zhejiang University Science B, on chilli
+    anthracnose Colletotrichum spp.
+  confidence_score: 0.72
+  last_updated: '2026-05-20'
+_source_file: seed_generator
+professor_review:
+  verdict: FLAG
+  date: '2026-06-12'
+  reviewer: Professor Ahmad Fauzi (AI agronomist agent)
+  issues_count: 7

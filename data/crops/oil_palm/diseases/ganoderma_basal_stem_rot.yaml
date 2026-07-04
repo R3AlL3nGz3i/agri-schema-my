@@ -1,0 +1,74 @@
+crop: oil_palm
+disease:
+  name: ganoderma_basal_stem_rot
+  local_name: Reput Pangkal Batang Sawit (penyakit Ganoderma)
+  pathogen:
+    type: fungi
+    species: Ganoderma boninense
+  symptoms:
+    visual:
+    - Bracket-shaped (sessile) fruiting bodies / basidiocarps at the base of the trunk,
+      white at the margin with a brown upper surface
+    - Multiple unopened spear leaves (often 2 or more) and progressive yellowing then
+      necrosis of the lower fronds, giving a one-sided pale, collapsing canopy
+    - Internal dry rot of the basal stem tissue showing a light-coloured zone with
+      dark reaction bands; advanced palms lean and topple from a hollowed bole
+    growth: The most economically damaging disease of oil palm in Malaysia; cumulative
+      stand losses commonly reach 50-80% of palms by the end of a 25-year cycle on
+      previously cultivated (re-planted) coastal and inland mineral soils, with national
+      yield and replanting losses estimated in the hundreds of millions of ringgit
+      annually
+  severity_stages:
+  - stage: early
+    signs: No reliable external symptoms; internal basal rot only, sometimes a faint
+      overall pallor of the canopy. Detectable mainly by tomography, sampling or proximity
+      to a known infected palm
+  - stage: moderate
+    signs: Two or more unopened spears, flattening and yellowing of lower fronds,
+      and emergence of the first Ganoderma fruiting bodies at the trunk base; basal
+      rot affects roughly half the stem circumference
+  - stage: severe
+    signs: Extensive trunk rot through most of the basal cross-section, severe frond
+      desiccation and canopy collapse, palm leaning or completely toppled, and palm
+      death
+  treatments:
+  - compound: Hexaconazole
+    trade_name: Anvil 5SC
+    dosage: 2ml per litre water, 10-20 litres per palm as soil drench around basal
+      zone
+    method: soil drench
+    frequency: Repeated every 3-6 months on early-to-moderately infected palms; suppresses
+      progression only, does not cure
+    pre_harvest_interval_days: null
+    regulatory_status: MY_approved
+  - compound: Trichoderma harzianum (biological control agent)
+    trade_name: null
+    dosage: Trichoderma-colonised empty fruit bunch (EFB) compost, approximately 25-50
+      kg applied around the basal root zone per palm
+    method: soil application
+    frequency: At replanting and as an annual maintenance application
+    pre_harvest_interval_days: null
+    regulatory_status: MY_approved
+  cultural_controls:
+  - Thorough sanitation at replanting — excavate, chip and destroy infected palm boles,
+    stumps and major roots to reduce soil inoculum; avoid planting a new palm into
+    an old palm hole
+  - Soil mounding around the base of early-infected palms to encourage adventitious
+    root growth and prolong productive life
+  - Surgery — excising rotted basal tissue from early-infected palms and exposing
+    the wound to dry
+  - Isolation trenching around infected palms and use of clean planting material to
+    limit root-contact spread
+  source_citations:
+  - MPOB (Malaysian Palm Oil Board) Information Series — Basal Stem Rot (Ganoderma)
+    of Oil Palm; Idris, A.S. et al., MPOB Ganoderma management research notes
+  - FAO — integrated management guidance for basal stem rot of oil palm in Southeast
+    Asia
+  confidence_score: 0.72
+  last_updated: '2026-05-20'
+_source_file: seed_generator
+professor_review:
+  verdict: PASS
+  date: '2026-06-12'
+  reviewer: Professor Ahmad Fauzi (AI agronomist agent)
+  issues_count: 6

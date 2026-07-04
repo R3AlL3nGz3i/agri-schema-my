@@ -1,0 +1,60 @@
+crop: rubber
+disease:
+  name: south_american_leaf_blight
+  local_name: Hawar Daun Amerika Selatan
+  pathogen:
+    type: fungi
+    species: Microcyclus ulei
+  symptoms:
+    visual:
+    - Pale green to yellow lesions on young leaves that turn dark brown with olive-grey
+      sporulation (conidia) on the underside
+    - Infected young leaves curl, become necrotic and drop prematurely (abnormal leaf
+      fall), leaving bare branches
+    - Repeated defoliation weakens trees and causes dieback of young shoots
+    growth: Currently ABSENT from Malaysia and classified as a quarantine pest (NPPO
+      Malaysia / EPPO A1 list). If introduced, modelling studies estimate potential
+      yield loss of 50-100% for susceptible clones — the main reason Southeast Asian
+      rubber is grown without this pathogen. Awareness and exclusion are the primary
+      management response.
+  severity_stages:
+  - stage: early
+    signs: Small pale lesions on recently expanded leaves; subcutaneous stroma forming;
+      faint yellowing of reifolia stage B/C leaves
+  - stage: severe
+    signs: Repeated complete defoliation, extensive shoot dieback, bark crack, and
+      tree death in susceptible clones under prolonged wet conditions
+  treatments:
+  - compound: Mancozeb
+    trade_name: Dithane M-45
+    dosage: 2g per litre water as protective foliar spray
+    method: foliar spray
+    frequency: Weekly during wet flushing periods if outbreak is confirmed
+    pre_harvest_interval_days: 14
+    regulatory_status: MY_approved
+  - compound: Triadimefon
+    trade_name: Bayleton 25WP
+    dosage: 0.5g per litre water
+    method: foliar spray
+    frequency: Every 10-14 days during active leaf flush
+    pre_harvest_interval_days: 21
+    regulatory_status: MY_approved
+  cultural_controls:
+  - Plant SALB-tolerant clones screened in South America (e.g. RRIM 600 shows moderate
+    tolerance; IRCA and SALB-resistant rootstock programs)
+  - Synchronise wintering to reduce susceptible leaf flush periods
+  - Strict phytosanitary exclusion — enforce DOA import controls on rubber planting
+    material from South/Central America
+  - Monitor border entry points and maintain sentinel plots near ports
+  source_citations:
+  - RRIM (Rubber Research Institute of Malaysia) — Quarantine Alert on Microcyclus
+    ulei, Planters Bulletin series
+  - EPPO A1 Alert List — Microcyclus ulei (South American Leaf Blight of rubber)
+  confidence_score: 0.58
+  last_updated: '2026-05-20'
+_source_file: seed_generator
+professor_review:
+  verdict: FLAG
+  date: '2026-06-12'
+  reviewer: Professor Ahmad Fauzi (AI agronomist agent)
+  issues_count: 7

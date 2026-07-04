@@ -1,0 +1,62 @@
+crop: tomato
+disease:
+  name: early_blight
+  local_name: Hawar awal
+  pathogen:
+    type: fungi
+    species: Alternaria solani
+  symptoms:
+    visual:
+    - Bintik coklat gelap hingga hitam dengan corak cincin sepusat (rupa sasaran tembak
+      / bull's-eye) pada daun tua dan daun bawah
+    - Kawasan tisu menguning (klorosis) mengelilingi bintik, diikuti pengeringan dan
+      keguguran daun bermula dari bahagian bawah pokok ke atas
+    - Lesi gelap melekuk pada batang berhampiran tanah dan pada buah berdekatan kelopak
+      (calyx), kadang dengan cincin sepusat
+    growth: Defoliasi progresif mengurangkan luas fotosintesis dan mendedahkan buah
+      kepada melecur matahari (sunscald); di kawasan tanah rendah Malaysia yang panas
+      dan lembap, kehilangan hasil dianggarkan 20-40% terutama semasa musim hujan
+  severity_stages:
+  - stage: early
+    signs: Bintik kecil (1-2 mm) berwarna coklat ke hitam pada daun paling tua / paling
+      bawah, sering berhampiran permukaan tanah
+  - stage: moderate
+    signs: Lesi membesar 3-12 mm dengan cincin sepusat jelas dan halo kuning; daun
+      bawah mula menguning dan gugur
+  - stage: severe
+    signs: Defoliasi meluas dari bawah ke atas, kanker pada batang, lesi pada buah,
+      buah terdedah melecur matahari, dan pokok merosot
+  treatments:
+  - compound: Mancozeb
+    trade_name: Dithane M-45 (80% WP)
+    dosage: 2.5 g per litre water
+    method: foliar spray
+    frequency: every 7-10 days, mula pada gejala pertama
+    pre_harvest_interval_days: 7
+    regulatory_status: MY_approved
+  - compound: Chlorothalonil
+    trade_name: Daconil 500 SC
+    dosage: 2 ml per litre water
+    method: foliar spray
+    frequency: every 7-10 days semasa keadaan lembap menggalakkan penyakit
+    pre_harvest_interval_days: 7
+    regulatory_status: MY_approved
+  cultural_controls:
+  - Giliran tanaman dengan tanaman bukan keluarga Solanaceae (elak tomato, cili, terung,
+    kentang) selama 2-3 tahun
+  - Buang dan musnahkan daun bawah berjangkit serta sisa tanaman; elak pengairan curahan
+    atas (overhead), gunakan pengairan titis
+  - Sokong pokok dengan pancang/teres, jarak tanaman mencukupi untuk pengudaraan,
+    dan sungkupan (mulching) bagi mengurangkan percikan tanah
+  - Guna benih/anak benih bebas penyakit yang disahkan dan varieti toleran jika ada
+  source_citations:
+  - MARDI - Pakej Teknologi Penanaman Tomato
+  - Jabatan Pertanian Malaysia (DOA) - Panduan Pengurusan Penyakit Tanaman Sayur-sayuran
+  confidence_score: 0.72
+  last_updated: '2026-05-20'
+_source_file: seed_generator
+professor_review:
+  verdict: PASS
+  date: '2026-06-12'
+  reviewer: Professor Ahmad Fauzi (AI agronomist agent)
+  issues_count: 5

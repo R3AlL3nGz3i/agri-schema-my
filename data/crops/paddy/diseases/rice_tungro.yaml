@@ -1,0 +1,62 @@
+crop: paddy
+disease:
+  name: rice_tungro
+  local_name: penyakit tungro padi
+  pathogen:
+    type: virus
+    species: Rice tungro spherical virus
+  symptoms:
+    visual:
+    - Yellow to orange-yellow discolouration of leaves beginning at the leaf tip and
+      spreading toward the base
+    - Marked stunting of plants with reduced tillering, often appearing in field patches
+    - Mottling or interveinal chlorosis on younger leaves and delayed, irregular flowering
+    growth: Economically significant in Malaysian granary areas (MADA, KADA, IADA);
+      yield loss ranges from minor to total crop failure, with infection in the first
+      30-45 days after transplanting causing the most severe losses (up to 100%)
+  severity_stages:
+  - stage: early
+    signs: Scattered individual plants showing slight tip yellowing and mild stunting;
+      green leafhopper vectors present in the canopy
+  - stage: moderate
+    signs: Distinct patches of yellow-orange, stunted plants visible across the field
+      with reduced tiller number and delayed development
+  - stage: severe
+    signs: Widespread severe stunting and orange discolouration, few or no productive
+      panicles, high proportion of unfilled grain, large-scale yield loss
+  treatments:
+  - compound: imidacloprid
+    trade_name: Confidor 200SL
+    dosage: 0.5 mL per litre water
+    method: foliar spray (targets green leafhopper vector; no chemical cures the virus)
+    frequency: At first detection of green leafhopper; repeat after 7-10 days if vector
+      threshold is exceeded
+    pre_harvest_interval_days: 14
+    regulatory_status: MY_approved
+  - compound: buprofezin
+    trade_name: Applaud 10WP
+    dosage: 0.5-1.0 g per litre water
+    method: foliar spray (insect growth regulator targeting leafhopper nymphs)
+    frequency: Apply against early nymphal stages; repeat after 10-14 days if vector
+      pressure persists
+    pre_harvest_interval_days: null
+    regulatory_status: MY_approved
+  cultural_controls:
+  - Practise synchronised planting within a locality and observe a fallow/rest period
+    to break the green leafhopper and virus cycle
+  - Plant tungro-tolerant rice varieties recommended by MARDI and avoid staggered
+    planting
+  - Rogue and destroy infected plants, ratoons, volunteer rice and grassy weeds that
+    act as virus or vector hosts
+  - Adjust planting date to avoid peak green leafhopper populations
+  source_citations:
+  - MARDI - Pakej Teknologi Penanaman Padi (perosak dan penyakit padi)
+  - IRRI/FAO Rice Knowledge Bank - Tungro disease management
+  confidence_score: 0.74
+  last_updated: '2026-05-21'
+_source_file: seed_generator
+professor_review:
+  verdict: FLAG
+  date: '2026-06-12'
+  reviewer: Professor Ahmad Fauzi (AI agronomist agent)
+  issues_count: 5

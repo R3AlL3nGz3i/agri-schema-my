@@ -1,0 +1,69 @@
+crop: banana
+disease:
+  name: banana_bunchy_top
+  local_name: penyakit pucuk berjumbai pisang
+  pathogen:
+    type: virus
+    species: Banana bunchy top virus
+  symptoms:
+    visual:
+    - Dark-green streaks of irregular dots and dashes ('Morse code' pattern) along
+      the secondary veins of the leaf lamina, midrib and petiole, best seen against
+      light
+    - Successive leaves emerge progressively shorter, narrower and more erect, crowding
+      into a rosette or 'bunchy top' at the crown
+    - Chlorotic (yellow), upward-curled and brittle leaf margins; leaves snap easily
+    growth: Severely stunted plants that usually fail to produce a bunch, or yield
+      small, distorted, unmarketable bunches; entire infected mat is effectively a
+      total loss. BBTV is one of the most damaging viral constraints to pisang (banana)
+      cultivation in Malaysia, forcing abandonment of smallholder plots, particularly
+      for pisang berangan and pisang mas. No curative chemical treatment exists for
+      the virus; management targets the banana aphid vector and removal of inoculum.
+  severity_stages:
+  - stage: early
+    signs: Faint dark-green dot-and-dash streaks on the youngest leaves and petiole;
+      plant still appears vigorous and of near-normal size
+  - stage: moderate
+    signs: Newly emerged leaves visibly shorter, narrower and more upright with chlorotic,
+      curled and brittle margins; bunching beginning at the crown; growth slowing
+  - stage: severe
+    signs: Pronounced rosette of stunted, bunched leaves at the top; plant growth
+      ceases, no bunch is produced or the bunch aborts; attached suckers also show
+      symptoms
+  treatments:
+  - compound: imidacloprid
+    trade_name: Confidor 200SL
+    dosage: 0.5 ml per litre water
+    method: foliar spray
+    frequency: every 14 days while the aphid vector is active; apply before roguing
+      infected plants to prevent vector dispersal
+    pre_harvest_interval_days: null
+    regulatory_status: MY_approved
+  - compound: thiamethoxam
+    trade_name: Actara 25WG
+    dosage: 0.2 g per litre water
+    method: foliar spray
+    frequency: every 14 days, alternated with imidacloprid to manage resistance
+    pre_harvest_interval_days: null
+    regulatory_status: MY_approved
+  cultural_controls:
+  - Rogue and destroy infected plants completely — kill the plant in situ (e.g. herbicide
+    injection) before uprooting the corm and all suckers, so the entire mat is eradicated
+    and the banana aphid (Pentalonia nigronervosa) is not driven onto healthy plants
+  - Plant only certified virus-free tissue-cultured plantlets or clean suckers sourced
+    from disease-free areas; never move planting material out of infected districts
+    (quarantine), and inspect fields regularly, especially within ~20 m of previously
+    infected mats
+  source_citations:
+  - MARDI — Pakej Teknologi Penanaman Pisang (banana cultivation technology package),
+    penyakit pucuk berjumbai section
+  - 'FAO (2016) — Banana Bunchy Top Disease: A Manual for Banana Bunchy Top Disease
+    Management; and DOA Malaysia (Jabatan Pertanian) banana pest & disease leaflet'
+  confidence_score: 0.72
+  last_updated: '2026-05-20'
+_source_file: seed_generator
+professor_review:
+  verdict: FLAG
+  date: '2026-06-12'
+  reviewer: Professor Ahmad Fauzi (AI agronomist agent)
+  issues_count: 7

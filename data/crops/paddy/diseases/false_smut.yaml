@@ -1,0 +1,69 @@
+crop: paddy
+disease:
+  name: false_smut
+  local_name: smut palsu padi
+  pathogen:
+    type: fungi
+    species: Ustilaginoidea virens
+  symptoms:
+    visual:
+    - Individual grains in the panicle replaced by velvety spore balls (false smut
+      balls), only a few scattered grains per panicle affected
+    - Spore balls start small and orange-yellow, enlarge and turn olive-green, then
+      greenish-black at maturity, often 0.5-1 cm in diameter
+    - Mature balls covered with a powdery, easily-rubbed mass of dark chlamydospores;
+      outer membrane cracks and releases spores in wet weather
+    growth: Generally a minor-to-moderate disease in Malaysia, more common in intensive
+      double-cropping granary areas (e.g. MADA, KADA) under high nitrogen and humid
+      weather at flowering; direct yield loss usually low (about 1-5%) but grain quality
+      and milling value are downgraded, and there is concern over ustiloxin mycotoxin
+      contamination of affected grain
+  severity_stages:
+  - stage: early
+    signs: A few small orange-yellow spore balls visible on isolated panicles around
+      milk stage; most panicles still clean
+  - stage: moderate
+    signs: Multiple green spore balls per affected panicle, spread in patches across
+      the field; balls firm and intact
+  - stage: severe
+    signs: Many panicles affected with several greenish-black balls each, membranes
+      cracking and releasing spore powder onto foliage and neighbouring panicles;
+      visible reduction in filled grain and downgraded harvested grain quality
+  treatments:
+  - compound: propiconazole 250 g/L EC
+    trade_name: Tilt 250 EC
+    dosage: 1 ml per litre water (approx. 0.5 L product per hectare)
+    method: foliar spray
+    frequency: Apply preventively at late booting stage just before panicle emergence;
+      a second spray about 7-10 days later if weather remains wet
+    pre_harvest_interval_days: null
+    regulatory_status: MY_approved
+  - compound: hexaconazole 50 g/L SC
+    trade_name: Anvil 5SC
+    dosage: 2 ml per litre water (approx. 1 L product per hectare)
+    method: foliar spray
+    frequency: Single preventive spray at booting stage; repeat once after 10-14 days
+      under prolonged humid conditions
+    pre_harvest_interval_days: null
+    regulatory_status: MY_approved
+  cultural_controls:
+  - Avoid excessive and late nitrogen fertilizer; follow MARDI/DOA recommended balanced
+    fertilizer schedule for the granary area
+  - Use certified disease-free seed and synchronise planting so flowering avoids periods
+    of heavy rain and high humidity
+  - 'Field sanitation: collect and destroy infected panicles and smut balls, and incorporate
+    or deep-plough crop residue between seasons to reduce inoculum'
+  - Plant tolerant recommended varieties and maintain proper plant spacing for better
+    canopy air circulation
+  source_citations:
+  - MARDI - Manual Teknologi Penanaman Padi (rice pest and disease management section)
+  - Jabatan Pertanian Malaysia (DOA) - Pakej Teknologi Tanaman Padi; IRRI Rice Knowledge
+    Bank - false smut
+  confidence_score: 0.74
+  last_updated: '2026-05-21'
+_source_file: seed_generator
+professor_review:
+  verdict: FLAG
+  date: '2026-06-12'
+  reviewer: Professor Ahmad Fauzi (AI agronomist agent)
+  issues_count: 5

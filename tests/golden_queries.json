@@ -1,0 +1,61 @@
+[
+  {
+    "id": "Q01",
+    "query": {"crop": "paddy", "symptom": "diamond shaped lesions grey centre leaves"},
+    "expected_disease": "rice_blast",
+    "expected_crop": "paddy"
+  },
+  {
+    "id": "Q02",
+    "query": {"crop": "paddy", "symptom": "neck rot panicle grey white empty grain"},
+    "expected_disease": "rice_blast",
+    "expected_crop": "paddy"
+  },
+  {
+    "id": "Q03",
+    "query": {"crop": "paddy", "symptom": "daun padi ada bintik coklat berlian"},
+    "expected_disease": "rice_blast",
+    "expected_crop": "paddy",
+    "note": "BM query test"
+  },
+  {
+    "id": "Q04",
+    "query": {"crop": "durian", "symptom": "white powdery coating leaves young shoots"},
+    "expected_disease": "powdery_mildew",
+    "expected_crop": "durian"
+  },
+  {
+    "id": "Q05",
+    "query": {"crop": "durian", "symptom": "brown rot fruit phytophthora"},
+    "expected_disease": "phytophthora_root_rot",
+    "expected_crop": "durian"
+  },
+  {
+    "id": "Q06",
+    "query": {"symptom": "tomato fruit cracking blossom end rot"},
+    "expected_crop": "tomato"
+  },
+  {
+    "id": "Q07",
+    "query": {"crop": "paddy", "symptom": "safe pesticide apply 2 weeks before harvest blast"},
+    "expected_disease": "rice_blast",
+    "note": "PHI safety query"
+  },
+  {
+    "id": "Q08",
+    "query": {"symptom": "penyakit blas padi rawatan"},
+    "expected_disease": "rice_blast",
+    "note": "Full BM query"
+  },
+  {
+    "id": "Q09",
+    "query": {"crop": "sayuran", "symptom": "yellow mosaic virus cucumber"},
+    "expected_crop": "sayuran"
+  },
+  {
+    "id": "Q10",
+    "query": {"crop": "paddy", "symptom": "bacterial leaf blight yellowing water soaked"},
+    "expected_disease": "bacterial_leaf_blight",
+    "expected_crop": "paddy"
+  }
+]

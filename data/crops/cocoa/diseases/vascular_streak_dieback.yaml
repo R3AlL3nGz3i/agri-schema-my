@@ -1,0 +1,69 @@
+crop: cocoa
+disease:
+  name: vascular_streak_dieback
+  local_name: penyakit mati rosot (VSD) / mati rosot jalur pembuluh
+  pathogen:
+    type: fungi
+    species: Ceratobasidium theobromae
+  symptoms:
+    visual:
+    - Yellowing (chlorosis) of one or two leaves on the second or third flush behind
+      the shoot tip, with scattered green spots or flecks on the yellow background
+    - Premature leaf fall starting in the middle of branches, leaving bare twigs;
+      leaf scars show three dark dots (discoloured vascular traces)
+    - Brown to greyish-brown streaking of the xylem seen when an infected green stem
+      is split longitudinally; lenticels on affected stems become swollen and roughened
+    growth: A serious disease of cocoa in Malaysia, most damaging in nurseries and
+      young field plantings where it can kill seedlings outright; in mature trees
+      it causes progressive canopy loss and reduced pod yield. Historically a major
+      constraint to cocoa production in Sabah and Peninsular Malaysia.
+  severity_stages:
+  - stage: early
+    signs: Chlorosis with green flecking on a single leaf or flush; one shoot affected;
+      vascular browning only just beginning at the leaf trace
+  - stage: moderate
+    signs: Defoliation of affected branches with progressive dieback down the twig;
+      distinct brown vascular streaking in the xylem; swollen lenticels; several branches
+      infected
+  - stage: severe
+    signs: Extensive dieback of main branches or death of the whole plant (common
+      in seedlings and young trees); bare candelabra-like canopy with secondary invasion
+      by other pathogens
+  treatments:
+  - compound: hexaconazole
+    trade_name: Anvil 5SC
+    dosage: 1 ml per litre water
+    method: foliar spray
+    frequency: Spray the young flush at each new leaf flush, about every 3-4 weeks
+      during periods of active flushing and wet weather
+    pre_harvest_interval_days: null
+    regulatory_status: MY_approved
+  - compound: copper hydroxide
+    trade_name: Kocide 3000
+    dosage: 2 g per litre water
+    method: foliar spray
+    frequency: Protective spray on the new flush every 2-3 weeks during the wet, high-sporulation
+      season
+    pre_harvest_interval_days: null
+    regulatory_status: MY_approved
+  cultural_controls:
+  - 'Sanitation pruning: cut infected branches at least 30 cm below the lowest point
+    of visible vascular streaking and remove or burn the prunings'
+  - Plant tolerant/resistant cocoa clones recommended by Lembaga Koko Malaysia and
+    raise nursery seedlings under cover, away from infected mature canopies that release
+    basidiospores
+  - Maintain an open canopy, adequate spacing and good drainage to reduce humidity
+    and leaf wetness that favour spore infection of young flush
+  source_citations:
+  - Lembaga Koko Malaysia (Malaysian Cocoa Board) — cocoa pest and disease management
+    extension guides
+  - Guest, D. & Keane, P. (2007), Vascular-streak dieback of cocoa (Ceratobasidium
+    theobromae); CABI Crop Protection Compendium
+  confidence_score: 0.72
+  last_updated: '2026-05-20'
+_source_file: seed_generator
+professor_review:
+  verdict: FLAG
+  date: '2026-06-12'
+  reviewer: Professor Ahmad Fauzi (AI agronomist agent)
+  issues_count: 6

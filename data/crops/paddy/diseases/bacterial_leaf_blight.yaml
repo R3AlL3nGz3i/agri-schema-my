@@ -1,0 +1,67 @@
+crop: paddy
+disease:
+  name: bacterial_leaf_blight
+  local_name: hawar daun bakteria
+  pathogen:
+    type: bacteria
+    species: Xanthomonas oryzae pv. oryzae
+  symptoms:
+    visual:
+    - Water-soaked lesions beginning at leaf tips and along leaf margins, later turning
+      grey-white as they enlarge
+    - Lesions expand down the leaf blade with characteristic wavy (undulating) yellow
+      margins, eventually drying to a straw colour
+    - Yellowish bacterial ooze droplets exuded from lesions and cut leaf surfaces,
+      visible as beads in early-morning dew
+    growth: Yield losses commonly 20-50% in severe wet-season outbreaks, particularly
+      in main granary areas (MADA Kedah, KADA Kelantan); reduces grain filling and
+      raises the proportion of unfilled grains
+  severity_stages:
+  - stage: early
+    signs: Small translucent water-soaked streaks confined to leaf margins near the
+      tip; few leaves affected, no ooze yet visible
+  - stage: moderate
+    signs: Lesions enlarge and coalesce, turning yellow-white with wavy margins; bacterial
+      ooze present; several leaves per tiller affected
+  - stage: severe
+    signs: Whole leaves dry to straw colour; kresek (acute systemic seedling wilt
+      distinct from leaf blight) causes wilting and death of young seedlings/tillers;
+      poor panicle development and heavy unfilled grain
+  treatments:
+  - compound: No curative chemical treatment — management is preventive
+    trade_name: null
+    dosage: Not applicable. There is no reliable curative spray for BLB once established.
+      Copper-based bactericides (copper hydroxide, copper oxychloride) may be applied
+      preventively as a minor suppressive measure only at 2-3 g per litre (400-500
+      L spray solution per hectare), with no more than 2-3 applications per season
+      to avoid phytotoxicity and soil copper accumulation. They do NOT cure established
+      infection.
+    method: Preventive foliar application if used; direct spray at leaf canopy. Primary
+      management must rely on resistant varieties and cultural practices.
+    frequency: Preventive only — at canopy closure or early tillering in high-risk
+      seasons; do NOT spray reactively on established disease.
+    pre_harvest_interval_days: 14
+    regulatory_status: MY_approved
+  cultural_controls:
+  - Plant BLB-tolerant or BLB-resistant certified varieties (e.g. MARDI MR-series
+    recommended for the locality); variety resistance is the most effective and economical
+    control measure
+  - Apply balanced, split nitrogen fertiliser and avoid excessive N application, which
+    strongly promotes BLB severity
+  - Use clean seed from certified sources; practice field sanitation — destroy infected
+    stubble and ratoons; manage water to avoid deep flooding and leaf-to-leaf contact
+    that spreads bacterial ooze
+  - Synchronise planting and observe rice-free fallow periods within a granary block
+    to reduce the source of inoculum between seasons
+  source_citations:
+  - MARDI - Panduan Pengurusan Penyakit Padi (Rice Disease Management Guide)
+  - Jabatan Pertanian Malaysia (DOA) - Pakej Teknologi Tanaman Padi
+  - IRRI Rice Knowledge Bank - Bacterial Leaf Blight management (irri.org)
+  confidence_score: 0.72
+  last_updated: '2026-06-12'
+_source_file: seed_generator
+professor_review:
+  verdict: PASS
+  date: '2026-06-12'
+  reviewer: Professor Ahmad Fauzi (AI agronomist agent)
+  issues_count: 4

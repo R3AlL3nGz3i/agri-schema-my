@@ -1,0 +1,75 @@
+crop: durian
+disease:
+  name: phytophthora_root_rot
+  local_name: reput akar (penyakit reput akar dan kanker pangkal batang)
+  pathogen:
+    type: oomycete
+    species: Phytophthora palmivora
+  symptoms:
+    visual:
+    - Yellowing, wilting and progressive thinning of the canopy with premature leaf
+      drop, often starting on one side of the tree
+    - Dark, water-soaked patch cankers on the trunk base and lower scaffold branches
+      that exude reddish-brown to rust-coloured gum (gummosis); bark cracks and sloughs
+      to reveal discoloured wood
+    - Feeder and structural roots turn brown to black, soft and decayed, with the
+      outer cortex easily slipping off the root core
+    growth: Most economically destructive disease of durian in Malaysia; causes orchard
+      decline and death of mature trees, threatening high-value Musang King (D197)
+      production for the China export market. Tree mortality of 20-30% is common in
+      poorly drained or low-lying orchards, with affected trees suffering severe yield
+      loss before collapse.
+  severity_stages:
+  - stage: early
+    signs: Slight chlorosis of a few leaves and minor canopy thinning; isolated browning
+      of feeder roots; no visible trunk lesions; tree still vigorous
+  - stage: moderate
+    signs: Extensive canopy yellowing and twig dieback; visible patch cankers on the
+      trunk base with active reddish-brown gum exudation and bark cracking; partial
+      feeder-root rot reducing tree vigour and fruit set
+  - stage: severe
+    signs: Large coalescing cankers girdling the trunk; widespread branch dieback
+      and defoliation; extensive structural-root rot; tree collapse and death; brown
+      fruit rot on remaining crop
+  treatments:
+  - compound: Phosphorous acid (potassium phosphonate)
+    trade_name: null
+    dosage: 20% phosphonic acid solution; 20 ml injected per metre of canopy diameter
+    method: trunk injection
+    frequency: 2-3 times per year, timed to pre-flowering, post-fruit-set and post-harvest
+    pre_harvest_interval_days: null
+    regulatory_status: MY_approved
+  - compound: Fosetyl-aluminium
+    trade_name: Aliette 80 WG
+    dosage: 2.5 g per litre water as foliar spray; or 5 g per litre water as soil
+      drench applied over the root zone
+    method: soil drench
+    frequency: Every 3-4 weeks during the wet season or while disease is active
+    pre_harvest_interval_days: null
+    regulatory_status: MY_approved
+  cultural_controls:
+  - Improve orchard drainage and plant trees on raised mounds or ridges to prevent
+    waterlogging around the root collar
+  - Avoid mechanical injury to roots and trunk during weeding and slashing; keep mulch,
+    soil and undergrowth clear of the tree collar
+  - Surgically remove (excise) cankered bark back to healthy tissue and paint the
+    wound with an approved fungicidal paste
+  - Practise strict sanitation - remove and destroy infected fruit, fallen leaves
+    and dead trees, and disinfect cutting tools between trees
+  - Use Phytophthora-tolerant seedling rootstocks for grafting and incorporate organic
+    matter or Trichoderma-based biocontrol into the planting hole
+  source_citations:
+  - MARDI - Manual Penanaman Durian / Pakej Teknologi Durian, Institut Penyelidikan
+    dan Kemajuan Pertanian Malaysia
+  - Jabatan Pertanian Malaysia (DOA) - garis panduan pengurusan penyakit reput akar
+    dan kanker Phytophthora pada durian
+  - FAO - Phytophthora palmivora reference (Erwin & Ribeiro, Phytophthora Diseases
+    Worldwide)
+  confidence_score: 0.71
+  last_updated: '2026-05-20'
+_source_file: seed_generator
+professor_review:
+  verdict: FLAG
+  date: '2026-06-12'
+  reviewer: Professor Ahmad Fauzi (AI agronomist agent)
+  issues_count: 7

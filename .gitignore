@@ -1,0 +1,11 @@
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+.env
+*.log
+chroma_db/
+data/reviews/
+.DS_Store
+data/chroma/
+data/raw/

@@ -1,0 +1,67 @@
+crop: tomato
+disease:
+  name: late_blight
+  local_name: Penyakit hawar lewat (hawar daun)
+  pathogen:
+    type: oomycete
+    species: Phytophthora infestans
+  symptoms:
+    visual:
+    - Bintik lembap berair (water-soaked) berwarna hijau gelap hingga coklat-hitam
+      pada hujung dan tepi daun, membesar dengan cepat
+    - Lapisan reput berbulu putih (sporangia) di bawah permukaan daun, paling jelas
+      pada waktu pagi lembap atau cuaca sejuk berkabus
+    - Lesi coklat-hitam berminyak pada batang, tangkai daun, dan bercak reput keras
+      berwarna coklat pada buah
+    growth: Penyakit paling memusnahkan bagi tomato dataran tinggi Malaysia (Cameron
+      Highlands, Kundasang); dalam keadaan sejuk lembap boleh memusnahkan 80-100%
+      hasil dalam masa 5-10 hari, memaksa semburan kawalan berjadual yang menaikkan
+      kos pengeluaran
+  severity_stages:
+  - stage: early
+    signs: Beberapa bintik kecil lembap berair pada daun bawah/tua, berwarna hijau
+      pucat ke coklat, tiada sporulasi jelas lagi
+  - stage: moderate
+    signs: Lesi membesar dan bercantum, sporulasi putih muncul di bawah daun, lesi
+      batang terbentuk, daun bawah mula gugur (defoliasi)
+  - stage: severe
+    signs: Hawar menyeluruh pada keseluruhan kanopi, batang patah/reput, buah reput,
+      pokok runtuh dan mati dalam beberapa hari — kehilangan hasil hampir total
+  treatments:
+  - compound: mancozeb
+    trade_name: Dithane M-45
+    dosage: 2.0 g per litre air (kira-kira 1.6-2.0 kg per hektar)
+    method: foliar spray
+    frequency: Setiap 7 hari sebagai perlindungan; tingkatkan ke 5 hari semasa cuaca
+      lembap berterusan
+    pre_harvest_interval_days: 7
+    regulatory_status: MY_approved
+  - compound: metalaxyl-M + mancozeb
+    trade_name: Ridomil Gold MZ
+    dosage: 2.5 g per litre air (kira-kira 2.0-2.5 kg per hektar)
+    method: foliar spray
+    frequency: Setiap 7-10 hari; maksimum 3-4 semburan semusim untuk mengelak rintangan
+      metalaxyl
+    pre_harvest_interval_days: 7
+    regulatory_status: MY_approved
+  cultural_controls:
+  - Gunakan jarak tanaman lebar dan junjung/pancang pokok untuk peredaran udara baik
+    dan pengeringan kanopi yang cepat
+  - Elakkan pengairan atas (overhead); gunakan pengairan titis dan siram di pangkal
+    untuk memastikan daun kekal kering
+  - Buang dan musnahkan sisa pokok dijangkiti serta pokok tomato/kentang liar (volunteer);
+    amalkan giliran tanaman dengan tanaman bukan Solanaceae
+  - Tanam di kawasan bersaliran baik dan gunakan benih/anak benih bebas penyakit
+  source_citations:
+  - MARDI – Pakej Teknologi Penanaman Tomato (panduan tanaman tomato dataran tinggi)
+  - Jabatan Pertanian Malaysia (DOA) – Panduan Pengurusan Penyakit Tanaman Sayuran;
+    senarai racun berdaftar Lembaga Racun Makhluk Perosak (Akta Racun Makhluk Perosak
+    1974)
+  confidence_score: 0.82
+  last_updated: '2026-05-20'
+_source_file: seed_generator
+professor_review:
+  verdict: PASS
+  date: '2026-06-12'
+  reviewer: Professor Ahmad Fauzi (AI agronomist agent)
+  issues_count: 5

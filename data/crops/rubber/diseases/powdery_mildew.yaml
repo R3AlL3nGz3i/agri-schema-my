@@ -1,0 +1,63 @@
+crop: rubber
+disease:
+  name: powdery_mildew
+  local_name: embun tepung
+  pathogen:
+    type: fungi
+    species: Oidium heveae
+  symptoms:
+    visual:
+    - White, floury (powdery) fungal growth coating young, tender bronze/copper-coloured
+      leaflets on both surfaces
+    - Affected leaflets become distorted, crinkled and curled, with darkened (necrotic)
+      margins
+    - Premature shedding of young leaflets leaving bare petioles and raches — a "secondary
+      leaf fall" after natural wintering
+    growth: Principal cause of secondary leaf fall during refoliation (typically Jan–Mar
+      in Peninsular Malaysia); severe outbreaks delay canopy recovery, depress latex
+      flow and can reduce annual yield by an estimated 10–20% in epidemic years, and
+      also lower seed set in seed gardens
+  severity_stages:
+  - stage: early
+    signs: Isolated translucent flecks and small white powdery spots on the underside
+      of young, tender bronze-stage leaflets; visible against transmitted light
+  - stage: moderate
+    signs: Extensive white floury coating on both leaf surfaces; leaflets distorted
+      and curled; premature shedding of young leaflets leaving bare petioles
+  - stage: severe
+    signs: Heavy, repeated defoliation of the refoliating crown; trees forced through
+      multiple refoliation cycles; sparse thin canopy, delayed crown recovery and
+      reduced latex yield
+  treatments:
+  - compound: Sulphur (elemental, finely ground)
+    trade_name: null
+    dosage: 11 kg fine sulphur dust (325 mesh, ~99% S) per hectare per round
+    method: dusting (ground duster or aerial application)
+    frequency: 6–8 rounds at 5–7 day intervals through refoliation, starting at the
+      bronze/copper-leaf stage when ~10% of trees are refoliating
+    pre_harvest_interval_days: null
+    regulatory_status: MY_approved
+  - compound: Wettable sulphur (sulphur 80% WG)
+    trade_name: Kumulus DF
+    dosage: 3–5 g per litre water, high-volume foliar spray
+    method: foliar spray
+    frequency: weekly during the refoliation period (about 5–6 sprays)
+    pre_harvest_interval_days: null
+    regulatory_status: MY_approved
+  cultural_controls:
+  - Plant less-susceptible/tolerant RRIM clones and monitor refoliation closely so
+    dusting starts at the susceptible bronze-leaf stage
+  - Promote early, rapid and uniform refoliation through balanced nutrition and good
+    field hygiene so young leaves harden before peak disease pressure
+  source_citations:
+  - Malaysian Rubber Board (LGM/RRIM) — Planters' Bulletin / RRIM disease leaflet
+    on powdery mildew (secondary leaf fall) of Hevea
+  - FAO — pest and disease management guidance for natural rubber (Hevea brasiliensis)
+  confidence_score: 0.78
+  last_updated: '2026-05-20'
+_source_file: seed_generator
+professor_review:
+  verdict: PASS
+  date: '2026-06-12'
+  reviewer: Professor Ahmad Fauzi (AI agronomist agent)
+  issues_count: 5
