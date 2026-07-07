@@ -39,6 +39,8 @@ disease:
       wet periods (suppressive only, not curative)
     pre_harvest_interval_days: null
     regulatory_status: MY_approved
+    phi_not_applicable: true
+    phi_not_applicable_reason: "Soil drench at the plant base; no residue on the harvested fruit."
   - compound: Dazomet
     trade_name: Basamid G
     dosage: 30-50 g per square metre incorporated into moist soil, then covered/tarped
@@ -47,6 +49,8 @@ disease:
     frequency: Once per cropping cycle, before transplanting only
     pre_harvest_interval_days: null
     regulatory_status: MY_approved
+    phi_not_applicable: true
+    phi_not_applicable_reason: "Pre-plant soil fumigation before the crop cycle; no residue on the harvested fruit."
   cultural_controls:
   - Plant on raised beds with good drainage; avoid waterlogging and avoid field sections
     with a history of bacterial wilt

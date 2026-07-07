@@ -195,17 +195,35 @@ def check_entry(entry: dict, reference: dict) -> dict:
 
         # 3. PHI adequacy on food crops
         if is_food:
-            phi = _parse_phi(t.get("pre_harvest_interval_days"))
-            if phi is None:
-                issues.append(_issue(
-                    "warning", f"{field}.pre_harvest_interval_days",
-                    "missing or unparseable pre-harvest interval on a food crop",
-                    f"Add a numeric PHI >= {min_phi} days to clear residue limits."))
-            elif phi < min_phi:
-                issues.append(_issue(
-                    "warning", f"{field}.pre_harvest_interval_days",
-                    f"PHI {phi}d is below the {min_phi}d minimum for {entry.get('crop')}",
-                    "Raise the PHI or substitute a shorter-residue compound."))
+            if t.get("phi_not_applicable"):
+                # Method leaves no residue on the harvested part (soil drench, corm
+                # dip, trunk injection, pre-plant fumigation, biocontrol). Skip the
+                # PHI check — but require a reason so this is auditable, not a bypass.
+                if not t.get("phi_not_applicable_reason"):
+                    issues.append(_issue(
+                        "warning", f"{field}.phi_not_applicable",
+                        "phi_not_applicable set without phi_not_applicable_reason",
+                        "State why PHI does not apply (e.g. corm dip / soil drench — "
+                        "no residue on the harvested part)."))
+            else:
+                phi = _parse_phi(t.get("pre_harvest_interval_days"))
+                if phi is None:
+                    issues.append(_issue(
+                        "warning", f"{field}.pre_harvest_interval_days",
+                        "missing or unparseable pre-harvest interval on a food crop",
+                        f"Add a numeric PHI >= {min_phi} days to clear residue limits."))
+                elif phi < min_phi:
+                    issues.append(_issue(
+                        "warning", f"{field}.pre_harvest_interval_days",
+                        f"PHI {phi}d is below the {min_phi}d minimum for {entry.get('crop')}",
+                        "Raise the PHI or substitute a shorter-residue compound."))
+                if t.get("phi_unverified"):
+                    issues.append(_issue(
+                        "warning", f"{field}.pre_harvest_interval_days",
+                        "PHI value is a DRAFT, not yet verified against a DOA label / "
+                        "MARDI source",
+                        "A human agronomist must verify the PHI, then remove "
+                        "phi_unverified."))
 
     # 4. v2 field-practicality presence (REVIEW_GATE_DESIGN.md §5)
     for f_name in REQUIRED_PRACTICALITY_FIELDS:

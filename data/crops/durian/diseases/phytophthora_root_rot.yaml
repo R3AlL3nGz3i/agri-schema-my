@@ -39,6 +39,8 @@ disease:
     frequency: 2-3 times per year, timed to pre-flowering, post-fruit-set and post-harvest
     pre_harvest_interval_days: null
     regulatory_status: MY_approved
+    phi_not_applicable: true
+    phi_not_applicable_reason: "Trunk injection; systemic in trunk/roots, no canopy or fruit residue."
   - compound: Fosetyl-aluminium
     trade_name: Aliette 80 WG
     dosage: 2.5 g per litre water as foliar spray; or 5 g per litre water as soil
@@ -47,6 +49,8 @@ disease:
     frequency: Every 3-4 weeks during the wet season or while disease is active
     pre_harvest_interval_days: null
     regulatory_status: MY_approved
+    phi_not_applicable: true
+    phi_not_applicable_reason: "Soil drench around the root zone; no residue on the harvested fruit."
   cultural_controls:
   - Improve orchard drainage and plant trees on raised mounds or ridges to prevent
     waterlogging around the root collar

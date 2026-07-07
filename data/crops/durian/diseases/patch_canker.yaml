@@ -36,6 +36,8 @@ disease:
     frequency: Every 2-3 weeks until the lesion dries, up to 3-4 applications
     pre_harvest_interval_days: null
     regulatory_status: MY_approved
+    phi_not_applicable: true
+    phi_not_applicable_reason: "Bark paint on the excised trunk lesion; fruit is not in contact, no residue on the harvested fruit."
   - compound: Metalaxyl-M (mefenoxam) + mancozeb
     trade_name: Ridomil Gold MZ 68 WG
     dosage: 2 g per litre water applied as a soil drench around the root zone, approximately
@@ -44,6 +46,8 @@ disease:
     frequency: 2-3 applications at 4-week intervals during wet periods
     pre_harvest_interval_days: null
     regulatory_status: MY_approved
+    phi_not_applicable: true
+    phi_not_applicable_reason: "Soil drench around the root zone; no residue on the harvested fruit."
   cultural_controls:
   - Improve orchard drainage and avoid waterlogging; plant on mounds or raised beds
     in low-lying areas to reduce Phytophthora build-up in the root zone

@@ -94,6 +94,23 @@ def test_strict_mode_blocks_on_flag():
     assert gate_failed({"REJECT": ["y"], "FLAG": []}, strict=False) is True
 
 
+def test_phi_not_applicable_with_reason_passes():
+    e = _entry(pre_harvest_interval_days=None, phi_not_applicable=True,
+               phi_not_applicable_reason="soil drench — no residue on fruit")
+    assert check_entry(e, REF)["verdict"] == "PASS"
+
+
+def test_phi_not_applicable_without_reason_flags():
+    e = _entry(pre_harvest_interval_days=None, phi_not_applicable=True)
+    assert check_entry(e, REF)["verdict"] == "FLAG"
+
+
+def test_phi_unverified_draft_flags():
+    # A drafted-but-adequate PHI must still FLAG until a human verifies it.
+    e = _entry(pre_harvest_interval_days=14, phi_unverified=True)
+    assert check_entry(e, REF)["verdict"] == "FLAG"
+
+
 def test_non_food_crop_skips_phi_check():
     entry = {
         "crop": "rubber",

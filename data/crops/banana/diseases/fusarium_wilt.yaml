@@ -43,6 +43,8 @@ disease:
     frequency: at planting, then every 3-4 months preventively
     pre_harvest_interval_days: 0
     regulatory_status: MY_approved
+    phi_not_applicable: true
+    phi_not_applicable_reason: "Soil incorporation / biocontrol applied at planting; no residue on the harvested fruit."
   - compound: Propiconazole (corm dip — preventive planting treatment only)
     trade_name: Tilt 250EC
     dosage: 1 ml per litre water; immerse pared corms or suckers for 30 minutes before
@@ -52,6 +54,8 @@ disease:
     frequency: once, on planting material only — not repeated during crop cycle
     pre_harvest_interval_days: 0
     regulatory_status: MY_approved
+    phi_not_applicable: true
+    phi_not_applicable_reason: "Pre-plant corm/sucker dip; applied ~9-12 months before harvest, no residue on the harvested fruit."
   cultural_controls:
   - Plant TR4-resistant or tolerant cultivars (e.g. GCTCV Cavendish selections released
     by INIBAP/Bioversity); avoid susceptible varieties in land with a history of Fusarium
