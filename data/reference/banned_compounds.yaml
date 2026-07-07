@@ -13,15 +13,18 @@ status: stub
 banned:
   - name: Paraquat
     reason: severely restricted / periodically banned for acute toxicity
+    aliases: [Paraquat dichloride, Gramoxone]
   - name: Monocrotophos
     reason: WHO Class Ib organophosphate, banned in many jurisdictions
   - name: Methamidophos
     reason: highly hazardous organophosphate
   - name: Methyl parathion
     reason: WHO Class Ia, withdrawn
+    aliases: [Parathion-methyl, Parathion methyl]
   - name: Endosulfan
     reason: Stockholm Convention POP, phased out
 
 restricted:
   - name: Chlorpyrifos
     reason: EU-withdrawn; residue/export risk — confirm approved use pattern
+    aliases: [Chlorpyrifos-ethyl, Lorsban]

@@ -11,12 +11,20 @@ Verdict precedence: REJECT (hard block) > FLAG (must-fix before publish) > PASS.
   - warning  issue -> FLAG
   - otherwise      -> PASS
 
-NOTE: the datasets under data/reference/ are STUBS pending authoritative DOA /
-Lembaga Racun Makhluk Perosak registration + Codex/EU MRL data.
-  - The banned denylist is enforced now (a hit is always valid).
-  - The registration allowlist is DISABLED until its `status` is `authoritative`
-    (an incomplete allowlist would false-reject valid compounds).
+DESIGN STANCE — this gate FAILS CLOSED. If the banned denylist cannot be loaded,
+`load_reference` raises rather than silently passing every entry.
+
+MATCHING — the banned/restricted denylist is matched robustly against BOTH the
+active `compound` and the `trade_name`, using token-subset + alias matching so
+salt-form, hyphen, word-order, and mixture variants (e.g. "Paraquat dichloride",
+"Parathion-methyl") do not slip through.
+
+HONESTY — the registration allowlist is DISABLED until its `status` is
+`authoritative`. Until real DOA / Lembaga Racun Makhluk Perosak data is supplied
+and that flag is flipped, this gate is NOT authoritative for registration and
+says so loudly in its report. The banned denylist and MRL/PHI checks are live.
 """
+import re
 import yaml
 from pathlib import Path
 import sys
@@ -31,9 +39,22 @@ _REF_DIR = _PROJECT_ROOT / "data" / "reference"
 # v2 schema fields required for a farmer-facing entry (REVIEW_GATE_DESIGN.md §5).
 REQUIRED_PRACTICALITY_FIELDS = ("rotation_partner", "application", "instructions_bm")
 
+# Formulation/salt words stripped when tokenising so "Paraquat dichloride"
+# still matches the banned active "Paraquat".
+_FILLER_TOKENS = {
+    "dichloride", "chloride", "sulfate", "sulphate", "salt", "hydrochloride",
+    "acid", "ester", "sodium", "potassium", "technical", "wp", "ec", "sc", "wg", "sl",
+}
+
 
 def _norm(name) -> str:
     return (name or "").strip().lower()
+
+
+def _tokens(text) -> set:
+    """Normalised, filler-stripped token set for robust active-ingredient matching."""
+    raw = re.split(r"[\s\-/+,()]+", _norm(text))
+    return {t for t in raw if t and t not in _FILLER_TOKENS}
 
 
 def _issue(severity: str, field: str, issue: str, suggestion: str) -> dict:
@@ -48,25 +69,76 @@ def _verdict(issues: list) -> str:
     return "PASS"
 
 
+def _parse_phi(value):
+    """Return PHI as a number, or None if absent/unparseable. Never silently skips."""
+    if value is None:
+        return None
+    if isinstance(value, (int, float)):
+        return value
+    m = re.search(r"\d+(\.\d+)?", str(value))
+    return float(m.group()) if m else None
+
+
+def _build_specs(raw_list) -> list:
+    """Turn a banned/restricted YAML list into matchable specs (name forms + token sets)."""
+    specs = []
+    for x in raw_list or []:
+        name = x.get("name")
+        forms = [name] + list(x.get("aliases", []) or [])
+        specs.append({
+            "name": name,
+            "reason": x.get("reason", ""),
+            "token_sets": [_tokens(f) for f in forms if f],
+        })
+    return specs
+
+
+def _matches(text, specs) -> dict:
+    """Return the matching spec (or None). A spec matches if its token set is a
+    subset of the text's tokens — order/salt-form/mixture tolerant."""
+    text_tokens = _tokens(text)
+    if not text_tokens:
+        return None
+    for spec in specs:
+        for ts in spec["token_sets"]:
+            if ts and ts <= text_tokens:
+                return spec
+    return None
+
+
 def load_reference(ref_dir: Path = None) -> dict:
-    """Load reference datasets into normalised lookup structures."""
+    """Load reference datasets. FAILS CLOSED: raises if the banned denylist is
+    missing or unloadable, so an absent reference file can never open the gate."""
     if ref_dir is None:
         ref_dir = _REF_DIR
 
-    def _load(name: str) -> dict:
+    banned_path = ref_dir / "banned_compounds.yaml"
+    if not banned_path.exists():
+        raise RuntimeError(
+            f"FAIL-CLOSED: banned denylist not found at {banned_path}. "
+            "Refusing to run the compliance gate without it."
+        )
+    banned_raw = yaml.safe_load(banned_path.read_text(encoding="utf-8"))
+    if not isinstance(banned_raw, dict):
+        raise RuntimeError(f"FAIL-CLOSED: {banned_path} is empty or malformed.")
+
+    def _load_optional(name: str) -> dict:
         path = ref_dir / name
         if not path.exists():
             logger.warning(f"Reference file missing: {path}")
             return {}
         return yaml.safe_load(path.read_text(encoding="utf-8")) or {}
 
-    banned_raw = _load("banned_compounds.yaml")
     return {
-        "banned": {_norm(x.get("name")) for x in banned_raw.get("banned", [])},
-        "restricted": {_norm(x.get("name")) for x in banned_raw.get("restricted", [])},
-        "registry": _load("registered_compounds.yaml"),
-        "mrl": _load("crop_mrl.yaml"),
+        "banned": _build_specs(banned_raw.get("banned")),
+        "restricted": _build_specs(banned_raw.get("restricted")),
+        "registry": _load_optional("registered_compounds.yaml"),
+        "mrl": _load_optional("crop_mrl.yaml"),
     }
+
+
+def registration_authoritative(reference: dict) -> bool:
+    return reference.get("registry", {}).get("status") == "authoritative"
 
 
 def check_entry(entry: dict, reference: dict) -> dict:
@@ -85,45 +157,51 @@ def check_entry(entry: dict, reference: dict) -> dict:
     # Unknown crop -> treat as food (the safer default for a residue check).
     is_food = crop in food_crops or crop not in non_food
 
-    registry_authoritative = registry.get("status") == "authoritative"
+    authoritative = registration_authoritative(reference)
     approved_for_crop = {_norm(c) for c in (registry.get("approved", {}) or {}).get(crop, [])}
 
     treatments = disease.get("treatments") or []
     for i, t in enumerate(treatments):
         field = f"disease.treatments[{i}]"
-        compound = _norm(t.get("compound"))
         raw_name = t.get("compound")
+        trade = t.get("trade_name")
         status = t.get("regulatory_status", "")
 
-        # 1. Banned denylist + schema banned status -> REJECT
-        if compound in reference["banned"] or status == "MY_banned":
+        # 1. Banned denylist (compound + trade_name) or schema banned status -> REJECT
+        hit = _matches(raw_name, reference["banned"]) or _matches(trade, reference["banned"])
+        if hit or status == "MY_banned":
+            label = hit["name"] if hit else raw_name
             issues.append(_issue(
                 "critical", f"{field}.compound",
-                f"'{raw_name}' is banned/withdrawn in Malaysia",
+                f"'{raw_name or trade}' matches banned/withdrawn active '{label}' in Malaysia",
                 "Remove this treatment; substitute a registered alternative."))
-        # Restricted -> FLAG
-        elif compound in reference["restricted"] or status == "MY_restricted":
-            issues.append(_issue(
-                "warning", f"{field}.compound",
-                f"'{raw_name}' is restricted — export/residue risk",
-                "Confirm the approved use pattern before publishing."))
+        else:
+            rhit = _matches(raw_name, reference["restricted"]) or _matches(trade, reference["restricted"])
+            if rhit or status == "MY_restricted":
+                label = rhit["name"] if rhit else raw_name
+                issues.append(_issue(
+                    "warning", f"{field}.compound",
+                    f"'{raw_name or trade}' is restricted ('{label}') — export/residue risk",
+                    "Confirm the approved use pattern before publishing."))
 
         # 2. Registration allowlist (only enforced when registry is authoritative)
-        if registry_authoritative and compound and compound not in approved_for_crop:
-            issues.append(_issue(
-                "critical", f"{field}.compound",
-                f"'{raw_name}' is not registered for {entry.get('crop')} in the DOA registry",
-                "Off-label use is illegal; use a registered compound."))
+        if authoritative:
+            compound_norm = _norm(raw_name)
+            if compound_norm and compound_norm not in approved_for_crop:
+                issues.append(_issue(
+                    "critical", f"{field}.compound",
+                    f"'{raw_name}' is not registered for {entry.get('crop')} in the DOA registry",
+                    "Off-label use is illegal; use a registered compound."))
 
         # 3. PHI adequacy on food crops
         if is_food:
-            phi = t.get("pre_harvest_interval_days")
+            phi = _parse_phi(t.get("pre_harvest_interval_days"))
             if phi is None:
                 issues.append(_issue(
                     "warning", f"{field}.pre_harvest_interval_days",
-                    "missing pre-harvest interval on a food crop",
-                    f"Add a PHI >= {min_phi} days to clear residue limits."))
-            elif isinstance(phi, (int, float)) and phi < min_phi:
+                    "missing or unparseable pre-harvest interval on a food crop",
+                    f"Add a numeric PHI >= {min_phi} days to clear residue limits."))
+            elif phi < min_phi:
                 issues.append(_issue(
                     "warning", f"{field}.pre_harvest_interval_days",
                     f"PHI {phi}d is below the {min_phi}d minimum for {entry.get('crop')}",
@@ -146,12 +224,16 @@ def check_entry(entry: dict, reference: dict) -> dict:
 
 
 def check_all(data_dir: Path = None, ref_dir: Path = None) -> dict:
-    """Run Layer 1 over all entries. Returns a verdict summary + per-file issues."""
+    """Run Layer 1 over all entries. Returns a verdict summary + per-file issues.
+    FAILS CLOSED — propagates the load error if the denylist is unavailable."""
     if data_dir is None:
         data_dir = _PROJECT_ROOT / "data"
-    reference = load_reference(ref_dir)
+    reference = load_reference(ref_dir)  # raises if denylist missing (fail closed)
 
-    summary = {"PASS": [], "FLAG": [], "REJECT": [], "errors": [], "details": {}}
+    summary = {
+        "PASS": [], "FLAG": [], "REJECT": [], "errors": [], "details": {},
+        "registration_authoritative": registration_authoritative(reference),
+    }
     for yaml_file in sorted(data_dir.glob("crops/**/diseases/*.yaml")):
         try:
             entry = yaml.safe_load(yaml_file.read_text(encoding="utf-8"))
@@ -169,6 +251,9 @@ def print_report(summary: dict):
     print(f"\n{'='*60}")
     print("LAYER 1 — COMPLIANCE GATE")
     print(f"{'='*60}")
+    if not summary.get("registration_authoritative"):
+        print("REGISTRATION: DISABLED (stub) — NOT AUTHORITATIVE.")
+        print("  Supply DOA registration data and set status: authoritative to enforce.")
     print(f"PASS:    {len(summary.get('PASS', []))}")
     print(f"FLAG:    {len(summary.get('FLAG', []))}")
     print(f"REJECT:  {len(summary.get('REJECT', []))}")
@@ -190,9 +275,23 @@ def print_report(summary: dict):
         print(f"\nPass rate: {rate:.1f}%")
 
 
+def gate_failed(summary: dict, strict: bool = False) -> bool:
+    """CI/publish gate. Always fails on REJECT; in strict (publish) mode also on FLAG."""
+    if summary.get("REJECT"):
+        return True
+    if strict and summary.get("FLAG"):
+        return True
+    return False
+
+
 if __name__ == "__main__":
+    import argparse
     logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
-    summary = check_all()
+    parser = argparse.ArgumentParser(description="Layer 1 compliance gate")
+    parser.add_argument("--strict", action="store_true",
+                        help="Publish mode: fail on FLAG as well as REJECT")
+    args = parser.parse_args()
+
+    summary = check_all()  # raises (fail closed) if the denylist is missing
     print_report(summary)
-    # Hard gate: fail CI if any entry hits a banned/unregistered compound.
-    sys.exit(1 if summary.get("REJECT") else 0)
+    sys.exit(1 if gate_failed(summary, strict=args.strict) else 0)

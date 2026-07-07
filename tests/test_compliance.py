@@ -4,7 +4,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from pipeline.compliance import check_entry, load_reference
+from pipeline.compliance import check_entry, load_reference, gate_failed
 
 REF = load_reference()
 
@@ -58,6 +58,40 @@ def test_missing_practicality_field_flags():
     entry = _entry()
     del entry["disease"]["instructions_bm"]
     assert check_entry(entry, REF)["verdict"] == "FLAG"
+
+
+def test_banned_salt_form_variant_rejects():
+    # "Paraquat dichloride" must match banned "Paraquat" via token-subset matching.
+    assert check_entry(_entry(compound="Paraquat dichloride"), REF)["verdict"] == "REJECT"
+
+
+def test_banned_hyphen_order_variant_rejects():
+    # "Parathion-methyl" must match banned "Methyl parathion".
+    assert check_entry(_entry(compound="Parathion-methyl"), REF)["verdict"] == "REJECT"
+
+
+def test_banned_in_trade_name_rejects():
+    # A banned active hidden in trade_name must still be caught.
+    e = _entry(compound="Mancozeb", trade_name="Gramoxone 200SL")
+    assert check_entry(e, REF)["verdict"] == "REJECT"
+
+
+def test_string_phi_below_minimum_flags():
+    assert check_entry(_entry(pre_harvest_interval_days="3 days"), REF)["verdict"] == "FLAG"
+
+
+def test_fail_closed_when_denylist_missing():
+    try:
+        load_reference(ref_dir=Path("/nonexistent/reference/dir"))
+    except RuntimeError:
+        return
+    raise AssertionError("load_reference must fail closed when denylist is missing")
+
+
+def test_strict_mode_blocks_on_flag():
+    assert gate_failed({"REJECT": [], "FLAG": ["x"]}, strict=True) is True
+    assert gate_failed({"REJECT": [], "FLAG": ["x"]}, strict=False) is False
+    assert gate_failed({"REJECT": ["y"], "FLAG": []}, strict=False) is True
 
 
 def test_non_food_crop_skips_phi_check():
