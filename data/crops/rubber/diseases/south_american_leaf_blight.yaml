@@ -46,6 +46,22 @@ disease:
   - Strict phytosanitary exclusion — enforce DOA import controls on rubber planting
     material from South/Central America
   - Monitor border entry points and maintain sentinel plots near ports
+  rotation_partner: If an outbreak is confirmed, alternate the two listed treatments so
+    consecutive sprays use different modes of action — Mancozeb (Dithane M-45, a multi-site
+    protectant) and Triadimefon (Bayleton 25WP, a triazole/DMI systemic). Combine this
+    with the cultural measure of planting SALB-tolerant clones and synchronised wintering
+    to reduce reliance on any single fungicide.
+  application: Apply both products as foliar sprays during active wet leaf flush, timing
+    protectant Mancozeb ahead of infection and the systemic Triadimefon during flushing.
+    Spray in the early morning or late afternoon and not just before rain so the spray
+    can dry on the foliage. Keep to the stated intervals (Mancozeb weekly; Triadimefon
+    every 10-14 days) and respect the pre-harvest intervals (Mancozeb 14 days, Triadimefon
+    21 days) before tapping. Wear gloves, a mask and long sleeves when mixing and spraying.
+  instructions_bm: Penyakit ini kuarantin dan belum ada di Malaysia — utamakan pencegahan
+    dan lapor sebarang syak. Jika wabak disahkan, sembur berselang antara Mancozeb dan
+    Triadimefon semasa daun muda bertunas, pada waktu pagi atau lewat petang dan bukan
+    sebelum hujan; patuhi selang semburan dan tempoh pra-tuai (Mancozeb 14 hari, Triadimefon
+    21 hari). Pakai sarung tangan, penutup mulut dan lengan panjang.
   source_citations:
   - RRIM (Rubber Research Institute of Malaysia) — Quarantine Alert on Microcyclus
     ulei, Planters Bulletin series

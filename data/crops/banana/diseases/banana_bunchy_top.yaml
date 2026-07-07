@@ -54,6 +54,23 @@ disease:
     from disease-free areas; never move planting material out of infected districts
     (quarantine), and inspect fields regularly, especially within ~20 m of previously
     infected mats
+  rotation_partner: There is no curative chemical treatment for the virus itself; the
+    two listed vector insecticides (imidacloprid and thiamethoxam) are both neonicotinoids
+    that share a mode of action, so alternating between them alone does not manage
+    resistance. Rely primarily on non-chemical rotation — plant certified virus-free
+    tissue-cultured plantlets, practise strict roguing and quarantine, and avoid repeated
+    reliance on a single neonicotinoid for aphid control.
+  application: Apply the listed vector insecticides as a foliar spray every 14 days
+    while the banana aphid is active, and spray before roguing infected plants so the
+    vector is not driven onto healthy mats. Spray in the early morning or late afternoon,
+    do not spray just before expected rain, and observe the stated 14-day interval.
+    Wear PPE — gloves, mask and long sleeves — when mixing and applying, and follow
+    the pre-harvest interval on the product label.
+  instructions_bm: Perhatikan corak jalur hijau gelap 'kod Morse' dan daun yang semakin
+    pendek berkumpul di pucuk. Cabut dan musnahkan pokok berjangkit sepenuhnya, dan
+    semburkan racun kutu daun setiap 14 hari sebelum mencabut pokok untuk elak kutu
+    berpindah. Sembur pada awal pagi atau lewat petang, elak sebelum hujan, dan pakai
+    sarung tangan, penutup mulut serta lengan panjang semasa menyembur.
   source_citations:
   - MARDI — Pakej Teknologi Penanaman Pisang (banana cultivation technology package),
     penyakit pucuk berjumbai section

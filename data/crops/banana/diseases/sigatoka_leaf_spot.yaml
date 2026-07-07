@@ -48,6 +48,21 @@ disease:
     sumber inokulum (deleafing/sanitasi)
   - Jarak tanaman yang sesuai dan saliran baik untuk pengudaraan; elakkan pengairan
     atas daun dan kawal rumpai untuk kurangkan kelembapan kanopi
+  rotation_partner: Alternate the two listed fungicides, which have different modes
+    of action, to manage resistance — use mancozeb (a multi-site protectant) and rotate
+    it with propiconazole (a systemic triazole) rather than spraying the systemic
+    repeatedly on its own. This protectant/systemic alternation is the resistance-management
+    basis already noted in the entry's treatment frequencies.
+  application: Apply as a foliar spray, using the protectant mancozeb every 7-14 days
+    (more often in the wet season) and rotating in propiconazole every 14-21 days.
+    Spray in the early morning or late afternoon, do not spray just before rain, and
+    keep to the stated spray intervals. Wear PPE — gloves, mask and long sleeves — when
+    mixing and applying, and observe the product's pre-harvest interval on the label.
+  instructions_bm: Perhatikan bintik dan jalur klorotik pada permukaan bawah daun,
+    terutama pada musim hujan. Buang daun dijangkiti, kemudian sembur racun kulat
+    protektan (mancozeb) setiap 7-14 hari dan berselang-seli dengan propiconazole
+    untuk elak rintangan. Sembur pada awal pagi atau lewat petang, elak sebelum hujan,
+    dan pakai sarung tangan, penutup mulut serta lengan panjang.
   source_citations:
   - MARDI - Manual Penanaman Pisang (Banana Cultivation Manual), Institut Penyelidikan
     dan Kemajuan Pertanian Malaysia

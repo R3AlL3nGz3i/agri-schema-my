@@ -42,6 +42,20 @@ disease:
       seasons; do NOT spray reactively on established disease.
     pre_harvest_interval_days: 14
     regulatory_status: MY_approved
+  rotation_partner: There is no curative chemical treatment, so no fungicide/bactericide
+    rotation applies. Manage instead by rotating and deploying BLB-resistant/tolerant
+    certified varieties (e.g. MARDI MR-series), practising crop rotation and rice-free
+    fallow, and relying on cultural controls rather than repeated copper sprays.
+  application: If a copper-based preventive spray is used at all, apply it only preventively
+    at canopy closure or early tillering in high-risk seasons and never reactively on
+    established disease; observe the 14-day pre-harvest interval. Spray in the early
+    morning or late afternoon, avoid spraying before rain, and wear PPE (gloves, mask,
+    long sleeves) when mixing and applying.
+  instructions_bm: Tiada rawatan kimia yang boleh menyembuh; utamakan varieti tahan
+    yang disyorkan MARDI, benih bersih dan sanitasi sawah. Jika semburan kuprum pencegahan
+    digunakan, sembur hanya secara pencegahan pada awal pagi atau lewat petang, elakkan
+    sebelum hujan, patuhi tempoh pra-tuai 14 hari, dan pakai sarung tangan, penutup
+    muka serta lengan panjang.
   cultural_controls:
   - Plant BLB-tolerant or BLB-resistant certified varieties (e.g. MARDI MR-series
     recommended for the locality); variety resistance is the most effective and economical

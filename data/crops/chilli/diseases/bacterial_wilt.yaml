@@ -57,6 +57,25 @@ disease:
   - Graft chilli scions onto bacterial-wilt-tolerant rootstock; disinfect tools, hands
     and footwear between plants and apply ground limestone to raise soil pH
   - Carry out soil solarisation during the fallow period to reduce inoculum
+  rotation_partner: No curative chemical control exists for bacterial wilt, and the
+    two listed inputs (a copper hydroxide soil drench and a pre-plant dazomet soil
+    fumigation) are suppressive/pre-plant measures, not a rotating spray programme.
+    Manage resistance and disease pressure through rotation of practices instead —
+    practise 2-3 year crop rotation with non-solanaceous crops (rice, maize, legumes),
+    use tolerant rootstocks and certified clean seed, and rotate in soil solarisation
+    during fallow.
+  application: Use the listed inputs as directed — dazomet only as a pre-plant soil
+    fumigation before transplanting, and copper hydroxide as a base soil drench every
+    7-10 days as a suppressive measure during high-risk wet periods (neither cures
+    an infected plant). When mixing and applying, wear PPE (gloves, mask, long sleeves),
+    work in the early morning or late afternoon, avoid application just before rain,
+    and follow the aeration and interval periods stated on the label.
+  instructions_bm: Awasi pokok yang layu tiba-tiba pada waktu tengah hari tetapi pulih
+    pada waktu malam, dan garis pembuluh coklat bila batang dipotong. Tiada rawatan
+    kimia menyembuhkan — amalkan giliran tanaman bukan solanaceae 2-3 tahun, guna benih
+    bersih, dan cabut serta musnahkan pokok berjangkit. Pakai sarung tangan, penutup
+    mulut dan lengan panjang semasa merawat tanah, dan kerjakan pada awal pagi atau
+    lewat petang.
   source_citations:
   - MARDI Pakej Teknologi Tanaman Cili (MARDI Chilli Cultivation Technology Package)
   - Jabatan Pertanian Malaysia (DOA) - panduan pengurusan penyakit tanaman sayuran

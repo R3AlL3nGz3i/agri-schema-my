@@ -41,6 +41,27 @@ disease:
     frequency: preventive — apply before symptom onset
     pre_harvest_interval_days: 14
     regulatory_status: MY_approved
+  rotation_partner: Alternate the listed fungicides across their different modes of action
+    to manage resistance — for example rotate Tricyclazole (Beam 75WP, a melanin-biosynthesis
+    inhibitor) with Azoxystrobin (Amistar 25SC, a strobilurin/QoI) rather than repeating
+    the same product; Isoprothiolane (Fuji-One 40EC) can also be alternated in the programme.
+  application: Apply at the first sign of infection (or preventively for Azoxystrobin,
+    before symptom onset) as a foliar spray, following the stated frequency for each
+    product, and observe the 14-21 day pre-harvest interval. Spray in the early morning
+    or late afternoon, avoid spraying before rain, observe the stated spray interval,
+    and wear PPE (gloves, mask, long sleeves) when mixing and applying.
+  instructions_bm: Perhatikan lesi berbentuk wajik berwarna kelabu pada daun; sembur
+    sebaik tanda pertama muncul dan silih gantikan racun (contohnya Tricyclazole dengan
+    Azoxystrobin) untuk elak kerintangan. Sembur pada awal pagi atau lewat petang, elakkan
+    sebelum hujan, patuhi tempoh pra-tuai 14-21 hari, dan pakai sarung tangan, penutup
+    muka serta lengan panjang.
+  cultural_controls:
+  - Use certified disease-free seed and plant blast-resistant/tolerant varieties recommended
+    by MARDI, rotating varieties to manage pathogen races
+  - Avoid excessive nitrogen fertiliser and apply balanced, split N-P-K fertilisation,
+    which reduces the lush growth that favours blast
+  - Practise field sanitation by ploughing in stubble and destroying infected crop residue,
+    and manage water to avoid prolonged leaf wetness
   source_citations:
   - MARDI Technical Bulletin No. 245 (2022) — Pengurusan Penyakit Blas Padi
   - Jabatan Pertanian Pekeliling Teknikal BIL.3/2021 — Kawalan Penyakit Utama Padi

@@ -49,6 +49,22 @@ disease:
     frequency: At replanting and as an annual maintenance application
     pre_harvest_interval_days: null
     regulatory_status: MY_approved
+  rotation_partner: Alternate the Hexaconazole (Anvil 5SC) soil drench with the Trichoderma
+    harzianum biological application, which has a different (biological antagonism) mode
+    of action, to avoid over-reliance on the fungicide and manage resistance. Because
+    Ganoderma is not curable, pair chemical suppression with sanitation and clean planting
+    material rather than repeated single-fungicide use.
+  application: Apply the Hexaconazole as a soil drench around the basal zone and repeat
+    only at the stated 3-6 month interval on early-to-moderately infected palms; use
+    the Trichoderma EFB compost at replanting and as an annual maintenance application.
+    Treat in the early morning or late afternoon, avoid application just before rain,
+    observe the labelled interval, and wear PPE (gloves, mask, long sleeves) when mixing
+    and applying.
+  instructions_bm: Perhatikan tanda badan buah (kulat pepejal) di pangkal batang dan
+    daun bawah yang menguning; rawat pokok yang dijangkiti awal dengan siraman tanah
+    Hexaconazole mengikut selang 3-6 bulan dan gunakan kompos Trichoderma semasa tanam
+    semula. Buat rawatan pada awal pagi atau lewat petang, elakkan sebelum hujan, dan
+    pakai sarung tangan, penutup muka serta lengan panjang semasa mengadun dan menyembur.
   cultural_controls:
   - Thorough sanitation at replanting — excavate, chip and destroy infected palm boles,
     stumps and major roots to reduce soil inoculum; avoid planting a new palm into

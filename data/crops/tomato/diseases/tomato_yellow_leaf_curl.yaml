@@ -48,6 +48,23 @@ disease:
   - Rogue and destroy infected plants early, control whitefly with yellow sticky traps
     and reflective silver plastic mulch, and keep fields and surroundings free of
     alternative weed hosts
+  rotation_partner: The virus itself has no chemical cure; the two listed treatments target
+    the whitefly vector and are both neonicotinoids (imidacloprid and thiamethoxam, same
+    mode of action), so alternating only between them does not manage resistance. Rotate
+    these neonicotinoids with insecticides of a different mode of action for vector control,
+    and rely primarily on cultural rotation — plant TYLCV-tolerant/resistant varieties and
+    raise seedlings under insect-proof netting.
+  application: Spray the listed insecticides against the whitefly vector, not as a cure
+    for the virus, and only when the whitefly threshold is exceeded. Spray in the early
+    morning or late afternoon and not just before rain, keep to the stated 7-10 day interval,
+    and observe the 3-day pre-harvest interval. Rotate with a different mode of action to
+    manage resistance, and wear gloves, a mask and long sleeves when mixing and spraying.
+  instructions_bm: Penyakit virus ini disebarkan lalat putih dan tiada ubat penyembuh —
+    guna varieti tahan, semai anak benih di bawah jaring kalis serangga, dan cabut serta
+    musnahkan pokok berjangkit awal. Sembur racun lalat putih hanya bila bilangannya
+    melebihi ambang, silih dengan mod tindakan berbeza, pada waktu pagi atau lewat petang
+    dan bukan sebelum hujan; patuhi tempoh pra-tuai 3 hari. Pakai sarung tangan, penutup
+    mulut dan lengan panjang.
   source_citations:
   - MARDI - Pakej Teknologi Penanaman Tomato (tomato cultivation and crop protection
     package)

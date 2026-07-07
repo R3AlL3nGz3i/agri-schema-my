@@ -54,6 +54,22 @@ disease:
     kompos
   - Sanitasi alat, pancang, tangan dan rumah lindung dengan peluntur/disinfektan antara
     pokok dan antara pusingan tanaman; elakkan kerja semasa daun basah
+  rotation_partner: Tiada rawatan kimia yang menyembuhkan penyakit bakteria bawaan benih
+    ini, dan kedua-dua rawatan tersenarai adalah sebatian kuprum (mod tindakan sama),
+    jadi menyilih antaranya tidak memberi faedah pengurusan rintangan. Utamakan giliran
+    kultura sebaliknya — giliran tanaman 2-3 tahun dengan tanaman bukan Solanaceae dan
+    guna benih bersijil bebas penyakit yang dirawat air panas.
+  application: Sapu sembur kuprum sebagai langkah pencegahan/penyekatan sahaja (bukan
+    penyembuh), bermula awal pertumbuhan dan berselang antara produk kuprum. Sembur pada
+    waktu pagi atau lewat petang, jangan sembur sebelum hujan, dan patuhi selang 7-10
+    hari yang dinyatakan; elakkan bekerja semasa daun basah untuk kurangkan penyebaran
+    bakteria. Pakai sarung tangan, penutup mulut dan lengan panjang semasa mencampur dan
+    menyembur.
+  instructions_bm: Penyakit ini bawaan benih dan tiada ubat penyembuh — utamakan benih
+    bersijil, giliran tanaman dan sanitasi alat. Sebaik nampak layu sebelah atau jaluran
+    pada batang, cabut dan musnahkan pokok berjangkit; sembur kuprum hanya sebagai
+    pencegahan setiap 7-10 hari pada waktu pagi atau lewat petang dan bukan sebelum hujan.
+    Pakai sarung tangan, penutup mulut dan lengan panjang.
   source_citations:
   - MARDI — Pakej Teknologi Penanaman Tomato (panduan amalan tanaman tomato)
   - 'Jabatan Pertanian Malaysia (DOA) — Senarai Racun Perosak Berdaftar di bawah Akta

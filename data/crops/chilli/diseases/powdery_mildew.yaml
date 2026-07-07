@@ -50,6 +50,22 @@ disease:
     and lower canopy humidity
   - Remove and destroy infected leaves and crop debris, avoid overhead irrigation,
     and apply balanced fertiliser without excess nitrogen
+  rotation_partner: Alternate the two listed fungicides, which have different modes
+    of action, to manage resistance — rotate wettable sulphur (a multi-site protectant)
+    with hexaconazole (a systemic triazole) rather than relying on the triazole alone.
+    The entry's own note that hexaconazole should be alternated with non-triazole
+    fungicides is met by pairing it with the sulphur already listed.
+  application: Apply as a foliar spray, using wettable sulphur every 7-10 days while
+    disease pressure persists and rotating in hexaconazole every 10-14 days. Spray
+    in the early morning or late afternoon, avoid spraying just before rain, and keep
+    to the stated intervals; observe the 14-day pre-harvest interval for hexaconazole.
+    Wear PPE — gloves, mask and long sleeves — when mixing and applying.
+  instructions_bm: Awasi tompok tepung putih pada permukaan bawah daun dan bercak
+    kuning di atas daun, terutama pada musim kemarau. Sembur belerang boleh basah
+    setiap 7-10 hari dan berselang-seli dengan hexaconazole untuk elak rintangan;
+    jangan sembur hexaconazole dalam 14 hari sebelum menuai. Sembur pada awal pagi
+    atau lewat petang, elak sebelum hujan, dan pakai sarung tangan, penutup mulut
+    serta lengan panjang.
   source_citations:
   - MARDI - Pakej Teknologi Penanaman Cili (chilli cultivation technology package)
   - Jabatan Pertanian Malaysia (DOA) - guide to identification and control of chilli

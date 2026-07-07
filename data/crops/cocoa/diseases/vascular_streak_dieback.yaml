@@ -54,6 +54,23 @@ disease:
     basidiospores
   - Maintain an open canopy, adequate spacing and good drainage to reduce humidity
     and leaf wetness that favour spore infection of young flush
+  rotation_partner: Alternate the two listed fungicides, which have different modes
+    of action, to manage resistance — rotate hexaconazole (a systemic triazole) with
+    copper hydroxide (a multi-site protectant) rather than spraying the triazole
+    repeatedly on its own. This systemic/protectant alternation spreads selection
+    pressure across the two chemistries already in the entry.
+  application: Apply both as a foliar spray targeting the young flush — hexaconazole
+    at each new leaf flush (about every 3-4 weeks during active flushing and wet
+    weather) and copper hydroxide as a protective spray every 2-3 weeks during the
+    wet, high-sporulation season. Spray in the early morning or late afternoon, avoid
+    spraying just before rain, and keep to the stated intervals. Wear PPE — gloves,
+    mask and long sleeves — when mixing and applying, and follow the product label.
+  instructions_bm: Awasi daun menguning dengan bintik hijau pada pucuk muda dan gugur
+    daun di tengah dahan meninggalkan ranting kosong. Pangkas dahan berjangkit 30 cm
+    di bawah jalur pembuluh, kemudian sembur pucuk muda dengan hexaconazole setiap
+    3-4 minggu berselang-seli dengan kuprum hidroksida untuk elak rintangan. Sembur
+    pada awal pagi atau lewat petang, elak sebelum hujan, dan pakai sarung tangan,
+    penutup mulut serta lengan panjang.
   source_citations:
   - Lembaga Koko Malaysia (Malaysian Cocoa Board) — cocoa pest and disease management
     extension guides
