@@ -11,8 +11,6 @@ import json
 from pathlib import Path
 import logging
 
-from pipeline.scraper import extract_text_from_pdf
-
 logger = logging.getLogger(__name__)
 
 _MODULE_DIR = Path(__file__).resolve().parent
@@ -31,6 +29,26 @@ PADDY_TERMS = [
     "rice blast", "bacterial leaf blight", "false smut", "rice tungro",
     "sheath blight",
 ]
+
+
+def _extract_pages(pdf_path: str) -> list[str]:
+    """Return one text string per real PDF page (true page boundaries).
+
+    Deliberately NOT reconstructed from scraper.extract_text_from_pdf's joined
+    output: that joins pages with "\\n\\n" and pdfplumber also emits "\\n\\n"
+    between paragraphs *within* a page, so splitting on it drifts page numbers.
+    Since the whole value of grounding is an accurate "source p.N" citation, we
+    read pages directly and keep the real 1-based index.
+    """
+    import pdfplumber
+    pages = []
+    try:
+        with pdfplumber.open(pdf_path) as pdf:
+            for page in pdf.pages:
+                pages.append(page.extract_text() or "")
+    except Exception as e:
+        logger.warning(f"pdfplumber failed on {pdf_path}: {e}")
+    return pages
 
 
 def _window_page(text: str, window: int = WINDOW_WORDS, overlap: int = OVERLAP_WORDS) -> list[str]:
@@ -67,10 +85,10 @@ def build_passages(pdf_dir: Path = PDF_DIR, out_jsonl: Path = PASSAGES_JSONL) ->
     written = 0
     with out_jsonl.open("w", encoding="utf-8") as f:
         for pdf_path in pdfs:
-            # extract_text_from_pdf joins pages with "\n\n"; recover page boundaries.
-            full_text = extract_text_from_pdf(str(pdf_path))
-            pages = full_text.split("\n\n") if full_text else []
+            pages = _extract_pages(str(pdf_path))  # true per-page boundaries
             for page_no, page_text in enumerate(pages, start=1):
+                if not page_text.strip():
+                    continue
                 for chunk_idx, chunk in enumerate(_window_page(page_text)):
                     row = {
                         "id": f"{pdf_path.stem}__p{page_no}__c{chunk_idx}",

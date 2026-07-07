@@ -24,9 +24,15 @@ FAKE_PASSAGES = [
      "metadata": {"source_pdf": "fake.pdf", "page": 2}, "distance": 0.4},
 ]
 
+# The 3 safety-critical claim fields _entry()'s single treatment produces.
+F_DOSE = "disease.treatments[0].dosage"
+F_PHI = "disease.treatments[0].pre_harvest_interval_days"
+F_REG = "disease.treatments[0].regulatory_status"
+
 
 def _entry(compound="Paraquat"):
-    """Paddy entry; default compound is banned so Layer 1 raises a critical issue."""
+    """Paddy entry with one chemical treatment (dosage+PHI+registration => 3 claims).
+    Default compound is banned so Layer 1 also raises a critical issue."""
     return {
         "crop": "paddy",
         "disease": {
@@ -47,8 +53,26 @@ def _entry(compound="Paraquat"):
     }
 
 
+def _entry_no_chemicals():
+    """Entry that asserts no dosage/PHI/registration -> no safety claims required."""
+    return {
+        "crop": "paddy",
+        "disease": {
+            "name": "bacterial_leaf_blight",
+            "symptoms": {"visual": ["water-soaked lesions"], "growth": "wilting"},
+            "treatments": [],
+            "cultural_controls": ["resistant varieties", "no curative chemical treatment"],
+        },
+    }
+
+
+def _grounded_claims(fields, label="P1", quote="0.5 g per litre"):
+    return [{"field": f, "claim": "c", "supported": True,
+             "grounding": {"passage_id": label, "quote": quote}} for f in fields]
+
+
 class _Recorder:
-    """Callable fake for _call_anthropic that records the prompt and returns canned JSON."""
+    """Fake _call_anthropic that records the prompt and returns canned JSON."""
     def __init__(self, response: str):
         self.response = response
         self.prompt = None
@@ -65,75 +89,109 @@ def _patch(call_fake, passages=FAKE_PASSAGES):
 
 # ---------------------------------------------------------------------------
 
-def test_prompt_embeds_passages_and_layer1_findings():
-    rec = _Recorder(json.dumps({
-        "verdict": "FLAG", "issues": [], "notes": "n",
-        "reviewed_by": "x", "review_date": "2026-07-07",
-    }))
+def test_prompt_embeds_passages_layer1_and_claims():
+    rec = _Recorder(json.dumps({"verdict": "FLAG", "claims": [], "issues": [], "notes": "n"}))
     _patch(rec)
     gr.review_entry_grounded(_entry(compound="Paraquat"), k=6, reference=REF)
     p = rec.prompt
-    # (a) retrieved passages present, labelled
     assert "[P1]" in p and "[P2]" in p
     assert "Tricyclazole 75WP is applied at 0.5 g per litre" in p
-    # Layer 1 deterministic findings embedded (banned compound -> critical issue)
-    assert "Layer 1 verdict:" in p
-    assert "[critical]" in p
+    assert "Layer 1 verdict:" in p and "[critical]" in p          # banned compound
+    assert "SAFETY-CRITICAL CLAIMS" in p
+    assert F_DOSE in p and F_PHI in p and F_REG in p              # claims enumerated
 
 
-def test_ungrounded_critical_claim_forces_non_pass():
+def test_fully_grounded_claims_allow_pass():
     rec = _Recorder(json.dumps({
         "verdict": "PASS",
-        "issues": [{
-            "severity": "critical", "field": "disease.treatments[0].dosage",
-            "issue": "dosage unverifiable", "suggestion": "verify",
-            "grounding": None,
-        }],
-        "notes": "", "reviewed_by": "x", "review_date": "2026-07-07",
+        "claims": _grounded_claims([F_DOSE, F_PHI, F_REG]),
+        "issues": [], "notes": "",
     }))
     _patch(rec)
     out = gr.review_entry_grounded(_entry(), k=6, reference=REF)
-    assert out is not None
-    assert out["verdict"] != "PASS"          # downgraded
+    assert out["verdict"] == "PASS"
+    assert out["grounded_count"] == 3
+    assert out["ungrounded_count"] == 0
+
+
+def test_unsupported_safety_claim_forces_flag():
+    rec = _Recorder(json.dumps({
+        "verdict": "PASS",
+        "claims": [{"field": F_DOSE, "claim": "c", "supported": False, "grounding": None},
+                   {"field": F_PHI, "claim": "c", "supported": False, "grounding": None},
+                   {"field": F_REG, "claim": "c", "supported": False, "grounding": None}],
+        "issues": [], "notes": "",
+    }))
+    _patch(rec)
+    out = gr.review_entry_grounded(_entry(), k=6, reference=REF)
+    assert out["verdict"] == "FLAG"          # unsupported dosage/PHI cannot PASS
+    assert out["ungrounded_count"] == 3
+
+
+def test_missing_claims_array_forces_flag():
+    # Absence of evidence: model raises no issue and omits claims -> must not PASS.
+    rec = _Recorder(json.dumps({"verdict": "PASS", "issues": [], "notes": ""}))
+    _patch(rec)
+    out = gr.review_entry_grounded(_entry(), k=6, reference=REF)
     assert out["verdict"] == "FLAG"
-    assert out["ungrounded_count"] == 1
-    assert out["grounded_count"] == 0
+    assert out["ungrounded_count"] == 3
+
+
+def test_empty_retrieval_cannot_pass():
+    rec = _Recorder(json.dumps({
+        "verdict": "PASS",
+        "claims": _grounded_claims([F_DOSE, F_PHI, F_REG]),  # cite P1 but nothing retrieved
+        "issues": [], "notes": "",
+    }))
+    _patch(rec, passages=[])
+    out = gr.review_entry_grounded(_entry(), k=6, reference=REF)
+    assert out["verdict"] == "FLAG"
+    assert out["ungrounded_count"] == 3
 
 
 def test_fabricated_passage_id_counts_as_ungrounded():
-    # Cites P9 which was never retrieved -> must be treated as ungrounded.
     rec = _Recorder(json.dumps({
         "verdict": "PASS",
-        "issues": [{
-            "severity": "critical", "field": "f", "issue": "i", "suggestion": "s",
-            "grounding": {"passage_id": "P9", "quote": "invented"},
-        }],
-        "notes": "", "reviewed_by": "x", "review_date": "2026-07-07",
+        "claims": _grounded_claims([F_DOSE, F_PHI, F_REG], label="P9"),  # P9 not retrieved
+        "issues": [], "notes": "",
     }))
     _patch(rec)
     out = gr.review_entry_grounded(_entry(), k=6, reference=REF)
     assert out["verdict"] == "FLAG"
-    assert out["ungrounded_count"] == 1
+    assert out["ungrounded_count"] == 3
 
 
-def test_grounded_claim_is_counted():
+def test_ungrounded_critical_issue_forces_flag_even_if_claims_grounded():
     rec = _Recorder(json.dumps({
-        "verdict": "FLAG",
-        "issues": [{
-            "severity": "warning", "field": "disease.treatments[0].dosage",
-            "issue": "check dose", "suggestion": "confirm",
-            "grounding": {"passage_id": "P1", "quote": "0.5 g per litre"},
-        }],
-        "notes": "", "reviewed_by": "x", "review_date": "2026-07-07",
+        "verdict": "PASS",
+        "claims": _grounded_claims([F_DOSE, F_PHI, F_REG]),
+        "issues": [{"severity": "critical", "field": F_DOSE, "issue": "i",
+                    "suggestion": "s", "grounding": None}],
+        "notes": "",
     }))
     _patch(rec)
     out = gr.review_entry_grounded(_entry(), k=6, reference=REF)
-    assert out["grounded_count"] == 1
-    assert out["ungrounded_count"] == 0
+    assert out["verdict"] == "FLAG"
+    assert out["grounded_count"] == 3        # claims still counted grounded
+
+
+def test_no_safety_claims_entry_can_pass():
+    rec = _Recorder(json.dumps({"verdict": "PASS", "claims": [], "issues": [], "notes": ""}))
+    _patch(rec)
+    out = gr.review_entry_grounded(_entry_no_chemicals(), k=6, reference=REF)
+    assert out["verdict"] == "PASS"          # honesty-credit: no chemical claims to ground
+    assert out["required_claims"] == 0
 
 
 def test_parse_failure_returns_none():
     rec = _Recorder("this is not JSON at all {oops")
+    _patch(rec)
+    out = gr.review_entry_grounded(_entry(), k=6, reference=REF)
+    assert out is None
+
+
+def test_invalid_verdict_returns_none():
+    rec = _Recorder(json.dumps({"verdict": "MAYBE", "claims": [], "issues": []}))
     _patch(rec)
     out = gr.review_entry_grounded(_entry(), k=6, reference=REF)
     assert out is None
@@ -147,13 +205,6 @@ def test_parse_failure_writes_no_cache():
         gr.review_paddy(k=6, reviews_dir=reviews_dir)
         cached = list(reviews_dir.rglob("*.json")) if reviews_dir.exists() else []
         assert cached == []          # None reviews are never cached
-
-
-def test_invalid_verdict_returns_none():
-    rec = _Recorder(json.dumps({"verdict": "MAYBE", "issues": []}))
-    _patch(rec)
-    out = gr.review_entry_grounded(_entry(), k=6, reference=REF)
-    assert out is None
 
 
 if __name__ == "__main__":
