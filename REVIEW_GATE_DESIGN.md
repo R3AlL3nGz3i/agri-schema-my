@@ -119,6 +119,31 @@ This converts the plausibility filter into an actual fact-checker. The v1 rubric
 (dosage-first, honesty-credited, named-FLAG, asymmetric-REJECT) is retained as the
 grading standard *on top of* grounding.
 
+#### Prototype outcome — paddy, 2026-07-07
+Built as an isolated paddy-only prototype (`pipeline/corpus.py`,
+`pipeline/grounded_review.py`, second Chroma collection `mardi_passages`, CLI
+`--grounded-review`, `tests/test_grounded_review.py`). Layer 1's reviewer
+(`professor_agent.py`) was left untouched; verdicts write to
+`data/reviews_grounded/` only (source YAML unchanged).
+
+**Finding: grounding against the current MARDI source is not feasible.** The
+scraper reaches only the BPTM bulletin index (4 PDFs). The resulting corpus is
+654 passages, of which **only 39 (6%) mention any paddy/rice term, and 0 mention
+a specific paddy disease** (`blast`, `tungro`, `karah`, `seludang` → zero hits);
+retrieval for disease+dosage queries returns generic administrative tables at
+cosine distance >0.66. These bulletins do not carry per-product dosage / PHI
+facts — the same root cause as the earlier PHI-data gap. A grounded reviewer over
+this text would therefore mark nearly every dosage/PHI/efficacy claim
+`grounding: null` and could not justify a PASS.
+
+**Implication:** before Layer 2 is worth completing, the corpus dependency must be
+solved first — obtain the actual source that contains per-product facts
+(Malaysian pesticide labels / MRL registry / DOA technical circulars, several of
+which are login-gated per §7), not general MARDI bulletins. The pipeline is built
+and tested and will work as soon as a fact-bearing corpus is indexed; the blocker
+is source data, not code. (The live LLM confirmation run is pending an
+`ANTHROPIC_API_KEY`, but the corpus analysis alone is decisive.)
+
 ### Layer 3 — Ensemble + calibration
 - **≥2 judges (or N runs)**; disagreement auto-downgrades to FLAG.
 - **Held-out gold set with planted traps** (known-wrong dosages, fabricated

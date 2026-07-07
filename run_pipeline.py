@@ -129,6 +129,15 @@ def phase_embed():
     return result
 
 
+def phase_grounded_review():
+    """Layer 2 retrieval-grounded review — paddy prototype only (not in --all)."""
+    from pipeline.grounded_review import review_paddy
+    logger.info("=== GROUNDED REVIEW: Layer 2 (paddy prototype) ===")
+
+    result = review_paddy()
+    return result
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="AgriSchema-MY pipeline")
     parser.add_argument("--scrape",   action="store_true", help="Download MARDI PDFs + extract text")
@@ -138,6 +147,7 @@ if __name__ == "__main__":
     parser.add_argument("--compliance", action="store_true", help="Layer 1 deterministic compliance gate")
     parser.add_argument("--review",     action="store_true", help="Professor agent review")
     parser.add_argument("--embed",      action="store_true", help="Ingest into ChromaDB")
+    parser.add_argument("--grounded-review", action="store_true", help="Layer 2 retrieval-grounded review (paddy prototype)")
     parser.add_argument("--all",        action="store_true", help="Run full pipeline (seed + validate + compliance + review + embed)")
     args = parser.parse_args()
 
@@ -169,6 +179,10 @@ if __name__ == "__main__":
 
     if args.all or args.embed:
         phase_embed()
+        ran_any = True
+
+    if args.grounded_review:
+        phase_grounded_review()
         ran_any = True
 
     if not ran_any:

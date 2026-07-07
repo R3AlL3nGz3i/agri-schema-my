@@ -11,6 +11,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 COLLECTION_NAME = "agri_schema_my"
+PASSAGE_COLLECTION_NAME = "mardi_passages"
 
 # Anchor paths to this module so the pipeline works cwd-independently
 _MODULE_DIR = Path(__file__).resolve().parent
@@ -26,6 +27,24 @@ def get_collection():
     ef = embedding_functions.DefaultEmbeddingFunction()
     return client.get_or_create_collection(
         name=COLLECTION_NAME,
+        embedding_function=ef,
+        metadata={"hnsw:space": "cosine"}
+    )
+
+
+def get_passage_collection():
+    """Second collection holding raw MARDI source passages (Layer 2 grounding).
+
+    Kept separate from `agri_schema_my` so grounded review retrieves real source
+    text -- not the LLM-authored YAML entries (which would let the model quote
+    itself). Same client + embedding function + cosine space as get_collection().
+    """
+    import chromadb
+    from chromadb.utils import embedding_functions
+    client = chromadb.PersistentClient(path=CHROMA_PATH)
+    ef = embedding_functions.DefaultEmbeddingFunction()
+    return client.get_or_create_collection(
+        name=PASSAGE_COLLECTION_NAME,
         embedding_function=ef,
         metadata={"hnsw:space": "cosine"}
     )
@@ -124,6 +143,62 @@ def query(crop: str = None, symptom: str = None, n_results: int = 5) -> list[dic
         {
             "id": results["ids"][0][i],
             "document": results["documents"][0][i],
+            "metadata": results["metadatas"][0][i],
+            "distance": results["distances"][0][i],
+        }
+        for i in range(len(results["ids"][0]))
+    ]
+
+
+def ingest_passages(jsonl: Path) -> dict:
+    """Upsert MARDI passages from a JSONL corpus into the passage collection.
+
+    Each row: {id, text, source_pdf, page}. Metadata stores {source_pdf, page}.
+    """
+    jsonl = Path(jsonl)
+    if not jsonl.exists():
+        raise RuntimeError(f"Passage corpus not found at {jsonl}. Run corpus.build_passages() first.")
+
+    collection = get_passage_collection()
+    ids, documents, metadatas = [], [], []
+    with jsonl.open(encoding="utf-8") as f:
+        for line in f:
+            line = line.strip()
+            if not line:
+                continue
+            row = json.loads(line)
+            ids.append(row["id"])
+            documents.append(row["text"])
+            metadatas.append({
+                "source_pdf": row.get("source_pdf", ""),
+                "page": int(row.get("page", 0)),
+            })
+
+    ingested = 0
+    if ids:
+        # Chroma caps batch size; upsert in chunks to be safe.
+        batch = 512
+        for start in range(0, len(ids), batch):
+            collection.upsert(
+                ids=ids[start:start + batch],
+                documents=documents[start:start + batch],
+                metadatas=metadatas[start:start + batch],
+            )
+        ingested = len(ids)
+    logger.info(f"Ingested {ingested} passages into '{PASSAGE_COLLECTION_NAME}'")
+    return {"ingested": ingested}
+
+
+def query_passages(text: str, k: int = 6) -> list[dict]:
+    """Retrieve the top-k MARDI passages most similar to `text`."""
+    collection = get_passage_collection()
+    results = collection.query(query_texts=[text], n_results=k)
+    if not results["ids"] or not results["ids"][0]:
+        return []
+    return [
+        {
+            "id": results["ids"][0][i],
+            "text": results["documents"][0][i],
             "metadata": results["metadatas"][0][i],
             "distance": results["distances"][0][i],
         }
