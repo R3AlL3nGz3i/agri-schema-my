@@ -138,6 +138,23 @@ def phase_grounded_review():
     return result
 
 
+def phase_doa_ingest():
+    """Ingest a human-supplied DOA registration export (not in --all — needs a
+    verified source file). Writes registered_compounds.yaml + doa_products.yaml;
+    stays `draft` unless every row passes provenance validation."""
+    from pipeline.doa_registry import ingest_doa_registry, audit_entries_against_registry
+    logger.info("=== DOA REGISTRY: ingest registration export ===")
+
+    summary = ingest_doa_registry()
+    if summary.get("written"):
+        audit = audit_entries_against_registry()
+        if audit.get("available"):
+            reg = sum(1 for f in audit["findings"] if f["status"] == "registered")
+            off = len(audit["findings"]) - reg
+            logger.info(f"KB reconciliation: {reg} registered, {off} off-label/uncatalogued")
+    return summary
+
+
 def _build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="AgriSchema-MY pipeline")
     parser.add_argument("--scrape",   action="store_true", help="Download MARDI PDFs + extract text")
@@ -148,6 +165,7 @@ def _build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--review",     action="store_true", help="Professor agent review")
     parser.add_argument("--embed",      action="store_true", help="Ingest into ChromaDB")
     parser.add_argument("--grounded-review", action="store_true", help="Layer 2 retrieval-grounded review (paddy prototype)")
+    parser.add_argument("--doa-ingest", action="store_true", help="Ingest a DOA registration export into the reference registry")
     parser.add_argument("--all",        action="store_true", help="Run full pipeline (seed + validate + compliance + review + embed)")
     return parser
 
@@ -208,6 +226,10 @@ def main(argv=None) -> int:
 
     if args.grounded_review:
         phase_grounded_review()
+        ran_any = True
+
+    if args.doa_ingest:
+        phase_doa_ingest()
         ran_any = True
 
     if not ran_any:
