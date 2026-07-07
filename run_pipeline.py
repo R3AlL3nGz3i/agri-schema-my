@@ -138,7 +138,7 @@ def phase_grounded_review():
     return result
 
 
-if __name__ == "__main__":
+def _build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="AgriSchema-MY pipeline")
     parser.add_argument("--scrape",   action="store_true", help="Download MARDI PDFs + extract text")
     parser.add_argument("--seed",     action="store_true", help="Generate seed entries from Claude knowledge")
@@ -149,9 +149,23 @@ if __name__ == "__main__":
     parser.add_argument("--embed",      action="store_true", help="Ingest into ChromaDB")
     parser.add_argument("--grounded-review", action="store_true", help="Layer 2 retrieval-grounded review (paddy prototype)")
     parser.add_argument("--all",        action="store_true", help="Run full pipeline (seed + validate + compliance + review + embed)")
-    args = parser.parse_args()
+    return parser
+
+
+def main(argv=None) -> int:
+    """Run the requested phases. Returns process exit code.
+
+    SAFETY INVARIANT: an entry that fails the Layer 1 compliance gate (any REJECT)
+    is never embedded into the served vector store, and the run exits non-zero.
+    Compliance is therefore forced whenever --embed (or --all) is requested.
+    """
+    from pipeline.compliance import gate_failed
+
+    parser = _build_parser()
+    args = parser.parse_args(argv)
 
     ran_any = False
+    compliance_summary = None
 
     if args.scrape:
         phase_scrape()
@@ -169,16 +183,27 @@ if __name__ == "__main__":
         phase_validate()
         ran_any = True
 
-    if args.all or args.compliance:
-        phase_compliance()
+    # Layer 1 must run before any embed/publish — embedding a REJECT entry into
+    # the served vector store is a fail-open. Force the gate whenever we embed.
+    if args.all or args.compliance or args.embed:
+        compliance_summary = phase_compliance()
         ran_any = True
 
     if args.all or args.review:
         phase_review()
         ran_any = True
 
+    gate_blocked = compliance_summary is not None and gate_failed(compliance_summary)
+
     if args.all or args.embed:
-        phase_embed()
+        if gate_blocked:
+            n_reject = len(compliance_summary.get("REJECT", []))
+            logger.error(
+                f"BLOCKED: Layer 1 compliance gate failed ({n_reject} REJECT). "
+                "Refusing to embed/publish — fix rejected entries before ingestion."
+            )
+        else:
+            phase_embed()
         ran_any = True
 
     if args.grounded_review:
@@ -187,3 +212,10 @@ if __name__ == "__main__":
 
     if not ran_any:
         parser.print_help()
+
+    # Non-zero exit on any REJECT so CI and callers hard-fail (never silently pass).
+    return 1 if gate_blocked else 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
