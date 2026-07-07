@@ -39,7 +39,8 @@ disease:
     method: foliar spray (insect growth regulator targeting leafhopper nymphs)
     frequency: Apply against early nymphal stages; repeat after 10-14 days if vector
       pressure persists
-    pre_harvest_interval_days: null
+    pre_harvest_interval_days: 14
+    phi_unverified: true
     regulatory_status: MY_approved
   rotation_partner: Alternate imidacloprid (Confidor 200SL), a neonicotinoid, with buprofezin
     (Applaud 10WP), an insect growth regulator that acts on a different target, when

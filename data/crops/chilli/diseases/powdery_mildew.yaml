@@ -35,7 +35,8 @@ disease:
     dosage: 2.5 g per litre water
     method: foliar spray
     frequency: every 7-10 days while disease pressure persists
-    pre_harvest_interval_days: null
+    pre_harvest_interval_days: 7
+    phi_unverified: true
     regulatory_status: MY_approved
   - compound: hexaconazole (50 g/L SC)
     trade_name: Anvil 5SC

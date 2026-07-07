@@ -36,7 +36,8 @@ disease:
     method: foliar spray
     frequency: Apply preventively at late booting stage just before panicle emergence;
       a second spray about 7-10 days later if weather remains wet
-    pre_harvest_interval_days: null
+    pre_harvest_interval_days: 21
+    phi_unverified: true
     regulatory_status: MY_approved
   - compound: hexaconazole 50 g/L SC
     trade_name: Anvil 5SC
@@ -44,7 +45,8 @@ disease:
     method: foliar spray
     frequency: Single preventive spray at booting stage; repeat once after 10-14 days
       under prolonged humid conditions
-    pre_harvest_interval_days: null
+    pre_harvest_interval_days: 21
+    phi_unverified: true
     regulatory_status: MY_approved
   rotation_partner: Both listed fungicides (propiconazole and hexaconazole) are triazole
     (DMI) compounds with the same mode of action, so alternating between them does not

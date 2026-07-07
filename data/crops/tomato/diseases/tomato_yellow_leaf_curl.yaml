@@ -33,6 +33,7 @@ disease:
     frequency: every 7-10 days when whitefly threshold is exceeded, rotated with a
       different mode of action
     pre_harvest_interval_days: 3
+    phi_unverified: true
     regulatory_status: MY_approved
   - compound: thiamethoxam
     trade_name: Actara 25 WG
@@ -41,6 +42,7 @@ disease:
     frequency: every 7-10 days during whitefly pressure, alternated with non-neonicotinoid
       insecticides to manage resistance
     pre_harvest_interval_days: 3
+    phi_unverified: true
     regulatory_status: MY_approved
   cultural_controls:
   - Plant TYLCV-tolerant or resistant tomato varieties and raise seedlings under insect-proof

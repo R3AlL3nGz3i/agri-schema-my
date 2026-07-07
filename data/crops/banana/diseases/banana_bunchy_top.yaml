@@ -37,14 +37,16 @@ disease:
     method: foliar spray
     frequency: every 14 days while the aphid vector is active; apply before roguing
       infected plants to prevent vector dispersal
-    pre_harvest_interval_days: null
+    pre_harvest_interval_days: 14
+    phi_unverified: true
     regulatory_status: MY_approved
   - compound: thiamethoxam
     trade_name: Actara 25WG
     dosage: 0.2 g per litre water
     method: foliar spray
     frequency: every 14 days, alternated with imidacloprid to manage resistance
-    pre_harvest_interval_days: null
+    pre_harvest_interval_days: 14
+    phi_unverified: true
     regulatory_status: MY_approved
   cultural_controls:
   - Rogue and destroy infected plants completely — kill the plant in situ (e.g. herbicide

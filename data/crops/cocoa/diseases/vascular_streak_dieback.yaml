@@ -36,7 +36,8 @@ disease:
     method: foliar spray
     frequency: Spray the young flush at each new leaf flush, about every 3-4 weeks
       during periods of active flushing and wet weather
-    pre_harvest_interval_days: null
+    pre_harvest_interval_days: 14
+    phi_unverified: true
     regulatory_status: MY_approved
   - compound: copper hydroxide
     trade_name: Kocide 3000
@@ -44,7 +45,8 @@ disease:
     method: foliar spray
     frequency: Protective spray on the new flush every 2-3 weeks during the wet, high-sporulation
       season
-    pre_harvest_interval_days: null
+    pre_harvest_interval_days: 7
+    phi_unverified: true
     regulatory_status: MY_approved
   cultural_controls:
   - 'Sanitation pruning: cut infected branches at least 30 cm below the lowest point

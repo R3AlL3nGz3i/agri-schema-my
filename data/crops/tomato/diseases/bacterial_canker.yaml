@@ -36,14 +36,16 @@ disease:
     method: foliar spray
     frequency: Setiap 7-10 hari sebagai langkah pencegahan/penyekatan, bermula awal
       pertumbuhan
-    pre_harvest_interval_days: null
+    pre_harvest_interval_days: 7
+    phi_unverified: true
     regulatory_status: MY_approved
   - compound: Copper oxychloride
     trade_name: Cupravit OB 21
     dosage: 3g per litre water
     method: foliar spray
     frequency: Setiap 7-10 hari, berselang dengan produk kuprum lain
-    pre_harvest_interval_days: null
+    pre_harvest_interval_days: 7
+    phi_unverified: true
     regulatory_status: MY_approved
   cultural_controls:
   - Guna benih bersijil bebas penyakit; rawat benih dengan air panas (50°C selama

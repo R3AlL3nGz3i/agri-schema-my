@@ -35,7 +35,8 @@ disease:
     method: foliar spray
     frequency: Apply at panicle initiation/early booting; repeat once after 10-14
       days if disease pressure persists
-    pre_harvest_interval_days: null
+    pre_harvest_interval_days: 21
+    phi_unverified: true
     regulatory_status: MY_approved
   - compound: validamycin A
     trade_name: Validacin 3L
@@ -43,7 +44,8 @@ disease:
     method: foliar spray
     frequency: Apply at first appearance of lesions, directed at the lower canopy;
       repeat after 10-14 days if needed
-    pre_harvest_interval_days: null
+    pre_harvest_interval_days: 14
+    phi_unverified: true
     regulatory_status: MY_approved
   rotation_partner: Alternate hexaconazole (Anvil 5SC), a triazole (DMI) fungicide,
     with validamycin A (Validacin 3L), which has a different mode of action, so the
