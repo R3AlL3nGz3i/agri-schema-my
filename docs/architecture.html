@@ -85,6 +85,29 @@
   .ceo ul{margin:12px 0 0;padding-left:18px;color:var(--dim);font-size:13px;}
   .ceo li{margin:5px 0;}
   .ceo li b{color:var(--ink);font-weight:600;}
+  /* validation phases */
+  .ph-lead{color:var(--dim);font-size:13px;margin:0 0 20px;max-width:840px;}
+  .ph-lead b{color:var(--ink);}
+  .half-label{font-size:12px;font-weight:700;letter-spacing:.4px;color:var(--teal);
+    margin:22px 0 12px;text-transform:uppercase;}
+  .half-label .fn{font-family:ui-monospace,Menlo,monospace;font-size:11px;color:var(--dim);
+    text-transform:none;font-weight:400;margin-left:8px;}
+  .phases{display:flex;flex-direction:column;gap:10px;}
+  .phase{display:flex;gap:14px;background:var(--card);border:1px solid var(--line);
+    border-radius:10px;padding:13px 16px;}
+  .phase.key{border-color:var(--reject-b);box-shadow:0 0 0 1px rgba(248,81,73,.35) inset;}
+  .pn{flex:0 0 30px;height:30px;border-radius:50%;background:var(--blue);color:#fff;
+    font-weight:700;font-size:14px;display:flex;align-items:center;justify-content:center;}
+  .phase.key .pn{background:var(--reject-b);}
+  .pt{font-weight:600;font-size:14px;margin-bottom:3px;}
+  .pd{font-size:12.5px;color:var(--dim);line-height:1.55;}
+  .pd code{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--teal);
+    background:rgba(57,197,207,.08);padding:1px 4px;border-radius:4px;}
+  .pd b{color:var(--ink);} .pd i{color:#c9d3de;}
+  .chip{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;
+    background:rgba(248,81,73,.16);color:var(--reject-b);padding:2px 8px;border-radius:10px;margin-left:8px;}
+  ul.rules{margin:8px 0 4px;padding-left:18px;}
+  ul.rules li{margin:4px 0;}
   footer{margin-top:46px;color:var(--dim);font-size:11.5px;text-align:center;
     border-top:1px solid var(--line);padding-top:18px;}
 </style>
@@ -191,6 +214,76 @@
     <div class="callout build">
       <div class="h">Prototype outcome &mdash; source-data-blocked</div>
       <div class="b">654 passages built; only <b>39 (6%)</b> paddy-relevant and <b>0</b> disease-specific dosage/PHI hits. Retrieval returns generic tables at distance&nbsp;&gt;0.66. Verdict: the MARDI BPTM corpus does not carry checkable per-product dosage/PHI facts &mdash; a legitimate, reportable finding, not a code bug. Reviewer caches to <code>data/reviews_grounded/</code> and never mutates source YAML. Tests: <code>test_grounded_review.py</code> (11/11).</div>
+    </div>
+  </section>
+
+  <!-- ============ HOW VALIDATION WORKS ============ -->
+  <section>
+    <h2>How the reviewer validates an entry against the source papers</h2>
+    <p class="ph-lead">The &ldquo;research agent&rdquo; is the Layer&nbsp;2 grounded reviewer; the &ldquo;paper&rdquo; is the MARDI source PDFs. It works in two halves: first turn the papers into searchable evidence, then judge each entry against that evidence. <b>The LLM proposes; the code disposes</b> &mdash; the verdict is enforced in Python, not trusted from the model.</p>
+
+    <div class="half-label">Half A &mdash; turn the papers into evidence</div>
+    <div class="phases">
+      <div class="phase">
+        <div class="pn">1</div>
+        <div class="pc"><div class="pt">Chop the PDF into passages</div>
+          <div class="pd"><code>corpus.py</code> opens each MARDI PDF page-by-page and slices every page into ~500-word chunks (60-word overlap). Each chunk is saved with its <b>real</b> source: <code>{text, source_pdf, page}</code> &mdash; so any citation can say &ldquo;PDF&nbsp;X, p.7&rdquo;.</div></div>
+      </div>
+      <div class="phase">
+        <div class="pn">2</div>
+        <div class="pc"><div class="pt">Index them for search</div>
+          <div class="pd"><code>embedder.py</code> embeds every chunk into a <b>separate</b> vector store <code>mardi_passages</code> &mdash; kept apart from the entries, so the reviewer can never cite itself. <code>query_passages()</code> returns the closest chunks to any query.</div></div>
+      </div>
+    </div>
+
+    <div class="half-label">Half B &mdash; validate one entry against the papers <span class="fn">grounded_review.py</span></div>
+    <div class="phases">
+      <div class="phase">
+        <div class="pn">3</div>
+        <div class="pc"><div class="pt">Build a search query</div>
+          <div class="pd"><code>_build_query()</code> combines crop + disease name + local name + symptoms + chemical compounds into one search string.</div></div>
+      </div>
+      <div class="phase">
+        <div class="pn">4</div>
+        <div class="pc"><div class="pt">Retrieve evidence</div>
+          <div class="pd">Pull the top-k MARDI chunks, labelled <code>[P1]..[Pk]</code>, each tagged with its source PDF + page.</div></div>
+      </div>
+      <div class="phase">
+        <div class="pn">5</div>
+        <div class="pc"><div class="pt">Run the deterministic gate first</div>
+          <div class="pd">Layer&nbsp;1 <code>check_entry()</code> flags hard-rule violations (banned compound, impossible dosage). Those findings are fed into the prompt so the LLM sees them.</div></div>
+      </div>
+      <div class="phase key">
+        <div class="pn">6</div>
+        <div class="pc"><div class="pt">Enumerate the claims that MUST be proven <span class="chip">key trick</span></div>
+          <div class="pd"><code>_safety_claims()</code> &mdash; the <b>code, not the LLM</b> &mdash; reads the YAML and lists every safety-critical fact: each treatment&rsquo;s <b>dosage</b>, <b>pre-harvest interval</b>, and <b>registration status</b>. The model cannot dodge scrutiny by quietly omitting a claim, because the list comes from the data itself.</div></div>
+      </div>
+      <div class="phase">
+        <div class="pn">7</div>
+        <div class="pc"><div class="pt">Ask the LLM to ground each claim</div>
+          <div class="pd">For every listed claim the reviewer must either point to a real passage &mdash; <code>grounding: {passage_id, quote: "&le;25 words verbatim"}</code> &mdash; or mark <code>supported: false, grounding: null</code>. Rule it is given: <i>&ldquo;Your own knowledge does NOT count as support &mdash; only the passages do.&rdquo;</i></div></div>
+      </div>
+      <div class="phase key">
+        <div class="pn">8</div>
+        <div class="pc"><div class="pt">Enforce the verdict in code <span class="chip">validation</span></div>
+          <div class="pd">After the LLM answers, Python independently re-checks each required claim. A claim counts as <b>grounded only if</b>: the model said <code>supported:true</code> <b>AND</b> cited a passage that was actually retrieved <b>AND</b> included a non-empty quote. Then it <b>overrides</b> the verdict:
+            <ul class="rules">
+              <li>PASS but any dosage/PHI/registration claim ungrounded &rarr; auto-downgrade to <b>FLAG</b></li>
+              <li>No passages retrieved at all &rarr; <b>FLAG</b></li>
+              <li>LLM cites a fake passage id (e.g. <code>P9</code> not retrieved) &rarr; ungrounded &rarr; <b>FLAG</b></li>
+            </ul>
+            A PASS is only possible when every safety fact is backed by a real, quoted line from a real MARDI page.</div></div>
+      </div>
+      <div class="phase">
+        <div class="pn">9</div>
+        <div class="pc"><div class="pt">Cache, don&rsquo;t mutate</div>
+          <div class="pd"><code>review_paddy()</code> writes the verdict to <code>data/reviews_grounded/</code> and never touches the source YAML &mdash; fully reversible.</div></div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <div class="h">In one line</div>
+      <div class="b">It validates by forcing every dosage / PHI / registration number in an entry to be backed by a <b>verbatim quote from a real MARDI page</b>, and downgrades the verdict in code whenever that proof is missing &mdash; so the system flags rather than fabricates.</div>
     </div>
   </section>
 
