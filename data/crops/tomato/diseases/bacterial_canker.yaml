@@ -36,7 +36,8 @@ disease:
     method: foliar spray
     frequency: Setiap 7-10 hari sebagai langkah pencegahan/penyekatan, bermula awal
       pertumbuhan
-    pre_harvest_interval_days: 7
+    pre_harvest_interval_days: 1
+    phi_source: 'APVMA/US EPA copper fungicide labels: 0-1 day PHI on tomato (contact inorganic). Foreign source, NOT a Malaysian DOA/LPRMP label.'
     phi_unverified: true
     regulatory_status: MY_approved
   - compound: Copper oxychloride
@@ -44,7 +45,8 @@ disease:
     dosage: 3g per litre water
     method: foliar spray
     frequency: Setiap 7-10 hari, berselang dengan produk kuprum lain
-    pre_harvest_interval_days: 7
+    pre_harvest_interval_days: 1
+    phi_source: 'APVMA/US EPA copper fungicide labels: 0-1 day PHI on tomato (contact inorganic). Foreign source, NOT a Malaysian DOA/LPRMP label.'
     phi_unverified: true
     regulatory_status: MY_approved
   cultural_controls:

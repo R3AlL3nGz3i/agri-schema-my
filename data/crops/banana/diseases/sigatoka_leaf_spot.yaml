@@ -33,7 +33,8 @@ disease:
     method: foliar spray
     frequency: Setiap 7-14 hari mengikut tekanan penyakit, lebih kerap pada musim
       hujan
-    pre_harvest_interval_days: 14
+    pre_harvest_interval_days: 7
+    phi_source: 'APVMA (Australia) label: mancozeb PHI on banana in the 1-7 day range; conservative end (7d) chosen. Foreign source, NOT a Malaysian DOA/LPRMP label.'
     phi_unverified: true
     regulatory_status: MY_approved
   - compound: propiconazole
@@ -42,7 +43,8 @@ disease:
     method: foliar spray
     frequency: Setiap 14-21 hari, berselang-seli dengan racun kulat protektan untuk
       elak rintangan
-    pre_harvest_interval_days: 21
+    pre_harvest_interval_days: 1
+    phi_source: 'APVMA (Australia) label: 1-day PHI for propiconazole on banana. Foreign source, NOT a Malaysian DOA/LPRMP label.'
     phi_unverified: true
     regulatory_status: MY_approved
   cultural_controls:

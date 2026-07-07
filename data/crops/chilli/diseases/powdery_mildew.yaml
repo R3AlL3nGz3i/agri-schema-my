@@ -35,7 +35,8 @@ disease:
     dosage: 2.5 g per litre water
     method: foliar spray
     frequency: every 7-10 days while disease pressure persists
-    pre_harvest_interval_days: 7
+    pre_harvest_interval_days: 0
+    phi_source: 'US EPA / APVMA: elemental sulphur has a 0-day PHI (exempt, contact mineral). Foreign source, NOT a Malaysian DOA/LPRMP label.'
     phi_unverified: true
     regulatory_status: MY_approved
   - compound: hexaconazole (50 g/L SC)

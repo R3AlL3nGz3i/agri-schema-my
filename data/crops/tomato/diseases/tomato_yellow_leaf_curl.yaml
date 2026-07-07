@@ -33,6 +33,7 @@ disease:
     frequency: every 7-10 days when whitefly threshold is exceeded, rotated with a
       different mode of action
     pre_harvest_interval_days: 3
+    phi_source: 'APVMA (Australia) product label: 3-day PHI for imidacloprid on tomato. Foreign source, NOT a Malaysian DOA/LPRMP label.'
     phi_unverified: true
     regulatory_status: MY_approved
   - compound: thiamethoxam

@@ -156,6 +156,20 @@ absence is caught deterministically in Layer 1:
 1. **Source of truth for registration + banned list + MRLs.** Needs a maintained
    reference dataset (DOA/Lembaga Racun Makhluk Perosak, Codex/EU MRLs). Where
    does it come from, and how often is it refreshed?
+
+   > **Finding (2026-07-07): PHI data is not publicly available for Malaysia.**
+   > Two research passes confirmed no Malaysia-specific pre-harvest interval can be
+   > sourced from the open web: the DOA / Lembaga Racun Makhluk Perosak registries
+   > (`mypesticide.doa.gov.my`, `portal.doa.gov.my/racunberdaftar`) are login-gated
+   > and do not expose per-product PHI, and Malaysia's Food Regulations 1985
+   > (Sixteenth Schedule) publishes **MRLs** (residue limits, mg/kg), which are
+   > legally distinct from PHIs (days-to-harvest). Best available evidence is
+   > **foreign labels** (Australian APVMA, US EPA) — Tier C, not MY-authoritative.
+   > Interim policy: foreign-label PHIs may be written with a `phi_source` citation
+   > but MUST keep `phi_unverified: true` until validated against a real Malaysian
+   > label. Never record regulatory data as authoritative without a MY source.
+   > A logged-in `mypesticide.doa.gov.my` pull or physical DOA product labels are
+   > the only paths to Tier-A PHI.
 2. **Retrieval corpus for Layer 2.** MARDI/DOA PDFs are already scraped
    (`pipeline/scraper.py`); do we have clean passage-level text to quote from?
 3. **Judge ensemble cost.** ≥2 models × N runs multiplies API spend — acceptable
