@@ -1,0 +1,27 @@
+# STUB — NOT AUTHORITATIVE.
+# Pending verification against the Malaysian Pesticides Board
+# (Lembaga Racun Makhluk Perosak) banned / withdrawn list.
+#
+# A compound listed under `banned` yields a hard REJECT in the Layer 1 gate
+# (see REVIEW_GATE_DESIGN.md §4). This is a denylist: a hit is always valid
+# even while the list is incomplete, so it is safe to enforce now.
+# `restricted` yields a FLAG (must review before publish).
+#
+# Names are matched case-insensitively against treatment.compound.
+status: stub
+
+banned:
+  - name: Paraquat
+    reason: severely restricted / periodically banned for acute toxicity
+  - name: Monocrotophos
+    reason: WHO Class Ib organophosphate, banned in many jurisdictions
+  - name: Methamidophos
+    reason: highly hazardous organophosphate
+  - name: Methyl parathion
+    reason: WHO Class Ia, withdrawn
+  - name: Endosulfan
+    reason: Stockholm Convention POP, phased out
+
+restricted:
+  - name: Chlorpyrifos
+    reason: EU-withdrawn; residue/export risk — confirm approved use pattern

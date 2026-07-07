@@ -1,0 +1,16 @@
+# STUB — NOT AUTHORITATIVE.
+# Pending DOA / Lembaga Racun Makhluk Perosak registration data
+# (compound approved for a specific crop-disease use).
+#
+# While `status` != authoritative the registration check is DISABLED: an
+# incomplete allowlist cannot distinguish "unregistered" from "not yet
+# catalogued", so enforcing it would false-reject valid entries.
+#
+# Flip `status` to `authoritative` once the registry is complete. The Layer 1
+# gate will then REJECT any treatment whose compound is not in the approved
+# list for its crop (see REVIEW_GATE_DESIGN.md §4). Off-label use is illegal.
+status: stub
+
+# approved:
+#   paddy: [Tricyclazole, Isoprothiolane, Azoxystrobin]
+approved: {}

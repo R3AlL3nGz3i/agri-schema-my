@@ -98,6 +98,19 @@ def phase_validate():
     return results
 
 
+def phase_compliance():
+    from pipeline.compliance import check_all, print_report
+    logger.info("=== COMPLIANCE: Layer 1 deterministic gate ===")
+
+    summary = check_all()
+    print_report(summary)
+    logger.info(
+        f"Compliance -> PASS: {len(summary['PASS'])}  "
+        f"FLAG: {len(summary['FLAG'])}  REJECT: {len(summary['REJECT'])}"
+    )
+    return summary
+
+
 def phase_review():
     from pipeline.professor_agent import review_all_entries, print_report
     logger.info("=== REVIEW: professor agent ===")
@@ -121,10 +134,11 @@ if __name__ == "__main__":
     parser.add_argument("--scrape",   action="store_true", help="Download MARDI PDFs + extract text")
     parser.add_argument("--seed",     action="store_true", help="Generate seed entries from Claude knowledge")
     parser.add_argument("--extract",  action="store_true", help="Claude CLI extraction from raw PDF text")
-    parser.add_argument("--validate", action="store_true", help="Schema validation")
-    parser.add_argument("--review",   action="store_true", help="Professor agent review")
-    parser.add_argument("--embed",    action="store_true", help="Ingest into ChromaDB")
-    parser.add_argument("--all",      action="store_true", help="Run full pipeline (seed + validate + review + embed)")
+    parser.add_argument("--validate",   action="store_true", help="Schema validation")
+    parser.add_argument("--compliance", action="store_true", help="Layer 1 deterministic compliance gate")
+    parser.add_argument("--review",     action="store_true", help="Professor agent review")
+    parser.add_argument("--embed",      action="store_true", help="Ingest into ChromaDB")
+    parser.add_argument("--all",        action="store_true", help="Run full pipeline (seed + validate + compliance + review + embed)")
     args = parser.parse_args()
 
     ran_any = False
@@ -143,6 +157,10 @@ if __name__ == "__main__":
 
     if args.all or args.validate:
         phase_validate()
+        ran_any = True
+
+    if args.all or args.compliance:
+        phase_compliance()
         ran_any = True
 
     if args.all or args.review:

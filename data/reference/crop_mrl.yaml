@@ -1,0 +1,22 @@
+# STUB — NOT AUTHORITATIVE.
+# Pending Codex / EU / Malaysian Food Regulations 1985 MRLs and DOA per-crop
+# pre-harvest-interval guidance.
+#
+# `min_phi_days` is the minimum pre-harvest interval a treatment must state to
+# plausibly clear residue limits. The Layer 1 gate FLAGs food-crop treatments
+# whose PHI is missing or below this minimum (see REVIEW_GATE_DESIGN.md §4).
+# Non-food crops (rubber, oil palm) are exempt from the PHI check.
+status: stub
+
+food_crops: [paddy, chilli, chili, tomato, banana, durian, cocoa, sayuran, vegetable]
+non_food_crops: [rubber, oil_palm, oilpalm]
+
+default_min_phi_days: 7
+
+crops:
+  paddy:  { min_phi_days: 14 }
+  chilli: { min_phi_days: 7 }
+  tomato: { min_phi_days: 7 }
+  durian: { min_phi_days: 14 }
+  banana: { min_phi_days: 7 }
+  cocoa:  { min_phi_days: 7 }
