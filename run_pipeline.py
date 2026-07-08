@@ -155,6 +155,22 @@ def phase_doa_ingest():
     return summary
 
 
+def phase_mymrl_fetch():
+    """Crawl the PUBLIC mymrl.doa.gov.my residue portal into a DOA-shaped CSV
+    (not in --all — it is a live network crawl). Output has no registration_no,
+    so a subsequent --doa-ingest stays `draft`, never authoritative."""
+    from pipeline.mymrl_fetcher import crawl
+    logger.info("=== MYMRL FETCH: crawl DOA public residue portal ===")
+
+    summary = crawl(limit=None)
+    logger.info(
+        f"mymrl fetch -> {summary['rows']} rows from "
+        f"{summary['ais_crawled'] - summary['ais_failed']}/{summary['ais_crawled']} AIs "
+        f"({summary['out_csv']}). Run --doa-ingest next (stays draft)."
+    )
+    return summary
+
+
 def _build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="AgriSchema-MY pipeline")
     parser.add_argument("--scrape",   action="store_true", help="Download MARDI PDFs + extract text")
@@ -165,6 +181,7 @@ def _build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--review",     action="store_true", help="Professor agent review")
     parser.add_argument("--embed",      action="store_true", help="Ingest into ChromaDB")
     parser.add_argument("--grounded-review", action="store_true", help="Layer 2 retrieval-grounded review (paddy prototype)")
+    parser.add_argument("--mymrl-fetch", action="store_true", help="Crawl the public mymrl.doa.gov.my residue portal into a DOA-shaped CSV")
     parser.add_argument("--doa-ingest", action="store_true", help="Ingest a DOA registration export into the reference registry")
     parser.add_argument("--all",        action="store_true", help="Run full pipeline (seed + validate + compliance + review + embed)")
     return parser
@@ -226,6 +243,10 @@ def main(argv=None) -> int:
 
     if args.grounded_review:
         phase_grounded_review()
+        ran_any = True
+
+    if args.mymrl_fetch:
+        phase_mymrl_fetch()
         ran_any = True
 
     if args.doa_ingest:

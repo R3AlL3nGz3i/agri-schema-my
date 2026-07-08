@@ -1,0 +1,19 @@
+# Crop-slug <-> DOA commodity map.
+#
+# AgriSchema-MY keys crops by English slug (data/crops/<slug>/). The DOA residue
+# portal (mymrl.doa.gov.my) keys its PHI/MRL facts by Malay food-commodity name.
+# This map lets the registry audit reconcile the two so mymrl's pre-harvest
+# interval (TDMH) facts can be checked against KB treatment entries.
+#
+# One slug may cover several commodity spellings/variants. A slug with NO mymrl
+# commodity (e.g. rubber — not a food crop) simply has no residue record there;
+# that is expected, not a gap.
+map:
+  banana: [Pisang]
+  chilli: [Cili]
+  cocoa: [Biji Koko]
+  durian: [Durian]
+  oil_palm: [Minyak Kelapa Sawit]
+  paddy: [Beras Kilang]
+  tomato: [Tomato]
+  # rubber: intentionally unmapped — not a food commodity in mymrl.

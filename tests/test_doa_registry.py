@@ -162,6 +162,39 @@ def test_audit_reconciles_entries():
     assert by_comp["Mancozeb"] == "off_label_or_uncatalogued"
 
 
+def test_commodity_map_reconciles_malay_commodities():
+    """DOA facts keyed by Malay commodity ('Beras Kilang') must reconcile against
+    a slug-keyed KB entry ('paddy') once the crop-commodity map is supplied."""
+    out = _tmp()
+    # Registry product uses the Malay commodity name, as mymrl emits.
+    rows = [["Tricyclazole", "Beam 75WP", "Beras Kilang", "rice blast", "0.5 g/L",
+             "30", "", "listed", "https://mymrl.doa.gov.my/AIs/1", "2026-07-08"]]
+    src = out / "raw.csv"
+    _write_csv(src, rows)
+    dr.ingest_doa_registry(src, out_dir=out)
+
+    data = _tmp()
+    d = data / "crops" / "paddy" / "diseases"
+    d.mkdir(parents=True)
+    (d / "x.yaml").write_text(yaml.dump(_entry("Tricyclazole")), encoding="utf-8")
+
+    cmap = out / "crop_commodity_map.yaml"
+    cmap.write_text(yaml.dump({"map": {"paddy": ["Beras Kilang"]}}), encoding="utf-8")
+
+    # Without the map: Malay commodity != 'paddy' slug -> uncatalogued.
+    a0 = dr.audit_entries_against_registry(
+        data_dir=data, products_path=out / dr.PRODUCTS_OUT, commodity_map_path=out / "absent.yaml")
+    assert a0["findings"][0]["status"] == "off_label_or_uncatalogued"
+
+    # With the map: reconciles as registered and exposes the PHI (14 vs 30).
+    a1 = dr.audit_entries_against_registry(
+        data_dir=data, products_path=out / dr.PRODUCTS_OUT, commodity_map_path=cmap)
+    f = a1["findings"][0]
+    assert f["status"] == "registered"
+    assert f["registry_phi"] == "30" and f["entry_phi"] == "21"
+    assert f["phi_match"] is False       # KB 21 != DOA 30 -> mismatch surfaced
+
+
 if __name__ == "__main__":
     import traceback
     tests = [v for k, v in sorted(globals().items()) if k.startswith("test_")]

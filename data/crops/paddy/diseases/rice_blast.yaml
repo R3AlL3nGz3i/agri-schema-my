@@ -25,7 +25,10 @@ disease:
     dosage: 0.5g per litre water
     method: foliar spray
     frequency: twice weekly for 2 weeks at first sign of infection
-    pre_harvest_interval_days: 14
+    pre_harvest_interval_days: 30
+    phi_source: 'DOA Malaysia residue registry (mymrl.doa.gov.my): 30-day TDMH
+      (Tempoh Dilarang Mengutip Hasil / pre-harvest interval) for Tricyclazole
+      on Beras Kilang (milled rice). Authoritative MY government source.'
     regulatory_status: MY_approved
   - compound: Isoprothiolane
     trade_name: Fuji-One 40EC
@@ -47,13 +50,13 @@ disease:
     the same product; Isoprothiolane (Fuji-One 40EC) can also be alternated in the programme.
   application: Apply at the first sign of infection (or preventively for Azoxystrobin,
     before symptom onset) as a foliar spray, following the stated frequency for each
-    product, and observe the 14-21 day pre-harvest interval. Spray in the early morning
+    product, and observe the 14-30 day pre-harvest interval. Spray in the early morning
     or late afternoon, avoid spraying before rain, observe the stated spray interval,
     and wear PPE (gloves, mask, long sleeves) when mixing and applying.
   instructions_bm: Perhatikan lesi berbentuk wajik berwarna kelabu pada daun; sembur
     sebaik tanda pertama muncul dan silih gantikan racun (contohnya Tricyclazole dengan
     Azoxystrobin) untuk elak kerintangan. Sembur pada awal pagi atau lewat petang, elakkan
-    sebelum hujan, patuhi tempoh pra-tuai 14-21 hari, dan pakai sarung tangan, penutup
+    sebelum hujan, patuhi tempoh pra-tuai 14-30 hari, dan pakai sarung tangan, penutup
     muka serta lengan panjang.
   cultural_controls:
   - Use certified disease-free seed and plant blast-resistant/tolerant varieties recommended
@@ -67,7 +70,7 @@ disease:
   - Jabatan Pertanian Pekeliling Teknikal BIL.3/2021 — Kawalan Penyakit Utama Padi
   - FAO AGROVOC concept rice_blast (agrovoc.fao.org)
   confidence_score: 0.72
-  last_updated: '2026-05-20'
+  last_updated: '2026-07-08'
 professor_review:
   verdict: FLAG
   date: '2026-06-12'

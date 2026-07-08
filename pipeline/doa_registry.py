@@ -40,6 +40,8 @@ _DATA_DIR = _PROJECT_ROOT / "data"
 DEFAULT_SOURCE = _REF_DIR / "sources" / "doa_registry_raw.csv"
 REGISTRY_OUT = "registered_compounds.yaml"
 PRODUCTS_OUT = "doa_products.yaml"
+# Maps KB crop slugs <-> DOA (mymrl) Malay commodity names for reconciliation.
+COMMODITY_MAP = "crop_commodity_map.yaml"
 
 # Columns the export must provide (one row per registered product-crop use).
 REQUIRED_COLUMNS = (
@@ -188,13 +190,37 @@ def _write_yaml(path: Path, data: dict, header: str = ""):
     path.write_text(header + body, encoding="utf-8")
 
 
+def load_commodity_to_slug(map_path: Path = None) -> dict[str, str]:
+    """Reverse the crop-slug map into {normalized DOA commodity -> KB slug}.
+
+    Used to translate mymrl's Malay commodity names to KB crop slugs so the
+    audit can reconcile them. Missing map file -> {} (audit falls back to raw
+    commodity names, i.e. pre-map behavior).
+    """
+    if map_path is None:
+        map_path = _REF_DIR / COMMODITY_MAP
+    map_path = Path(map_path)
+    if not map_path.exists():
+        return {}
+    data = yaml.safe_load(map_path.read_text(encoding="utf-8")) or {}
+    reverse: dict[str, str] = {}
+    for slug, commodities in (data.get("map") or {}).items():
+        for commodity in (commodities or []):
+            reverse[_norm(commodity)] = _norm(slug)
+    return reverse
+
+
 def audit_entries_against_registry(data_dir: Path = _DATA_DIR,
-                                   products_path: Path = None) -> dict:
+                                   products_path: Path = None,
+                                   commodity_map_path: Path = None) -> dict:
     """
     Reconcile existing KB entries against the DOA product facts. Reports, per
     treatment: registered / off-label, and dosage/PHI match vs mismatch vs
     missing. This is what independently validates the seed-generated facts and
     surfaces unsupported source_citations. Read-only; mutates nothing.
+
+    DOA facts are keyed by Malay commodity name; the crop-slug map translates
+    them to KB slugs so slug-keyed KB entries reconcile (unmapped -> raw name).
     """
     data_dir = Path(data_dir)
     if products_path is None:
@@ -203,11 +229,14 @@ def audit_entries_against_registry(data_dir: Path = _DATA_DIR,
     if not products_path.exists():
         return {"available": False, "reason": f"{products_path} not found — run ingest first"}
 
+    commodity_to_slug = load_commodity_to_slug(commodity_map_path)
     pdata = yaml.safe_load(products_path.read_text(encoding="utf-8")) or {}
-    # Index facts by (crop, compound) -> row.
+    # Index facts by (crop-slug, compound) -> row; translate Malay commodity via map.
     index: dict[tuple, dict] = {}
     for p in pdata.get("products", []):
-        index[(_norm(p.get("crop")), _norm(p.get("compound")))] = p
+        crop_key = _norm(p.get("crop"))
+        crop_key = commodity_to_slug.get(crop_key, crop_key)
+        index[(crop_key, _norm(p.get("compound")))] = p
 
     findings = []
     for yaml_file in sorted(data_dir.glob("crops/**/diseases/*.yaml")):

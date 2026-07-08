@@ -32,9 +32,11 @@ disease:
     method: foliar spray
     frequency: every 7-10 days when whitefly threshold is exceeded, rotated with a
       different mode of action
-    pre_harvest_interval_days: 3
-    phi_source: 'APVMA (Australia) product label: 3-day PHI for imidacloprid on tomato. Foreign source, NOT a Malaysian DOA/LPRMP label.'
-    phi_unverified: true
+    pre_harvest_interval_days: 7
+    phi_source: 'DOA Malaysia residue registry (mymrl.doa.gov.my): 7-day TDMH
+      (Tempoh Dilarang Mengutip Hasil / pre-harvest interval) for imidacloprid
+      on tomato. Authoritative MY government source (supersedes prior APVMA
+      3-day foreign-label estimate).'
     regulatory_status: MY_approved
   - compound: thiamethoxam
     trade_name: Actara 25 WG
@@ -60,13 +62,15 @@ disease:
   application: Spray the listed insecticides against the whitefly vector, not as a cure
     for the virus, and only when the whitefly threshold is exceeded. Spray in the early
     morning or late afternoon and not just before rain, keep to the stated 7-10 day interval,
-    and observe the 3-day pre-harvest interval. Rotate with a different mode of action to
+    and observe the pre-harvest interval (7 days for imidacloprid, 3 days for thiamethoxam).
+    Rotate with a different mode of action to
     manage resistance, and wear gloves, a mask and long sleeves when mixing and spraying.
   instructions_bm: Penyakit virus ini disebarkan lalat putih dan tiada ubat penyembuh —
     guna varieti tahan, semai anak benih di bawah jaring kalis serangga, dan cabut serta
     musnahkan pokok berjangkit awal. Sembur racun lalat putih hanya bila bilangannya
     melebihi ambang, silih dengan mod tindakan berbeza, pada waktu pagi atau lewat petang
-    dan bukan sebelum hujan; patuhi tempoh pra-tuai 3 hari. Pakai sarung tangan, penutup
+    dan bukan sebelum hujan; patuhi tempoh pra-tuai (7 hari untuk imidacloprid, 3 hari
+    untuk thiamethoxam). Pakai sarung tangan, penutup
     mulut dan lengan panjang.
   source_citations:
   - MARDI - Pakej Teknologi Penanaman Tomato (tomato cultivation and crop protection
@@ -74,7 +78,7 @@ disease:
   - Department of Agriculture Malaysia (DOA) - crop pest and disease management guidelines
     for tomato; FAO begomovirus / whitefly vector management references
   confidence_score: 0.74
-  last_updated: '2026-05-21'
+  last_updated: '2026-07-08'
 _source_file: seed_generator
 professor_review:
   verdict: FLAG
