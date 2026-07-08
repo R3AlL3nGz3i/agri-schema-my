@@ -35,8 +35,10 @@ disease:
     method: foliar spray
     frequency: Apply at panicle initiation/early booting; repeat once after 10-14
       days if disease pressure persists
-    pre_harvest_interval_days: 21
-    phi_unverified: true
+    pre_harvest_interval_days: 14
+    phi_source: 'DOA Malaysia residue registry (mymrl.doa.gov.my): 14-day TDMH
+      (Tempoh Dilarang Mengutip Hasil / pre-harvest interval) for hexaconazole
+      on Beras Kilang (milled rice). Authoritative MY government source.'
     regulatory_status: MY_approved
   - compound: validamycin A
     trade_name: Validacin 3L
@@ -72,7 +74,7 @@ disease:
   - Department of Agriculture (DOA) Malaysia pest and disease guidelines for rice;
     IRRI Rice Knowledge Bank - Sheath blight (secondary reference)
   confidence_score: 0.72
-  last_updated: '2026-05-20'
+  last_updated: '2026-07-08'
 _source_file: seed_generator
 professor_review:
   verdict: FLAG

@@ -35,7 +35,10 @@ disease:
     dosage: 1.5ml per litre water
     method: foliar spray
     frequency: apply at tillering and panicle initiation
-    pre_harvest_interval_days: 21
+    pre_harvest_interval_days: 14
+    phi_source: 'DOA Malaysia residue registry (mymrl.doa.gov.my): 14-day TDMH
+      (Tempoh Dilarang Mengutip Hasil / pre-harvest interval) for Isoprothiolane
+      on Beras Kilang (milled rice). Authoritative MY government source.'
     regulatory_status: MY_approved
   - compound: Azoxystrobin
     trade_name: Amistar 25SC
