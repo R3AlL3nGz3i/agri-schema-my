@@ -23,6 +23,13 @@ disease:
   - compound: Tricyclazole
     trade_name: Beam 75WP
     dosage: 0.5g per litre water
+    dosage_grounding:
+      verified: false
+      note: AI-generated agronomic estimate, not the DOA-registered label dose (the
+        authoritative source mypesticide.doa.gov.my is login-gated). Verify the rate
+        on the product label before mixing or spraying.
+      doa_residue_reference: 'Tricyclazole registered on Beras Kilang in mymrl.doa.gov.my/AIs/121;
+        portal grounds the 30-day PHI but publishes no label dose.'
     method: foliar spray
     frequency: twice weekly for 2 weeks at first sign of infection
     pre_harvest_interval_days: 30
@@ -33,6 +40,13 @@ disease:
   - compound: Isoprothiolane
     trade_name: Fuji-One 40EC
     dosage: 1.5ml per litre water
+    dosage_grounding:
+      verified: false
+      note: AI-generated agronomic estimate, not the DOA-registered label dose (the
+        authoritative source mypesticide.doa.gov.my is login-gated). Verify the rate
+        on the product label before mixing or spraying.
+      doa_residue_reference: 'Isoprothiolane registered on Beras Kilang in mymrl.doa.gov.my/AIs/135;
+        portal grounds the 14-day PHI but publishes no label dose.'
     method: foliar spray
     frequency: apply at tillering and panicle initiation
     pre_harvest_interval_days: 14
@@ -43,6 +57,14 @@ disease:
   - compound: Azoxystrobin
     trade_name: Amistar 25SC
     dosage: 1ml per litre water
+    dosage_grounding:
+      verified: false
+      note: AI-generated agronomic estimate, not the DOA-registered label dose (the
+        authoritative source mypesticide.doa.gov.my is login-gated). Verify the rate
+        on the product label before mixing or spraying.
+      doa_residue_reference: 'Azoxystrobin registered on Beras Kilang in mymrl.doa.gov.my/AIs/10
+        (product BM DIFENAZO); portal lists a spray-rate figure without per-litre units,
+        not a label dose, and grounds the 14-day PHI.'
     method: foliar spray
     frequency: preventive — apply before symptom onset
     pre_harvest_interval_days: 14

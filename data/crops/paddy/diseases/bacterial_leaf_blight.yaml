@@ -36,6 +36,15 @@ disease:
       L spray solution per hectare), with no more than 2-3 applications per season
       to avoid phytotoxicity and soil copper accumulation. They do NOT cure established
       infection.
+    dosage_grounding:
+      verified: false
+      note: AI-generated agronomic estimate, not a DOA-registered label dose (the
+        authoritative source mypesticide.doa.gov.my is login-gated). Verify any copper
+        product rate on its label before mixing or spraying.
+      doa_residue_reference: 'Copper hydroxide/oxychloride have no Beras Kilang residue
+        record in mymrl.doa.gov.my; this suppressive copper rate is not grounded in
+        a public DOA source. BLB has no curative chemical — rely on resistant varieties
+        and sanitation.'
     method: Preventive foliar application if used; direct spray at leaf canopy. Primary
       management must rely on resistant varieties and cultural practices.
     frequency: Preventive only — at canopy closure or early tillering in high-risk

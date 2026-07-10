@@ -29,6 +29,14 @@ disease:
       canopy dieback and defoliation, leading to tree collapse and death.
   treatments:
   - compound: Fosetyl-aluminium
+    dosage_grounding:
+      verified: false
+      note: AI-generated agronomic estimate, not the DOA-registered label dose (the
+        authoritative source mypesticide.doa.gov.my is login-gated). Verify the rate
+        on the product label before mixing or spraying.
+      doa_residue_reference: 'No Durian residue record for fosetyl-aluminium in mymrl.doa.gov.my;
+        applied as a bark paint on the excised lesion, not to the harvested fruit,
+        so no DOA dose or PHI applies.'
     trade_name: Aliette 80 WP
     dosage: 2.5 g per litre water for foliar spray; for canker treatment, 10 g per
       100 ml water applied as a paste painted onto the scraped lesion
@@ -39,6 +47,14 @@ disease:
     phi_not_applicable: true
     phi_not_applicable_reason: "Bark paint on the excised trunk lesion; fruit is not in contact, no residue on the harvested fruit."
   - compound: Metalaxyl-M (mefenoxam) + mancozeb
+    dosage_grounding:
+      verified: false
+      note: AI-generated agronomic estimate, not the DOA-registered label dose (the
+        authoritative source mypesticide.doa.gov.my is login-gated). Verify the rate
+        on the product label before mixing or spraying.
+      doa_residue_reference: 'Metalaxyl is registered on Durian in mymrl.doa.gov.my/AIs/86
+        (21-day PHI for fruit use); this entry is a root-zone soil drench, so the harvest
+        interval does not apply and the figure here is not a DOA label dose.'
     trade_name: Ridomil Gold MZ 68 WG
     dosage: 2 g per litre water applied as a soil drench around the root zone, approximately
       5-10 litres of solution per mature tree

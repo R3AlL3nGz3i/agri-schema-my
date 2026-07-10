@@ -34,6 +34,14 @@ disease:
       dark vascular and rhizome rot, plant death; bunch fails to fill or aborts
   treatments:
   - compound: Trichoderma harzianum (biocontrol — suppressant only, not curative)
+    dosage_grounding:
+      verified: false
+      note: AI-generated agronomic estimate, not the DOA-registered label dose (the
+        authoritative source mypesticide.doa.gov.my is login-gated). Verify the rate
+        on the product label before mixing or spraying.
+      doa_residue_reference: 'Trichoderma harzianum is a biological antagonist with
+        no residue record in mymrl.doa.gov.my; applied to soil at planting, not to
+        the harvested fruit, so no DOA dose or PHI applies.'
     trade_name: null
     dosage: 50 g per planting hole mixed with soil at planting; or 10 g per litre
       water as soil drench applied at the base of the mat every 3-4 months as a suppressive
@@ -46,6 +54,14 @@ disease:
     phi_not_applicable: true
     phi_not_applicable_reason: "Soil incorporation / biocontrol applied at planting; no residue on the harvested fruit."
   - compound: Propiconazole (corm dip — preventive planting treatment only)
+    dosage_grounding:
+      verified: false
+      note: AI-generated agronomic estimate, not the DOA-registered label dose (the
+        authoritative source mypesticide.doa.gov.my is login-gated). Verify the rate
+        on the product label before mixing or spraying.
+      doa_residue_reference: 'Propiconazole is registered on Pisang (banana) in mymrl.doa.gov.my/AIs/100
+        (1-day PHI for foliar/fruit use); this entry is a pre-planting corm dip, so
+        the harvest interval does not apply and the figure here is not a DOA label dose.'
     trade_name: Tilt 250EC
     dosage: 1 ml per litre water; immerse pared corms or suckers for 30 minutes before
       planting. Preventive only — has no curative activity on established infection.

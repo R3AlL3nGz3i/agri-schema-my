@@ -32,6 +32,13 @@ disease:
       symptoms
   treatments:
   - compound: imidacloprid
+    dosage_grounding:
+      verified: false
+      note: AI-generated agronomic estimate, not the DOA-registered label dose (the
+        authoritative source mypesticide.doa.gov.my is login-gated). Verify the rate
+        on the product label before mixing or spraying.
+      doa_residue_reference: 'No Pisang (banana) residue record for imidacloprid in
+        mymrl.doa.gov.my; neither dose nor PHI is grounded in a public DOA source.'
     trade_name: Confidor 200SL
     dosage: 0.5 ml per litre water
     method: foliar spray
@@ -41,6 +48,13 @@ disease:
     phi_unverified: true
     regulatory_status: MY_approved
   - compound: thiamethoxam
+    dosage_grounding:
+      verified: false
+      note: AI-generated agronomic estimate, not the DOA-registered label dose (the
+        authoritative source mypesticide.doa.gov.my is login-gated). Verify the rate
+        on the product label before mixing or spraying.
+      doa_residue_reference: 'No Pisang (banana) residue record for thiamethoxam in
+        mymrl.doa.gov.my; neither dose nor PHI is grounded in a public DOA source.'
     trade_name: Actara 25WG
     dosage: 0.2 g per litre water
     method: foliar spray

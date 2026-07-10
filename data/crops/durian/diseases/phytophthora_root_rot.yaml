@@ -33,6 +33,14 @@ disease:
       fruit rot on remaining crop
   treatments:
   - compound: Phosphorous acid (potassium phosphonate)
+    dosage_grounding:
+      verified: false
+      note: AI-generated agronomic estimate, not the DOA-registered label dose (the
+        authoritative source mypesticide.doa.gov.my is login-gated). Verify the rate
+        on the product label before mixing or spraying.
+      doa_residue_reference: 'No Durian residue record for phosphorous acid / phosphonate
+        in mymrl.doa.gov.my; applied by trunk injection, not to the harvested fruit,
+        so no DOA dose or PHI applies.'
     trade_name: null
     dosage: 20% phosphonic acid solution; 20 ml injected per metre of canopy diameter
     method: trunk injection
@@ -42,6 +50,14 @@ disease:
     phi_not_applicable: true
     phi_not_applicable_reason: "Trunk injection; systemic in trunk/roots, no canopy or fruit residue."
   - compound: Fosetyl-aluminium
+    dosage_grounding:
+      verified: false
+      note: AI-generated agronomic estimate, not the DOA-registered label dose (the
+        authoritative source mypesticide.doa.gov.my is login-gated). Verify the rate
+        on the product label before mixing or spraying.
+      doa_residue_reference: 'No Durian residue record for fosetyl-aluminium in mymrl.doa.gov.my;
+        applied as a root-zone soil drench, not to the harvested fruit, so no DOA dose
+        or PHI applies.'
     trade_name: Aliette 80 WG
     dosage: 2.5 g per litre water as foliar spray; or 5 g per litre water as soil
       drench applied over the root zone

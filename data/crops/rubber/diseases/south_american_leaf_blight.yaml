@@ -26,6 +26,14 @@ disease:
       tree death in susceptible clones under prolonged wet conditions
   treatments:
   - compound: Mancozeb
+    dosage_grounding:
+      verified: false
+      note: AI-generated agronomic estimate, not the DOA-registered label dose (the
+        authoritative source mypesticide.doa.gov.my is login-gated). Verify the rate
+        on the product label before mixing or spraying.
+      doa_residue_reference: 'Rubber is not a food commodity and has no residue record
+        in the DOA portal (mymrl.doa.gov.my); this dose and PHI are not grounded in
+        a public DOA source.'
     trade_name: Dithane M-45
     dosage: 2g per litre water as protective foliar spray
     method: foliar spray
@@ -33,6 +41,14 @@ disease:
     pre_harvest_interval_days: 14
     regulatory_status: MY_approved
   - compound: Triadimefon
+    dosage_grounding:
+      verified: false
+      note: AI-generated agronomic estimate, not the DOA-registered label dose (the
+        authoritative source mypesticide.doa.gov.my is login-gated). Verify the rate
+        on the product label before mixing or spraying.
+      doa_residue_reference: 'Rubber is not a food commodity and has no residue record
+        in the DOA portal (mymrl.doa.gov.my); this dose and PHI are not grounded in
+        a public DOA source.'
     trade_name: Bayleton 25WP
     dosage: 0.5g per litre water
     method: foliar spray

@@ -31,6 +31,14 @@ disease:
       spreads to adjacent plants forming dead patches across the bed.
   treatments:
   - compound: Copper hydroxide
+    dosage_grounding:
+      verified: false
+      note: AI-generated agronomic estimate, not the DOA-registered label dose (the
+        authoritative source mypesticide.doa.gov.my is login-gated). Verify the rate
+        on the product label before mixing or spraying.
+      doa_residue_reference: 'No Cili (chilli) residue record for copper hydroxide
+        in mymrl.doa.gov.my; applied as a soil drench, not to the harvested fruit,
+        so no DOA dose or PHI applies.'
     trade_name: Kocide 3000
     dosage: 2 g per litre water, applied as ~200 ml of solution drenched at the base
       of each plant
@@ -42,6 +50,14 @@ disease:
     phi_not_applicable: true
     phi_not_applicable_reason: "Soil drench at the plant base; no residue on the harvested fruit."
   - compound: Dazomet
+    dosage_grounding:
+      verified: false
+      note: AI-generated agronomic estimate, not the DOA-registered label dose (the
+        authoritative source mypesticide.doa.gov.my is login-gated). Verify the rate
+        on the product label before mixing or spraying.
+      doa_residue_reference: 'No Cili (chilli) residue record for dazomet in mymrl.doa.gov.my;
+        a pre-plant soil fumigant applied before the crop cycle, so no DOA dose or
+        PHI applies.'
     trade_name: Basamid G
     dosage: 30-50 g per square metre incorporated into moist soil, then covered/tarped
       for 7-14 days with a 2-3 week aeration period before transplanting

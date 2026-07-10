@@ -32,6 +32,13 @@ disease:
   - compound: hexaconazole
     trade_name: Anvil 5SC
     dosage: 1 mL per litre water (approximately 1.0 L product per hectare)
+    dosage_grounding:
+      verified: false
+      note: AI-generated agronomic estimate, not the DOA-registered label dose (the
+        authoritative source mypesticide.doa.gov.my is login-gated). Verify the rate
+        on the product label before mixing or spraying.
+      doa_residue_reference: 'Hexaconazole registered on Beras Kilang in mymrl.doa.gov.my/AIs/75;
+        portal grounds the 14-day PHI but publishes no label dose.'
     method: foliar spray
     frequency: Apply at panicle initiation/early booting; repeat once after 10-14
       days if disease pressure persists
@@ -43,6 +50,13 @@ disease:
   - compound: validamycin A
     trade_name: Validacin 3L
     dosage: 2-3 mL per litre water (approximately 1.5 L product per hectare)
+    dosage_grounding:
+      verified: false
+      note: AI-generated agronomic estimate, not the DOA-registered label dose (the
+        authoritative source mypesticide.doa.gov.my is login-gated). Verify the rate
+        on the product label before mixing or spraying.
+      doa_residue_reference: 'No Beras Kilang residue record for validamycin A in mymrl.doa.gov.my;
+        neither dose nor PHI is grounded in a public DOA source.'
     method: foliar spray
     frequency: Apply at first appearance of lesions, directed at the lower canopy;
       repeat after 10-14 days if needed

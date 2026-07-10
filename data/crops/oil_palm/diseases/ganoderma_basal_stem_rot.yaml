@@ -33,6 +33,14 @@ disease:
       death
   treatments:
   - compound: Hexaconazole
+    dosage_grounding:
+      verified: false
+      note: AI-generated agronomic estimate, not the DOA-registered label dose (the
+        authoritative source mypesticide.doa.gov.my is login-gated). Verify the rate
+        on the product label before mixing or spraying.
+      doa_residue_reference: 'Hexaconazole is registered on Minyak Kelapa Sawit (oil
+        palm) in mymrl.doa.gov.my/AIs/75 (product HYDRO-HEXA 75 WG); applied as a basal-zone
+        soil drench, not to harvested fruit/oil, so no DOA dose or PHI applies.'
     trade_name: Anvil 5SC
     dosage: 2ml per litre water, 10-20 litres per palm as soil drench around basal
       zone
@@ -42,6 +50,14 @@ disease:
     pre_harvest_interval_days: null
     regulatory_status: MY_approved
   - compound: Trichoderma harzianum (biological control agent)
+    dosage_grounding:
+      verified: false
+      note: AI-generated agronomic estimate, not the DOA-registered label dose (the
+        authoritative source mypesticide.doa.gov.my is login-gated). Verify the rate
+        on the product label before mixing or spraying.
+      doa_residue_reference: 'Trichoderma harzianum is a biological antagonist with
+        no residue record in mymrl.doa.gov.my; applied as EFB compost around the basal
+        root zone, not to harvested fruit/oil, so no DOA dose or PHI applies.'
     trade_name: null
     dosage: Trichoderma-colonised empty fruit bunch (EFB) compost, approximately 25-50
       kg applied around the basal root zone per palm

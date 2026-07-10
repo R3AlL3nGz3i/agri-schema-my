@@ -30,6 +30,14 @@ disease:
       reduced latex yield
   treatments:
   - compound: Sulphur (elemental, finely ground)
+    dosage_grounding:
+      verified: false
+      note: AI-generated agronomic estimate, not the DOA-registered label dose (the
+        authoritative source mypesticide.doa.gov.my is login-gated). Verify the rate
+        on the product label before mixing or spraying.
+      doa_residue_reference: 'Rubber is not a food commodity and has no residue record
+        in the DOA portal (mymrl.doa.gov.my); this dose and PHI are not grounded in
+        a public DOA source.'
     trade_name: null
     dosage: 11 kg fine sulphur dust (325 mesh, ~99% S) per hectare per round
     method: dusting (ground duster or aerial application)
@@ -38,6 +46,14 @@ disease:
     pre_harvest_interval_days: null
     regulatory_status: MY_approved
   - compound: Wettable sulphur (sulphur 80% WG)
+    dosage_grounding:
+      verified: false
+      note: AI-generated agronomic estimate, not the DOA-registered label dose (the
+        authoritative source mypesticide.doa.gov.my is login-gated). Verify the rate
+        on the product label before mixing or spraying.
+      doa_residue_reference: 'Rubber is not a food commodity and has no residue record
+        in the DOA portal (mymrl.doa.gov.my); this dose and PHI are not grounded in
+        a public DOA source.'
     trade_name: Kumulus DF
     dosage: 3–5 g per litre water, high-volume foliar spray
     method: foliar spray

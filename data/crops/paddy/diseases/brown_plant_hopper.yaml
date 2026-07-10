@@ -34,6 +34,14 @@ disease:
   - compound: buprofezin
     trade_name: Applaud 10 WP
     dosage: 1.0 g per litre water; apply 400-500 L spray solution per hectare
+    dosage_grounding:
+      verified: false
+      note: AI-generated agronomic estimate, not the DOA-registered label dose (the
+        authoritative source mypesticide.doa.gov.my is login-gated). Verify the rate
+        on the product label before mixing or spraying.
+      doa_residue_reference: 'Buprofezin registered on Beras Kilang in mymrl.doa.gov.my/AIs/18
+        (products Applaud, Fezin SC); portal grounds the 14-day PHI and lists spray-rate
+        figures without per-litre units, not a label dose.'
     method: foliar spray directed at the base of the plants
     frequency: Apply at first detection of nymphs above threshold; repeat once after
       10-14 days if monitoring shows continued buildup
@@ -42,6 +50,13 @@ disease:
   - compound: pymetrozine
     trade_name: Plenum 50 WG
     dosage: 0.3 g per litre water; apply 400-500 L spray solution per hectare
+    dosage_grounding:
+      verified: false
+      note: AI-generated agronomic estimate, not the DOA-registered label dose (the
+        authoritative source mypesticide.doa.gov.my is login-gated). Verify the rate
+        on the product label before mixing or spraying.
+      doa_residue_reference: 'No Beras Kilang residue record for pymetrozine in mymrl.doa.gov.my;
+        neither dose nor PHI is grounded in a public DOA source.'
     method: foliar spray
     frequency: Single application at the economic threshold; a second application
       after 14 days only if the threshold is again exceeded

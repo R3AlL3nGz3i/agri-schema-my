@@ -33,15 +33,33 @@ disease:
   - compound: propiconazole 250 g/L EC
     trade_name: Tilt 250 EC
     dosage: 1 ml per litre water (approx. 0.5 L product per hectare)
+    dosage_grounding:
+      verified: false
+      note: AI-generated agronomic estimate, not the DOA-registered label dose (the
+        authoritative source mypesticide.doa.gov.my is login-gated). Verify the rate
+        on the product label before mixing or spraying.
+      doa_residue_reference: 'Propiconazole registered on Beras Kilang in mymrl.doa.gov.my/AIs/100
+        (products Popico, Lediko 30); portal lists spray-rate figures without per-litre
+        units, not a label dose.'
     method: foliar spray
     frequency: Apply preventively at late booting stage just before panicle emergence;
       a second spray about 7-10 days later if weather remains wet
-    pre_harvest_interval_days: 21
-    phi_unverified: true
+    pre_harvest_interval_days: 35
+    phi_source: 'DOA Malaysia residue registry (mymrl.doa.gov.my/AIs/100): 35-day
+      TDMH (Tempoh Dilarang Mengutip Hasil / pre-harvest interval) for propiconazole
+      on Beras Kilang (milled rice). Authoritative MY government source; corrected
+      up from an earlier 21-day estimate to avoid understating the safe interval.'
     regulatory_status: MY_approved
   - compound: hexaconazole 50 g/L SC
     trade_name: Anvil 5SC
     dosage: 2 ml per litre water (approx. 1 L product per hectare)
+    dosage_grounding:
+      verified: false
+      note: AI-generated agronomic estimate, not the DOA-registered label dose (the
+        authoritative source mypesticide.doa.gov.my is login-gated). Verify the rate
+        on the product label before mixing or spraying.
+      doa_residue_reference: 'Hexaconazole registered on Beras Kilang in mymrl.doa.gov.my/AIs/75;
+        portal grounds a 14-day PHI (this entry states 21) but publishes no label dose.'
     method: foliar spray
     frequency: Single preventive spray at booting stage; repeat once after 10-14 days
       under prolonged humid conditions
@@ -88,7 +106,7 @@ disease:
     role: Malaysian plant protection and pesticide regulatory authority
     url: https://www.doa.gov.my
   confidence_score: 0.74
-  last_updated: '2026-05-21'
+  last_updated: '2026-07-10'
 _source_file: seed_generator
 professor_review:
   verdict: FLAG

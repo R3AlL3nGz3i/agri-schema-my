@@ -31,6 +31,14 @@ disease:
       bark; crown loss or stem breakage
   treatments:
   - compound: Tridemorph
+    dosage_grounding:
+      verified: false
+      note: AI-generated agronomic estimate, not the DOA-registered label dose (the
+        authoritative source mypesticide.doa.gov.my is login-gated). Verify the rate
+        on the product label before mixing or spraying.
+      doa_residue_reference: 'Rubber is not a food commodity and has no residue record
+        in the DOA portal (mymrl.doa.gov.my); this dose and PHI are not grounded in
+        a public DOA source.'
     trade_name: Calixin 750 EC
     dosage: Applied as a paint over the lesion plus ~15 cm of healthy bark on each
       side, undiluted or diluted 1:1 with water (best-estimate; verify against current
@@ -40,6 +48,14 @@ disease:
     pre_harvest_interval_days: null
     regulatory_status: unknown
   - compound: Copper oxychloride
+    dosage_grounding:
+      verified: false
+      note: AI-generated agronomic estimate, not the DOA-registered label dose (the
+        authoritative source mypesticide.doa.gov.my is login-gated). Verify the rate
+        on the product label before mixing or spraying.
+      doa_residue_reference: 'Rubber is not a food commodity and has no residue record
+        in the DOA portal (mymrl.doa.gov.my); this dose and PHI are not grounded in
+        a public DOA source.'
     trade_name: Cobox 50 WP
     dosage: Mixed into a thick paste (approx. 1 part 50% WP to 1 part water) and painted
       on scraped lesions; for cobweb-stage spraying use 3g per litre water (best-estimate;

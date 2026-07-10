@@ -28,6 +28,13 @@ disease:
   - compound: imidacloprid
     trade_name: Confidor 200SL
     dosage: 0.5 mL per litre water
+    dosage_grounding:
+      verified: false
+      note: AI-generated agronomic estimate, not the DOA-registered label dose (the
+        authoritative source mypesticide.doa.gov.my is login-gated). Verify the rate
+        on the product label before mixing or spraying.
+      doa_residue_reference: 'No Beras Kilang residue record for imidacloprid in mymrl.doa.gov.my;
+        neither dose nor PHI is grounded in a public DOA source.'
     method: foliar spray (targets green leafhopper vector; no chemical cures the virus)
     frequency: At first detection of green leafhopper; repeat after 7-10 days if vector
       threshold is exceeded
@@ -36,6 +43,14 @@ disease:
   - compound: buprofezin
     trade_name: Applaud 10WP
     dosage: 0.5-1.0 g per litre water
+    dosage_grounding:
+      verified: false
+      note: AI-generated agronomic estimate, not the DOA-registered label dose (the
+        authoritative source mypesticide.doa.gov.my is login-gated). Verify the rate
+        on the product label before mixing or spraying.
+      doa_residue_reference: 'Buprofezin registered on Beras Kilang in mymrl.doa.gov.my/AIs/18
+        (products Applaud, Fezin SC); portal grounds the 14-day PHI and lists spray-rate
+        figures without per-litre units, not a label dose.'
     method: foliar spray (insect growth regulator targeting leafhopper nymphs)
     frequency: Apply against early nymphal stages; repeat after 10-14 days if vector
       pressure persists

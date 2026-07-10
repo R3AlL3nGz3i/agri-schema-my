@@ -29,6 +29,13 @@ disease:
       twig dieback, defoliation and significant cluster loss across the field
   treatments:
   - compound: mancozeb
+    dosage_grounding:
+      verified: false
+      note: AI-generated agronomic estimate, not the DOA-registered label dose (the
+        authoritative source mypesticide.doa.gov.my is login-gated). Verify the rate
+        on the product label before mixing or spraying.
+      doa_residue_reference: 'No Cili (chilli) residue record for mancozeb in mymrl.doa.gov.my;
+        neither dose nor PHI is grounded in a public DOA source.'
     trade_name: Dithane M-45 (80% WP)
     dosage: 2.5g per litre water
     method: foliar spray
@@ -36,6 +43,14 @@ disease:
     pre_harvest_interval_days: 7
     regulatory_status: MY_approved
   - compound: chlorothalonil
+    dosage_grounding:
+      verified: false
+      note: AI-generated agronomic estimate, not the DOA-registered label dose (the
+        authoritative source mypesticide.doa.gov.my is login-gated). Verify the rate
+        on the product label before mixing or spraying.
+      doa_residue_reference: 'Chlorothalonil registered on Cili (chilli) in mymrl.doa.gov.my/AIs/28
+        (product Etanil WP); portal grounds a 7-day PHI (matching this entry) but lists
+        a spray-rate figure without per-litre units, not a label dose.'
     trade_name: Daconil 720 SC
     dosage: 2ml per litre water
     method: foliar spray

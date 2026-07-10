@@ -29,6 +29,13 @@ disease:
       pokok runtuh dan mati dalam beberapa hari — kehilangan hasil hampir total
   treatments:
   - compound: mancozeb
+    dosage_grounding:
+      verified: false
+      note: AI-generated agronomic estimate, not the DOA-registered label dose (the
+        authoritative source mypesticide.doa.gov.my is login-gated). Verify the rate
+        on the product label before mixing or spraying.
+      doa_residue_reference: 'No Tomato residue record for mancozeb in mymrl.doa.gov.my;
+        neither dose nor PHI is grounded in a public DOA source.'
     trade_name: Dithane M-45
     dosage: 2.0 g per litre air (kira-kira 1.6-2.0 kg per hektar)
     method: foliar spray
@@ -37,6 +44,13 @@ disease:
     pre_harvest_interval_days: 7
     regulatory_status: MY_approved
   - compound: metalaxyl-M + mancozeb
+    dosage_grounding:
+      verified: false
+      note: AI-generated agronomic estimate, not the DOA-registered label dose (the
+        authoritative source mypesticide.doa.gov.my is login-gated). Verify the rate
+        on the product label before mixing or spraying.
+      doa_residue_reference: 'No Tomato residue record for metalaxyl-M + mancozeb in
+        mymrl.doa.gov.my; neither dose nor PHI is grounded in a public DOA source.'
     trade_name: Ridomil Gold MZ
     dosage: 2.5 g per litre air (kira-kira 2.0-2.5 kg per hektar)
     method: foliar spray
