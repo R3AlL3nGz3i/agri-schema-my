@@ -78,6 +78,20 @@ disease:
     extension guides
   - Guest, D. & Keane, P. (2007), Vascular-streak dieback of cocoa (Ceratobasidium
     theobromae); CABI Crop Protection Compendium
+  authorities:
+  - name: EPPO Global Database
+    role: International taxonomic and phytosanitary reference for the pathogen
+    taxon: Rhizoctonia theobromae (syn. Ceratobasidium theobromae); EPPO code ONCOTH
+    url: https://gd.eppo.int/taxon/ONCOTH
+  - name: MARDI (Malaysian Agricultural Research and Development Institute)
+    role: Malaysian national agricultural R&D authority
+    url: https://www.mardi.gov.my
+  - name: Department of Agriculture Malaysia (DOA / Jabatan Pertanian)
+    role: Malaysian plant protection and pesticide regulatory authority
+    url: https://www.doa.gov.my
+  - name: MCB (Malaysian Cocoa Board / Lembaga Koko Malaysia)
+    role: Malaysian statutory R&D and regulatory authority for cocoa
+    url: https://www.koko.gov.my
   confidence_score: 0.72
   last_updated: '2026-05-20'
 _source_file: seed_generator

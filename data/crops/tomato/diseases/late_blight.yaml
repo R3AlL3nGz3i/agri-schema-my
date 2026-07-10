@@ -73,6 +73,17 @@ disease:
   - Jabatan Pertanian Malaysia (DOA) – Panduan Pengurusan Penyakit Tanaman Sayuran;
     senarai racun berdaftar Lembaga Racun Makhluk Perosak (Akta Racun Makhluk Perosak
     1974)
+  authorities:
+  - name: EPPO Global Database
+    role: International taxonomic and phytosanitary reference for the pathogen
+    taxon: Phytophthora infestans; EPPO code PHYTIN
+    url: https://gd.eppo.int/taxon/PHYTIN
+  - name: MARDI (Malaysian Agricultural Research and Development Institute)
+    role: Malaysian national R&D authority for this crop
+    url: https://www.mardi.gov.my
+  - name: Department of Agriculture Malaysia (DOA / Jabatan Pertanian)
+    role: Malaysian plant protection and pesticide regulatory authority
+    url: https://www.doa.gov.my
   confidence_score: 0.82
   last_updated: '2026-05-20'
 _source_file: seed_generator

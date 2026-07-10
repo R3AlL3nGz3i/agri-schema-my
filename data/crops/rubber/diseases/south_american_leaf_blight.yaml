@@ -66,6 +66,20 @@ disease:
   - RRIM (Rubber Research Institute of Malaysia) — Quarantine Alert on Microcyclus
     ulei, Planters Bulletin series
   - EPPO A1 Alert List — Microcyclus ulei (South American Leaf Blight of rubber)
+  authorities:
+  - name: EPPO Global Database
+    role: International taxonomic and phytosanitary reference for the pathogen
+    taxon: Pseudocercospora ulei (syn. Microcyclus ulei); EPPO code MICCUL
+    url: https://gd.eppo.int/taxon/MICCUL
+  - name: MARDI (Malaysian Agricultural Research and Development Institute)
+    role: Malaysian national agricultural R&D authority
+    url: https://www.mardi.gov.my
+  - name: Department of Agriculture Malaysia (DOA / Jabatan Pertanian)
+    role: Malaysian plant protection and pesticide regulatory authority
+    url: https://www.doa.gov.my
+  - name: MRB (Malaysian Rubber Board / Lembaga Getah Malaysia)
+    role: Malaysian statutory R&D and regulatory authority for rubber
+    url: https://www.lgm.gov.my
   confidence_score: 0.58
   last_updated: '2026-05-20'
 _source_file: seed_generator

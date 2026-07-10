@@ -68,6 +68,21 @@ disease:
   source_citations:
   - MARDI - Pakej Teknologi Penanaman Padi (perosak dan penyakit padi)
   - IRRI/FAO Rice Knowledge Bank - Tungro disease management
+  authorities:
+  - name: EPPO Global Database
+    role: International taxonomic and phytosanitary reference for the pathogen
+    taxon: Rice tungro bacilliform virus (Tungrovirus oryzae); EPPO code RTBV00
+    url: https://gd.eppo.int/taxon/RTBV00
+  - name: EPPO Global Database
+    role: International taxonomic and phytosanitary reference for the pathogen
+    taxon: Rice tungro spherical virus (Waikavirus oryzae); EPPO code RTSV00
+    url: https://gd.eppo.int/taxon/RTSV00
+  - name: MARDI (Malaysian Agricultural Research and Development Institute)
+    role: Malaysian national R&D authority for paddy
+    url: https://www.mardi.gov.my
+  - name: Department of Agriculture Malaysia (DOA / Jabatan Pertanian)
+    role: Malaysian plant protection and pesticide regulatory authority
+    url: https://www.doa.gov.my
   confidence_score: 0.74
   last_updated: '2026-05-21'
 _source_file: seed_generator

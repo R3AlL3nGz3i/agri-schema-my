@@ -79,6 +79,17 @@ disease:
     Malaysia (MARDI), Serdang
   - 'Lim, T.K. (1990). Durian: Diseases and Disorders. Tropical Press Sdn. Bhd., Kuala
     Lumpur'
+  authorities:
+  - name: EPPO Global Database
+    role: International taxonomic and phytosanitary reference for the pathogen
+    taxon: Phytophthora palmivora; EPPO code PHYTPL
+    url: https://gd.eppo.int/taxon/PHYTPL
+  - name: MARDI (Malaysian Agricultural Research and Development Institute)
+    role: Malaysian national R&D authority for this crop
+    url: https://www.mardi.gov.my
+  - name: Department of Agriculture Malaysia (DOA / Jabatan Pertanian)
+    role: Malaysian plant protection and pesticide regulatory authority
+    url: https://www.doa.gov.my
   confidence_score: 0.72
   last_updated: '2026-05-20'
 _source_file: seed_generator

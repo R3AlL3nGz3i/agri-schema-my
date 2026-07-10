@@ -72,6 +72,17 @@ disease:
   - MARDI - Pakej Teknologi Penanaman Cili (chilli cultivation technology package)
   - Jabatan Pertanian Malaysia (DOA) - guide to identification and control of chilli
     pests and diseases
+  authorities:
+  - name: EPPO Global Database
+    role: International taxonomic and phytosanitary reference for the pathogen
+    taxon: Leveillula taurica; EPPO code LEVETA
+    url: https://gd.eppo.int/taxon/LEVETA
+  - name: MARDI (Malaysian Agricultural Research and Development Institute)
+    role: Malaysian national R&D authority for this crop
+    url: https://www.mardi.gov.my
+  - name: Department of Agriculture Malaysia (DOA / Jabatan Pertanian)
+    role: Malaysian plant protection and pesticide regulatory authority
+    url: https://www.doa.gov.my
   confidence_score: 0.74
   last_updated: '2026-05-21'
 _source_file: seed_generator

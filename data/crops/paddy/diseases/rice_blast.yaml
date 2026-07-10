@@ -69,9 +69,20 @@ disease:
   - Practise field sanitation by ploughing in stubble and destroying infected crop residue,
     and manage water to avoid prolonged leaf wetness
   source_citations:
-  - MARDI Technical Bulletin No. 245 (2022) — Pengurusan Penyakit Blas Padi
-  - Jabatan Pertanian Pekeliling Teknikal BIL.3/2021 — Kawalan Penyakit Utama Padi
-  - FAO AGROVOC concept rice_blast (agrovoc.fao.org)
+  - MARDI (Malaysian Agricultural Research and Development Institute) — paddy disease management guidance
+  - Department of Agriculture Malaysia (DOA / Jabatan Pertanian) — rice pest and disease control guidance
+  - 'FAO AGROVOC concept: rice blast (agrovoc.fao.org)'
+  authorities:
+  - name: EPPO Global Database
+    role: International taxonomic and phytosanitary reference for the pathogen
+    taxon: Pyricularia oryzae (syn. Magnaporthe oryzae); EPPO code PYRIOR
+    url: https://gd.eppo.int/taxon/PYRIOR
+  - name: MARDI (Malaysian Agricultural Research and Development Institute)
+    role: Malaysian national R&D authority for paddy
+    url: https://www.mardi.gov.my
+  - name: Department of Agriculture Malaysia (DOA / Jabatan Pertanian)
+    role: Malaysian plant protection and pesticide regulatory authority
+    url: https://www.doa.gov.my
   confidence_score: 0.72
   last_updated: '2026-07-08'
 professor_review:

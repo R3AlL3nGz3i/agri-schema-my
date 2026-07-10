@@ -95,6 +95,17 @@ disease:
     biosekuriti
   - FAO / World Banana Forum — Technical guidance on Fusarium wilt Tropical Race 4
     (TR4) management (fao.org)
+  authorities:
+  - name: EPPO Global Database
+    role: International taxonomic and phytosanitary reference for the pathogen
+    taxon: Fusarium oxysporum f. sp. cubense Tropical race 4; EPPO code FUSAC4
+    url: https://gd.eppo.int/taxon/FUSAC4
+  - name: MARDI (Malaysian Agricultural Research and Development Institute)
+    role: Malaysian national R&D authority for this crop
+    url: https://www.mardi.gov.my
+  - name: Department of Agriculture Malaysia (DOA / Jabatan Pertanian)
+    role: Malaysian plant protection and pesticide regulatory authority
+    url: https://www.doa.gov.my
   confidence_score: 0.72
   last_updated: '2026-06-12'
 _source_file: seed_generator

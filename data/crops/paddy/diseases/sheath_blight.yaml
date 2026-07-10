@@ -73,6 +73,17 @@ disease:
   - MARDI - Manual Teknologi Penanaman Padi (paddy disease management section)
   - Department of Agriculture (DOA) Malaysia pest and disease guidelines for rice;
     IRRI Rice Knowledge Bank - Sheath blight (secondary reference)
+  authorities:
+  - name: EPPO Global Database
+    role: International taxonomic and phytosanitary reference for the pathogen
+    taxon: Rhizoctonia solani (teleomorph Thanatephorus cucumeris); EPPO code RHIZSO
+    url: https://gd.eppo.int/taxon/RHIZSO
+  - name: MARDI (Malaysian Agricultural Research and Development Institute)
+    role: Malaysian national R&D authority for paddy
+    url: https://www.mardi.gov.my
+  - name: Department of Agriculture Malaysia (DOA / Jabatan Pertanian)
+    role: Malaysian plant protection and pesticide regulatory authority
+    url: https://www.doa.gov.my
   confidence_score: 0.72
   last_updated: '2026-07-08'
 _source_file: seed_generator

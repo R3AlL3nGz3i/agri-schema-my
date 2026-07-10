@@ -75,6 +75,17 @@ disease:
   - MARDI - Pakej Teknologi Penanaman Padi (rice cultivation technology package)
   - DOA Malaysia - garis panduan pengurusan perosak padi bersepadu
   - IRRI Rice Knowledge Bank, Brown Planthopper
+  authorities:
+  - name: EPPO Global Database
+    role: International taxonomic and phytosanitary reference for the pest
+    taxon: Nilaparvata lugens (brown planthopper); EPPO code NILALU
+    url: https://gd.eppo.int/taxon/NILALU
+  - name: MARDI (Malaysian Agricultural Research and Development Institute)
+    role: Malaysian national R&D authority for paddy
+    url: https://www.mardi.gov.my
+  - name: Department of Agriculture Malaysia (DOA / Jabatan Pertanian)
+    role: Malaysian plant protection and pesticide regulatory authority
+    url: https://www.doa.gov.my
   confidence_score: 0.72
   last_updated: '2026-05-20'
 _source_file: seed_generator
