@@ -44,6 +44,11 @@ disease:
     frequency: 6–8 rounds at 5–7 day intervals through refoliation, starting at the
       bronze/copper-leaf stage when ~10% of trees are refoliating
     pre_harvest_interval_days: null
+    phi_grounding:
+      verified: false
+      status: not_applicable
+      source: null
+      note: Rubber is a non-food commodity - no residue/PHI concept applies.
     regulatory_status: MY_approved
   - compound: Wettable sulphur (sulphur 80% WG)
     dosage_grounding:
@@ -59,6 +64,11 @@ disease:
     method: foliar spray
     frequency: weekly during the refoliation period (about 5–6 sprays)
     pre_harvest_interval_days: null
+    phi_grounding:
+      verified: false
+      status: not_applicable
+      source: null
+      note: Rubber is a non-food commodity - no residue/PHI concept applies.
     regulatory_status: MY_approved
   cultural_controls:
   - Plant less-susceptible/tolerant RRIM clones and monitor refoliation closely so

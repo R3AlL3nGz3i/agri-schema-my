@@ -46,6 +46,11 @@ disease:
     method: bark paint / band application by brush
     frequency: Repeat after 7-10 days, 2-3 applications until the lesion dries up
     pre_harvest_interval_days: null
+    phi_grounding:
+      verified: false
+      status: not_applicable
+      source: null
+      note: Rubber is a non-food commodity — no residue/PHI concept applies.
     regulatory_status: unknown
   - compound: Copper oxychloride
     dosage_grounding:
@@ -64,6 +69,11 @@ disease:
     frequency: Repeat at 10-14 day intervals during the wet season until the lesion
       is controlled
     pre_harvest_interval_days: null
+    phi_grounding:
+      verified: false
+      status: not_applicable
+      source: null
+      note: Rubber is a non-food commodity — no residue/PHI concept applies.
     regulatory_status: MY_approved
   cultural_controls:
   - Prune and burn infected branches well below the lesion during dry weather, and

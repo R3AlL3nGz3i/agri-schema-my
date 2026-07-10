@@ -39,6 +39,11 @@ disease:
     method: foliar spray
     frequency: Weekly during wet flushing periods if outbreak is confirmed
     pre_harvest_interval_days: 14
+    phi_grounding:
+      verified: false
+      status: not_applicable
+      source: null
+      note: Rubber is a non-food commodity - no residue/PHI concept applies.
     regulatory_status: MY_approved
   - compound: Triadimefon
     dosage_grounding:
@@ -54,6 +59,11 @@ disease:
     method: foliar spray
     frequency: Every 10-14 days during active leaf flush
     pre_harvest_interval_days: 21
+    phi_grounding:
+      verified: false
+      status: not_applicable
+      source: null
+      note: Rubber is a non-food commodity - no residue/PHI concept applies.
     regulatory_status: MY_approved
   cultural_controls:
   - Plant SALB-tolerant clones screened in South America (e.g. RRIM 600 shows moderate

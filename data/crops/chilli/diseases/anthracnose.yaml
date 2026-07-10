@@ -41,6 +41,11 @@ disease:
     method: foliar spray
     frequency: every 7-10 days, more frequent during wet weather
     pre_harvest_interval_days: 7
+    phi_grounding:
+      verified: false
+      status: unverified
+      source: null
+    phi_unverified: true
     regulatory_status: MY_approved
   - compound: chlorothalonil
     dosage_grounding:
@@ -56,6 +61,10 @@ disease:
     method: foliar spray
     frequency: every 7-10 days, alternated with a protectant fungicide to limit resistance
     pre_harvest_interval_days: 7
+    phi_grounding:
+      verified: true
+      status: verified
+      source: mymrl.doa.gov.my/AIs/28
     regulatory_status: MY_approved
   cultural_controls:
   - Use certified disease-free seeds and resistant/tolerant varieties where available;

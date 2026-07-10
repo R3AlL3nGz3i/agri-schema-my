@@ -45,6 +45,10 @@ disease:
       (Tempoh Dilarang Mengutip Hasil / pre-harvest interval) for imidacloprid
       on tomato. Authoritative MY government source (supersedes prior APVMA
       3-day foreign-label estimate).'
+    phi_grounding:
+      verified: true
+      status: verified
+      source: mymrl.doa.gov.my/AIs/79
     regulatory_status: MY_approved
   - compound: thiamethoxam
     dosage_grounding:
@@ -61,7 +65,10 @@ disease:
     frequency: every 7-10 days during whitefly pressure, alternated with non-neonicotinoid
       insecticides to manage resistance
     pre_harvest_interval_days: 3
-    phi_unverified: true
+    phi_grounding:
+      verified: true
+      status: verified
+      source: mymrl.doa.gov.my/AIs/115
     regulatory_status: MY_approved
   cultural_controls:
   - Plant TYLCV-tolerant or resistant tomato varieties and raise seedlings under insect-proof

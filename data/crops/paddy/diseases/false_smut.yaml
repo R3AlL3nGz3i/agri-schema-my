@@ -49,6 +49,10 @@ disease:
       TDMH (Tempoh Dilarang Mengutip Hasil / pre-harvest interval) for propiconazole
       on Beras Kilang (milled rice). Authoritative MY government source; corrected
       up from an earlier 21-day estimate to avoid understating the safe interval.'
+    phi_grounding:
+      verified: true
+      status: verified
+      source: mymrl.doa.gov.my/AIs/100
     regulatory_status: MY_approved
   - compound: hexaconazole 50 g/L SC
     trade_name: Anvil 5SC
@@ -64,6 +68,10 @@ disease:
     frequency: Single preventive spray at booting stage; repeat once after 10-14 days
       under prolonged humid conditions
     pre_harvest_interval_days: 21
+    phi_grounding:
+      verified: false
+      status: unverified
+      source: null
     phi_unverified: true
     regulatory_status: MY_approved
   rotation_partner: Both listed fungicides (propiconazole and hexaconazole) are triazole

@@ -44,6 +44,10 @@ disease:
     frequency: Spray the young flush at each new leaf flush, about every 3-4 weeks
       during periods of active flushing and wet weather
     pre_harvest_interval_days: 14
+    phi_grounding:
+      verified: false
+      status: unverified
+      source: null
     phi_unverified: true
     regulatory_status: MY_approved
   - compound: copper hydroxide
@@ -60,6 +64,10 @@ disease:
     frequency: Protective spray on the new flush every 2-3 weeks during the wet, high-sporulation
       season
     pre_harvest_interval_days: 7
+    phi_grounding:
+      verified: false
+      status: unverified
+      source: null
     phi_unverified: true
     regulatory_status: MY_approved
   cultural_controls:

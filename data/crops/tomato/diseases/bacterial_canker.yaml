@@ -46,6 +46,10 @@ disease:
       pertumbuhan
     pre_harvest_interval_days: 1
     phi_source: 'APVMA/US EPA copper fungicide labels: 0-1 day PHI on tomato (contact inorganic). Foreign source, NOT a Malaysian DOA/LPRMP label.'
+    phi_grounding:
+      verified: false
+      status: unverified
+      source: APVMA/US EPA foreign label (not a Malaysian DOA source)
     phi_unverified: true
     regulatory_status: MY_approved
   - compound: Copper oxychloride
@@ -63,6 +67,10 @@ disease:
     frequency: Setiap 7-10 hari, berselang dengan produk kuprum lain
     pre_harvest_interval_days: 1
     phi_source: 'APVMA/US EPA copper fungicide labels: 0-1 day PHI on tomato (contact inorganic). Foreign source, NOT a Malaysian DOA/LPRMP label.'
+    phi_grounding:
+      verified: false
+      status: unverified
+      source: APVMA/US EPA foreign label (not a Malaysian DOA source)
     phi_unverified: true
     regulatory_status: MY_approved
   cultural_controls:

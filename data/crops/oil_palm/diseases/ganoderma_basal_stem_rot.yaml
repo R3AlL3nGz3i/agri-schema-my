@@ -48,6 +48,11 @@ disease:
     frequency: Repeated every 3-6 months on early-to-moderately infected palms; suppresses
       progression only, does not cure
     pre_harvest_interval_days: null
+    phi_grounding:
+      verified: false
+      status: not_applicable
+      source: null
+      note: Basal-zone soil drench; no residue on harvested fruit/oil.
     regulatory_status: MY_approved
   - compound: Trichoderma harzianum (biological control agent)
     dosage_grounding:
@@ -64,6 +69,11 @@ disease:
     method: soil application
     frequency: At replanting and as an annual maintenance application
     pre_harvest_interval_days: null
+    phi_grounding:
+      verified: false
+      status: not_applicable
+      source: null
+      note: Biological antagonist; no residue on harvested fruit/oil.
     regulatory_status: MY_approved
   rotation_partner: Alternate the Hexaconazole (Anvil 5SC) soil drench with the Trichoderma
     harzianum biological application, which has a different (biological antagonism) mode

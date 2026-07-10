@@ -43,6 +43,10 @@ disease:
       hujan
     pre_harvest_interval_days: 7
     phi_source: 'APVMA (Australia) label: mancozeb PHI on banana in the 1-7 day range; conservative end (7d) chosen. Foreign source, NOT a Malaysian DOA/LPRMP label.'
+    phi_grounding:
+      verified: false
+      status: unverified
+      source: APVMA/US EPA foreign label (not a Malaysian DOA source)
     phi_unverified: true
     regulatory_status: MY_approved
   - compound: propiconazole
@@ -61,8 +65,14 @@ disease:
     frequency: Setiap 14-21 hari, berselang-seli dengan racun kulat protektan untuk
       elak rintangan
     pre_harvest_interval_days: 1
-    phi_source: 'APVMA (Australia) label: 1-day PHI for propiconazole on banana. Foreign source, NOT a Malaysian DOA/LPRMP label.'
-    phi_unverified: true
+    phi_source: 'DOA Malaysia residue registry (mymrl.doa.gov.my/AIs/100): 1-day TDMH
+      (Tempoh Dilarang Mengutip Hasil / pre-harvest interval) for propiconazole on
+      Pisang (banana), products BRT Propiconazole 25 / Propi. Authoritative MY
+      government source (supersedes the prior APVMA foreign-label estimate).'
+    phi_grounding:
+      verified: true
+      status: verified
+      source: mymrl.doa.gov.my/AIs/100
     regulatory_status: MY_approved
   cultural_controls:
   - Buang dan musnahkan (potong/bakar) daun yang dijangkiti secara berkala untuk kurangkan

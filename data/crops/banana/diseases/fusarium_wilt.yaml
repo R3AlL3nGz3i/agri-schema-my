@@ -50,6 +50,11 @@ disease:
     method: soil incorporation at planting or soil drench at mat base
     frequency: at planting, then every 3-4 months preventively
     pre_harvest_interval_days: 0
+    phi_grounding:
+      verified: false
+      status: not_applicable
+      source: null
+      note: Soil incorporation / biocontrol applied at planting; no residue on the harvested fruit.
     regulatory_status: MY_approved
     phi_not_applicable: true
     phi_not_applicable_reason: "Soil incorporation / biocontrol applied at planting; no residue on the harvested fruit."
@@ -69,6 +74,11 @@ disease:
     method: corm or sucker dip before planting
     frequency: once, on planting material only — not repeated during crop cycle
     pre_harvest_interval_days: 0
+    phi_grounding:
+      verified: false
+      status: not_applicable
+      source: null
+      note: Pre-plant corm/sucker dip; applied ~9-12 months before harvest, no residue on the harvested fruit.
     regulatory_status: MY_approved
     phi_not_applicable: true
     phi_not_applicable_reason: "Pre-plant corm/sucker dip; applied ~9-12 months before harvest, no residue on the harvested fruit."

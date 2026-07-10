@@ -42,6 +42,11 @@ disease:
     frequency: Setiap 7 hari sebagai perlindungan; tingkatkan ke 5 hari semasa cuaca
       lembap berterusan
     pre_harvest_interval_days: 7
+    phi_grounding:
+      verified: false
+      status: unverified
+      source: null
+    phi_unverified: true
     regulatory_status: MY_approved
   - compound: metalaxyl-M + mancozeb
     dosage_grounding:
@@ -57,6 +62,11 @@ disease:
     frequency: Setiap 7-10 hari; maksimum 3-4 semburan semusim untuk mengelak rintangan
       metalaxyl
     pre_harvest_interval_days: 7
+    phi_grounding:
+      verified: false
+      status: unverified
+      source: null
+    phi_unverified: true
     regulatory_status: MY_approved
   cultural_controls:
   - Gunakan jarak tanaman lebar dan junjung/pancang pokok untuk peredaran udara baik

@@ -36,6 +36,10 @@ disease:
     phi_source: 'DOA Malaysia residue registry (mymrl.doa.gov.my): 30-day TDMH
       (Tempoh Dilarang Mengutip Hasil / pre-harvest interval) for Tricyclazole
       on Beras Kilang (milled rice). Authoritative MY government source.'
+    phi_grounding:
+      verified: true
+      status: verified
+      source: mymrl.doa.gov.my/AIs/121
     regulatory_status: MY_approved
   - compound: Isoprothiolane
     trade_name: Fuji-One 40EC
@@ -53,6 +57,10 @@ disease:
     phi_source: 'DOA Malaysia residue registry (mymrl.doa.gov.my): 14-day TDMH
       (Tempoh Dilarang Mengutip Hasil / pre-harvest interval) for Isoprothiolane
       on Beras Kilang (milled rice). Authoritative MY government source.'
+    phi_grounding:
+      verified: true
+      status: verified
+      source: mymrl.doa.gov.my/AIs/135
     regulatory_status: MY_approved
   - compound: Azoxystrobin
     trade_name: Amistar 25SC
@@ -68,6 +76,10 @@ disease:
     method: foliar spray
     frequency: preventive — apply before symptom onset
     pre_harvest_interval_days: 14
+    phi_grounding:
+      verified: true
+      status: verified
+      source: mymrl.doa.gov.my/AIs/10
     regulatory_status: MY_approved
   rotation_partner: Alternate the listed fungicides across their different modes of action
     to manage resistance — for example rotate Tricyclazole (Beam 75WP, a melanin-biosynthesis

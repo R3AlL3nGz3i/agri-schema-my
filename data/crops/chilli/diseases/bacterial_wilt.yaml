@@ -46,6 +46,11 @@ disease:
     frequency: Every 7-10 days as a suppressive/protective measure during high-risk
       wet periods (suppressive only, not curative)
     pre_harvest_interval_days: null
+    phi_grounding:
+      verified: false
+      status: not_applicable
+      source: null
+      note: Soil drench at the plant base; no residue on the harvested fruit.
     regulatory_status: MY_approved
     phi_not_applicable: true
     phi_not_applicable_reason: "Soil drench at the plant base; no residue on the harvested fruit."
@@ -64,6 +69,11 @@ disease:
     method: pre-plant soil fumigation (granules incorporated into soil)
     frequency: Once per cropping cycle, before transplanting only
     pre_harvest_interval_days: null
+    phi_grounding:
+      verified: false
+      status: not_applicable
+      source: null
+      note: Pre-plant soil fumigation before the crop cycle; no residue on the harvested fruit.
     regulatory_status: MY_approved
     phi_not_applicable: true
     phi_not_applicable_reason: "Pre-plant soil fumigation before the crop cycle; no residue on the harvested fruit."

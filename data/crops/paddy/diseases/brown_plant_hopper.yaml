@@ -46,6 +46,10 @@ disease:
     frequency: Apply at first detection of nymphs above threshold; repeat once after
       10-14 days if monitoring shows continued buildup
     pre_harvest_interval_days: 14
+    phi_grounding:
+      verified: true
+      status: verified
+      source: mymrl.doa.gov.my/AIs/18
     regulatory_status: MY_approved
   - compound: pymetrozine
     trade_name: Plenum 50 WG
@@ -61,6 +65,11 @@ disease:
     frequency: Single application at the economic threshold; a second application
       after 14 days only if the threshold is again exceeded
     pre_harvest_interval_days: 21
+    phi_grounding:
+      verified: false
+      status: unverified
+      source: null
+    phi_unverified: true
     regulatory_status: MY_approved
   rotation_partner: Alternate buprofezin (Applaud 10 WP), an insect growth regulator,
     with pymetrozine (Plenum 50 WG), a feeding-blocking compound with a different mode

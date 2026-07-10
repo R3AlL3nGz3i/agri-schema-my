@@ -46,6 +46,11 @@ disease:
     method: trunk injection
     frequency: 2-3 times per year, timed to pre-flowering, post-fruit-set and post-harvest
     pre_harvest_interval_days: null
+    phi_grounding:
+      verified: false
+      status: not_applicable
+      source: null
+      note: Trunk injection; systemic in trunk/roots, no residue on the harvested fruit.
     regulatory_status: MY_approved
     phi_not_applicable: true
     phi_not_applicable_reason: "Trunk injection; systemic in trunk/roots, no canopy or fruit residue."
@@ -64,6 +69,11 @@ disease:
     method: soil drench
     frequency: Every 3-4 weeks during the wet season or while disease is active
     pre_harvest_interval_days: null
+    phi_grounding:
+      verified: false
+      status: not_applicable
+      source: null
+      note: Root-zone soil drench; no residue on the harvested fruit.
     regulatory_status: MY_approved
     phi_not_applicable: true
     phi_not_applicable_reason: "Soil drench around the root zone; no residue on the harvested fruit."

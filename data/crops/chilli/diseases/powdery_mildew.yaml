@@ -45,6 +45,10 @@ disease:
     frequency: every 7-10 days while disease pressure persists
     pre_harvest_interval_days: 0
     phi_source: 'US EPA / APVMA: elemental sulphur has a 0-day PHI (exempt, contact mineral). Foreign source, NOT a Malaysian DOA/LPRMP label.'
+    phi_grounding:
+      verified: false
+      status: unverified
+      source: APVMA/US EPA foreign label (not a Malaysian DOA source)
     phi_unverified: true
     regulatory_status: MY_approved
   - compound: hexaconazole (50 g/L SC)
@@ -61,6 +65,11 @@ disease:
     frequency: every 10-14 days, alternated with non-triazole fungicides to limit
       resistance
     pre_harvest_interval_days: 14
+    phi_grounding:
+      verified: false
+      status: unverified
+      source: null
+    phi_unverified: true
     regulatory_status: MY_approved
   cultural_controls:
   - Use wider plant spacing and prune dense lower foliage to improve air circulation

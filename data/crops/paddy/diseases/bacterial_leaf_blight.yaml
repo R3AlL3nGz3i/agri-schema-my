@@ -50,6 +50,11 @@ disease:
     frequency: Preventive only — at canopy closure or early tillering in high-risk
       seasons; do NOT spray reactively on established disease.
     pre_harvest_interval_days: 14
+    phi_grounding:
+      verified: false
+      status: unverified
+      source: null
+    phi_unverified: true
     regulatory_status: MY_approved
   rotation_partner: There is no curative chemical treatment, so no fungicide/bactericide
     rotation applies. Manage instead by rotating and deploying BLB-resistant/tolerant

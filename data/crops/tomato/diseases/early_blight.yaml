@@ -40,6 +40,11 @@ disease:
     method: foliar spray
     frequency: every 7-10 days, mula pada gejala pertama
     pre_harvest_interval_days: 7
+    phi_grounding:
+      verified: false
+      status: unverified
+      source: null
+    phi_unverified: true
     regulatory_status: MY_approved
   - compound: Chlorothalonil
     dosage_grounding:
@@ -55,6 +60,10 @@ disease:
     method: foliar spray
     frequency: every 7-10 days semasa keadaan lembap menggalakkan penyakit
     pre_harvest_interval_days: 7
+    phi_grounding:
+      verified: true
+      status: verified
+      source: mymrl.doa.gov.my/AIs/28
     regulatory_status: MY_approved
   cultural_controls:
   - Giliran tanaman dengan tanaman bukan keluarga Solanaceae (elak tomato, cili, terung,

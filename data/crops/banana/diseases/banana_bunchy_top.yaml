@@ -45,6 +45,10 @@ disease:
     frequency: every 14 days while the aphid vector is active; apply before roguing
       infected plants to prevent vector dispersal
     pre_harvest_interval_days: 14
+    phi_grounding:
+      verified: false
+      status: unverified
+      source: null
     phi_unverified: true
     regulatory_status: MY_approved
   - compound: thiamethoxam
@@ -60,6 +64,10 @@ disease:
     method: foliar spray
     frequency: every 14 days, alternated with imidacloprid to manage resistance
     pre_harvest_interval_days: 14
+    phi_grounding:
+      verified: false
+      status: unverified
+      source: null
     phi_unverified: true
     regulatory_status: MY_approved
   cultural_controls:
