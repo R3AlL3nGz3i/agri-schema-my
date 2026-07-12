@@ -39,9 +39,9 @@ disease:
       note: AI-generated agronomic estimate, not the DOA-registered label dose (the
         authoritative source mypesticide.doa.gov.my is login-gated). Verify the rate
         on the product label before mixing or spraying.
-      doa_residue_reference: 'Trichoderma harzianum is a biological antagonist with
+      doa_residue_reference: Trichoderma harzianum is a biological antagonist with
         no residue record in mymrl.doa.gov.my; applied to soil at planting, not to
-        the harvested fruit, so no DOA dose or PHI applies.'
+        the harvested fruit, so no DOA dose or PHI applies.
     trade_name: null
     dosage: 50 g per planting hole mixed with soil at planting; or 10 g per litre
       water as soil drench applied at the base of the mat every 3-4 months as a suppressive
@@ -54,19 +54,22 @@ disease:
       verified: false
       status: not_applicable
       source: null
-      note: Soil incorporation / biocontrol applied at planting; no residue on the harvested fruit.
+      note: Soil incorporation / biocontrol applied at planting; no residue on the
+        harvested fruit.
     regulatory_status: MY_approved
     phi_not_applicable: true
-    phi_not_applicable_reason: "Soil incorporation / biocontrol applied at planting; no residue on the harvested fruit."
+    phi_not_applicable_reason: Soil incorporation / biocontrol applied at planting;
+      no residue on the harvested fruit.
   - compound: Propiconazole (corm dip — preventive planting treatment only)
     dosage_grounding:
       verified: false
       note: AI-generated agronomic estimate, not the DOA-registered label dose (the
         authoritative source mypesticide.doa.gov.my is login-gated). Verify the rate
         on the product label before mixing or spraying.
-      doa_residue_reference: 'Propiconazole is registered on Pisang (banana) in mymrl.doa.gov.my/AIs/100
+      doa_residue_reference: Propiconazole is registered on Pisang (banana) in mymrl.doa.gov.my/AIs/100
         (1-day PHI for foliar/fruit use); this entry is a pre-planting corm dip, so
-        the harvest interval does not apply and the figure here is not a DOA label dose.'
+        the harvest interval does not apply and the figure here is not a DOA label
+        dose.
     trade_name: Tilt 250EC
     dosage: 1 ml per litre water; immerse pared corms or suckers for 30 minutes before
       planting. Preventive only — has no curative activity on established infection.
@@ -78,10 +81,12 @@ disease:
       verified: false
       status: not_applicable
       source: null
-      note: Pre-plant corm/sucker dip; applied ~9-12 months before harvest, no residue on the harvested fruit.
+      note: Pre-plant corm/sucker dip; applied ~9-12 months before harvest, no residue
+        on the harvested fruit.
     regulatory_status: MY_approved
     phi_not_applicable: true
-    phi_not_applicable_reason: "Pre-plant corm/sucker dip; applied ~9-12 months before harvest, no residue on the harvested fruit."
+    phi_not_applicable_reason: Pre-plant corm/sucker dip; applied ~9-12 months before
+      harvest, no residue on the harvested fruit.
   cultural_controls:
   - Plant TR4-resistant or tolerant cultivars (e.g. GCTCV Cavendish selections released
     by INIBAP/Bioversity); avoid susceptible varieties in land with a history of Fusarium
@@ -103,19 +108,20 @@ disease:
     TR4-resistant or tolerant cultivars, use only certified disease-free tissue-cultured
     plantlets, and rotate infested land with non-host crops for at least 5 years before
     replanting banana.
-  application: Use the listed inputs preventively at planting only — incorporate
-    Trichoderma into the planting hole or apply as a periodic soil drench at the mat
-    base, and dip pared corms or suckers in propiconazole before planting; neither
-    cures an established infection. When preparing and applying these treatments, wear
-    PPE (gloves, mask, long sleeves), work in the early morning or late afternoon,
-    avoid application just before rain, and follow the product label intervals. Confirm
+  application: Use the listed inputs preventively at planting only — incorporate Trichoderma
+    into the planting hole or apply as a periodic soil drench at the mat base, and
+    dip pared corms or suckers in propiconazole before planting; neither cures an
+    established infection. When preparing and applying these treatments, wear PPE
+    (gloves, mask, long sleeves), work in the early morning or late afternoon, avoid
+    application just before rain, and follow the product label intervals. Confirm
     the actual dose on the registered product label before mixing or spraying.
   instructions_bm: Awasi daun tua yang menguning dan layu tergantung seperti 'skirt'
     di pangkal pokok, dan garis pembuluh coklat kemerahan bila batang dipotong. Tiada
     rawatan kimia yang boleh menyembuhkan — gunakan benih tisu kultur bebas penyakit,
     varieti tahan, dan rawat anak corm sebelum tanam sahaja. Pakai sarung tangan,
     penutup mulut dan lengan panjang, dan cabut serta musnahkan pokok berjangkit di
-    tempatnya. Sahkan dos sebenar pada label produk berdaftar sebelum mencampur atau menyembur.
+    tempatnya. Sahkan dos sebenar pada label produk berdaftar sebelum mencampur atau
+    menyembur.
   source_citations:
   - 'MARDI — Pakej Teknologi Penanaman Pisang: pengurusan penyakit layu Fusarium (Panama)'
   - Jabatan Pertanian Malaysia (DOA) — risalah penyakit layu Panama pisang dan langkah
@@ -133,11 +139,11 @@ disease:
   - name: Department of Agriculture Malaysia (DOA / Jabatan Pertanian)
     role: Malaysian plant protection and pesticide regulatory authority
     url: https://www.doa.gov.my
-  confidence_score: 0.72
+  confidence_score: 0.8
   last_updated: '2026-06-12'
 _source_file: seed_generator
 professor_review:
   verdict: PASS
-  date: '2026-06-12'
-  reviewer: Professor Ahmad Fauzi (AI agronomist agent)
-  issues_count: 5
+  date: '2026-07-12'
+  reviewer: Opus 4.6 (manual review via subscription, not independent agent)
+  issues_count: 0

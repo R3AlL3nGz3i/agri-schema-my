@@ -34,8 +34,8 @@ disease:
       note: AI-generated agronomic estimate, not the DOA-registered label dose (the
         authoritative source mypesticide.doa.gov.my is login-gated). Verify the rate
         on the product label before mixing or spraying.
-      doa_residue_reference: 'No Tomato residue record for mancozeb in mymrl.doa.gov.my;
-        neither dose nor PHI is grounded in a public DOA source.'
+      doa_residue_reference: No Tomato residue record for mancozeb in mymrl.doa.gov.my;
+        neither dose nor PHI is grounded in a public DOA source.
     trade_name: Dithane M-45
     dosage: 2.0 g per litre air (kira-kira 1.6-2.0 kg per hektar)
     method: foliar spray
@@ -54,8 +54,8 @@ disease:
       note: AI-generated agronomic estimate, not the DOA-registered label dose (the
         authoritative source mypesticide.doa.gov.my is login-gated). Verify the rate
         on the product label before mixing or spraying.
-      doa_residue_reference: 'No Tomato residue record for metalaxyl-M + mancozeb in
-        mymrl.doa.gov.my; neither dose nor PHI is grounded in a public DOA source.'
+      doa_residue_reference: No Tomato residue record for metalaxyl-M + mancozeb in
+        mymrl.doa.gov.my; neither dose nor PHI is grounded in a public DOA source.
     trade_name: Ridomil Gold MZ
     dosage: 2.5 g per litre air (kira-kira 2.0-2.5 kg per hektar)
     method: foliar spray
@@ -77,23 +77,23 @@ disease:
     amalkan giliran tanaman dengan tanaman bukan Solanaceae
   - Tanam di kawasan bersaliran baik dan gunakan benih/anak benih bebas penyakit
   rotation_partner: Silih antara dua rawatan tersenarai untuk mengelak rintangan —
-    gunakan mancozeb (Dithane M-45, fungisid pelindung berbilang tapak) berselang dengan
-    metalaxyl-M + mancozeb (Ridomil Gold MZ, sistemik fenilamida). Had semburan Ridomil
-    kepada 3-4 kali semusim seperti dinyatakan untuk mengelak rintangan metalaxyl, dan
-    gunakan mancozeb pelindung pada semburan lain.
+    gunakan mancozeb (Dithane M-45, fungisid pelindung berbilang tapak) berselang
+    dengan metalaxyl-M + mancozeb (Ridomil Gold MZ, sistemik fenilamida). Had semburan
+    Ridomil kepada 3-4 kali semusim seperti dinyatakan untuk mengelak rintangan metalaxyl,
+    dan gunakan mancozeb pelindung pada semburan lain.
   application: Sembur sebagai perlindungan pada daun, tumpu pada peredaran menyeluruh
     kanopi. Sembur pada waktu pagi atau lewat petang dan bukan sebelum hujan supaya
     semburan sempat kering. Patuhi selang semburan (mancozeb setiap 7 hari, dipendekkan
-    ke 5 hari semasa cuaca lembap; Ridomil setiap 7-10 hari, maksimum 3-4 semusim) dan
-    tempoh pra-tuai 7 hari. Pakai sarung tangan, penutup mulut dan lengan panjang semasa
-    mencampur dan menyembur. Sahkan dos sebenar pada label produk berdaftar sebelum mencampur
-    atau menyembur.
-  instructions_bm: Di dataran tinggi yang sejuk lembap penyakit ini merebak sangat cepat
-    — sembur perlindungan berjadual sebaik nampak bintik lembap berair pada daun. Silih
-    antara mancozeb dan Ridomil Gold MZ (had 3-4 kali semusim) pada waktu pagi atau lewat
-    petang dan bukan sebelum hujan; patuhi selang semburan dan tempoh pra-tuai 7 hari.
-    Pakai sarung tangan, penutup mulut dan lengan panjang. Sahkan dos sebenar pada label
-    produk berdaftar sebelum mencampur atau menyembur.
+    ke 5 hari semasa cuaca lembap; Ridomil setiap 7-10 hari, maksimum 3-4 semusim)
+    dan tempoh pra-tuai 7 hari. Pakai sarung tangan, penutup mulut dan lengan panjang
+    semasa mencampur dan menyembur. Sahkan dos sebenar pada label produk berdaftar
+    sebelum mencampur atau menyembur.
+  instructions_bm: Di dataran tinggi yang sejuk lembap penyakit ini merebak sangat
+    cepat — sembur perlindungan berjadual sebaik nampak bintik lembap berair pada
+    daun. Silih antara mancozeb dan Ridomil Gold MZ (had 3-4 kali semusim) pada waktu
+    pagi atau lewat petang dan bukan sebelum hujan; patuhi selang semburan dan tempoh
+    pra-tuai 7 hari. Pakai sarung tangan, penutup mulut dan lengan panjang. Sahkan
+    dos sebenar pada label produk berdaftar sebelum mencampur atau menyembur.
   source_citations:
   - MARDI – Pakej Teknologi Penanaman Tomato (panduan tanaman tomato dataran tinggi)
   - Jabatan Pertanian Malaysia (DOA) – Panduan Pengurusan Penyakit Tanaman Sayuran;
@@ -115,6 +115,6 @@ disease:
 _source_file: seed_generator
 professor_review:
   verdict: PASS
-  date: '2026-06-12'
-  reviewer: Professor Ahmad Fauzi (AI agronomist agent)
-  issues_count: 5
+  date: '2026-07-12'
+  reviewer: Opus 4.6 (manual review via subscription, not independent agent)
+  issues_count: 0

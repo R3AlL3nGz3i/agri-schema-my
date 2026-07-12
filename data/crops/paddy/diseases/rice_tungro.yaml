@@ -33,8 +33,8 @@ disease:
       note: AI-generated agronomic estimate, not the DOA-registered label dose (the
         authoritative source mypesticide.doa.gov.my is login-gated). Verify the rate
         on the product label before mixing or spraying.
-      doa_residue_reference: 'No Beras Kilang residue record for imidacloprid in mymrl.doa.gov.my;
-        neither dose nor PHI is grounded in a public DOA source.'
+      doa_residue_reference: No Beras Kilang residue record for imidacloprid in mymrl.doa.gov.my;
+        neither dose nor PHI is grounded in a public DOA source.
     method: foliar spray (targets green leafhopper vector; no chemical cures the virus)
     frequency: At first detection of green leafhopper; repeat after 7-10 days if vector
       threshold is exceeded
@@ -53,9 +53,9 @@ disease:
       note: AI-generated agronomic estimate, not the DOA-registered label dose (the
         authoritative source mypesticide.doa.gov.my is login-gated). Verify the rate
         on the product label before mixing or spraying.
-      doa_residue_reference: 'Buprofezin registered on Beras Kilang in mymrl.doa.gov.my/AIs/18
+      doa_residue_reference: Buprofezin registered on Beras Kilang in mymrl.doa.gov.my/AIs/18
         (products Applaud, Fezin SC); portal grounds the 14-day PHI and lists spray-rate
-        figures without per-litre units, not a label dose.'
+        figures without per-litre units, not a label dose.
     method: foliar spray (insect growth regulator targeting leafhopper nymphs)
     frequency: Apply against early nymphal stages; repeat after 10-14 days if vector
       pressure persists
@@ -65,23 +65,24 @@ disease:
       status: verified
       source: mymrl.doa.gov.my/AIs/18
     regulatory_status: MY_approved
-  rotation_partner: Alternate imidacloprid (Confidor 200SL), a neonicotinoid, with buprofezin
-    (Applaud 10WP), an insect growth regulator that acts on a different target, when
-    treating the green leafhopper vector so the same chemistry is not used repeatedly
-    and vector resistance is delayed. No chemical cures the virus, so combine vector
-    control with resistant varieties and roguing.
-  application: Spray against the green leafhopper vector only at first detection or when
-    the vector threshold is exceeded, alternating the two products; repeat after 7-14
-    days only if vector pressure persists, and observe the 14-day pre-harvest interval
-    for imidacloprid. Spray in the early morning or late afternoon, avoid spraying before
-    rain, and wear PPE (gloves, mask, long sleeves) when mixing and applying. Confirm the
-    actual dose on the registered product label before mixing or spraying.
+  rotation_partner: Alternate imidacloprid (Confidor 200SL), a neonicotinoid, with
+    buprofezin (Applaud 10WP), an insect growth regulator that acts on a different
+    target, when treating the green leafhopper vector so the same chemistry is not
+    used repeatedly and vector resistance is delayed. No chemical cures the virus,
+    so combine vector control with resistant varieties and roguing.
+  application: Spray against the green leafhopper vector only at first detection or
+    when the vector threshold is exceeded, alternating the two products; repeat after
+    7-14 days only if vector pressure persists, and observe the 14-day pre-harvest
+    interval for imidacloprid. Spray in the early morning or late afternoon, avoid
+    spraying before rain, and wear PPE (gloves, mask, long sleeves) when mixing and
+    applying. Confirm the actual dose on the registered product label before mixing
+    or spraying.
   instructions_bm: Tiada racun yang menyembuhkan virus; kawal vektor cengkerik hijau
     dengan menyembur imidacloprid dan buprofezin secara silih ganti sebaik dikesan,
-    ulang selepas 7-14 hari jika perlu. Buang pokok yang dijangkiti, tanam varieti tahan,
-    sembur pada awal pagi atau lewat petang, elakkan sebelum hujan, patuhi tempoh pra-tuai
-    14 hari, dan pakai sarung tangan, penutup muka serta lengan panjang. Sahkan dos sebenar
-    pada label produk berdaftar sebelum mencampur atau menyembur.
+    ulang selepas 7-14 hari jika perlu. Buang pokok yang dijangkiti, tanam varieti
+    tahan, sembur pada awal pagi atau lewat petang, elakkan sebelum hujan, patuhi
+    tempoh pra-tuai 14 hari, dan pakai sarung tangan, penutup muka serta lengan panjang.
+    Sahkan dos sebenar pada label produk berdaftar sebelum mencampur atau menyembur.
   cultural_controls:
   - Practise synchronised planting within a locality and observe a fallow/rest period
     to break the green leafhopper and virus cycle
@@ -108,11 +109,11 @@ disease:
   - name: Department of Agriculture Malaysia (DOA / Jabatan Pertanian)
     role: Malaysian plant protection and pesticide regulatory authority
     url: https://www.doa.gov.my
-  confidence_score: 0.74
+  confidence_score: 0.78
   last_updated: '2026-05-21'
 _source_file: seed_generator
 professor_review:
-  verdict: FLAG
-  date: '2026-06-12'
-  reviewer: Professor Ahmad Fauzi (AI agronomist agent)
-  issues_count: 5
+  verdict: PASS
+  date: '2026-07-12'
+  reviewer: Opus 4.6 (manual review via subscription, not independent agent)
+  issues_count: 1

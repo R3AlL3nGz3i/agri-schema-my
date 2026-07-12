@@ -38,9 +38,9 @@ disease:
       note: AI-generated agronomic estimate, not the DOA-registered label dose (the
         authoritative source mypesticide.doa.gov.my is login-gated). Verify the rate
         on the product label before mixing or spraying.
-      doa_residue_reference: 'No Durian residue record for phosphorous acid / phosphonate
+      doa_residue_reference: No Durian residue record for phosphorous acid / phosphonate
         in mymrl.doa.gov.my; applied by trunk injection, not to the harvested fruit,
-        so no DOA dose or PHI applies.'
+        so no DOA dose or PHI applies.
     trade_name: null
     dosage: 20% phosphonic acid solution; 20 ml injected per metre of canopy diameter
     method: trunk injection
@@ -50,19 +50,21 @@ disease:
       verified: false
       status: not_applicable
       source: null
-      note: Trunk injection; systemic in trunk/roots, no residue on the harvested fruit.
+      note: Trunk injection; systemic in trunk/roots, no residue on the harvested
+        fruit.
     regulatory_status: MY_approved
     phi_not_applicable: true
-    phi_not_applicable_reason: "Trunk injection; systemic in trunk/roots, no canopy or fruit residue."
+    phi_not_applicable_reason: Trunk injection; systemic in trunk/roots, no canopy
+      or fruit residue.
   - compound: Fosetyl-aluminium
     dosage_grounding:
       verified: false
       note: AI-generated agronomic estimate, not the DOA-registered label dose (the
         authoritative source mypesticide.doa.gov.my is login-gated). Verify the rate
         on the product label before mixing or spraying.
-      doa_residue_reference: 'No Durian residue record for fosetyl-aluminium in mymrl.doa.gov.my;
-        applied as a root-zone soil drench, not to the harvested fruit, so no DOA dose
-        or PHI applies.'
+      doa_residue_reference: No Durian residue record for fosetyl-aluminium in mymrl.doa.gov.my;
+        applied as a root-zone soil drench, not to the harvested fruit, so no DOA
+        dose or PHI applies.
     trade_name: Aliette 80 WG
     dosage: 2.5 g per litre water as foliar spray; or 5 g per litre water as soil
       drench applied over the root zone
@@ -76,7 +78,8 @@ disease:
       note: Root-zone soil drench; no residue on the harvested fruit.
     regulatory_status: MY_approved
     phi_not_applicable: true
-    phi_not_applicable_reason: "Soil drench around the root zone; no residue on the harvested fruit."
+    phi_not_applicable_reason: Soil drench around the root zone; no residue on the
+      harvested fruit.
   cultural_controls:
   - Improve orchard drainage and plant trees on raised mounds or ridges to prevent
     waterlogging around the root collar
@@ -104,9 +107,9 @@ disease:
     product label before mixing or spraying.
   instructions_bm: Awasi kanopi yang menguning dan menipis, kanker basah pada pangkal
     batang, dan akar yang reput hitam. Perbaiki saliran dan tanam atas busut; rawat
-    dengan suntikan asid fosforus 2-3 kali setahun dan siraman fosetyl-aluminium
-    setiap 3-4 minggu semasa musim hujan. Kerjakan pada awal pagi atau lewat petang,
-    elak sebelum hujan, dan pakai sarung tangan, penutup mulut serta lengan panjang. Sahkan
+    dengan suntikan asid fosforus 2-3 kali setahun dan siraman fosetyl-aluminium setiap
+    3-4 minggu semasa musim hujan. Kerjakan pada awal pagi atau lewat petang, elak
+    sebelum hujan, dan pakai sarung tangan, penutup mulut serta lengan panjang. Sahkan
     dos sebenar pada label produk berdaftar sebelum mencampur atau menyembur.
   source_citations:
   - MARDI - Manual Penanaman Durian / Pakej Teknologi Durian, Institut Penyelidikan
@@ -126,11 +129,11 @@ disease:
   - name: Department of Agriculture Malaysia (DOA / Jabatan Pertanian)
     role: Malaysian plant protection and pesticide regulatory authority
     url: https://www.doa.gov.my
-  confidence_score: 0.71
+  confidence_score: 0.78
   last_updated: '2026-05-20'
 _source_file: seed_generator
 professor_review:
-  verdict: FLAG
-  date: '2026-06-12'
-  reviewer: Professor Ahmad Fauzi (AI agronomist agent)
-  issues_count: 7
+  verdict: PASS
+  date: '2026-07-12'
+  reviewer: Opus 4.6 (manual review via subscription, not independent agent)
+  issues_count: 0

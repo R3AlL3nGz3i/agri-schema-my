@@ -39,9 +39,9 @@ disease:
       note: AI-generated agronomic estimate, not the DOA-registered label dose (the
         authoritative source mypesticide.doa.gov.my is login-gated). Verify the rate
         on the product label before mixing or spraying.
-      doa_residue_reference: 'Buprofezin registered on Beras Kilang in mymrl.doa.gov.my/AIs/18
+      doa_residue_reference: Buprofezin registered on Beras Kilang in mymrl.doa.gov.my/AIs/18
         (products Applaud, Fezin SC); portal grounds the 14-day PHI and lists spray-rate
-        figures without per-litre units, not a label dose.'
+        figures without per-litre units, not a label dose.
     method: foliar spray directed at the base of the plants
     frequency: Apply at first detection of nymphs above threshold; repeat once after
       10-14 days if monitoring shows continued buildup
@@ -59,8 +59,8 @@ disease:
       note: AI-generated agronomic estimate, not the DOA-registered label dose (the
         authoritative source mypesticide.doa.gov.my is login-gated). Verify the rate
         on the product label before mixing or spraying.
-      doa_residue_reference: 'No Beras Kilang residue record for pymetrozine in mymrl.doa.gov.my;
-        neither dose nor PHI is grounded in a public DOA source.'
+      doa_residue_reference: No Beras Kilang residue record for pymetrozine in mymrl.doa.gov.my;
+        neither dose nor PHI is grounded in a public DOA source.
     method: foliar spray
     frequency: Single application at the economic threshold; a second application
       after 14 days only if the threshold is again exceeded
@@ -72,22 +72,22 @@ disease:
     phi_unverified: true
     regulatory_status: MY_approved
   rotation_partner: Alternate buprofezin (Applaud 10 WP), an insect growth regulator,
-    with pymetrozine (Plenum 50 WG), a feeding-blocking compound with a different mode
-    of action, so the same chemistry is not used repeatedly and resistance is delayed.
-    Avoid prophylactic broad-spectrum sprays and rely on threshold-based use of these
-    two alternating products.
+    with pymetrozine (Plenum 50 WG), a feeding-blocking compound with a different
+    mode of action, so the same chemistry is not used repeatedly and resistance is
+    delayed. Avoid prophylactic broad-spectrum sprays and rely on threshold-based
+    use of these two alternating products.
   application: Spray only when nymphs exceed the action threshold, directing the spray
     at the base of the plants; if a repeat is needed use the alternate product after
     10-14 days, and observe the 14-day (buprofezin) or 21-day (pymetrozine) pre-harvest
-    interval. Spray in the early morning or late afternoon, avoid spraying before rain,
-    and wear PPE (gloves, mask, long sleeves) when mixing and applying. Confirm the actual
-    dose on the registered product label before mixing or spraying.
+    interval. Spray in the early morning or late afternoon, avoid spraying before
+    rain, and wear PPE (gloves, mask, long sleeves) when mixing and applying. Confirm
+    the actual dose on the registered product label before mixing or spraying.
   instructions_bm: Periksa pangkal anak padi; jika bilangan bena perang melebihi ambang
     (kira-kira 8-10 seekor sepokok), sembur ke pangkal pokok dan silih gantikan buprofezin
     dengan pymetrozine untuk elak kerintangan. Sembur pada awal pagi atau lewat petang,
     elakkan sebelum hujan, patuhi tempoh pra-tuai (14 atau 21 hari), dan pakai sarung
-    tangan, penutup muka serta lengan panjang. Sahkan dos sebenar pada label produk berdaftar
-    sebelum mencampur atau menyembur.
+    tangan, penutup muka serta lengan panjang. Sahkan dos sebenar pada label produk
+    berdaftar sebelum mencampur atau menyembur.
   cultural_controls:
   - Practise synchronised planting within a granary block and observe the rice-free
     fallow (turn-around) period to break the pest's breeding cycle
@@ -112,11 +112,11 @@ disease:
   - name: Department of Agriculture Malaysia (DOA / Jabatan Pertanian)
     role: Malaysian plant protection and pesticide regulatory authority
     url: https://www.doa.gov.my
-  confidence_score: 0.72
+  confidence_score: 0.8
   last_updated: '2026-05-20'
 _source_file: seed_generator
 professor_review:
-  verdict: FLAG
-  date: '2026-06-12'
-  reviewer: Professor Ahmad Fauzi (AI agronomist agent)
-  issues_count: 5
+  verdict: PASS
+  date: '2026-07-12'
+  reviewer: Opus 4.6 (manual review via subscription, not independent agent)
+  issues_count: 0

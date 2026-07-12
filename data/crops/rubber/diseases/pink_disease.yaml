@@ -36,9 +36,9 @@ disease:
       note: AI-generated agronomic estimate, not the DOA-registered label dose (the
         authoritative source mypesticide.doa.gov.my is login-gated). Verify the rate
         on the product label before mixing or spraying.
-      doa_residue_reference: 'Rubber is not a food commodity and has no residue record
+      doa_residue_reference: Rubber is not a food commodity and has no residue record
         in the DOA portal (mymrl.doa.gov.my); this dose and PHI are not grounded in
-        a public DOA source.'
+        a public DOA source.
     trade_name: Calixin 750 EC
     dosage: Applied as a paint over the lesion plus ~15 cm of healthy bark on each
       side, undiluted or diluted 1:1 with water (best-estimate; verify against current
@@ -58,9 +58,9 @@ disease:
       note: AI-generated agronomic estimate, not the DOA-registered label dose (the
         authoritative source mypesticide.doa.gov.my is login-gated). Verify the rate
         on the product label before mixing or spraying.
-      doa_residue_reference: 'Rubber is not a food commodity and has no residue record
+      doa_residue_reference: Rubber is not a food commodity and has no residue record
         in the DOA portal (mymrl.doa.gov.my); this dose and PHI are not grounded in
-        a public DOA source.'
+        a public DOA source.
     trade_name: Cobox 50 WP
     dosage: Mixed into a thick paste (approx. 1 part 50% WP to 1 part water) and painted
       on scraped lesions; for cobweb-stage spraying use 3g per litre water (best-estimate;
@@ -84,25 +84,26 @@ disease:
     season to detect the cobweb stage early, when treatment is most effective
   - Plant rubber clones with lower susceptibility to pink disease in areas where the
     disease is endemic
-  rotation_partner: Alternate the two listed treatments to slow resistance build-up —
-    use Tridemorph (Calixin 750 EC, a morpholine) and Copper oxychloride (Cobox 50 WP,
-    a multi-site copper) in rotation so consecutive applications do not rely on the same
-    mode of action. Also rotate in the cultural measure of planting lower-susceptibility
+  rotation_partner: Alternate the two listed treatments to slow resistance build-up
+    — use Tridemorph (Calixin 750 EC, a morpholine) and Copper oxychloride (Cobox
+    50 WP, a multi-site copper) in rotation so consecutive applications do not rely
+    on the same mode of action. Also rotate in the cultural measure of planting lower-susceptibility
     clones where the disease is endemic.
-  application: Apply mainly as a bark paint/band over the lesion plus healthy bark on
-    each side by brush; use copper as a foliar spray only for the early cobweb stage.
-    Treat during dry weather in the early morning or late afternoon, and do not apply
-    just before rain so the paint or spray can set. Observe the stated repeat intervals
-    (Tridemorph every 7-10 days for 2-3 rounds; copper every 10-14 days through the wet
-    season) until the lesion dries up. Wear gloves, a mask and long sleeves when mixing
-    and applying. Confirm the actual dose on the registered product label before mixing
-    or spraying.
-  instructions_bm: Periksa cabang pokok umur 3-10 tahun semasa musim hujan; sebaik nampak
-    tanda awal (jalinan putih halus atau kesan merah jambu pada kulit), sapu ubat pada
-    lesi dan kulit sihat di sekelilingnya dengan berus pada waktu pagi atau lewat petang,
-    elakkan sapu sebelum hujan, dan ulang setiap 7-14 hari sehingga lesi kering. Pakai
-    sarung tangan, penutup mulut dan lengan panjang semasa mencampur dan menyapu. Sahkan
-    dos sebenar pada label produk berdaftar sebelum mencampur atau menyembur.
+  application: Apply mainly as a bark paint/band over the lesion plus healthy bark
+    on each side by brush; use copper as a foliar spray only for the early cobweb
+    stage. Treat during dry weather in the early morning or late afternoon, and do
+    not apply just before rain so the paint or spray can set. Observe the stated repeat
+    intervals (Tridemorph every 7-10 days for 2-3 rounds; copper every 10-14 days
+    through the wet season) until the lesion dries up. Wear gloves, a mask and long
+    sleeves when mixing and applying. Confirm the actual dose on the registered product
+    label before mixing or spraying.
+  instructions_bm: Periksa cabang pokok umur 3-10 tahun semasa musim hujan; sebaik
+    nampak tanda awal (jalinan putih halus atau kesan merah jambu pada kulit), sapu
+    ubat pada lesi dan kulit sihat di sekelilingnya dengan berus pada waktu pagi atau
+    lewat petang, elakkan sapu sebelum hujan, dan ulang setiap 7-14 hari sehingga
+    lesi kering. Pakai sarung tangan, penutup mulut dan lengan panjang semasa mencampur
+    dan menyapu. Sahkan dos sebenar pada label produk berdaftar sebelum mencampur
+    atau menyembur.
   source_citations:
   - Malaysian Rubber Board / Lembaga Getah Malaysia (RRIM) - extension guidance and
     Planters' Bulletin on rubber stem diseases (penyakit merah jambu)
@@ -123,11 +124,11 @@ disease:
   - name: MRB (Malaysian Rubber Board / Lembaga Getah Malaysia)
     role: Malaysian statutory R&D and regulatory authority for rubber
     url: https://www.lgm.gov.my
-  confidence_score: 0.78
+  confidence_score: 0.68
   last_updated: '2026-05-21'
 _source_file: seed_generator
 professor_review:
   verdict: FLAG
-  date: '2026-06-12'
-  reviewer: Professor Ahmad Fauzi (AI agronomist agent)
-  issues_count: 7
+  date: '2026-07-12'
+  reviewer: Opus 4.6 (manual review via subscription, not independent agent)
+  issues_count: 2

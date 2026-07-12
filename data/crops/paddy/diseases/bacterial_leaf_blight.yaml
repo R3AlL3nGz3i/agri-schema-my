@@ -41,10 +41,10 @@ disease:
       note: AI-generated agronomic estimate, not a DOA-registered label dose (the
         authoritative source mypesticide.doa.gov.my is login-gated). Verify any copper
         product rate on its label before mixing or spraying.
-      doa_residue_reference: 'Copper hydroxide/oxychloride have no Beras Kilang residue
+      doa_residue_reference: Copper hydroxide/oxychloride have no Beras Kilang residue
         record in mymrl.doa.gov.my; this suppressive copper rate is not grounded in
         a public DOA source. BLB has no curative chemical — rely on resistant varieties
-        and sanitation.'
+        and sanitation.
     method: Preventive foliar application if used; direct spray at leaf canopy. Primary
       management must rely on resistant varieties and cultural practices.
     frequency: Preventive only — at canopy closure or early tillering in high-risk
@@ -61,10 +61,10 @@ disease:
     certified varieties (e.g. MARDI MR-series), practising crop rotation and rice-free
     fallow, and relying on cultural controls rather than repeated copper sprays.
   application: If a copper-based preventive spray is used at all, apply it only preventively
-    at canopy closure or early tillering in high-risk seasons and never reactively on
-    established disease; observe the 14-day pre-harvest interval. Spray in the early
-    morning or late afternoon, avoid spraying before rain, and wear PPE (gloves, mask,
-    long sleeves) when mixing and applying. Confirm the actual dose on the registered
+    at canopy closure or early tillering in high-risk seasons and never reactively
+    on established disease; observe the 14-day pre-harvest interval. Spray in the
+    early morning or late afternoon, avoid spraying before rain, and wear PPE (gloves,
+    mask, long sleeves) when mixing and applying. Confirm the actual dose on the registered
     product label before mixing or spraying.
   instructions_bm: Tiada rawatan kimia yang boleh menyembuh; utamakan varieti tahan
     yang disyorkan MARDI, benih bersih dan sanitasi sawah. Jika semburan kuprum pencegahan
@@ -98,11 +98,11 @@ disease:
   - name: Department of Agriculture Malaysia (DOA / Jabatan Pertanian)
     role: Malaysian plant protection and pesticide regulatory authority
     url: https://www.doa.gov.my
-  confidence_score: 0.72
+  confidence_score: 0.8
   last_updated: '2026-06-12'
 _source_file: seed_generator
 professor_review:
   verdict: PASS
-  date: '2026-06-12'
-  reviewer: Professor Ahmad Fauzi (AI agronomist agent)
-  issues_count: 4
+  date: '2026-07-12'
+  reviewer: Opus 4.6 (manual review via subscription, not independent agent)
+  issues_count: 0

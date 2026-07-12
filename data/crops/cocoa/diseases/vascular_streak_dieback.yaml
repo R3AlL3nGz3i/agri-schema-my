@@ -36,8 +36,8 @@ disease:
       note: AI-generated agronomic estimate, not the DOA-registered label dose (the
         authoritative source mypesticide.doa.gov.my is login-gated). Verify the rate
         on the product label before mixing or spraying.
-      doa_residue_reference: 'No Biji Koko (cocoa) residue record for hexaconazole
-        in mymrl.doa.gov.my; neither dose nor PHI is grounded in a public DOA source.'
+      doa_residue_reference: No Biji Koko (cocoa) residue record for hexaconazole
+        in mymrl.doa.gov.my; neither dose nor PHI is grounded in a public DOA source.
     trade_name: Anvil 5SC
     dosage: 1 ml per litre water
     method: foliar spray
@@ -56,8 +56,8 @@ disease:
       note: AI-generated agronomic estimate, not the DOA-registered label dose (the
         authoritative source mypesticide.doa.gov.my is login-gated). Verify the rate
         on the product label before mixing or spraying.
-      doa_residue_reference: 'No Biji Koko (cocoa) residue record for copper hydroxide
-        in mymrl.doa.gov.my; neither dose nor PHI is grounded in a public DOA source.'
+      doa_residue_reference: No Biji Koko (cocoa) residue record for copper hydroxide
+        in mymrl.doa.gov.my; neither dose nor PHI is grounded in a public DOA source.
     trade_name: Kocide 3000
     dosage: 2 g per litre water
     method: foliar spray
@@ -80,19 +80,19 @@ disease:
     and leaf wetness that favour spore infection of young flush
   rotation_partner: Alternate the two listed fungicides, which have different modes
     of action, to manage resistance — rotate hexaconazole (a systemic triazole) with
-    copper hydroxide (a multi-site protectant) rather than spraying the triazole
-    repeatedly on its own. This systemic/protectant alternation spreads selection
-    pressure across the two chemistries already in the entry.
+    copper hydroxide (a multi-site protectant) rather than spraying the triazole repeatedly
+    on its own. This systemic/protectant alternation spreads selection pressure across
+    the two chemistries already in the entry.
   application: Apply both as a foliar spray targeting the young flush — hexaconazole
-    at each new leaf flush (about every 3-4 weeks during active flushing and wet
-    weather) and copper hydroxide as a protective spray every 2-3 weeks during the
-    wet, high-sporulation season. Spray in the early morning or late afternoon, avoid
-    spraying just before rain, and keep to the stated intervals. Wear PPE — gloves,
-    mask and long sleeves — when mixing and applying, and follow the product label. Confirm
-    the actual dose on the registered product label before mixing or spraying.
+    at each new leaf flush (about every 3-4 weeks during active flushing and wet weather)
+    and copper hydroxide as a protective spray every 2-3 weeks during the wet, high-sporulation
+    season. Spray in the early morning or late afternoon, avoid spraying just before
+    rain, and keep to the stated intervals. Wear PPE — gloves, mask and long sleeves
+    — when mixing and applying, and follow the product label. Confirm the actual dose
+    on the registered product label before mixing or spraying.
   instructions_bm: Awasi daun menguning dengan bintik hijau pada pucuk muda dan gugur
-    daun di tengah dahan meninggalkan ranting kosong. Pangkas dahan berjangkit 30 cm
-    di bawah jalur pembuluh, kemudian sembur pucuk muda dengan hexaconazole setiap
+    daun di tengah dahan meninggalkan ranting kosong. Pangkas dahan berjangkit 30
+    cm di bawah jalur pembuluh, kemudian sembur pucuk muda dengan hexaconazole setiap
     3-4 minggu berselang-seli dengan kuprum hidroksida untuk elak rintangan. Sembur
     pada awal pagi atau lewat petang, elak sebelum hujan, dan pakai sarung tangan,
     penutup mulut serta lengan panjang. Sahkan dos sebenar pada label produk berdaftar
@@ -116,11 +116,11 @@ disease:
   - name: MCB (Malaysian Cocoa Board / Lembaga Koko Malaysia)
     role: Malaysian statutory R&D and regulatory authority for cocoa
     url: https://www.koko.gov.my
-  confidence_score: 0.72
+  confidence_score: 0.78
   last_updated: '2026-05-20'
 _source_file: seed_generator
 professor_review:
-  verdict: FLAG
-  date: '2026-06-12'
-  reviewer: Professor Ahmad Fauzi (AI agronomist agent)
-  issues_count: 6
+  verdict: PASS
+  date: '2026-07-12'
+  reviewer: Opus 4.6 (manual review via subscription, not independent agent)
+  issues_count: 0

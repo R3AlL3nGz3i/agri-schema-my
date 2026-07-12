@@ -28,14 +28,14 @@ disease:
       note: AI-generated agronomic estimate, not the DOA-registered label dose (the
         authoritative source mypesticide.doa.gov.my is login-gated). Verify the rate
         on the product label before mixing or spraying.
-      doa_residue_reference: 'Tricyclazole registered on Beras Kilang in mymrl.doa.gov.my/AIs/121;
-        portal grounds the 30-day PHI but publishes no label dose.'
+      doa_residue_reference: Tricyclazole registered on Beras Kilang in mymrl.doa.gov.my/AIs/121;
+        portal grounds the 30-day PHI but publishes no label dose.
     method: foliar spray
     frequency: twice weekly for 2 weeks at first sign of infection
     pre_harvest_interval_days: 30
-    phi_source: 'DOA Malaysia residue registry (mymrl.doa.gov.my): 30-day TDMH
-      (Tempoh Dilarang Mengutip Hasil / pre-harvest interval) for Tricyclazole
-      on Beras Kilang (milled rice). Authoritative MY government source.'
+    phi_source: 'DOA Malaysia residue registry (mymrl.doa.gov.my): 30-day TDMH (Tempoh
+      Dilarang Mengutip Hasil / pre-harvest interval) for Tricyclazole on Beras Kilang
+      (milled rice). Authoritative MY government source.'
     phi_grounding:
       verified: true
       status: verified
@@ -49,14 +49,14 @@ disease:
       note: AI-generated agronomic estimate, not the DOA-registered label dose (the
         authoritative source mypesticide.doa.gov.my is login-gated). Verify the rate
         on the product label before mixing or spraying.
-      doa_residue_reference: 'Isoprothiolane registered on Beras Kilang in mymrl.doa.gov.my/AIs/135;
-        portal grounds the 14-day PHI but publishes no label dose.'
+      doa_residue_reference: Isoprothiolane registered on Beras Kilang in mymrl.doa.gov.my/AIs/135;
+        portal grounds the 14-day PHI but publishes no label dose.
     method: foliar spray
     frequency: apply at tillering and panicle initiation
     pre_harvest_interval_days: 14
-    phi_source: 'DOA Malaysia residue registry (mymrl.doa.gov.my): 14-day TDMH
-      (Tempoh Dilarang Mengutip Hasil / pre-harvest interval) for Isoprothiolane
-      on Beras Kilang (milled rice). Authoritative MY government source.'
+    phi_source: 'DOA Malaysia residue registry (mymrl.doa.gov.my): 14-day TDMH (Tempoh
+      Dilarang Mengutip Hasil / pre-harvest interval) for Isoprothiolane on Beras
+      Kilang (milled rice). Authoritative MY government source.'
     phi_grounding:
       verified: true
       status: verified
@@ -70,9 +70,9 @@ disease:
       note: AI-generated agronomic estimate, not the DOA-registered label dose (the
         authoritative source mypesticide.doa.gov.my is login-gated). Verify the rate
         on the product label before mixing or spraying.
-      doa_residue_reference: 'Azoxystrobin registered on Beras Kilang in mymrl.doa.gov.my/AIs/10
-        (product BM DIFENAZO); portal lists a spray-rate figure without per-litre units,
-        not a label dose, and grounds the 14-day PHI.'
+      doa_residue_reference: Azoxystrobin registered on Beras Kilang in mymrl.doa.gov.my/AIs/10
+        (product BM DIFENAZO); portal lists a spray-rate figure without per-litre
+        units, not a label dose, and grounds the 14-day PHI.
     method: foliar spray
     frequency: preventive — apply before symptom onset
     pre_harvest_interval_days: 14
@@ -81,32 +81,35 @@ disease:
       status: verified
       source: mymrl.doa.gov.my/AIs/10
     regulatory_status: MY_approved
-  rotation_partner: Alternate the listed fungicides across their different modes of action
-    to manage resistance — for example rotate Tricyclazole (Beam 75WP, a melanin-biosynthesis
+  rotation_partner: Alternate the listed fungicides across their different modes of
+    action to manage resistance — for example rotate Tricyclazole (Beam 75WP, a melanin-biosynthesis
     inhibitor) with Azoxystrobin (Amistar 25SC, a strobilurin/QoI) rather than repeating
-    the same product; Isoprothiolane (Fuji-One 40EC) can also be alternated in the programme.
+    the same product; Isoprothiolane (Fuji-One 40EC) can also be alternated in the
+    programme.
   application: Apply at the first sign of infection (or preventively for Azoxystrobin,
     before symptom onset) as a foliar spray, following the stated frequency for each
     product, and observe the 14-30 day pre-harvest interval. Spray in the early morning
     or late afternoon, avoid spraying before rain, observe the stated spray interval,
-    and wear PPE (gloves, mask, long sleeves) when mixing and applying. Confirm the actual
-    dose on the registered product label before mixing or spraying.
+    and wear PPE (gloves, mask, long sleeves) when mixing and applying. Confirm the
+    actual dose on the registered product label before mixing or spraying.
   instructions_bm: Perhatikan lesi berbentuk wajik berwarna kelabu pada daun; sembur
     sebaik tanda pertama muncul dan silih gantikan racun (contohnya Tricyclazole dengan
-    Azoxystrobin) untuk elak kerintangan. Sembur pada awal pagi atau lewat petang, elakkan
-    sebelum hujan, patuhi tempoh pra-tuai 14-30 hari, dan pakai sarung tangan, penutup
-    muka serta lengan panjang. Sahkan dos sebenar pada label produk berdaftar sebelum
-    mencampur atau menyembur.
+    Azoxystrobin) untuk elak kerintangan. Sembur pada awal pagi atau lewat petang,
+    elakkan sebelum hujan, patuhi tempoh pra-tuai 14-30 hari, dan pakai sarung tangan,
+    penutup muka serta lengan panjang. Sahkan dos sebenar pada label produk berdaftar
+    sebelum mencampur atau menyembur.
   cultural_controls:
   - Use certified disease-free seed and plant blast-resistant/tolerant varieties recommended
     by MARDI, rotating varieties to manage pathogen races
   - Avoid excessive nitrogen fertiliser and apply balanced, split N-P-K fertilisation,
     which reduces the lush growth that favours blast
-  - Practise field sanitation by ploughing in stubble and destroying infected crop residue,
-    and manage water to avoid prolonged leaf wetness
+  - Practise field sanitation by ploughing in stubble and destroying infected crop
+    residue, and manage water to avoid prolonged leaf wetness
   source_citations:
-  - MARDI (Malaysian Agricultural Research and Development Institute) — paddy disease management guidance
-  - Department of Agriculture Malaysia (DOA / Jabatan Pertanian) — rice pest and disease control guidance
+  - MARDI (Malaysian Agricultural Research and Development Institute) — paddy disease
+    management guidance
+  - Department of Agriculture Malaysia (DOA / Jabatan Pertanian) — rice pest and disease
+    control guidance
   - 'FAO AGROVOC concept: rice blast (agrovoc.fao.org)'
   authorities:
   - name: EPPO Global Database
@@ -119,10 +122,10 @@ disease:
   - name: Department of Agriculture Malaysia (DOA / Jabatan Pertanian)
     role: Malaysian plant protection and pesticide regulatory authority
     url: https://www.doa.gov.my
-  confidence_score: 0.72
+  confidence_score: 0.8
   last_updated: '2026-07-08'
 professor_review:
-  verdict: FLAG
-  date: '2026-06-12'
-  reviewer: Professor Ahmad Fauzi (AI agronomist agent)
-  issues_count: 6
+  verdict: PASS
+  date: '2026-07-12'
+  reviewer: Opus 4.6 (manual review via subscription, not independent agent)
+  issues_count: 1

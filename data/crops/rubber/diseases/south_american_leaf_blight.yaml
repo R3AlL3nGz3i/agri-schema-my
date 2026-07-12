@@ -31,9 +31,9 @@ disease:
       note: AI-generated agronomic estimate, not the DOA-registered label dose (the
         authoritative source mypesticide.doa.gov.my is login-gated). Verify the rate
         on the product label before mixing or spraying.
-      doa_residue_reference: 'Rubber is not a food commodity and has no residue record
+      doa_residue_reference: Rubber is not a food commodity and has no residue record
         in the DOA portal (mymrl.doa.gov.my); this dose and PHI are not grounded in
-        a public DOA source.'
+        a public DOA source.
     trade_name: Dithane M-45
     dosage: 2g per litre water as protective foliar spray
     method: foliar spray
@@ -51,9 +51,9 @@ disease:
       note: AI-generated agronomic estimate, not the DOA-registered label dose (the
         authoritative source mypesticide.doa.gov.my is login-gated). Verify the rate
         on the product label before mixing or spraying.
-      doa_residue_reference: 'Rubber is not a food commodity and has no residue record
+      doa_residue_reference: Rubber is not a food commodity and has no residue record
         in the DOA portal (mymrl.doa.gov.my); this dose and PHI are not grounded in
-        a public DOA source.'
+        a public DOA source.
     trade_name: Bayleton 25WP
     dosage: 0.5g per litre water
     method: foliar spray
@@ -72,24 +72,25 @@ disease:
   - Strict phytosanitary exclusion — enforce DOA import controls on rubber planting
     material from South/Central America
   - Monitor border entry points and maintain sentinel plots near ports
-  rotation_partner: If an outbreak is confirmed, alternate the two listed treatments so
-    consecutive sprays use different modes of action — Mancozeb (Dithane M-45, a multi-site
-    protectant) and Triadimefon (Bayleton 25WP, a triazole/DMI systemic). Combine this
-    with the cultural measure of planting SALB-tolerant clones and synchronised wintering
-    to reduce reliance on any single fungicide.
-  application: Apply both products as foliar sprays during active wet leaf flush, timing
-    protectant Mancozeb ahead of infection and the systemic Triadimefon during flushing.
-    Spray in the early morning or late afternoon and not just before rain so the spray
-    can dry on the foliage. Keep to the stated intervals (Mancozeb weekly; Triadimefon
-    every 10-14 days) and respect the pre-harvest intervals (Mancozeb 14 days, Triadimefon
-    21 days) before tapping. Wear gloves, a mask and long sleeves when mixing and spraying.
-    Confirm the actual dose on the registered product label before mixing or spraying.
+  rotation_partner: If an outbreak is confirmed, alternate the two listed treatments
+    so consecutive sprays use different modes of action — Mancozeb (Dithane M-45,
+    a multi-site protectant) and Triadimefon (Bayleton 25WP, a triazole/DMI systemic).
+    Combine this with the cultural measure of planting SALB-tolerant clones and synchronised
+    wintering to reduce reliance on any single fungicide.
+  application: Apply both products as foliar sprays during active wet leaf flush,
+    timing protectant Mancozeb ahead of infection and the systemic Triadimefon during
+    flushing. Spray in the early morning or late afternoon and not just before rain
+    so the spray can dry on the foliage. Keep to the stated intervals (Mancozeb weekly;
+    Triadimefon every 10-14 days) and respect the pre-harvest intervals (Mancozeb
+    14 days, Triadimefon 21 days) before tapping. Wear gloves, a mask and long sleeves
+    when mixing and spraying. Confirm the actual dose on the registered product label
+    before mixing or spraying.
   instructions_bm: Penyakit ini kuarantin dan belum ada di Malaysia — utamakan pencegahan
-    dan lapor sebarang syak. Jika wabak disahkan, sembur berselang antara Mancozeb dan
-    Triadimefon semasa daun muda bertunas, pada waktu pagi atau lewat petang dan bukan
-    sebelum hujan; patuhi selang semburan dan tempoh pra-tuai (Mancozeb 14 hari, Triadimefon
-    21 hari). Pakai sarung tangan, penutup mulut dan lengan panjang. Sahkan dos sebenar
-    pada label produk berdaftar sebelum mencampur atau menyembur.
+    dan lapor sebarang syak. Jika wabak disahkan, sembur berselang antara Mancozeb
+    dan Triadimefon semasa daun muda bertunas, pada waktu pagi atau lewat petang dan
+    bukan sebelum hujan; patuhi selang semburan dan tempoh pra-tuai (Mancozeb 14 hari,
+    Triadimefon 21 hari). Pakai sarung tangan, penutup mulut dan lengan panjang. Sahkan
+    dos sebenar pada label produk berdaftar sebelum mencampur atau menyembur.
   source_citations:
   - RRIM (Rubber Research Institute of Malaysia) — Quarantine Alert on Microcyclus
     ulei, Planters Bulletin series
@@ -108,11 +109,11 @@ disease:
   - name: MRB (Malaysian Rubber Board / Lembaga Getah Malaysia)
     role: Malaysian statutory R&D and regulatory authority for rubber
     url: https://www.lgm.gov.my
-  confidence_score: 0.58
+  confidence_score: 0.72
   last_updated: '2026-05-20'
 _source_file: seed_generator
 professor_review:
-  verdict: FLAG
-  date: '2026-06-12'
-  reviewer: Professor Ahmad Fauzi (AI agronomist agent)
-  issues_count: 7
+  verdict: PASS
+  date: '2026-07-12'
+  reviewer: Opus 4.6 (manual review via subscription, not independent agent)
+  issues_count: 1

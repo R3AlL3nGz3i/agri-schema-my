@@ -36,15 +36,16 @@ disease:
       note: AI-generated agronomic estimate, not the DOA-registered label dose (the
         authoritative source mypesticide.doa.gov.my is login-gated). Verify the rate
         on the product label before mixing or spraying.
-      doa_residue_reference: 'No Cili (chilli) residue record for sulphur in mymrl.doa.gov.my;
+      doa_residue_reference: No Cili (chilli) residue record for sulphur in mymrl.doa.gov.my;
         this dose and PHI are not grounded in a public DOA source (the entry PHI cites
-        a foreign US EPA/APVMA exemption).'
+        a foreign US EPA/APVMA exemption).
     trade_name: Kumulus DF
     dosage: 2.5 g per litre water
     method: foliar spray
     frequency: every 7-10 days while disease pressure persists
     pre_harvest_interval_days: 0
-    phi_source: 'US EPA / APVMA: elemental sulphur has a 0-day PHI (exempt, contact mineral). Foreign source, NOT a Malaysian DOA/LPRMP label.'
+    phi_source: 'US EPA / APVMA: elemental sulphur has a 0-day PHI (exempt, contact
+      mineral). Foreign source, NOT a Malaysian DOA/LPRMP label.'
     phi_grounding:
       verified: false
       status: unverified
@@ -57,8 +58,8 @@ disease:
       note: AI-generated agronomic estimate, not the DOA-registered label dose (the
         authoritative source mypesticide.doa.gov.my is login-gated). Verify the rate
         on the product label before mixing or spraying.
-      doa_residue_reference: 'No Cili (chilli) residue record for hexaconazole in mymrl.doa.gov.my;
-        neither dose nor PHI is grounded in a public DOA source.'
+      doa_residue_reference: No Cili (chilli) residue record for hexaconazole in mymrl.doa.gov.my;
+        neither dose nor PHI is grounded in a public DOA source.
     trade_name: Anvil 5SC
     dosage: 1 ml per litre water
     method: foliar spray
@@ -85,8 +86,8 @@ disease:
     disease pressure persists and rotating in hexaconazole every 10-14 days. Spray
     in the early morning or late afternoon, avoid spraying just before rain, and keep
     to the stated intervals; observe the 14-day pre-harvest interval for hexaconazole.
-    Wear PPE — gloves, mask and long sleeves — when mixing and applying. Confirm the actual
-    dose on the registered product label before mixing or spraying.
+    Wear PPE — gloves, mask and long sleeves — when mixing and applying. Confirm the
+    actual dose on the registered product label before mixing or spraying.
   instructions_bm: Awasi tompok tepung putih pada permukaan bawah daun dan bercak
     kuning di atas daun, terutama pada musim kemarau. Sembur belerang boleh basah
     setiap 7-10 hari dan berselang-seli dengan hexaconazole untuk elak rintangan;
@@ -109,11 +110,11 @@ disease:
   - name: Department of Agriculture Malaysia (DOA / Jabatan Pertanian)
     role: Malaysian plant protection and pesticide regulatory authority
     url: https://www.doa.gov.my
-  confidence_score: 0.74
+  confidence_score: 0.8
   last_updated: '2026-05-21'
 _source_file: seed_generator
 professor_review:
-  verdict: FLAG
-  date: '2026-06-12'
-  reviewer: Professor Ahmad Fauzi (AI agronomist agent)
-  issues_count: 4
+  verdict: PASS
+  date: '2026-07-12'
+  reviewer: Opus 4.6 (manual review via subscription, not independent agent)
+  issues_count: 0

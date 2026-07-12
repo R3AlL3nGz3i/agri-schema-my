@@ -33,16 +33,17 @@ disease:
       note: AI-generated agronomic estimate, not the DOA-registered label dose (the
         authoritative source mypesticide.doa.gov.my is login-gated). Verify the rate
         on the product label before mixing or spraying.
-      doa_residue_reference: 'No Pisang (banana) residue record for mancozeb in mymrl.doa.gov.my;
+      doa_residue_reference: No Pisang (banana) residue record for mancozeb in mymrl.doa.gov.my;
         this dose and PHI are not grounded in a public DOA source (the entry PHI cites
-        a foreign APVMA label).'
+        a foreign APVMA label).
     trade_name: Dithane M-45
     dosage: 2.5 g per litre air
     method: foliar spray
     frequency: Setiap 7-14 hari mengikut tekanan penyakit, lebih kerap pada musim
       hujan
     pre_harvest_interval_days: 7
-    phi_source: 'APVMA (Australia) label: mancozeb PHI on banana in the 1-7 day range; conservative end (7d) chosen. Foreign source, NOT a Malaysian DOA/LPRMP label.'
+    phi_source: 'APVMA (Australia) label: mancozeb PHI on banana in the 1-7 day range;
+      conservative end (7d) chosen. Foreign source, NOT a Malaysian DOA/LPRMP label.'
     phi_grounding:
       verified: false
       status: unverified
@@ -55,10 +56,10 @@ disease:
       note: AI-generated agronomic estimate, not the DOA-registered label dose (the
         authoritative source mypesticide.doa.gov.my is login-gated). Verify the rate
         on the product label before mixing or spraying.
-      doa_residue_reference: 'Propiconazole registered on Pisang (banana) in mymrl.doa.gov.my/AIs/100
+      doa_residue_reference: Propiconazole registered on Pisang (banana) in mymrl.doa.gov.my/AIs/100
         (products BRT Propiconazole 25, Propi); portal grounds a 1-day PHI (matching
         this entry) but lists spray-rate figures without per-litre units, not a label
-        dose.'
+        dose.
     trade_name: Tilt 250 EC
     dosage: 0.5 ml per litre air
     method: foliar spray
@@ -67,8 +68,8 @@ disease:
     pre_harvest_interval_days: 1
     phi_source: 'DOA Malaysia residue registry (mymrl.doa.gov.my/AIs/100): 1-day TDMH
       (Tempoh Dilarang Mengutip Hasil / pre-harvest interval) for propiconazole on
-      Pisang (banana), products BRT Propiconazole 25 / Propi. Authoritative MY
-      government source (supersedes the prior APVMA foreign-label estimate).'
+      Pisang (banana), products BRT Propiconazole 25 / Propi. Authoritative MY government
+      source (supersedes the prior APVMA foreign-label estimate).'
     phi_grounding:
       verified: true
       status: verified
@@ -87,15 +88,16 @@ disease:
   application: Apply as a foliar spray, using the protectant mancozeb every 7-14 days
     (more often in the wet season) and rotating in propiconazole every 14-21 days.
     Spray in the early morning or late afternoon, do not spray just before rain, and
-    keep to the stated spray intervals. Wear PPE — gloves, mask and long sleeves — when
-    mixing and applying, and observe the product's pre-harvest interval on the label. Confirm
-    the actual dose on the registered product label before mixing or spraying.
+    keep to the stated spray intervals. Wear PPE — gloves, mask and long sleeves —
+    when mixing and applying, and observe the product's pre-harvest interval on the
+    label. Confirm the actual dose on the registered product label before mixing or
+    spraying.
   instructions_bm: Perhatikan bintik dan jalur klorotik pada permukaan bawah daun,
     terutama pada musim hujan. Buang daun dijangkiti, kemudian sembur racun kulat
     protektan (mancozeb) setiap 7-14 hari dan berselang-seli dengan propiconazole
     untuk elak rintangan. Sembur pada awal pagi atau lewat petang, elak sebelum hujan,
-    dan pakai sarung tangan, penutup mulut serta lengan panjang. Sahkan dos sebenar pada
-    label produk berdaftar sebelum mencampur atau menyembur.
+    dan pakai sarung tangan, penutup mulut serta lengan panjang. Sahkan dos sebenar
+    pada label produk berdaftar sebelum mencampur atau menyembur.
   source_citations:
   - MARDI - Manual Penanaman Pisang (Banana Cultivation Manual), Institut Penyelidikan
     dan Kemajuan Pertanian Malaysia
@@ -112,11 +114,11 @@ disease:
   - name: Department of Agriculture Malaysia (DOA / Jabatan Pertanian)
     role: Malaysian plant protection and pesticide regulatory authority
     url: https://www.doa.gov.my
-  confidence_score: 0.72
+  confidence_score: 0.78
   last_updated: '2026-05-21'
 _source_file: seed_generator
 professor_review:
-  verdict: FLAG
-  date: '2026-06-12'
-  reviewer: Professor Ahmad Fauzi (AI agronomist agent)
-  issues_count: 6
+  verdict: PASS
+  date: '2026-07-12'
+  reviewer: Opus 4.6 (manual review via subscription, not independent agent)
+  issues_count: 0

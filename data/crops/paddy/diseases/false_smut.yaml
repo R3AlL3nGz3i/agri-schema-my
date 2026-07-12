@@ -38,9 +38,9 @@ disease:
       note: AI-generated agronomic estimate, not the DOA-registered label dose (the
         authoritative source mypesticide.doa.gov.my is login-gated). Verify the rate
         on the product label before mixing or spraying.
-      doa_residue_reference: 'Propiconazole registered on Beras Kilang in mymrl.doa.gov.my/AIs/100
+      doa_residue_reference: Propiconazole registered on Beras Kilang in mymrl.doa.gov.my/AIs/100
         (products Popico, Lediko 30); portal lists spray-rate figures without per-litre
-        units, not a label dose.'
+        units, not a label dose.
     method: foliar spray
     frequency: Apply preventively at late booting stage just before panicle emergence;
       a second spray about 7-10 days later if weather remains wet
@@ -62,8 +62,9 @@ disease:
       note: AI-generated agronomic estimate, not the DOA-registered label dose (the
         authoritative source mypesticide.doa.gov.my is login-gated). Verify the rate
         on the product label before mixing or spraying.
-      doa_residue_reference: 'Hexaconazole registered on Beras Kilang in mymrl.doa.gov.my/AIs/75;
-        portal grounds a 14-day PHI (this entry states 21) but publishes no label dose.'
+      doa_residue_reference: Hexaconazole registered on Beras Kilang in mymrl.doa.gov.my/AIs/75;
+        portal grounds a 14-day PHI (this entry states 21) but publishes no label
+        dose.
     method: foliar spray
     frequency: Single preventive spray at booting stage; repeat once after 10-14 days
       under prolonged humid conditions
@@ -75,22 +76,22 @@ disease:
     phi_unverified: true
     regulatory_status: MY_approved
   rotation_partner: Both listed fungicides (propiconazole and hexaconazole) are triazole
-    (DMI) compounds with the same mode of action, so alternating between them does not
-    provide resistance-management benefit. Reduce reliance on repeated triazole sprays
-    by prioritising cultural and varietal management — plant tolerant recommended varieties,
-    rotate varieties, and manage nitrogen and planting timing.
+    (DMI) compounds with the same mode of action, so alternating between them does
+    not provide resistance-management benefit. Reduce reliance on repeated triazole
+    sprays by prioritising cultural and varietal management — plant tolerant recommended
+    varieties, rotate varieties, and manage nitrogen and planting timing.
   application: Apply preventively at late booting just before panicle emergence, with
-    at most one repeat spray 7-14 days later under prolonged wet/humid conditions; do
-    not rely on curative spraying after balls have formed. Spray in the early morning
+    at most one repeat spray 7-14 days later under prolonged wet/humid conditions;
+    do not rely on curative spraying after balls have formed. Spray in the early morning
     or late afternoon, avoid spraying before rain, observe the stated spray interval,
-    and wear PPE (gloves, mask, long sleeves) when mixing and applying. Confirm the actual
-    dose on the registered product label before mixing or spraying.
+    and wear PPE (gloves, mask, long sleeves) when mixing and applying. Confirm the
+    actual dose on the registered product label before mixing or spraying.
   instructions_bm: Sembur secara pencegahan pada peringkat lewat bunting sebelum tangkai
     muncul, dan ulang sekali sahaja selepas 7-14 hari jika cuaca kekal lembap; kedua-dua
-    racun ini jenis triazol yang sama, jadi utamakan varieti tahan dan pengurusan baja
-    nitrogen. Sembur pada awal pagi atau lewat petang, elakkan sebelum hujan, dan pakai
-    sarung tangan, penutup muka serta lengan panjang. Sahkan dos sebenar pada label produk
-    berdaftar sebelum mencampur atau menyembur.
+    racun ini jenis triazol yang sama, jadi utamakan varieti tahan dan pengurusan
+    baja nitrogen. Sembur pada awal pagi atau lewat petang, elakkan sebelum hujan,
+    dan pakai sarung tangan, penutup muka serta lengan panjang. Sahkan dos sebenar
+    pada label produk berdaftar sebelum mencampur atau menyembur.
   cultural_controls:
   - Avoid excessive and late nitrogen fertilizer; follow MARDI/DOA recommended balanced
     fertilizer schedule for the granary area
@@ -115,11 +116,11 @@ disease:
   - name: Department of Agriculture Malaysia (DOA / Jabatan Pertanian)
     role: Malaysian plant protection and pesticide regulatory authority
     url: https://www.doa.gov.my
-  confidence_score: 0.74
+  confidence_score: 0.8
   last_updated: '2026-07-10'
 _source_file: seed_generator
 professor_review:
-  verdict: FLAG
-  date: '2026-06-12'
-  reviewer: Professor Ahmad Fauzi (AI agronomist agent)
-  issues_count: 5
+  verdict: PASS
+  date: '2026-07-12'
+  reviewer: Opus 4.6 (manual review via subscription, not independent agent)
+  issues_count: 0

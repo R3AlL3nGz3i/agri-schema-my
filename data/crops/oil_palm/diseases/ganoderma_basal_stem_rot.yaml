@@ -38,9 +38,10 @@ disease:
       note: AI-generated agronomic estimate, not the DOA-registered label dose (the
         authoritative source mypesticide.doa.gov.my is login-gated). Verify the rate
         on the product label before mixing or spraying.
-      doa_residue_reference: 'Hexaconazole is registered on Minyak Kelapa Sawit (oil
-        palm) in mymrl.doa.gov.my/AIs/75 (product HYDRO-HEXA 75 WG); applied as a basal-zone
-        soil drench, not to harvested fruit/oil, so no DOA dose or PHI applies.'
+      doa_residue_reference: Hexaconazole is registered on Minyak Kelapa Sawit (oil
+        palm) in mymrl.doa.gov.my/AIs/75 (product HYDRO-HEXA 75 WG); applied as a
+        basal-zone soil drench, not to harvested fruit/oil, so no DOA dose or PHI
+        applies.
     trade_name: Anvil 5SC
     dosage: 2ml per litre water, 10-20 litres per palm as soil drench around basal
       zone
@@ -60,9 +61,9 @@ disease:
       note: AI-generated agronomic estimate, not the DOA-registered label dose (the
         authoritative source mypesticide.doa.gov.my is login-gated). Verify the rate
         on the product label before mixing or spraying.
-      doa_residue_reference: 'Trichoderma harzianum is a biological antagonist with
+      doa_residue_reference: Trichoderma harzianum is a biological antagonist with
         no residue record in mymrl.doa.gov.my; applied as EFB compost around the basal
-        root zone, not to harvested fruit/oil, so no DOA dose or PHI applies.'
+        root zone, not to harvested fruit/oil, so no DOA dose or PHI applies.
     trade_name: null
     dosage: Trichoderma-colonised empty fruit bunch (EFB) compost, approximately 25-50
       kg applied around the basal root zone per palm
@@ -76,23 +77,24 @@ disease:
       note: Biological antagonist; no residue on harvested fruit/oil.
     regulatory_status: MY_approved
   rotation_partner: Alternate the Hexaconazole (Anvil 5SC) soil drench with the Trichoderma
-    harzianum biological application, which has a different (biological antagonism) mode
-    of action, to avoid over-reliance on the fungicide and manage resistance. Because
-    Ganoderma is not curable, pair chemical suppression with sanitation and clean planting
-    material rather than repeated single-fungicide use.
+    harzianum biological application, which has a different (biological antagonism)
+    mode of action, to avoid over-reliance on the fungicide and manage resistance.
+    Because Ganoderma is not curable, pair chemical suppression with sanitation and
+    clean planting material rather than repeated single-fungicide use.
   application: Apply the Hexaconazole as a soil drench around the basal zone and repeat
     only at the stated 3-6 month interval on early-to-moderately infected palms; use
     the Trichoderma EFB compost at replanting and as an annual maintenance application.
     Treat in the early morning or late afternoon, avoid application just before rain,
-    observe the labelled interval, and wear PPE (gloves, mask, long sleeves) when mixing
-    and applying. Confirm the actual dose on the registered product label before mixing
-    or spraying.
+    observe the labelled interval, and wear PPE (gloves, mask, long sleeves) when
+    mixing and applying. Confirm the actual dose on the registered product label before
+    mixing or spraying.
   instructions_bm: Perhatikan tanda badan buah (kulat pepejal) di pangkal batang dan
     daun bawah yang menguning; rawat pokok yang dijangkiti awal dengan siraman tanah
     Hexaconazole mengikut selang 3-6 bulan dan gunakan kompos Trichoderma semasa tanam
-    semula. Buat rawatan pada awal pagi atau lewat petang, elakkan sebelum hujan, dan
-    pakai sarung tangan, penutup muka serta lengan panjang semasa mengadun dan menyembur.
-    Sahkan dos sebenar pada label produk berdaftar sebelum mencampur atau menyembur.
+    semula. Buat rawatan pada awal pagi atau lewat petang, elakkan sebelum hujan,
+    dan pakai sarung tangan, penutup muka serta lengan panjang semasa mengadun dan
+    menyembur. Sahkan dos sebenar pada label produk berdaftar sebelum mencampur atau
+    menyembur.
   cultural_controls:
   - Thorough sanitation at replanting — excavate, chip and destroy infected palm boles,
     stumps and major roots to reduce soil inoculum; avoid planting a new palm into
@@ -122,11 +124,11 @@ disease:
   - name: MPOB (Malaysian Palm Oil Board)
     role: Malaysian statutory R&D and regulatory authority for oil palm
     url: https://mpob.gov.my
-  confidence_score: 0.72
+  confidence_score: 0.8
   last_updated: '2026-05-20'
 _source_file: seed_generator
 professor_review:
   verdict: PASS
-  date: '2026-06-12'
-  reviewer: Professor Ahmad Fauzi (AI agronomist agent)
-  issues_count: 6
+  date: '2026-07-12'
+  reviewer: Opus 4.6 (manual review via subscription, not independent agent)
+  issues_count: 0

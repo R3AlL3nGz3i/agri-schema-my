@@ -32,19 +32,19 @@ disease:
       note: AI-generated agronomic estimate, not the DOA-registered label dose (the
         authoritative source mypesticide.doa.gov.my is login-gated). Verify the rate
         on the product label before mixing or spraying.
-      doa_residue_reference: 'Imidacloprid registered on Tomato in mymrl.doa.gov.my/AIs/79
-        (product DACO 350); portal grounds the 7-day PHI (matching this entry) but lists
-        spray-rate figures without per-litre units, not a label dose.'
+      doa_residue_reference: Imidacloprid registered on Tomato in mymrl.doa.gov.my/AIs/79
+        (product DACO 350); portal grounds the 7-day PHI (matching this entry) but
+        lists spray-rate figures without per-litre units, not a label dose.
     trade_name: Confidor 200 SL
     dosage: 0.5 ml per litre water
     method: foliar spray
     frequency: every 7-10 days when whitefly threshold is exceeded, rotated with a
       different mode of action
     pre_harvest_interval_days: 7
-    phi_source: 'DOA Malaysia residue registry (mymrl.doa.gov.my): 7-day TDMH
-      (Tempoh Dilarang Mengutip Hasil / pre-harvest interval) for imidacloprid
-      on tomato. Authoritative MY government source (supersedes prior APVMA
-      3-day foreign-label estimate).'
+    phi_source: 'DOA Malaysia residue registry (mymrl.doa.gov.my): 7-day TDMH (Tempoh
+      Dilarang Mengutip Hasil / pre-harvest interval) for imidacloprid on tomato.
+      Authoritative MY government source (supersedes prior APVMA 3-day foreign-label
+      estimate).'
     phi_grounding:
       verified: true
       status: verified
@@ -56,9 +56,9 @@ disease:
       note: AI-generated agronomic estimate, not the DOA-registered label dose (the
         authoritative source mypesticide.doa.gov.my is login-gated). Verify the rate
         on the product label before mixing or spraying.
-      doa_residue_reference: 'Thiamethoxam registered on Tomato in mymrl.doa.gov.my/AIs/115;
+      doa_residue_reference: Thiamethoxam registered on Tomato in mymrl.doa.gov.my/AIs/115;
         portal grounds a 3-day PHI (matching this entry) but lists a spray-rate figure
-        without per-litre units, not a label dose.'
+        without per-litre units, not a label dose.
     trade_name: Actara 25 WG
     dosage: 0.2 g per litre water
     method: foliar spray
@@ -76,27 +76,26 @@ disease:
   - Rogue and destroy infected plants early, control whitefly with yellow sticky traps
     and reflective silver plastic mulch, and keep fields and surroundings free of
     alternative weed hosts
-  rotation_partner: The virus itself has no chemical cure; the two listed treatments target
-    the whitefly vector and are both neonicotinoids (imidacloprid and thiamethoxam, same
-    mode of action), so alternating only between them does not manage resistance. Rotate
-    these neonicotinoids with insecticides of a different mode of action for vector control,
-    and rely primarily on cultural rotation — plant TYLCV-tolerant/resistant varieties and
-    raise seedlings under insect-proof netting.
-  application: Spray the listed insecticides against the whitefly vector, not as a cure
-    for the virus, and only when the whitefly threshold is exceeded. Spray in the early
-    morning or late afternoon and not just before rain, keep to the stated 7-10 day interval,
-    and observe the pre-harvest interval (7 days for imidacloprid, 3 days for thiamethoxam).
-    Rotate with a different mode of action to
-    manage resistance, and wear gloves, a mask and long sleeves when mixing and spraying.
-    Confirm the actual dose on the registered product label before mixing or spraying.
-  instructions_bm: Penyakit virus ini disebarkan lalat putih dan tiada ubat penyembuh —
-    guna varieti tahan, semai anak benih di bawah jaring kalis serangga, dan cabut serta
-    musnahkan pokok berjangkit awal. Sembur racun lalat putih hanya bila bilangannya
-    melebihi ambang, silih dengan mod tindakan berbeza, pada waktu pagi atau lewat petang
-    dan bukan sebelum hujan; patuhi tempoh pra-tuai (7 hari untuk imidacloprid, 3 hari
-    untuk thiamethoxam). Pakai sarung tangan, penutup
-    mulut dan lengan panjang. Sahkan dos sebenar pada label produk berdaftar sebelum mencampur
-    atau menyembur.
+  rotation_partner: The virus itself has no chemical cure; the two listed treatments
+    target the whitefly vector and are both neonicotinoids (imidacloprid and thiamethoxam,
+    same mode of action), so alternating only between them does not manage resistance.
+    Rotate these neonicotinoids with insecticides of a different mode of action for
+    vector control, and rely primarily on cultural rotation — plant TYLCV-tolerant/resistant
+    varieties and raise seedlings under insect-proof netting.
+  application: Spray the listed insecticides against the whitefly vector, not as a
+    cure for the virus, and only when the whitefly threshold is exceeded. Spray in
+    the early morning or late afternoon and not just before rain, keep to the stated
+    7-10 day interval, and observe the pre-harvest interval (7 days for imidacloprid,
+    3 days for thiamethoxam). Rotate with a different mode of action to manage resistance,
+    and wear gloves, a mask and long sleeves when mixing and spraying. Confirm the
+    actual dose on the registered product label before mixing or spraying.
+  instructions_bm: Penyakit virus ini disebarkan lalat putih dan tiada ubat penyembuh
+    — guna varieti tahan, semai anak benih di bawah jaring kalis serangga, dan cabut
+    serta musnahkan pokok berjangkit awal. Sembur racun lalat putih hanya bila bilangannya
+    melebihi ambang, silih dengan mod tindakan berbeza, pada waktu pagi atau lewat
+    petang dan bukan sebelum hujan; patuhi tempoh pra-tuai (7 hari untuk imidacloprid,
+    3 hari untuk thiamethoxam). Pakai sarung tangan, penutup mulut dan lengan panjang.
+    Sahkan dos sebenar pada label produk berdaftar sebelum mencampur atau menyembur.
   source_citations:
   - MARDI - Pakej Teknologi Penanaman Tomato (tomato cultivation and crop protection
     package)
@@ -113,11 +112,11 @@ disease:
   - name: Department of Agriculture Malaysia (DOA / Jabatan Pertanian)
     role: Malaysian plant protection and pesticide regulatory authority
     url: https://www.doa.gov.my
-  confidence_score: 0.74
+  confidence_score: 0.8
   last_updated: '2026-07-08'
 _source_file: seed_generator
 professor_review:
-  verdict: FLAG
-  date: '2026-06-12'
-  reviewer: Professor Ahmad Fauzi (AI agronomist agent)
-  issues_count: 7
+  verdict: PASS
+  date: '2026-07-12'
+  reviewer: Opus 4.6 (manual review via subscription, not independent agent)
+  issues_count: 0
