@@ -1,0 +1,11 @@
+active_ingredient,trade_name,crop,target,dosage,phi_days,registration_no,approval_status,source_url,retrieved_date,_disease,_ai_estimate_dosage,_ai_estimate_phi_days,_phi_status,_fill_notes
+mancozeb,Dithane M-45,tomato,Alternaria solani,,,,,,,early_blight,2.5 g/L water,7,unverified,"Fill dosage from the DOA-registered product label only; do NOT copy the _ai_estimate."
+mancozeb,Dithane M-45,chilli,Colletotrichum scovillei,,,,,,,anthracnose,2.5 g/L water,7,unverified,"Fill dosage from the DOA-registered product label only; do NOT copy the _ai_estimate."
+mancozeb,Dithane M-45,banana,Mycosphaerella fijiensis,,,,,,,sigatoka_leaf_spot,2.5 g/L water,7,unverified,"Fill dosage from the DOA-registered product label only; do NOT copy the _ai_estimate."
+chlorothalonil,Daconil 720 SC,chilli,Colletotrichum scovillei,,,,,,,anthracnose,2 mL/L water,7,verified,"PHI already DOA-verified (AIs/28); still need the authoritative label DOSE here."
+imidacloprid,Confidor 200 SL,tomato,Bemisia tabaci (TYLCV vector),,,,,,,tomato_yellow_leaf_curl,0.5 mL/L water,7,verified,"PHI already DOA-verified (AIs/79); still need the authoritative label DOSE here."
+thiamethoxam,Actara 25 WG,tomato,Bemisia tabaci (TYLCV vector),,,,,,,tomato_yellow_leaf_curl,0.2 g/L water,3,verified,"PHI already DOA-verified (AIs/115); still need the authoritative label DOSE here."
+hexaconazole,Anvil 5SC,chilli,Leveillula taurica,,,,,,,powdery_mildew,1 mL/L water,14,unverified,"Fill dosage from the DOA-registered product label only; do NOT copy the _ai_estimate."
+propiconazole,Tilt 250 EC,paddy,Ustilaginoidea virens,,,,,,,false_smut,1 mL/L water,35,verified,"PHI already DOA-verified (AIs/100); still need the authoritative label DOSE here."
+tricyclazole,Beam 75WP,paddy,Magnaporthe oryzae,,,,,,,rice_blast,0.5 g/L water,30,verified,"PHI already DOA-verified (AIs/121); still need the authoritative label DOSE here."
+metalaxyl-M + mancozeb,Ridomil Gold MZ,tomato,Phytophthora infestans,,,,,,,late_blight,2.5 g/L water,7,unverified,"Fill dosage from the DOA-registered product label only; do NOT copy the _ai_estimate."
