@@ -1,0 +1,47 @@
+crop,disease,compound,trade_name,dosage,method,pre_harvest_interval_days,dose_verified,phi_verified,phi_status,phi_source
+banana,banana_bunchy_top,imidacloprid,Confidor 200SL,0.5 ml per litre water,foliar spray,14,False,False,unverified,
+banana,banana_bunchy_top,thiamethoxam,Actara 25WG,0.2 g per litre water,foliar spray,14,False,False,unverified,
+banana,fusarium_wilt,"Trichoderma harzianum (biocontrol — suppressant only, not curative)",,50 g per planting hole mixed with soil at planting; or 10 g per litre water as soil drench applied at the base of the mat every 3-4 months as a suppressive measure. This is a biological antagonist that reduces soil inoculum pressure — it does NOT cure infected plants.,soil incorporation at planting or soil drench at mat base,0,False,False,not_applicable,
+banana,fusarium_wilt,Propiconazole (corm dip — preventive planting treatment only),Tilt 250EC,1 ml per litre water; immerse pared corms or suckers for 30 minutes before planting. Preventive only — has no curative activity on established infection. PHI does not apply as this is a pre-planting treatment.,corm or sucker dip before planting,0,False,False,not_applicable,
+banana,sigatoka_leaf_spot,mancozeb,Dithane M-45,2.5 g per litre air,foliar spray,7,False,False,unverified,APVMA/US EPA foreign label (not a Malaysian DOA source)
+banana,sigatoka_leaf_spot,propiconazole,Tilt 250 EC,0.5 ml per litre air,foliar spray,1,False,True,verified,mymrl.doa.gov.my/AIs/100
+chilli,anthracnose,mancozeb,Dithane M-45 (80% WP),2.5g per litre water,foliar spray,7,False,False,unverified,
+chilli,anthracnose,chlorothalonil,Daconil 720 SC,2ml per litre water,foliar spray,7,False,True,verified,mymrl.doa.gov.my/AIs/28
+chilli,bacterial_wilt,Copper hydroxide,Kocide 3000,"2 g per litre water, applied as ~200 ml of solution drenched at the base of each plant",soil drench,,False,False,not_applicable,
+chilli,bacterial_wilt,Dazomet,Basamid G,"30-50 g per square metre incorporated into moist soil, then covered/tarped for 7-14 days with a 2-3 week aeration period before transplanting",pre-plant soil fumigation (granules incorporated into soil),,False,False,not_applicable,
+chilli,powdery_mildew,wettable sulphur (sulfur 80% WG),Kumulus DF,2.5 g per litre water,foliar spray,0,False,False,unverified,APVMA/US EPA foreign label (not a Malaysian DOA source)
+chilli,powdery_mildew,hexaconazole (50 g/L SC),Anvil 5SC,1 ml per litre water,foliar spray,14,False,False,unverified,
+cocoa,vascular_streak_dieback,hexaconazole,Anvil 5SC,1 ml per litre water,foliar spray,14,False,False,unverified,
+cocoa,vascular_streak_dieback,copper hydroxide,Kocide 3000,2 g per litre water,foliar spray,7,False,False,unverified,
+durian,patch_canker,Fosetyl-aluminium,Aliette 80 WP,"2.5 g per litre water for foliar spray; for canker treatment, 10 g per 100 ml water applied as a paste painted onto the scraped lesion",foliar spray and bark paint after excising infected bark,,False,False,not_applicable,
+durian,patch_canker,Metalaxyl-M (mefenoxam) + mancozeb,Ridomil Gold MZ 68 WG,"2 g per litre water applied as a soil drench around the root zone, approximately 5-10 litres of solution per mature tree",soil drench,,False,False,not_applicable,
+durian,phytophthora_root_rot,Phosphorous acid (potassium phosphonate),,20% phosphonic acid solution; 20 ml injected per metre of canopy diameter,trunk injection,,False,False,not_applicable,
+durian,phytophthora_root_rot,Fosetyl-aluminium,Aliette 80 WG,2.5 g per litre water as foliar spray; or 5 g per litre water as soil drench applied over the root zone,soil drench,,False,False,not_applicable,
+oil_palm,ganoderma_basal_stem_rot,Hexaconazole,Anvil 5SC,"2ml per litre water, 10-20 litres per palm as soil drench around basal zone",soil drench,,False,False,not_applicable,
+oil_palm,ganoderma_basal_stem_rot,Trichoderma harzianum (biological control agent),,"Trichoderma-colonised empty fruit bunch (EFB) compost, approximately 25-50 kg applied around the basal root zone per palm",soil application,,False,False,not_applicable,
+paddy,bacterial_leaf_blight,No curative chemical treatment — management is preventive,,"Not applicable. There is no reliable curative spray for BLB once established. Copper-based bactericides (copper hydroxide, copper oxychloride) may be applied preventively as a minor suppressive measure only at 2-3 g per litre (400-500 L spray solution per hectare), with no more than 2-3 applications per season to avoid phytotoxicity and soil copper accumulation. They do NOT cure established infection.",Preventive foliar application if used; direct spray at leaf canopy. Primary management must rely on resistant varieties and cultural practices.,14,False,False,unverified,
+paddy,brown_plant_hopper,buprofezin,Applaud 10 WP,1.0 g per litre water; apply 400-500 L spray solution per hectare,foliar spray directed at the base of the plants,14,False,True,verified,mymrl.doa.gov.my/AIs/18
+paddy,brown_plant_hopper,pymetrozine,Plenum 50 WG,0.3 g per litre water; apply 400-500 L spray solution per hectare,foliar spray,21,False,False,unverified,
+paddy,false_smut,propiconazole 250 g/L EC,Tilt 250 EC,1 ml per litre water (approx. 0.5 L product per hectare),foliar spray,35,False,True,verified,mymrl.doa.gov.my/AIs/100
+paddy,false_smut,hexaconazole 50 g/L SC,Anvil 5SC,2 ml per litre water (approx. 1 L product per hectare),foliar spray,21,False,False,unverified,
+paddy,rice_blast,Tricyclazole,Beam 75WP,0.5g per litre water,foliar spray,30,False,True,verified,mymrl.doa.gov.my/AIs/121
+paddy,rice_blast,Isoprothiolane,Fuji-One 40EC,1.5ml per litre water,foliar spray,14,False,True,verified,mymrl.doa.gov.my/AIs/135
+paddy,rice_blast,Azoxystrobin,Amistar 25SC,1ml per litre water,foliar spray,14,False,True,verified,mymrl.doa.gov.my/AIs/10
+paddy,rice_tungro,imidacloprid,Confidor 200SL,0.5 mL per litre water,foliar spray (targets green leafhopper vector; no chemical cures the virus),14,False,False,unverified,
+paddy,rice_tungro,buprofezin,Applaud 10WP,0.5-1.0 g per litre water,foliar spray (insect growth regulator targeting leafhopper nymphs),14,False,True,verified,mymrl.doa.gov.my/AIs/18
+paddy,sheath_blight,hexaconazole,Anvil 5SC,1 mL per litre water (approximately 1.0 L product per hectare),foliar spray,14,False,True,verified,mymrl.doa.gov.my/AIs/75
+paddy,sheath_blight,validamycin A,Validacin 3L,2-3 mL per litre water (approximately 1.5 L product per hectare),foliar spray,14,False,False,unverified,
+rubber,pink_disease,Tridemorph,Calixin 750 EC,"Applied as a paint over the lesion plus ~15 cm of healthy bark on each side, undiluted or diluted 1:1 with water (best-estimate; verify against current product label)",bark paint / band application by brush,,False,False,not_applicable,
+rubber,pink_disease,Copper oxychloride,Cobox 50 WP,Mixed into a thick paste (approx. 1 part 50% WP to 1 part water) and painted on scraped lesions; for cobweb-stage spraying use 3g per litre water (best-estimate; verify against current product label),bark paint on lesions / foliar spray for early cobweb stage,,False,False,not_applicable,
+rubber,powdery_mildew,"Sulphur (elemental, finely ground)",,"11 kg fine sulphur dust (325 mesh, ~99% S) per hectare per round",dusting (ground duster or aerial application),,False,False,not_applicable,
+rubber,powdery_mildew,Wettable sulphur (sulphur 80% WG),Kumulus DF,"3–5 g per litre water, high-volume foliar spray",foliar spray,,False,False,not_applicable,
+rubber,south_american_leaf_blight,Mancozeb,Dithane M-45,2g per litre water as protective foliar spray,foliar spray,14,False,False,not_applicable,
+rubber,south_american_leaf_blight,Triadimefon,Bayleton 25WP,0.5g per litre water,foliar spray,21,False,False,not_applicable,
+tomato,bacterial_canker,Copper hydroxide,Kocide 3000,1.5g per litre water,foliar spray,1,False,False,unverified,APVMA/US EPA foreign label (not a Malaysian DOA source)
+tomato,bacterial_canker,Copper oxychloride,Cupravit OB 21,3g per litre water,foliar spray,1,False,False,unverified,APVMA/US EPA foreign label (not a Malaysian DOA source)
+tomato,early_blight,Mancozeb,Dithane M-45 (80% WP),2.5 g per litre water,foliar spray,7,False,False,unverified,
+tomato,early_blight,Chlorothalonil,Daconil 500 SC,2 ml per litre water,foliar spray,7,False,True,verified,mymrl.doa.gov.my/AIs/28
+tomato,late_blight,mancozeb,Dithane M-45,2.0 g per litre air (kira-kira 1.6-2.0 kg per hektar),foliar spray,7,False,False,unverified,
+tomato,late_blight,metalaxyl-M + mancozeb,Ridomil Gold MZ,2.5 g per litre air (kira-kira 2.0-2.5 kg per hektar),foliar spray,7,False,False,unverified,
+tomato,tomato_yellow_leaf_curl,imidacloprid,Confidor 200 SL,0.5 ml per litre water,foliar spray,7,False,True,verified,mymrl.doa.gov.my/AIs/79
+tomato,tomato_yellow_leaf_curl,thiamethoxam,Actara 25 WG,0.2 g per litre water,foliar spray,3,False,True,verified,mymrl.doa.gov.my/AIs/115
