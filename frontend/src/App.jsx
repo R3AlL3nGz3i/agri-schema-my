@@ -1,9 +1,10 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { HashRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AppProvider } from "./context/AppContext";
 import { RequireAdmin } from "./components/ProtectedRoute";
 
 import Landing        from "./pages/Landing";
 import Login          from "./pages/Login";
+import Marketplace    from "./pages/Marketplace";
 import FarmerHome     from "./pages/farmer/FarmerHome";
 import FarmerSearch   from "./pages/farmer/FarmerSearch";
 import FarmerHistory  from "./pages/farmer/FarmerHistory";
@@ -17,11 +18,12 @@ import Analytics      from "./pages/admin/Analytics";
 export default function App() {
   return (
     <AppProvider>
-      <BrowserRouter>
+      <HashRouter>
         <Routes>
           {/* Public */}
           <Route path="/"               element={<Landing />} />
           <Route path="/login"          element={<Login />} />
+          <Route path="/marketplace"    element={<Marketplace />} />
           <Route path="/farmer"         element={<FarmerHome />} />
           <Route path="/farmer/scan"    element={<ScanCrop />} />
           <Route path="/farmer/search"  element={<FarmerSearch />} />
@@ -36,7 +38,7 @@ export default function App() {
 
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
-      </BrowserRouter>
+      </HashRouter>
     </AppProvider>
   );
 }

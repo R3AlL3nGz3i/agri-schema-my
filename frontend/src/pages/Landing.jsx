@@ -114,9 +114,9 @@ export default function Landing() {
           )}
         </div>
 
-        {/* Marketplace — buyer & seller portal (static page served from /public) */}
-        <a
-          href="/marketplace.html"
+        {/* Marketplace — buyer & seller portal (embedded route) */}
+        <Link
+          to="/marketplace"
           className="w-full max-w-2xl bg-white/10 hover:bg-white/20 border border-white/15 rounded-2xl p-5 flex items-center gap-4 text-left transition-colors group"
         >
           <div className="flex-none w-12 h-12 rounded-xl bg-accent/20 flex items-center justify-center">
@@ -129,7 +129,7 @@ export default function Landing() {
             </p>
           </div>
           <span className="text-accent font-medium text-sm group-hover:translate-x-0.5 transition-transform">Open →</span>
-        </a>
+        </Link>
 
         <p className="text-green-200 text-xs max-w-md">
           AgriScheme uses open scholarly APIs (Crossref, Semantic Scholar) and Malaysia DOA/LRMP regulatory data.
