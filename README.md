@@ -1,149 +1,275 @@
 # AgriSchema-MY
 
-**The first open-source, structured crop disease knowledge base for Malaysian agriculture.**
+**An honesty-first crop-disease knowledge base for Malaysian smallholder farmers** — sourced,
+schema-validated disease and treatment data, plus a React web app that surfaces it, with every
+food-safety claim honestly labelled as verified or unverified.
 
-Validated, machine-readable disease and treatment data — built for AI systems, researchers, and agricultural technology applications.
-
----
-
-## Why This Exists
-
-Malaysia's agricultural knowledge is scattered across government bulletins, research journals, and institutional reports — published in PDFs, inaccessible to AI systems, and unavailable in a structured format that developers or researchers can actually use.
-
-**AgriSchema-MY changes that.**
-
-We extract, structure, validate, and publish crop disease data from authoritative Malaysian sources — MARDI, Jabatan Pertanian, FAO AGROVOC, and EPPO — into a clean, versioned, citable YAML schema that any system can consume.
+> Hackathon track: **AI for Social Impact / AgriTech.**
 
 ---
 
-## Why This Is Valuable
+## Why it exists
 
-### For AI Developers
-A structured, validated knowledge base that AI systems can query directly — no scraping, no parsing, no hallucination risk from ungrounded models. Every entry has a source citation, confidence score, and peer-reviewed validation.
+A smallholder who sprays the wrong pesticide dose, or harvests before the pre-harvest interval
+(PHI) has elapsed, puts residues on food and money at risk. Generic AI advice makes this worse:
+it *sounds* authoritative while quietly hallucinating doses and withholding periods it cannot
+actually back with a source.
 
-### For Agronomists & Researchers
-A citable, community-maintained dataset with traceable provenance. Every entry links back to a primary source (MARDI bulletin, DOA advisory, FAO record). Easy to contribute, easy to dispute, easy to improve.
+AgriSchema-MY's answer is not "trust the AI." It is **show your working**:
 
-### For AgriTech Builders
-Build pest identification apps, treatment recommendation engines, and precision farming tools on top of a dataset that is accurate for Malaysian conditions — not adapted from datasets built for temperate climates.
-
-### For Government & Institutions
-An openly auditable record of crop disease intelligence that can feed into policy tools, early warning systems, and digital agriculture initiatives without vendor lock-in.
-
----
-
-## The Dataset
-
-**16 validated entries across 8 major Malaysian crops:**
-
-| Crop | Diseases Covered |
-|---|---|
-| **Paddy (Padi)** | Rice blast, bacterial leaf blight, sheath blight, brown planthopper |
-| **Durian** | Phytophthora root rot, patch canker |
-| **Banana (Pisang)** | Fusarium wilt (Panama disease), banana bunchy top virus |
-| **Chilli (Cili)** | Anthracnose, bacterial wilt |
-| **Tomato (Tomato)** | Early blight, late blight |
-| **Rubber (Getah)** | Powdery mildew, South American leaf blight |
-| **Oil Palm (Kelapa Sawit)** | Ganoderma basal stem rot |
-| **Cocoa (Koko)** | Vascular streak dieback |
-
-Each entry includes:
-- **Disease identity** — name (English + Malay local name), pathogen species, pathogen type
-- **Symptom profile** — visual indicators, severity stages, growth impact
-- **Treatment protocols** — compounds, dosages, application methods, pre-harvest intervals
-- **Regulatory status** — `MY_approved`, `MY_restricted`, or `MY_banned` per Malaysian law
-- **Source citations** — traceable to primary MARDI or DOA publications
-- **Confidence score** — 0.0–1.0, adjusted by AI agronomist review
-- **Quality gate verdict** — PASS / FLAG / REJECT from Professor Agent review
-
-**Primary sources:**
-- [MARDI](https://www.mardi.gov.my) — Malaysian Agricultural Research and Development Institute
-- [Jabatan Pertanian Malaysia](https://www.doa.gov.my) — Department of Agriculture Malaysia
-- [FAO AGROVOC](https://agrovoc.fao.org) — UN multilingual agricultural thesaurus
-- [EPPO](https://gd.eppo.int) — European and Mediterranean Plant Protection Organization
+- Every treatment carries a machine-checkable label saying whether its dose and PHI are backed
+  by a real authority — or honestly admitting they are not.
+- The farmer-facing text always routes the user back to the **registered product label** as the
+  legal source of truth for the actual dose.
+- A `verified: true` flag can only be set by code that checked a `doa.gov.my` source — never by
+  an LLM. This is enforced by tests, not by good intentions.
 
 ---
 
-## Schema
+## What's inside
 
-Every entry follows a consistent, versioned structure:
+- **23 disease entries** across **8 crops**, **46 treatments** total.
+
+  | Crop | Entries | | Crop | Entries |
+  |---|---|---|---|---|
+  | paddy | 6 | | durian | 2 |
+  | tomato | 4 | | oil_palm | 1 |
+  | banana | 3 | | cocoa | 1 |
+  | chilli | 3 | | **Total** | **23** |
+  | rubber | 3 | | | |
+
+- A **3-layer review gate** (deterministic compliance → professor agent → retrieval-grounded
+  prototype) that entries pass before they are served.
+- A **FastAPI** backend that serves the knowledge base as a query API.
+- A **React + Vite** web app (`frontend/`) with a farmer flow (scan/search) and an admin flow
+  (evidence search, review queue, analytics).
+
+---
+
+## The honesty model (read this first)
+
+Two independent grounding blocks sit on **every** treatment. They are deliberately separate
+because a dose and a withholding period come from different sources.
+
+### `dosage_grounding` — **0 / 46 verified**
+
+The authoritative Malaysian dose source, `mypesticide.doa.gov.my`, is login-gated, so **no dose
+in this repo is DOA-verified today**. Every dose is an AI-generated agronomic estimate, and every
+treatment says so:
 
 ```yaml
-crop: paddy
-disease:
-  name: rice_blast
-  local_name: penyakit blas padi
-  pathogen:
-    type: fungi
-    species: Magnaporthe oryzae
-  symptoms:
-    visual:
-      - diamond-shaped lesions with grey centre and brown border
-    growth: yield loss 20-80% in severe cases
-  severity_stages:
-    - stage: early
-      signs: small brown specks less than 2mm
-  treatments:
-    - compound: Tricyclazole
-      trade_name: Beam 75WP
-      dosage: 0.5g per litre water
-      method: foliar spray
-      frequency: twice weekly
-      pre_harvest_interval_days: 14
-      regulatory_status: MY_approved
-  source_citations:
-    - "MARDI Technical Bulletin No. 245 (2022)"
-  confidence_score: 0.91
-  last_updated: "2026-05-21"
+- compound: Tricyclazole
+  trade_name: Beam 75WP
+  dosage: 0.5g per litre water
+  dosage_grounding:
+    verified: false                      # never true — no public label-dose source exists yet
+    note: AI-generated agronomic estimate, not the DOA-registered label dose ...
+                                         # Verify the rate on the product label before spraying.
+    doa_residue_reference: mymrl.doa.gov.my/AIs/121  # grounds the PHI, NOT the dose
+```
+
+### `phi_grounding` — **12 / 46 verified** (18 unverified, 16 not_applicable)
+
+PHI is checked against the **public** residue portal `mymrl.doa.gov.my`. Only the 12 with a
+`doa.gov.my` source are marked verified:
+
+```yaml
+  pre_harvest_interval_days: 30
+  phi_grounding:
+    verified: true                       # set by code, only because source is on doa.gov.my
+    status: verified                     # one of: verified | unverified | not_applicable
+    source: mymrl.doa.gov.my/AIs/121
+```
+
+### Anti-authority-washing invariants
+
+`tests/test_grounding_invariant.py` (**6 tests, fully offline**) locks the honesty model so an LLM
+can never earn a verification it doesn't deserve:
+
+- a dose may be `verified: true` **only** with a registration-backed authoritative registry record
+  (none exist → all doses stay `false`);
+- a PHI may be `verified: true` **only** with a `doa.gov.my` source;
+- `verified` and `status` must agree; the dose honesty label can never be silently dropped; and
+- every entry's farmer-facing BM text must carry the "confirm the actual dose on the registered
+  product label" caveat.
+
+```
+python tests/test_grounding_invariant.py   # → 6/6 passed
 ```
 
 ---
 
-## Quality Standard
+## Architecture & pipeline
 
-Every entry passes two mandatory gates before it is published:
-
-1. **Gate 1 — Schema Validation (CI):** Structural and field-level checks run automatically on every pull request. 100% must pass.
-2. **Gate 2 — Professor Agent Review:** An AI agronomist agent modelled on MARDI's own review standards checks every entry for agronomic accuracy, safe dosages, and verifiable citations. Target: >85% PASS, confidence >0.80.
-
-Entries that fail either gate are not merged.
-
----
-
-## Contributing
-
-We welcome contributions from agronomists, researchers, and data contributors.
-
-1. Add a new YAML entry in `data/crops/{crop}/diseases/{disease}.yaml`
-2. Follow the schema format shown above
-3. Include at least one primary source citation (MARDI, DOA, FAO, or EPPO)
-4. Submit a pull request — CI will validate your schema automatically
-5. Professor Agent will review for agronomic accuracy
-
-See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines.
-
----
-
-## Roadmap
-
-- **Phase 1 (current):** 50+ validated entries across 8+ Malaysian crops
-- **Phase 2:** MARDI and UPM collaboration; [Deep-X 2026](https://deepxgrant.my) grant application
-- **Phase 3:** Hosted query API, extended to vegetables, aquaculture, and livestock
-
----
-
-## License
-
-**Data:** [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) — free to use with attribution.
-**Code:** [MIT](LICENSE).
-
----
-
-## Citation
-
-If you use AgriSchema-MY in research, please cite:
+Institution-facing pipeline builds and gates the data; farmer-facing app consumes it.
 
 ```
-AgriSchema-MY (2026). Open-source Malaysian Crop Disease Knowledge Base.
-https://github.com/agri-schema-my/agri-schema-my
+seed/extract → validate → compliance (L1) → review (L2 professor) → embed → API → Web app
+                              │                                        │
+                     deterministic gate                     grounded-review (L2 paddy prototype)
+                     REJECT ⇒ fail-closed                    mymrl-fetch / doa-ingest (manual)
 ```
+
+`python run_pipeline.py` phases:
+
+| Flag | Phase | In `--all`? |
+|---|---|---|
+| `--scrape` | Download MARDI PDFs + extract text | no |
+| `--seed` | Generate seed entries from Claude knowledge | yes |
+| `--extract` | Claude extraction from raw PDF text | no |
+| `--validate` | Schema validation | yes |
+| `--compliance` | **Layer 1** deterministic compliance gate | yes |
+| `--review` | Professor-agent review | yes |
+| `--embed` | Ingest into ChromaDB vector store | yes |
+| `--grounded-review` | **Layer 2** retrieval-grounded review (paddy prototype) | no |
+| `--mymrl-fetch` | Crawl public `mymrl.doa.gov.my` residue portal → CSV | no |
+| `--doa-ingest` | Ingest a DOA registration export (stays `draft`) | no |
+| `--all` | seed + validate + compliance + review + embed | — |
+
+**Fail-closed safety invariant:** any entry that a Layer-1 `REJECT` flags is **never embedded**
+into the served vector store, and the run exits non-zero. Compliance is forced whenever `--embed`
+(or `--all`) runs, so you cannot publish a rejected entry.
+
+---
+
+## Backend API
+
+FastAPI app in `api/main.py`. All routes are read-only over the YAML knowledge base + ChromaDB.
+
+| Method | Path | Purpose |
+|---|---|---|
+| `GET` | `/` | Service metadata + endpoint list |
+| `GET` | `/health` | Liveness (`{"status":"ok"}`) |
+| `POST` | `/query` | Vector search by `crop` and/or `symptom` → ranked results |
+| `GET` | `/crops` | List all crops |
+| `GET` | `/crops/{crop}/diseases` | List diseases for a crop |
+| `GET` | `/crops/{crop}/diseases/{disease_name}` | **Full entry YAML** (incl. grounding blocks) |
+| `GET` | `/stats` | Entry counts, schema validity, professor verdict tallies |
+
+Launch:
+
+```bash
+uvicorn api.main:app --port 8000        # add --reload for development
+# Swagger UI → http://localhost:8000/docs   ·   ReDoc → /redoc
+```
+
+A `/query` result carries `disease_name, local_name, crop, confidence, professor_verdict,
+symptoms_summary, treatments` (compound names), `citations`, and `relevance_score`. **Note:** the
+`dosage_grounding`/`phi_grounding` honesty blocks are *not* flattened into the search response —
+they live in the full entry, so fetch `GET /crops/{crop}/diseases/{disease_name}` to read them.
+
+---
+
+## Web app (GUI)
+
+`frontend/` is a **React 19 + Vite + Tailwind** single-page app (deps: `react-router-dom`, `axios`,
+`recharts`/`apexcharts`, `lucide-react`). It runs as its **own dev server** and talks to the API
+over CORS — there is no static mount on the backend.
+
+```bash
+cd frontend
+npm install
+npm run dev            # → http://localhost:5173
+# API base URL defaults to http://localhost:8000; override with VITE_API_URL
+```
+
+**Farmer flow** (no login required): `Landing → Scan Crop` (upload a photo, pick crop / affected
+part / duration) or `Search` (chat-style). Results render a **pathogen badge**, a **relevance
+bar**, a **Malaysia-status badge** (`MY Approved / Restricted / Banned`, derived from the entry's
+professor verdict), a citation list, and a fixed safety note telling the farmer to follow the
+label rate, PPE and PHI — "AI-assisted screening only."
+
+**Admin flow** (login): Dashboard, Evidence Search, Knowledge Base, Review Queue, Analytics.
+
+**Honest status of the GUI (frontend is ahead of the backend):**
+
+- The working end-to-end path today is **text/symptom search → `POST /query`**. Both the farmer
+  Scan/Search screens and the admin Evidence Search use it.
+- `ScanCrop` uploads an image, but image diagnosis calls `POST /diagnose` and login calls
+  `POST /auth/login` / `POST /auth/signup` — **these endpoints are not implemented in
+  `api/main.py` yet**. So photo diagnosis and role auth are front-end scaffolding pending backend
+  work; the search flow is what actually runs against the current API.
+- The search UI communicates honesty via the MY-status badge + the label-first safety note rather
+  than per-dose/PHI verification badges. The granular `verified` flags are exposed through the
+  full-entry endpoint, not the search results.
+
+---
+
+## Quickstart
+
+```bash
+# 1. Backend
+git clone https://github.com/R3AlL3nGz3i/agri-schema-my.git
+cd agri-schema-my
+python3 -m venv .venv && source .venv/bin/activate      # Python 3.14
+pip install -r requirements.txt                         # fastapi, uvicorn, chromadb,
+                                                        # pdfplumber, pyyaml, anthropic, ...
+echo "ANTHROPIC_API_KEY=sk-..." > .env                  # only needed for seed/review, NOT serving
+python run_pipeline.py --embed                          # build the ChromaDB vector store
+uvicorn api.main:app --port 8000                        # serve
+
+# sanity check
+curl localhost:8000/health     # {"status":"ok"}
+curl localhost:8000/stats      # 23 entries, verdict tallies
+
+# 2. Frontend (separate terminal)
+cd frontend && npm install && npm run dev               # open http://localhost:5173
+```
+
+Then run a search (e.g. "rice blast disease in paddy") and confirm a result renders with its
+pathogen badge, relevance bar, MY-status badge, citations and the label-first safety note.
+
+`ANTHROPIC_API_KEY` is only required to (re)generate or review entries; serving the committed data
+and running the honesty tests need no key.
+
+---
+
+## Data layout & schema
+
+```
+data/crops/<crop>/diseases/<disease>.yaml     # 23 entries
+data/reference/crop_disease_dose_index.csv    # flat 46-row crop/disease/dose index
+data/reference/banned_compounds.yaml          # Layer-1 denylist
+data/reference/crop_mrl.yaml                   # crop MRL / PHI reference
+```
+
+Top-level entry keys: `crop`, `disease{ ... }`, `professor_review{ verdict, date, reviewer }`.
+Each `disease.treatments[]` item:
+
+```
+compound · trade_name · dosage · dosage_grounding{verified,note,doa_residue_reference}
+method · frequency · pre_harvest_interval_days · phi_source
+phi_grounding{verified,status,source} · regulatory_status
+```
+
+---
+
+## Tests
+
+All tests are standalone `__main__` runners (no pytest required):
+
+```bash
+python tests/test_grounding_invariant.py   # 6 anti-authority-washing invariants
+python tests/test_compliance.py            # Layer-1 deterministic gate
+python tests/test_pipeline_gate.py         # fail-closed embed/publish gate
+python tests/test_grounded_review.py       # Layer-2 grounded review prototype
+python tests/test_mymrl_fetcher.py         # mymrl.doa.gov.my crawler
+python tests/test_doa_registry.py          # DOA registry ingest/audit
+python tests/run_golden.py                 # golden-entry checks
+```
+
+---
+
+## Sources & license
+
+- **MARDI** — Malaysian Agricultural Research and Development Institute
+- **DOA / Jabatan Pertanian Malaysia** — plant protection & pesticide regulator (`mymrl.doa.gov.my`
+  public residue portal; `mypesticide.doa.gov.my` login-gated registry)
+- **EPPO** — Global Database (pathogen taxonomy / phytosanitary)
+- **FAO AGROVOC** — multilingual agricultural thesaurus
+
+**Code:** MIT · **Data:** CC BY 4.0 (free to use with attribution).
+
+Contributions welcome: add a YAML entry under `data/crops/<crop>/diseases/`, keep the
+`dosage_grounding` / `phi_grounding` honesty blocks (the invariant tests will reject a
+`verified: true` you can't back with a `doa.gov.my` source), cite a primary source, and open a PR.
