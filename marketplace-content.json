@@ -1,0 +1,116 @@
+{
+  "$description": "Structured content + data extracted from the AgriScheme Marketplace UI (rebranded from the original TaniMart prototype). Pairs with agrischeme-marketplace.html and reuses the AgriScheme design tokens in design-tokens.json.",
+  "brand": {
+    "name": "AgriScheme Marketplace",
+    "platform": "AgriScheme",
+    "wordmark": { "base": "AgriScheme", "accent": " Marketplace", "note": "Two-tone wordmark: base in text color, accent word in brand green (#1a6b3c) on light surfaces, gold (#e8b84b) on dark/gradient surfaces." },
+    "tagline": "AgriScheme Marketplace — direct from Malaysian farms",
+    "onboardingLede": "Fresh from Malaysian farms — buy direct, or sell your harvest.",
+    "status": "Prototype · all data is sample data",
+    "market": "Malaysia"
+  },
+  "theme": {
+    "source": "design-tokens.json (AgriScheme)",
+    "primary": { "default": "#1a6b3c", "light": "#2d9e5f", "dark": "#0f4a28" },
+    "accent": { "default": "#e8b84b", "light": "#f5d07a" },
+    "neutral": { "bg": "#f9fafb", "text": "#1f2937", "textMuted": "#6b7280", "border": "#f3f4f6", "chrome": "#111827" },
+    "fontFamily": "ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif"
+  },
+  "navigation": {
+    "topNav": ["Shop", "Sell", "Sign up"],
+    "searchPlaceholder": "Search crops, farms, harvest boxes…",
+    "buyerTabs": ["Shop", "Sell"],
+    "sellerTabs": ["Dashboard", "Listings", "New listing", "Orders"]
+  },
+  "onboarding": {
+    "heading": "AgriScheme Marketplace",
+    "roles": [
+      { "key": "household", "title": "Household", "subtitle": "For my kitchen" },
+      { "key": "business", "title": "Business", "subtitle": "Wholesale buyer" },
+      { "key": "farmer", "title": "Farmer", "subtitle": "Sell my crops" }
+    ],
+    "fields": [
+      { "label": "Email", "placeholder": "" },
+      { "label": "Location (state / poskod)", "placeholder": "e.g. Cameron Highlands, 39000" }
+    ],
+    "note": "Free to join · list produce with no upfront cost"
+  },
+  "banner": "Musim menuai — free local delivery on orders over RM100 this week",
+  "browseHeading": "Fresh from the ladang",
+  "categories": ["All", "Vegetables", "Fruit", "Rice & Grains", "Dairy & Eggs", "Pantry", "Boxes & Shares"],
+  "listingTypes": [
+    { "key": "now", "label": "Buy now", "badge": "Buy now", "bg": "#dcfce7", "fg": "#15803d", "addLabel": "Add to cart" },
+    { "key": "preorder", "label": "Pre-order", "badge": "Pre-order", "bg": "#fef3c7", "fg": "#b45309", "addLabel": "Reserve" },
+    { "key": "sub", "label": "Subscription", "badge": "Subscription", "bg": "#dbeafe", "fg": "#1d4ed8", "addLabel": "Subscribe" },
+    { "key": "bulk", "label": "Wholesale", "badge": "Wholesale", "bg": "#f3e8ff", "fg": "#7e22ce", "addLabel": "Add at list price" }
+  ],
+  "fulfillment": [
+    { "key": "pickup", "label": "Farm pickup", "note": "Free · ready next day", "cost": 0 },
+    { "key": "local", "label": "Local delivery", "note": "RM6 · within 30 km (free over RM100)", "cost": 6, "freeOver": 100 },
+    { "key": "ship", "label": "Courier (Pos Laju)", "note": "RM12 · 2–3 days nationwide", "cost": 12 }
+  ],
+  "payment": [
+    { "key": "fpx", "label": "FPX online banking", "note": "Maybank2u, CIMB Clicks, etc." },
+    { "key": "ewallet", "label": "E-wallet", "note": "Touch ’n Go, GrabPay, Boost" },
+    { "key": "card", "label": "Credit / debit card", "note": "Visa, Mastercard" }
+  ],
+  "checkout": {
+    "steps": ["Contact & delivery", "Payment", "Order summary"],
+    "paymentNote": "Payment is held until the farm confirms your order. Pre-orders are charged at harvest.",
+    "confirmation": {
+      "heading": "Order placed!",
+      "sampleOrderId": "#AS-2481",
+      "message": "is on its way to the farms. You'll get a WhatsApp when each farm confirms.",
+      "cta": "Keep shopping"
+    }
+  },
+  "products": [
+    { "id": 1, "name": "Cameron Highlands Tomatoes", "farm": "Ladang Segar", "location": "Cameron Highlands", "category": "Vegetables", "type": "now", "price": "RM6.50", "priceValue": 6.5, "unit": "per kg", "rating": "4.9", "reviews": 128, "blurb": "Picked this morning", "description": "Vine-ripened tomatoes grown in the cool Cameron Highlands, picked the same morning they are listed. Grown with minimal spray." },
+    { "id": 2, "name": "Musang King Durian — Pre-order", "farm": "Dusun Raub", "location": "Raub, Pahang", "category": "Fruit", "type": "preorder", "price": "RM55", "priceValue": 55, "unit": "per kg", "rating": "4.9", "reviews": 214, "blurb": "Peak season", "harvestDate": "end of June", "description": "Reserve premium D197 Musang King from our Raub orchard. Tree-dropped, graded, and delivered within 24 hours of harvest." },
+    { "id": 3, "name": "Weekly Sayur Box", "farm": "Kebun Komuniti Selangor", "location": "Sepang, Selangor", "category": "Boxes & Shares", "type": "sub", "price": "RM35", "priceValue": 35, "unit": "per week", "rating": "5.0", "reviews": 176, "blurb": "8–10 seasonal items", "description": "A rotating weekly box of 8–10 seasonal vegetables and herbs from our community farm. Pause or skip any week. Includes simple resepi cards." },
+    { "id": 4, "name": "Raw Kelulut Honey", "farm": "Ladang Lebah Kelantan", "location": "Bachok, Kelantan", "category": "Pantry", "type": "now", "price": "RM28", "priceValue": 28, "unit": "per 250g jar", "rating": "4.8", "reviews": 341, "blurb": "Stingless-bee, unheated", "description": "Tangy-sweet raw kelulut (stingless bee) honey, harvested and jarred without heating. Single-origin from our Kelantan apiary." },
+    { "id": 5, "name": "Bulk Chilli (Cili Merah)", "farm": "Ladang Cili Johor", "location": "Kluang, Johor", "category": "Vegetables", "type": "bulk", "price": "from RM8", "priceValue": 8, "unit": "per kg", "minOrder": "50 kg", "rating": "4.7", "reviews": 42, "blurb": "50 kg minimum", "description": "Restaurant-grade red chilli, graded and packed. Volume pricing available — request a quote for your quantity and we reply same-day." },
+    { "id": 6, "name": "Kampung Chicken Eggs", "farm": "Ternakan Melaka", "location": "Jasin, Melaka", "category": "Dairy & Eggs", "type": "now", "price": "RM13", "priceValue": 13, "unit": "per dozen", "rating": "4.9", "reviews": 187, "blurb": "Free-range, daily", "description": "Eggs from free-roaming kampung hens, collected every morning. Deep golden yolks." },
+    { "id": 7, "name": "Harumanis Mango — Pre-order", "farm": "Dusun Perlis", "location": "Kangar, Perlis", "category": "Fruit", "type": "preorder", "price": "RM45", "priceValue": 45, "unit": "per 3kg box", "rating": "4.8", "reviews": 96, "blurb": "April–June harvest", "harvestDate": "mid-April", "description": "Reserve a box of the famous Perlis Harumanis — fragrant, honey-sweet mangoes. First-pick fruit, hand-sorted." },
+    { "id": 8, "name": "Bulk Red Onions (Bawang)", "farm": "Ladang Kedah", "location": "Pendang, Kedah", "category": "Vegetables", "type": "bulk", "price": "from RM4.50", "priceValue": 4.5, "unit": "per kg", "minOrder": "100 kg", "rating": "4.6", "reviews": 28, "blurb": "100 kg minimum", "description": "Cured storage onions with consistent sizing for prep kitchens. Volume pricing by quote." },
+    { "id": 9, "name": "Beras Wangi Rice Share", "farm": "Padi Sekinchan", "location": "Sekinchan, Selangor", "category": "Rice & Grains", "type": "sub", "price": "RM40", "priceValue": 40, "unit": "per month", "rating": "4.9", "reviews": 154, "blurb": "5kg fresh-milled", "description": "A monthly 5kg bag of fragrant rice, milled to order from our Sekinchan paddy fields. Fresher than anything on the shelf." },
+    { "id": 10, "name": "Fresh Herbs (Daun Kesum)", "farm": "Kebun Komuniti Selangor", "location": "Sepang, Selangor", "category": "Vegetables", "type": "now", "price": "RM3", "priceValue": 3, "unit": "per bunch", "rating": "4.8", "reviews": 73, "blurb": "Cut to order", "description": "Aromatic Vietnamese mint (daun kesum) and mixed local herbs, cut to order the morning of pickup or delivery." }
+  ],
+  "sellerPortal": {
+    "profile": { "name": "Rosnah Abdullah", "role": "Seller", "farm": "Kebun Komuniti Selangor", "storeStatus": "Store live" },
+    "greeting": "Selamat pagi, Rosnah 🌤",
+    "greetingSub": "Here's how your ladang is doing this week.",
+    "quoteRequest": {
+      "title": "Quote request — Bulk cili, 40 kg",
+      "from": "From Restoran Selera Kampung · asking your best price",
+      "actions": ["Decline", "Send quote"]
+    },
+    "kpis": [
+      { "value": "RM1,284", "label": "This week's sales", "delta": "▲ 18% vs last week", "trend": "up" },
+      { "value": "7", "label": "Open orders", "delta": "2 to pack today", "trend": "warn" },
+      { "value": "43", "label": "CSA subscribers", "delta": "▲ 3 new this week", "trend": "up" },
+      { "value": "4.9", "label": "Store rating", "delta": "212 reviews", "trend": "neutral" }
+    ],
+    "salesByProduct": [
+      { "name": "Weekly Sayur Box", "amount": "RM620", "pct": 100 },
+      { "name": "Beras Wangi Share", "amount": "RM380", "pct": 61 },
+      { "name": "Fresh Herbs", "amount": "RM184", "pct": 30 },
+      { "name": "Kelulut Honey", "amount": "RM100", "pct": 16 }
+    ],
+    "newListingForm": {
+      "fields": ["Product name", "Category", "Listing type", "Price (RM)", "Unit"],
+      "namePlaceholder": "e.g. Sawi Hijau (Green Mustard)",
+      "pricePlaceholder": "e.g. 4.50",
+      "unitPlaceholder": "e.g. per kg",
+      "photoPrompt": "Drop product photos here",
+      "cta": "Publish listing",
+      "errorMsg": "Please fill in a name and price."
+    },
+    "orders": [
+      { "id": "#AS-2477", "buyer": "Restoran Selera Kampung", "items": "2× Sayur Box, 12× Herbs", "fulfill": "Local delivery · Thu", "status": "New", "total": "RM100" },
+      { "id": "#AS-2474", "buyer": "Nurul H.", "items": "1× Sayur Box", "fulfill": "Farm pickup · Wed", "status": "Pack today", "total": "RM35" },
+      { "id": "#AS-2469", "buyer": "David L.", "items": "6× Herbs", "fulfill": "Courier", "status": "Shipped", "total": "RM18" },
+      { "id": "#AS-2465", "buyer": "Pasar Mini Aman", "items": "4× Sayur Box", "fulfill": "Local delivery · Mon", "status": "Delivered", "total": "RM140" }
+    ]
+  }
+}

@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body { @apply bg-gray-50 text-gray-800 font-sans; }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-primary text-white px-4 py-2 rounded-lg font-medium
+           hover:bg-primary-dark transition-colors disabled:opacity-50;
+  }
+  .btn-outline {
+    @apply border border-primary text-primary px-4 py-2 rounded-lg font-medium
+           hover:bg-primary hover:text-white transition-colors;
+  }
+  .card { @apply bg-white rounded-xl shadow-sm border border-gray-100 p-5; }
+  .badge-approved  { @apply bg-green-100 text-green-700 text-xs px-2 py-0.5 rounded-full font-medium; }
+  .badge-restricted{ @apply bg-orange-100 text-orange-700 text-xs px-2 py-0.5 rounded-full font-medium; }
+  .badge-banned    { @apply bg-red-100 text-red-700 text-xs px-2 py-0.5 rounded-full font-medium; }
+  .badge-unknown   { @apply bg-gray-100 text-gray-600 text-xs px-2 py-0.5 rounded-full font-medium; }
+  .badge-fungi     { @apply bg-amber-100 text-amber-700 text-xs px-2 py-0.5 rounded-full; }
+  .badge-bacteria  { @apply bg-blue-100 text-blue-700 text-xs px-2 py-0.5 rounded-full; }
+  .badge-virus     { @apply bg-purple-100 text-purple-700 text-xs px-2 py-0.5 rounded-full; }
+  .badge-pest      { @apply bg-red-100 text-red-700 text-xs px-2 py-0.5 rounded-full; }
+  .badge-nematode  { @apply bg-pink-100 text-pink-700 text-xs px-2 py-0.5 rounded-full; }
+  .badge-abiotic   { @apply bg-sky-100 text-sky-700 text-xs px-2 py-0.5 rounded-full; }
+  .badge-oomycete  { @apply bg-teal-100 text-teal-700 text-xs px-2 py-0.5 rounded-full; }
+}
