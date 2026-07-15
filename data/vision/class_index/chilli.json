@@ -1,0 +1,6 @@
+{
+  "anthracnose": 0,
+  "powdery_mildew": 1,
+  "bacterial_wilt": 2,
+  "healthy": 3
+}

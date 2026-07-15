@@ -1,0 +1,7 @@
+{
+  "early_blight": 0,
+  "late_blight": 1,
+  "tomato_yellow_leaf_curl": 2,
+  "bacterial_canker": 3,
+  "healthy": 4
+}

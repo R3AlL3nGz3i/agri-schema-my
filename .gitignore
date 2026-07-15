@@ -9,5 +9,6 @@ data/reviews/
 .DS_Store
 data/chroma/
 data/raw/
+data/vision/images/
 data/reference/sources/
 data/reference/doa_products.yaml
