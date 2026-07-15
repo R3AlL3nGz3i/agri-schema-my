@@ -1,0 +1,24 @@
+{
+  "crop": "chilli",
+  "classes": {
+    "anthracnose": 0,
+    "healthy": 1
+  },
+  "num_classes": 2,
+  "counts": {
+    "anthracnose": {
+      "train": 227,
+      "val": 49,
+      "test": 48
+    },
+    "healthy": {
+      "train": 298,
+      "val": 64,
+      "test": 63
+    }
+  },
+  "excluded_taxonomy_classes": [
+    "powdery_mildew",
+    "bacterial_wilt"
+  ]
+}

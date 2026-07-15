@@ -1,0 +1,29 @@
+{
+  "crop": "banana",
+  "classes": {
+    "sigatoka_leaf_spot": 0,
+    "fusarium_wilt": 1,
+    "healthy": 2
+  },
+  "num_classes": 3,
+  "counts": {
+    "sigatoka_leaf_spot": {
+      "train": 1887,
+      "val": 404,
+      "test": 405
+    },
+    "fusarium_wilt": {
+      "train": 1744,
+      "val": 374,
+      "test": 373
+    },
+    "healthy": {
+      "train": 2002,
+      "val": 429,
+      "test": 429
+    }
+  },
+  "excluded_taxonomy_classes": [
+    "banana_bunchy_top"
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "crop": "tomato",
+  "classes": {
+    "early_blight": 0,
+    "late_blight": 1,
+    "tomato_yellow_leaf_curl": 2,
+    "healthy": 3
+  },
+  "num_classes": 4,
+  "counts": {
+    "early_blight": {
+      "train": 755,
+      "val": 162,
+      "test": 161
+    },
+    "late_blight": {
+      "train": 1404,
+      "val": 301,
+      "test": 300
+    },
+    "tomato_yellow_leaf_curl": {
+      "train": 3891,
+      "val": 834,
+      "test": 834
+    },
+    "healthy": {
+      "train": 1141,
+      "val": 244,
+      "test": 245
+    }
+  },
+  "excluded_taxonomy_classes": [
+    "bacterial_canker"
+  ]
+}
