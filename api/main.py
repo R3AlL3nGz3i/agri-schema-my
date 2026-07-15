@@ -52,6 +52,7 @@ class QueryResult(BaseModel):
     disease_name: str
     local_name: str
     crop: str
+    pathogen_category: str
     confidence: float
     professor_verdict: str
     symptoms_summary: str
@@ -95,6 +96,7 @@ def query_diseases(req: QueryRequest):
             disease_name=meta.get("disease_name", "unknown"),
             local_name=meta.get("local_name", ""),
             crop=meta.get("crop", "unknown"),
+            pathogen_category=meta.get("pathogen_type", "unknown"),
             confidence=meta.get("confidence_score", 0.0),
             professor_verdict=meta.get("professor_verdict", "pending"),
             symptoms_summary=r["document"],
