@@ -73,8 +73,15 @@ UNBUILDABLE in v1** — see the honest findings below. All splits are clean 70/1
   - **banana** — Harvard Dataverse doi:10.7910/DVN/LQUWXW (Tanzania, CC0). Fusarium imagery is
     **Race 1, NOT the TR4 strain** in Malaysian Cavendish — labelled `fusarium_wilt` with Race-1
     provenance recorded; do not present as TR4.
-  - **chilli** — Mendeley wzc6r6w5w5 v3 field phone photos: Anthracnose + Fresh Leaf(→healthy)
-    used; Cercospora / Leaf Curl (non-KB) dropped. It has **no powdery_mildew** class.
+  - **chilli** — Mendeley wzc6r6w5w5 v3: Anthracnose + Fresh Leaf(→healthy) used; Cercospora /
+    Leaf Curl (non-KB) dropped. It has **no powdery_mildew** class. SPOT-CHECK CAVEAT: images are
+    single **detached leaves on plain white paper** (lab-style composition), NOT in-canopy field
+    shots — carries the same plain-background generalization risk as PlantVillage; do not assume
+    chilli transfers to real phone photos of plants in the field.
+  - **plantdoc watermarks** — SPOT-CHECK CAVEAT: tomato PlantDoc images are web-scraped and some
+    carry stock-photo/attribution watermarks (Shutterstock, Dreamstime, photographer credits). The
+    labels are correct and PlantDoc is released CC BY 4.0, but the underlying stock provenance is a
+    licensing flag if images are ever redistributed individually.
 - **Split mode:** all classes fall to **per_image stratified fallback** (each has < 3 distinct
   source_datasets; tomato has 2). Sound post-dedupe (near-dups already removed). Adding a 3rd
   source per class would restore full source-grouped splitting.

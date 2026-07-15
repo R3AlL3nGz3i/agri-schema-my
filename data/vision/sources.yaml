@@ -92,7 +92,7 @@ sources:
     name: Chilli leaf disease (Mendeley wzc6r6w5w5, v3)
     url: https://data.mendeley.com/datasets/wzc6r6w5w5/3
     license: "CC BY 4.0"
-    type: field
+    type: lab   # phone photos but of DETACHED leaves on plain white paper (spot-checked) — plain-bg bias
     verify: true
     covers: [chilli/anthracnose, chilli/healthy]
     notes: >-
