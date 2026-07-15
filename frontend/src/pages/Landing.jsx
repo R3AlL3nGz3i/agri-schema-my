@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useApp } from "../context/AppContext";
-import { Leaf, Camera, FlaskConical, Globe, LogIn, LogOut, User, LayoutDashboard } from "lucide-react";
+import { Leaf, Camera, FlaskConical, Globe, LogIn, LogOut, User, LayoutDashboard, Store } from "lucide-react";
 
 export default function Landing() {
   const { user, logout, isAdmin, isUser } = useApp();
@@ -113,6 +113,23 @@ export default function Landing() {
             </Link>
           )}
         </div>
+
+        {/* Marketplace — buyer & seller portal (embedded route) */}
+        <Link
+          to="/marketplace"
+          className="w-full max-w-2xl bg-white/10 hover:bg-white/20 border border-white/15 rounded-2xl p-5 flex items-center gap-4 text-left transition-colors group"
+        >
+          <div className="flex-none w-12 h-12 rounded-xl bg-accent/20 flex items-center justify-center">
+            <Store size={24} className="text-accent" />
+          </div>
+          <div className="flex-1">
+            <h2 className="text-lg font-bold text-white">AgriScheme Marketplace</h2>
+            <p className="text-green-100 text-sm">
+              Buy fresh produce direct from Malaysian farms, or sell your harvest — the buyer &amp; seller portal.
+            </p>
+          </div>
+          <span className="text-accent font-medium text-sm group-hover:translate-x-0.5 transition-transform">Open →</span>
+        </Link>
 
         <p className="text-green-200 text-xs max-w-md">
           AgriScheme uses open scholarly APIs (Crossref, Semantic Scholar) and Malaysia DOA/LRMP regulatory data.

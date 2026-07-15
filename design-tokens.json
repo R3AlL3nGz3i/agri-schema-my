@@ -1,0 +1,124 @@
+{
+  "$description": "AgriScheme design tokens. Import into Figma with the free 'Tokens Studio for Figma' plugin (Plugins > Tokens Studio > Import). W3C-style token format with Tokens Studio $type/$value keys.",
+  "global": {
+    "color": {
+      "primary": {
+        "default": { "$type": "color", "$value": "#1a6b3c", "$description": "Main brand green — buttons, links, active nav, icons" },
+        "light":   { "$type": "color", "$value": "#2d9e5f", "$description": "Lighter green — gradient stop, accents" },
+        "dark":    { "$type": "color", "$value": "#0f4a28", "$description": "Dark green — button hover, dark cards, gradient base" }
+      },
+      "accent": {
+        "default": { "$type": "color", "$value": "#e8b84b", "$description": "Gold accent — highlights on dark, logo leaf, emphasis, admin badge" },
+        "light":   { "$type": "color", "$value": "#f5d07a", "$description": "Lighter gold" }
+      },
+      "neutral": {
+        "bg":            { "$type": "color", "$value": "#f9fafb", "$description": "Page background (gray-50)" },
+        "text":          { "$type": "color", "$value": "#1f2937", "$description": "Body text (gray-800)" },
+        "text-muted":    { "$type": "color", "$value": "#6b7280", "$description": "Secondary text (gray-500)" },
+        "text-label":    { "$type": "color", "$value": "#374151", "$description": "Form labels (gray-700)" },
+        "border":        { "$type": "color", "$value": "#f3f4f6", "$description": "Card border (gray-100)" },
+        "chrome":        { "$type": "color", "$value": "#111827", "$description": "Dark sidebar/chrome (gray-900)" },
+        "chrome-border": { "$type": "color", "$value": "#374151", "$description": "Dark chrome borders (gray-700)" },
+        "chrome-muted":  { "$type": "color", "$value": "#9ca3af", "$description": "Dark chrome muted text (gray-400)" },
+        "chrome-hover":  { "$type": "color", "$value": "#1f2937", "$description": "Dark nav hover (gray-800)" },
+        "chrome-active": { "$type": "color", "$value": "#374151", "$description": "Dark nav active (gray-700)" },
+        "white":         { "$type": "color", "$value": "#ffffff" }
+      },
+      "status": {
+        "approved-bg":   { "$type": "color", "$value": "#dcfce7", "$description": "green-100" },
+        "approved-fg":   { "$type": "color", "$value": "#15803d", "$description": "green-700" },
+        "restricted-bg": { "$type": "color", "$value": "#ffedd5", "$description": "orange-100" },
+        "restricted-fg": { "$type": "color", "$value": "#c2410c", "$description": "orange-700" },
+        "banned-bg":     { "$type": "color", "$value": "#fee2e2", "$description": "red-100" },
+        "banned-fg":     { "$type": "color", "$value": "#b91c1c", "$description": "red-700" },
+        "unknown-bg":    { "$type": "color", "$value": "#f3f4f6", "$description": "gray-100" },
+        "unknown-fg":    { "$type": "color", "$value": "#4b5563", "$description": "gray-600" }
+      },
+      "pathogen": {
+        "fungi-bg":    { "$type": "color", "$value": "#fef3c7", "$description": "amber-100" },
+        "fungi-fg":    { "$type": "color", "$value": "#b45309", "$description": "amber-700" },
+        "bacteria-bg": { "$type": "color", "$value": "#dbeafe", "$description": "blue-100" },
+        "bacteria-fg": { "$type": "color", "$value": "#1d4ed8", "$description": "blue-700" },
+        "virus-bg":    { "$type": "color", "$value": "#f3e8ff", "$description": "purple-100" },
+        "virus-fg":    { "$type": "color", "$value": "#7e22ce", "$description": "purple-700" },
+        "pest-bg":     { "$type": "color", "$value": "#fee2e2", "$description": "red-100" },
+        "pest-fg":     { "$type": "color", "$value": "#b91c1c", "$description": "red-700" },
+        "nematode-bg": { "$type": "color", "$value": "#fce7f3", "$description": "pink-100" },
+        "nematode-fg": { "$type": "color", "$value": "#be185d", "$description": "pink-700" },
+        "abiotic-bg":  { "$type": "color", "$value": "#e0f2fe", "$description": "sky-100" },
+        "abiotic-fg":  { "$type": "color", "$value": "#0369a1", "$description": "sky-700" },
+        "oomycete-bg": { "$type": "color", "$value": "#ccfbf1", "$description": "teal-100" },
+        "oomycete-fg": { "$type": "color", "$value": "#0f766e", "$description": "teal-700" }
+      },
+      "gradient": {
+        "hero": {
+          "$type": "color",
+          "$value": {
+            "type": "linearGradient",
+            "rotation": 135,
+            "stops": [
+              { "position": 0,   "color": "#0f4a28" },
+              { "position": 0.5, "color": "#1a6b3c" },
+              { "position": 1,   "color": "#2d9e5f" }
+            ]
+          },
+          "$description": "Signature diagonal green gradient for hero/login/marketing surfaces (from-primary-dark via-primary to-primary-light)"
+        }
+      }
+    },
+    "font": {
+      "family": {
+        "sans": { "$type": "fontFamilies", "$value": "Inter", "$description": "UI uses the system-sans stack; Inter is the closest Figma substitute" }
+      },
+      "weight": {
+        "medium":   { "$type": "fontWeights", "$value": "Medium" },
+        "semibold": { "$type": "fontWeights", "$value": "Semi Bold" },
+        "bold":     { "$type": "fontWeights", "$value": "Bold" }
+      },
+      "size": {
+        "xs":   { "$type": "fontSizes", "$value": "12", "$description": "labels, badges, micro-copy" },
+        "sm":   { "$type": "fontSizes", "$value": "14", "$description": "body default, buttons" },
+        "base": { "$type": "fontSizes", "$value": "16" },
+        "lg":   { "$type": "fontSizes", "$value": "18", "$description": "lead paragraph" },
+        "xl":   { "$type": "fontSizes", "$value": "20", "$description": "card/page title, logo" },
+        "3xl":  { "$type": "fontSizes", "$value": "30", "$description": "auth logo" },
+        "4xl":  { "$type": "fontSizes", "$value": "36", "$description": "hero (mobile)" },
+        "5xl":  { "$type": "fontSizes", "$value": "48", "$description": "hero (desktop)" }
+      },
+      "letterSpacing": {
+        "wider": { "$type": "letterSpacing", "$value": "0.05em", "$description": "uppercase section labels" }
+      }
+    },
+    "typography": {
+      "hero":        { "$type": "typography", "$value": { "fontFamily": "{font.family.sans}", "fontWeight": "{font.weight.bold}",     "fontSize": "{font.size.5xl}", "lineHeight": "1.1" } },
+      "title":       { "$type": "typography", "$value": { "fontFamily": "{font.family.sans}", "fontWeight": "{font.weight.bold}",     "fontSize": "{font.size.xl}",  "lineHeight": "1.4" } },
+      "body":        { "$type": "typography", "$value": { "fontFamily": "{font.family.sans}", "fontWeight": "Regular",                "fontSize": "{font.size.sm}",  "lineHeight": "1.5" } },
+      "label":       { "$type": "typography", "$value": { "fontFamily": "{font.family.sans}", "fontWeight": "{font.weight.medium}",   "fontSize": "{font.size.sm}",  "lineHeight": "1.4" } },
+      "eyebrow":     { "$type": "typography", "$value": { "fontFamily": "{font.family.sans}", "fontWeight": "{font.weight.medium}",   "fontSize": "{font.size.xs}",  "lineHeight": "1.4", "textCase": "uppercase", "letterSpacing": "{font.letterSpacing.wider}" } },
+      "button":      { "$type": "typography", "$value": { "fontFamily": "{font.family.sans}", "fontWeight": "{font.weight.semibold}", "fontSize": "{font.size.sm}",  "lineHeight": "1.4" } }
+    },
+    "radius": {
+      "lg":   { "$type": "borderRadius", "$value": "8",  "$description": "buttons, inputs" },
+      "xl":   { "$type": "borderRadius", "$value": "12", "$description": "cards" },
+      "2xl":  { "$type": "borderRadius", "$value": "16", "$description": "hero/auth cards" },
+      "full": { "$type": "borderRadius", "$value": "9999", "$description": "pills, badges, avatars" }
+    },
+    "spacing": {
+      "1": { "$type": "spacing", "$value": "4" },
+      "2": { "$type": "spacing", "$value": "8" },
+      "3": { "$type": "spacing", "$value": "12" },
+      "4": { "$type": "spacing", "$value": "16" },
+      "5": { "$type": "spacing", "$value": "20" },
+      "6": { "$type": "spacing", "$value": "24" },
+      "7": { "$type": "spacing", "$value": "28" },
+      "8": { "$type": "spacing", "$value": "32" }
+    },
+    "sizing": {
+      "sidebar": { "$type": "sizing", "$value": "256", "$description": "w-64 sidebar width" }
+    },
+    "shadow": {
+      "sm": { "$type": "boxShadow", "$value": { "x": "0", "y": "1", "blur": "2", "spread": "0", "color": "#00000014", "type": "dropShadow" }, "$description": "card resting shadow (shadow-sm)" },
+      "xl": { "$type": "boxShadow", "$value": { "x": "0", "y": "20", "blur": "25", "spread": "-5", "color": "#0000001f", "type": "dropShadow" }, "$description": "elevated / hover (shadow-xl)" }
+    }
+  }
+}
