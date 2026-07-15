@@ -4,6 +4,7 @@ import AppLayout from "../../components/AppLayout";
 import { useApp } from "../../context/AppContext";
 import { queryDisease } from "../../api";
 import { MyStatusBadge, PathogenBadge, ConfidenceBar } from "../../components/Badges";
+import { titleCaseDisease } from "../../utils/format";
 import { Search, Send, Loader, Sprout } from "lucide-react";
 
 const CROPS = ["paddy","durian","banana","chilli","tomato","rubber","oil_palm","cocoa"];
@@ -98,7 +99,7 @@ export default function FarmerSearch() {
                       <div key={j} className="border border-gray-100 rounded-xl p-3 hover:border-primary/30 transition-colors">
                         <div className="flex items-start justify-between gap-2 mb-1">
                           <div>
-                            <span className="font-semibold text-gray-800 text-sm">{r.disease_name}</span>
+                            <span className="font-semibold text-gray-800 text-sm">{titleCaseDisease(r.disease_name)}</span>
                             {r.local_name && <span className="text-gray-400 text-xs ml-1">({r.local_name})</span>}
                           </div>
                           <MyStatusBadge status={
