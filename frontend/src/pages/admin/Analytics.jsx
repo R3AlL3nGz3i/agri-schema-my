@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ReactApexChart from "react-apexcharts";
 import AppLayout from "../../components/AppLayout";
+import { getAggregates } from "../../api";
 import { Users, Search, TrendingUp, MapPin, Clock, Smartphone } from "lucide-react";
 
 // ── Data ──────────────────────────────────────────────────
@@ -29,29 +30,6 @@ const MONTHLY_DATA = {
     scan:   [61, 78, 72, 95, 88, 104],
     search: [54, 68, 65, 84, 79, 91],
   },
-};
-
-const CROP_QUERIES = {
-  "All Time": [
-    { crop: "Paddy",    queries: 312 },
-    { crop: "Chilli",   queries: 248 },
-    { crop: "Banana",   queries: 197 },
-    { crop: "Tomato",   queries: 164 },
-    { crop: "Oil Palm", queries: 138 },
-    { crop: "Durian",   queries: 112 },
-    { crop: "Rubber",   queries: 87  },
-    { crop: "Cocoa",    queries: 66  },
-  ],
-  "This Month": [
-    { crop: "Paddy",    queries: 58 },
-    { crop: "Chilli",   queries: 44 },
-    { crop: "Banana",   queries: 37 },
-    { crop: "Tomato",   queries: 31 },
-    { crop: "Oil Palm", queries: 24 },
-    { crop: "Durian",   queries: 19 },
-    { crop: "Rubber",   queries: 14 },
-    { crop: "Cocoa",    queries: 11 },
-  ],
 };
 
 const STATE_QUERIES = {
@@ -133,11 +111,18 @@ function FilterPills({ options, value, onChange }) {
 export default function Analytics() {
   const [volumePeriod,  setVolumePeriod]  = useState("This Week");
   const [volumeView,    setVolumeView]    = useState("weekly");   // weekly | monthly
-  const [cropPeriod,    setCropPeriod]    = useState("All Time");
   const [statePeriod,   setStatePeriod]   = useState("All Time");
+  const [agg,           setAgg]           = useState(null);
+
+  useEffect(() => {
+    getAggregates().then(r => setAgg(r.data)).catch(() => {});
+  }, []);
+
+  const cap = (s) => (s || "").replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
 
   const volumeData   = volumeView === "weekly" ? WEEKLY_DATA[volumePeriod]  : MONTHLY_DATA[volumePeriod === "This Week" ? "2024" : "2023"];
-  const cropData     = CROP_QUERIES[cropPeriod];
+  // Real, groundable panel: entries per crop from the knowledge base.
+  const cropData     = (agg?.crop_coverage || []).map(c => ({ crop: cap(c.crop), count: c.diseases }));
   const stateData    = STATE_QUERIES[statePeriod];
   const totalQueries = TOP_QUERIES.reduce((s, q) => s + q.count, 0);
 
@@ -156,7 +141,7 @@ export default function Analytics() {
     ...baseHBar(cropData.map(c => c.crop)),
     colors: ["#1a6b3c"],
   };
-  const cropSeries = [{ name: "Queries", data: cropData.map(c => c.queries) }];
+  const cropSeries = [{ name: "Entries", data: cropData.map(c => c.count) }];
 
   // State horizontal bar
   const stateOptions = {
@@ -187,9 +172,9 @@ export default function Analytics() {
             <h2 className="text-xl font-bold text-gray-800">Query Analytics</h2>
             <p className="text-sm text-gray-400 mt-0.5">Real-world usage insights from farmers using AgriScheme</p>
           </div>
-          <div className="hidden md:flex items-center gap-2 bg-blue-50 border border-blue-200 px-3 py-1.5 rounded-full">
-            <Smartphone size={13} className="text-blue-500" />
-            <span className="text-xs text-blue-700 font-medium">Live data</span>
+          <div className="hidden md:flex items-center gap-2 bg-amber-50 border border-amber-200 px-3 py-1.5 rounded-full">
+            <Smartphone size={13} className="text-amber-500" />
+            <span className="text-xs text-amber-700 font-medium">Sample data</span>
           </div>
         </div>
 
@@ -249,8 +234,8 @@ export default function Analytics() {
         <div className="grid md:grid-cols-2 gap-6">
           <div className="card">
             <div className="flex flex-wrap items-center justify-between gap-3 mb-2">
-              <h3 className="font-semibold text-gray-700">Queries by Crop</h3>
-              <FilterPills options={["All Time","This Month"]} value={cropPeriod} onChange={setCropPeriod} />
+              <h3 className="font-semibold text-gray-700">Entries by Crop</h3>
+              <span className="text-xs text-green-700 font-medium bg-green-50 border border-green-200 px-2 py-0.5 rounded-full">Live KB</span>
             </div>
             <ReactApexChart type="bar" height={220} series={cropSeries} options={cropOptions} />
           </div>

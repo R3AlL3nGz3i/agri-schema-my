@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useApp } from "../context/AppContext";
 import { Leaf, Eye, EyeOff, Loader, AlertCircle, UserCircle, ShieldCheck } from "lucide-react";
-import api from "../api";
 
 export default function Login() {
   const { login, user, isAdmin } = useApp();
@@ -23,40 +22,29 @@ export default function Login() {
   const [error, setError]       = useState("");
   const [success, setSuccess]   = useState("");
 
-  // ── Login as specific role ──────────────────────────────
-  const handleLogin = async (requestedRole) => {
+  // ── Login as specific role (client-side only, no backend auth) ──
+  const handleLogin = (requestedRole) => {
     if (!email || !password) { setError("Please enter email and password."); return; }
     setError(""); setLoadingRole(requestedRole);
 
-    try {
-      const res = await api.post("/auth/login", { email, password, requested_role: requestedRole });
-      login(res.data.user);
-      if (requestedRole === "admin") navigate("/admin", { replace: true });
-      else navigate("/farmer", { replace: true });
-    } catch (err) {
-      setError(err.response?.data?.detail || "Login failed. Please try again.");
-    } finally {
-      setLoadingRole(null);
-    }
+    const displayName = name || email.split("@")[0];
+    const role = requestedRole === "admin" ? "admin" : "user";
+    login({ name: displayName, email, role });
+    navigate(role === "admin" ? "/admin" : "/farmer", { replace: true });
+    setLoadingRole(null);
   };
 
-  // ── Signup ──────────────────────────────────────────────
-  const handleSignup = async (e) => {
+  // ── Signup (client-side only, always a user account) ────
+  const handleSignup = (e) => {
     e.preventDefault();
     if (!name || !email || !password || !confirmPw) { setError("All fields are required."); return; }
     if (password !== confirmPw) { setError("Passwords do not match."); return; }
     if (password.length < 6)   { setError("Password must be at least 6 characters."); return; }
     setError(""); setLoadingRole("signup");
 
-    try {
-      const res = await api.post("/auth/signup", { name, email, password });
-      login(res.data.user);
-      navigate("/farmer", { replace: true });
-    } catch (err) {
-      setError(err.response?.data?.detail || "Signup failed. Please try again.");
-    } finally {
-      setLoadingRole(null);
-    }
+    login({ name, email, role: "user" });
+    navigate("/farmer", { replace: true });
+    setLoadingRole(null);
   };
 
   const isLoading = loadingRole !== null;

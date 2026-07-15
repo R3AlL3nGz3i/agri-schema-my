@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import ReactApexChart from "react-apexcharts";
 import AppLayout from "../../components/AppLayout";
-import { getStats } from "../../api";
+import { getStats, getAggregates } from "../../api";
 import {
   FileText, Clock, AlertTriangle, CheckCircle,
   TrendingUp, Database, ArrowUpRight, ShieldCheck,
@@ -25,45 +25,25 @@ const MONTHLY = [
   { month: "Jun", papers: 42, approved: 35 },
 ];
 
-const CROP_DATA = [
-  { name: "Paddy",    pct: 92, papers: 98  },
-  { name: "Chilli",   pct: 85, papers: 74  },
-  { name: "Banana",   pct: 78, papers: 61  },
-  { name: "Tomato",   pct: 71, papers: 53  },
-  { name: "Oil Palm", pct: 65, papers: 44  },
-  { name: "Durian",   pct: 54, papers: 32  },
-  { name: "Rubber",   pct: 48, papers: 27  },
-  { name: "Cocoa",    pct: 32, papers: 18  },
-];
+// Presentation styles keyed by the raw values returned from /aggregates.
+const PATHOGEN_STYLE = {
+  fungi:    { color: "bg-amber-400",  badge: "badge-fungi"    },
+  bacteria: { color: "bg-blue-400",   badge: "badge-bacteria" },
+  virus:    { color: "bg-purple-400", badge: "badge-virus"    },
+  pest:     { color: "bg-red-400",    badge: "badge-pest"     },
+  nematode: { color: "bg-pink-400",   badge: "badge-nematode" },
+  abiotic:  { color: "bg-sky-400",    badge: "badge-abiotic"  },
+  oomycete: { color: "bg-teal-400",   badge: "badge-oomycete" },
+};
 
-const PATHOGENS = [
-  { type: "Fungi",     count: 98,  color: "bg-amber-400",  badge: "badge-fungi"    },
-  { type: "Bacteria",  count: 54,  color: "bg-blue-400",   badge: "badge-bacteria" },
-  { type: "Virus",     count: 41,  color: "bg-purple-400", badge: "badge-virus"    },
-  { type: "Pest",      count: 37,  color: "bg-red-400",    badge: "badge-pest"     },
-  { type: "Nematode",  count: 22,  color: "bg-pink-400",   badge: "badge-nematode" },
-  { type: "Abiotic",   count: 18,  color: "bg-sky-400",    badge: "badge-abiotic"  },
-  { type: "Oomycete",  count: 14,  color: "bg-teal-400",   badge: "badge-oomycete" },
-];
+const STATUS_STYLE = {
+  MY_approved:   { label: "MY Approved",   cls: "badge-approved",   bar: "bg-green-400"  },
+  MY_restricted: { label: "MY Restricted", cls: "badge-restricted", bar: "bg-orange-400" },
+  MY_banned:     { label: "MY Banned",     cls: "badge-banned",     bar: "bg-red-400"    },
+  unknown:       { label: "Unknown",       cls: "badge-unknown",    bar: "bg-gray-300"   },
+};
 
-const TOP_DISEASES = [
-  { name: "Rice Blast",            crop: "Paddy",    pathogen: "Fungi",    papers: 38, my: "MY_approved",   pct: 92 },
-  { name: "Anthracnose",           crop: "Chilli",   pathogen: "Fungi",    papers: 31, my: "MY_approved",   pct: 85 },
-  { name: "Fusarium Wilt (TR4)",   crop: "Banana",   pathogen: "Fungi",    papers: 27, my: "unknown",       pct: 78 },
-  { name: "Ganoderma BSR",         crop: "Oil Palm", pathogen: "Fungi",    papers: 24, my: "MY_restricted", pct: 71 },
-  { name: "Phytophthora Root Rot", crop: "Durian",   pathogen: "Oomycete", papers: 19, my: "MY_restricted", pct: 58 },
-  { name: "Sheath Blight",         crop: "Paddy",    pathogen: "Fungi",    papers: 17, my: "MY_approved",   pct: 52 },
-  { name: "Bacterial Leaf Blight", crop: "Paddy",    pathogen: "Bacteria", papers: 14, my: "MY_approved",   pct: 44 },
-];
-
-const MY_STATUS = [
-  { label: "MY Approved",   count: 198, cls: "badge-approved",   bar: "bg-green-400",  pct: 70 },
-  { label: "MY Restricted", count: 43,  cls: "badge-restricted", bar: "bg-orange-400", pct: 15 },
-  { label: "MY Banned",     count: 12,  cls: "badge-banned",     bar: "bg-red-400",    pct: 4  },
-  { label: "Unknown",       count: 31,  cls: "badge-unknown",    bar: "bg-gray-300",   pct: 11 },
-];
-
-const totalPathogens = PATHOGENS.reduce((s, p) => s + p.count, 0);
+const cap = (s) => (s || "").replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
 
 const MY_BADGE = {
   MY_approved:   "badge-approved",
@@ -74,10 +54,48 @@ const MY_BADGE = {
 
 export default function AdminDashboard() {
   const [stats, setStats] = useState(null);
+  const [agg, setAgg]     = useState(null);
 
   useEffect(() => {
     getStats().then(r => setStats(r.data)).catch(() => {});
+    getAggregates().then(r => setAgg(r.data)).catch(() => {});
   }, []);
+
+  // ── Derived from /aggregates (real knowledge-base counts) ──
+  const pathogens = (agg?.pathogen_breakdown || []).map(p => ({
+    type: cap(p.type),
+    count: p.count,
+    ...(PATHOGEN_STYLE[p.type] || { color: "bg-gray-300", badge: "badge-unknown" }),
+  }));
+  const totalPathogens = pathogens.reduce((s, p) => s + p.count, 0) || 1;
+
+  const statusTotal = (agg?.regulatory_status || []).reduce((s, r) => s + r.count, 0) || 1;
+  const myStatus = (agg?.regulatory_status || []).map(r => ({
+    count: r.count,
+    pct: Math.round((r.count / statusTotal) * 100),
+    ...(STATUS_STYLE[r.status] || { label: cap(r.status), cls: "badge-unknown", bar: "bg-gray-300" }),
+  }));
+
+  const cropMax = Math.max(1, ...(agg?.crop_coverage || []).map(c => c.diseases));
+  const cropData = (agg?.crop_coverage || []).map(c => ({
+    name: cap(c.crop),
+    papers: c.diseases,
+    pct: Math.round((c.diseases / cropMax) * 100),
+  }));
+  const totalEntries = (agg?.crop_coverage || []).reduce((s, c) => s + c.diseases, 0);
+
+  const topDiseases = [...(agg?.diseases || [])]
+    .filter(d => d.confidence_score != null)
+    .sort((a, b) => b.confidence_score - a.confidence_score)
+    .slice(0, 7)
+    .map(d => ({
+      name: cap(d.name),
+      crop: cap(d.crop),
+      pathogen: cap(d.pathogen_type),
+      papers: d.treatments ?? 0,
+      my: d.my_status || "unknown",
+      pct: Math.round((d.confidence_score || 0) * 100),
+    }));
 
   const statCards = [
     { label: "Papers Collected", value: stats?.total_entries ?? 284, delta: "+42 this month",   icon: FileText,      color: "text-primary",      bg: "bg-primary/10"    },
@@ -131,7 +149,7 @@ export default function AdminDashboard() {
           {/* Monthly ingestion chart — ApexCharts */}
           <div className="card lg:col-span-1">
             <div className="flex items-center justify-between mb-2">
-              <h3 className="font-semibold text-gray-700">Monthly Ingestion</h3>
+              <h3 className="font-semibold text-gray-700">Monthly Ingestion <span className="text-xs font-normal text-gray-400">(Sample)</span></h3>
               <span className="text-xs text-gray-400">Jan – Jun 2024</span>
             </div>
             <ReactApexChart
@@ -162,7 +180,7 @@ export default function AdminDashboard() {
               <h3 className="font-semibold text-gray-700">Malaysia Regulatory Status</h3>
             </div>
             <div className="space-y-3">
-              {MY_STATUS.map(({ label, count, cls, bar, pct }) => (
+              {myStatus.map(({ label, count, cls, bar, pct }) => (
                 <div key={label}>
                   <div className="flex items-center justify-between mb-1">
                     <span className={cls}>{label}</span>
@@ -181,7 +199,7 @@ export default function AdminDashboard() {
 
           {/* Recent activity */}
           <div className="card lg:col-span-1">
-            <h3 className="font-semibold text-gray-700 mb-4">Recent Activity</h3>
+            <h3 className="font-semibold text-gray-700 mb-4">Recent Activity <span className="text-xs font-normal text-gray-400">(Sample)</span></h3>
             <div className="space-y-3">
               {MOCK_ACTIVITY.map((a, i) => (
                 <div key={i} className="flex gap-3 items-start">
@@ -204,16 +222,16 @@ export default function AdminDashboard() {
           <div className="card">
             <div className="flex items-center justify-between mb-4">
               <h3 className="font-semibold text-gray-700">Crop Coverage</h3>
-              <span className="text-xs text-gray-400">8 crops · 284 papers</span>
+              <span className="text-xs text-gray-400">{cropData.length} crops · {totalEntries} entries</span>
             </div>
             <div className="space-y-3">
-              {CROP_DATA.map(({ name, pct, papers }) => (
+              {cropData.map(({ name, pct, papers }) => (
                 <div key={name} className="flex items-center gap-3">
                   <span className="text-xs w-16 text-gray-500 shrink-0">{name}</span>
                   <div className="flex-1 bg-gray-100 rounded-full h-2">
                     <div className="bg-primary h-2 rounded-full transition-all" style={{ width: `${pct}%` }} />
                   </div>
-                  <span className="text-xs text-gray-400 w-14 text-right">{papers} papers</span>
+                  <span className="text-xs text-gray-400 w-16 text-right">{papers} entries</span>
                 </div>
               ))}
             </div>
@@ -226,7 +244,7 @@ export default function AdminDashboard() {
               <span className="text-xs text-gray-400">{totalPathogens} total entries</span>
             </div>
             <div className="space-y-3">
-              {PATHOGENS.map(({ type, count, color, badge }) => (
+              {pathogens.map(({ type, count, color, badge }) => (
                 <div key={type} className="flex items-center gap-3">
                   <span className={`${badge} w-16 text-center shrink-0`}>{type}</span>
                   <div className="flex-1 bg-gray-100 rounded-full h-2">
@@ -242,20 +260,20 @@ export default function AdminDashboard() {
         {/* Row 4: Top diseases table */}
         <div className="card p-0 overflow-hidden">
           <div className="px-5 py-4 border-b flex items-center justify-between">
-            <h3 className="font-semibold text-gray-700">Most Researched Diseases</h3>
-            <span className="text-xs text-gray-400">Ranked by paper count</span>
+            <h3 className="font-semibold text-gray-700">Highest-Confidence Diseases</h3>
+            <span className="text-xs text-gray-400">Ranked by confidence score</span>
           </div>
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead className="bg-gray-50 border-b">
                 <tr>
-                  {["#","Disease","Crop","Pathogen","Papers","MY Status","Coverage"].map(h => (
+                  {["#","Disease","Crop","Pathogen","Treatments","MY Status","Confidence"].map(h => (
                     <th key={h} className="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide whitespace-nowrap">{h}</th>
                   ))}
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-50">
-                {TOP_DISEASES.map(({ name, crop, pathogen, papers, my, pct }, i) => (
+                {topDiseases.map(({ name, crop, pathogen, papers, my, pct }, i) => (
                   <tr key={name} className="hover:bg-gray-50 transition-colors">
                     <td className="px-4 py-3 text-xs text-gray-400 font-medium">{i + 1}</td>
                     <td className="px-4 py-3 font-semibold text-gray-800 text-sm">{name}</td>
