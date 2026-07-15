@@ -4,7 +4,7 @@ import AppLayout from "../../components/AppLayout";
 import { useApp } from "../../context/AppContext";
 import { queryDisease } from "../../api";
 import { MyStatusBadge, PathogenBadge, ConfidenceBar } from "../../components/Badges";
-import { titleCaseDisease } from "../../utils/format";
+import { titleCaseDisease, cleanSymptoms } from "../../utils/format";
 import { Search, Send, Loader, Sprout } from "lucide-react";
 
 const CROPS = ["paddy","durian","banana","chilli","tomato","rubber","oil_palm","cocoa"];
@@ -112,7 +112,7 @@ export default function FarmerSearch() {
                           <PathogenBadge type={r.pathogen_category} />
                           <span className="text-xs text-gray-400 capitalize">{r.crop}</span>
                         </div>
-                        <p className="text-xs text-gray-500 line-clamp-2 mb-2">{r.symptoms_summary}</p>
+                        <p className="text-xs text-gray-500 line-clamp-2 mb-2">{cleanSymptoms(r.symptoms_summary)}</p>
                         <ConfidenceBar value={r.relevance_score} />
                       </div>
                     ))}
