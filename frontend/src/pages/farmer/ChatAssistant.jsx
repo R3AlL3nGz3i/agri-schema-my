@@ -6,7 +6,7 @@ import {
 import AppLayout from "../../components/AppLayout";
 import { ConfidenceBar } from "../../components/Badges";
 import { useApp } from "../../context/AppContext";
-import { queryDisease } from "../../api";
+import { queryDisease, diagnoseImage } from "../../api";
 
 const CROPS = ["paddy", "durian", "banana", "chilli", "tomato", "rubber", "oil_palm", "cocoa"];
 const CROP_ALIASES = [
@@ -125,34 +125,53 @@ export default function ChatAssistant() {
     if (!file) return;
     if (!file.type.startsWith("image/")) return;
     const reader = new FileReader();
-    reader.onload = () => setImage({ dataUrl: reader.result, name: file.name });
+    reader.onload = () => setImage({ dataUrl: reader.result, name: file.name, file });
     reader.readAsDataURL(file);
     event.target.value = "";
   };
 
-  const runQuery = async (conversationId, selectedCrop, text, hadImage) => {
+  const runQuery = async (conversationId, selectedCrop, text, imageFile = null) => {
     setLoading(true);
     try {
-      const response = await queryDisease({
-        crop: selectedCrop || undefined,
-        symptom: text || (hadImage ? "visible crop disease symptoms" : undefined),
-        n_results: 5,
-      });
-      const cropNote = selectedCrop
-        ? `[${cropLabel(selectedCrop)}] — `
-        : "[All crops] — ";
-      const note = hadImage
-        ? `${cropNote}I included your photo in this conversation. This prototype currently matches the confirmed crop and written details against the knowledge base; direct image recognition still needs a backend vision endpoint.`
-        : `${cropNote}I’ll keep this context for your follow-up questions.`;
-      const assistantMessage = {
+      let results = [];
+      let note = "";
+      if (imageFile) {
+        const form = new FormData();
+        form.append("file", imageFile);
+        if (selectedCrop) form.append("crop", selectedCrop);
+        if (text) form.append("note", text);
+        const { data } = await diagnoseImage(form);
+        results = data.results || [];
+        const cropTag = data.crop
+          ? `[${cropLabel(data.crop)}${data.crop_source === "vision" ? " · detected from photo" : ""}] — `
+          : "[Crop unknown] — ";
+        if (!data.assessable) {
+          note = `${cropTag}${data.observation}`;
+        } else if (results.length) {
+          note = `${cropTag}From your photo I can see: ${data.observation} Here are the closest verified matches from the knowledge base.`;
+        } else {
+          note = `${cropTag}From your photo I can see: ${data.observation} I couldn’t find a close match in the verified knowledge base — add the crop name or a written symptom and I’ll try again.`;
+        }
+      } else {
+        const { data } = await queryDisease({
+          crop: selectedCrop || undefined,
+          symptom: text || undefined,
+          n_results: 5,
+        });
+        results = data || [];
+        const cropNote = selectedCrop ? `[${cropLabel(selectedCrop)}] — ` : "[All crops] — ";
+        note = results.length
+          ? `${cropNote}I’ll keep this context for your follow-up questions.`
+          : `${cropNote}I could not find a close match. Try adding the crop name and describing colour, shape, location, and how quickly the symptom spread.`;
+      }
+      appendConversationMessages(conversationId, [{
         id: messageId(),
         role: "assistant",
-        content: response.data.length ? note : `${cropNote}I could not find a close match. Try adding the crop name and describing colour, shape, location, and how quickly the symptom spread.`,
-        results: response.data,
+        content: note,
+        results,
         createdAt: Date.now(),
-      };
-      appendConversationMessages(conversationId, [assistantMessage]);
-      addHistory({ label: text || `${cropLabel(selectedCrop)} photo diagnosis`, conversationId, ts: Date.now() });
+      }]);
+      addHistory({ label: text || `${cropLabel(selectedCrop) || "Crop"} photo diagnosis`, conversationId, ts: Date.now() });
     } catch {
       appendConversationMessages(conversationId, [{
         id: messageId(),
@@ -183,8 +202,8 @@ export default function ChatAssistant() {
       id: messageId(),
       role: "assistant",
       content: previousContext?.status === "identifying"
-        ? "[Crop unknown] — I’ve added that information to this identification case. If possible, add a clear whole-plant photo and a close-up of a leaf, fruit, flower, or stem."
-        : "[Crop unknown] — No problem. We’ll identify the crop before diagnosing it. The current prototype cannot recognize a plant from the photo automatically, so I won’t guess. Add a whole-plant photo, a close-up, or describe its size, leaves, fruit, flowers, and where it is growing.",
+        ? "[Crop unknown] — I’ve added that to this identification case. Attach a clear photo of the plant and I’ll identify the crop and read its symptoms for you."
+        : "[Crop unknown] — No problem. Attach a clear, well-lit photo — a whole-plant shot plus a close-up of the affected leaf, fruit, or stem — and I’ll identify the crop and check its symptoms against the verified knowledge base. You can also describe its leaves, fruit, and where it grows.",
       clarification: "crop-identification",
       createdAt: Date.now(),
     }]);
@@ -214,6 +233,23 @@ export default function ChatAssistant() {
     if (activeConversation.messages.length === 0) renameConversation(activeConversation.id, label);
     setInput("");
     setImage(null);
+
+    // A photo goes straight to the vision endpoint: /diagnose observes the
+    // symptoms and detects the crop, so we skip the text-only crop prompts.
+    if (imageSnapshot?.file) {
+      const hintCrop = detectedCrop || rememberedCrop || "";
+      if (hintCrop) {
+        updateConversationCrop(activeConversation.id, {
+          value: hintCrop,
+          source: detectedCrop ? "detected" : (activeConversation.cropContext?.source || "selected"),
+          confirmed: true,
+        });
+        setCrop(hintCrop);
+      }
+      setConversationPendingQuery(activeConversation.id, null);
+      await runQuery(activeConversation.id, hintCrop, text, imageSnapshot.file);
+      return;
+    }
 
     if (identifyingCrop && !detectedCrop) {
       beginCropIdentification(
@@ -246,9 +282,7 @@ export default function ChatAssistant() {
       appendConversationMessages(activeConversation.id, [{
         id: messageId(),
         role: "assistant",
-        content: imageSnapshot
-          ? "[Crop needed] — You attached a crop photo. Which crop is it? Add a written symptom too, because direct image recognition is not connected yet."
-          : "[Crop needed] — Those symptoms can affect several crops. Which crop are you diagnosing?",
+        content: "[Crop needed] — Those symptoms can affect several crops. Which crop are you diagnosing?",
         clarification: "crop",
         createdAt: Date.now(),
       }]);
@@ -261,7 +295,7 @@ export default function ChatAssistant() {
       setCrop(selectedCrop);
     }
     setConversationPendingQuery(activeConversation.id, null);
-    await runQuery(activeConversation.id, selectedCrop, text, Boolean(imageSnapshot));
+    await runQuery(activeConversation.id, selectedCrop, text);
   };
 
   const chooseCrop = async (selectedCrop) => {
@@ -278,16 +312,7 @@ export default function ChatAssistant() {
     const pending = conversation.pendingQuery;
     if (pending) {
       setConversationPendingQuery(conversation.id, null);
-      if (pending.hadImage && !pending.text) {
-        appendConversationMessages(conversation.id, [{
-          id: messageId(),
-          role: "assistant",
-          content: `[${cropLabel(selectedCrop)}] — Thanks. Now describe what you see in the photo, such as spots, yellowing, wilting, or rot.`,
-          createdAt: Date.now(),
-        }]);
-        return;
-      }
-      await runQuery(conversation.id, selectedCrop, pending.text, pending.hadImage);
+      await runQuery(conversation.id, selectedCrop, pending.text);
     } else if (wasIdentifying) {
       appendConversationMessages(conversation.id, [{
         id: messageId(),
@@ -316,7 +341,7 @@ export default function ChatAssistant() {
     const rememberedCrop = conversation?.cropContext?.value;
     if (!pending || !rememberedCrop) return;
     setConversationPendingQuery(conversation.id, null);
-    await runQuery(conversation.id, rememberedCrop, pending.text, pending.hadImage);
+    await runQuery(conversation.id, rememberedCrop, pending.text);
   };
 
   const clearCrop = () => {
@@ -509,7 +534,7 @@ export default function ChatAssistant() {
                 </button>
               </div>
             </div>
-            <p className="text-[10px] text-center text-[var(--ink-faint)] mt-1.5">Photo recognition requires a future vision backend; add written symptoms for the current prototype.</p>
+            <p className="text-[10px] text-center text-[var(--ink-faint)] mt-1.5">Attach a clear, well-lit close-up for photo diagnosis. Results are evidence matches, not a confirmed diagnosis.</p>
           </div>
         </div>
       </div>

@@ -9,7 +9,7 @@ from pathlib import Path
 from typing import Optional
 
 import yaml
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, File, Form, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
@@ -70,6 +70,15 @@ class AskRequest(BaseModel):
 
 class AskResponse(BaseModel):
     answer: str
+    grounded: bool
+    results: list[QueryResult]
+
+
+class DiagnoseResponse(BaseModel):
+    observation: str
+    crop: Optional[str] = None
+    crop_source: str            # "farmer" | "vision" | "unknown"
+    assessable: bool
     grounded: bool
     results: list[QueryResult]
 
@@ -151,6 +160,80 @@ def ask(req: AskRequest):
         return AskResponse(answer=note, grounded=False, results=results)
 
     return AskResponse(answer=gen["answer"], grounded=gen["grounded"], results=results)
+
+
+@app.post("/diagnose", response_model=DiagnoseResponse)
+async def diagnose(
+    file: UploadFile = File(...),
+    crop: Optional[str] = Form(None),
+    note: Optional[str] = Form(None),
+):
+    """
+    Photo-based diagnosis. A vision model DESCRIBES the visible symptoms (and
+    guesses the crop when the farmer didn't say), then those observed symptoms
+    are retrieved against the professor-verified knowledge base — the diagnosis
+    itself always comes from verified entries, never the model's own guess.
+
+    Degrades gracefully: if the vision layer is unavailable (no key / package /
+    API error), falls back to any written note the farmer supplied so search
+    still works, with grounded=False.
+    """
+    if not file.content_type or not file.content_type.startswith("image/"):
+        raise HTTPException(status_code=400, detail="Upload an image file")
+
+    image_bytes = await file.read()
+    if not image_bytes:
+        raise HTTPException(status_code=400, detail="Empty image upload")
+    if len(image_bytes) > 8 * 1024 * 1024:
+        raise HTTPException(status_code=413, detail="Image too large (max 8 MB)")
+
+    crop_hint = (crop or "").strip().lower().replace(" ", "_") or None
+    written_note = (note or "").strip() or None
+
+    from pipeline.vision_diagnose import observe
+    try:
+        obs = observe(image_bytes, file.content_type, crop_hint)
+    except Exception as e:  # key/package/API failure — degrade, don't 500
+        logging.getLogger("api").warning("Vision diagnosis unavailable: %s", e)
+        fallback = _run_query(crop_hint, written_note, 5) if (crop_hint or written_note) else []
+        message = ("Photo recognition is unavailable right now, so I matched your "
+                   "written description instead.") if fallback else (
+                   "Photo recognition is unavailable right now. Add the crop and a "
+                   "written symptom and I'll match it against the knowledge base.")
+        return DiagnoseResponse(
+            observation=message,
+            crop=crop_hint,
+            crop_source="farmer" if crop_hint else "unknown",
+            assessable=False,
+            grounded=False,
+            results=fallback,
+        )
+
+    if not obs["assessable"]:
+        return DiagnoseResponse(
+            observation="I couldn't read clear crop symptoms from that photo. Try a "
+                        "sharper, well-lit close-up of the affected leaf, fruit, or "
+                        "stem — or describe what you see.",
+            crop=obs["crop"],
+            crop_source="farmer" if crop_hint else "unknown",
+            assessable=False,
+            grounded=False,
+            results=[],
+        )
+
+    resolved_crop = obs["crop"]
+    crop_source = "farmer" if crop_hint else ("vision" if resolved_crop else "unknown")
+    query_symptom = " ".join(part for part in [obs["symptoms"], written_note] if part)
+    results = _run_query(resolved_crop, query_symptom, 5)
+
+    return DiagnoseResponse(
+        observation=obs["symptoms"],
+        crop=resolved_crop,
+        crop_source=crop_source,
+        assessable=True,
+        grounded=bool(results),
+        results=results,
+    )
 
 
 @app.get("/crops")
