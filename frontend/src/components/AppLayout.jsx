@@ -338,15 +338,24 @@ export default function AppLayout({ children, title = "AgriScheme" }) {
         </header>
 
         {!isAdminPage && (
-          <header className="hidden md:flex bg-white border-b px-6 py-3 items-center justify-between shrink-0">
-            <div className="flex items-center gap-2">
-              <span className="text-sm font-medium text-gray-700">{title}</span>
-              {isGuest && <span className="text-xs bg-gray-100 text-gray-500 px-2 py-1 rounded-full">Guest mode</span>}
-            </div>
+          <header className="hidden md:flex bg-white border-b px-6 py-2.5 items-center justify-between shrink-0">
+            <nav className="flex items-center gap-1">
+              {FARMER_NAV.map(({ to, icon: Icon, label, requiresAuth }) => {
+                const active = to === "/" ? pathname === "/" || pathname.startsWith("/chat/") : pathname === to;
+                return (
+                  <Link key={to} to={to}
+                    className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-colors ${active ? "bg-[var(--surface-sunk)] text-[var(--brand-dark)] font-semibold" : "text-[var(--ink-soft)] hover:bg-[var(--surface-sunk)] hover:text-[var(--ink)]"}`}>
+                    <Icon size={15} />
+                    <span>{label}</span>
+                    {isGuest && requiresAuth && <Lock size={12} className="text-[var(--ink-faint)]" />}
+                  </Link>
+                );
+              })}
+            </nav>
             {isGuest ? (
               <Link to="/login" className="btn-primary inline-flex items-center gap-2 text-sm py-2"><LogIn size={14} /> Sign in</Link>
             ) : (
-              <div className="flex items-center gap-2 text-sm text-gray-600"><User size={14} /> {user?.name}</div>
+              <div className="flex items-center gap-2 text-sm text-[var(--ink-soft)]"><User size={14} /> {user?.name}</div>
             )}
           </header>
         )}
