@@ -8,15 +8,13 @@ retrieving the observed symptoms against the professor-verified knowledge
 base, so every diagnosis stays grounded in verified entries rather than the
 model's own guesswork.
 
-Reuses the OpenAI key loader from the grounded-answer layer so both features
-share one credential path.
+Model calls go through pipeline.llm, so the provider (OpenAI or Gemini) is
+chosen in one place by the LLM_PROVIDER env var.
 """
-import base64
 import logging
 
 logger = logging.getLogger(__name__)
 
-MODEL = "gpt-4o-mini"          # supports image input, matches the /ask layer
 MAX_TOKENS = 300
 
 KNOWN_CROPS = ["paddy", "durian", "banana", "chilli", "tomato", "rubber", "oil_palm", "cocoa"]
@@ -81,26 +79,15 @@ def observe(image_bytes: bytes, mime: str, crop_hint: str | None = None) -> dict
     Returns {"crop": str|None, "symptoms": str, "assessable": bool}.
     Raises on missing key / package / API error so the caller can degrade.
     """
-    from openai import OpenAI
-    from pipeline.rag_answer import _load_openai_key
+    from pipeline import llm
 
-    client = OpenAI(api_key=_load_openai_key())
-    data_url = f"data:{mime};base64,{base64.b64encode(image_bytes).decode('ascii')}"
     user_text = "Assess this crop photo."
     if crop_hint:
         user_text += f" The farmer says the crop is {crop_hint.replace('_', ' ')}."
 
-    resp = client.chat.completions.create(
-        model=MODEL,
-        max_tokens=MAX_TOKENS,
-        temperature=0.1,
-        messages=[
-            {"role": "system", "content": VISION_PROMPT.format(crops=", ".join(KNOWN_CROPS))},
-            {"role": "user", "content": [
-                {"type": "text", "text": user_text},
-                {"type": "image_url", "image_url": {"url": data_url}},
-            ]},
-        ],
+    text = llm.complete_vision(
+        VISION_PROMPT.format(crops=", ".join(KNOWN_CROPS)),
+        user_text, image_bytes, mime,
+        max_tokens=MAX_TOKENS, temperature=0.1,
     )
-    text = (resp.choices[0].message.content or "").strip()
     return _parse(text, crop_hint)

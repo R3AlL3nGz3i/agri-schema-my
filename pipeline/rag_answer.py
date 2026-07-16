@@ -91,25 +91,10 @@ def answer(question: str, results: list[dict]) -> dict:
             "grounded": False,
         }
 
-    try:
-        from openai import OpenAI
-    except ImportError as exc:  # pragma: no cover - environment guard
-        raise RuntimeError(
-            "The 'openai' package is not installed. Run: pip install openai"
-        ) from exc
+    from pipeline import llm
 
-    client = OpenAI(api_key=_load_openai_key())
     sources = _format_sources(results)
     user_msg = f"Farmer's question: {question}\n\nSOURCES:\n{sources}"
 
-    resp = client.chat.completions.create(
-        model=MODEL,
-        max_tokens=MAX_TOKENS,
-        temperature=0.2,
-        messages=[
-            {"role": "system", "content": SYSTEM_PROMPT},
-            {"role": "user", "content": user_msg},
-        ],
-    )
-    text = (resp.choices[0].message.content or "").strip()
+    text = llm.complete(SYSTEM_PROMPT, user_msg, max_tokens=MAX_TOKENS, temperature=0.2)
     return {"answer": text, "grounded": True}
