@@ -146,4 +146,11 @@
       linear-gradient(135deg, #eaf3ea, #dcebd8);
     @apply flex items-center justify-center;
   }
+  /* Form input used by HY community / marketplace forms */
+  .field-input {
+    @apply w-full rounded-xl border px-3.5 py-2.5 text-sm outline-none;
+    border-color: var(--line);
+    color: var(--ink);
+  }
+  .field-input:focus { border-color: var(--brand-light); box-shadow: 0 0 0 3px rgba(45,158,95,.15); }
 }
