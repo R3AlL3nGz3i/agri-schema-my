@@ -113,31 +113,32 @@ export default function AdminDashboard() {
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-xl font-bold text-gray-800">Knowledge Base Dashboard</h2>
-            <p className="text-sm text-gray-400 mt-0.5">
+            <p className="eyebrow mb-1">Knowledge Base</p>
+            <h2 className="text-2xl font-bold text-[var(--ink)]">Dashboard</h2>
+            <p className="text-sm text-[var(--ink-soft)] mt-1">
               Scholarly evidence mining · Malaysia regulatory validation · Real-time overview
             </p>
           </div>
           <div className="hidden md:flex items-center gap-2 bg-green-50 border border-green-200 px-3 py-1.5 rounded-full">
-            <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-            <span className="text-xs text-green-700 font-medium">Pipeline active</span>
+            <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+            <span className="text-xs text-green-700 font-semibold">Pipeline active</span>
           </div>
         </div>
 
         {/* KPI cards */}
         <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-4">
           {statCards.map(({ label, value, delta, icon: Icon, color, bg }) => (
-            <div key={label} className="card flex flex-col gap-3 hover:shadow-md transition-shadow">
+            <div key={label} className="card card-hover flex flex-col gap-3">
               <div className="flex items-center justify-between">
-                <div className={`w-9 h-9 rounded-lg ${bg} flex items-center justify-center`}>
+                <div className={`w-9 h-9 rounded-lg ${bg} ring-1 ring-black/5 flex items-center justify-center`}>
                   <Icon size={17} className={color} />
                 </div>
-                <ArrowUpRight size={14} className="text-gray-300" />
+                <ArrowUpRight size={14} className="text-[var(--line-strong)]" />
               </div>
               <div>
-                <p className="text-2xl font-bold text-gray-800">{value}</p>
-                <p className="text-xs font-medium text-gray-600 mt-0.5">{label}</p>
-                <p className="text-xs text-gray-400 mt-0.5">{delta}</p>
+                <p className="text-2xl font-bold text-[var(--ink)] tabular-nums">{value}</p>
+                <p className="text-xs font-semibold text-[var(--ink-soft)] mt-0.5">{label}</p>
+                <p className="text-xs text-[var(--ink-soft)] opacity-70 mt-0.5">{delta}</p>
               </div>
             </div>
           ))}

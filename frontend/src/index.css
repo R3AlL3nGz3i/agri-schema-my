@@ -2,30 +2,148 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ─────────────────────────────────────────────────────────────
+   Design tokens — warm, earthy agricultural palette.
+   Surfaces lean slightly warm (paper) rather than cold gray so
+   the whole app reads calm and trustworthy, not generic-SaaS.
+   ───────────────────────────────────────────────────────────── */
+:root {
+  /* Brand */
+  --brand:        #1a6b3c;
+  --brand-light:  #2d9e5f;
+  --brand-dark:   #0f4a28;
+  --brand-deep:   #0a3a20;   /* near-black green for sidebar */
+  --accent:       #e8b84b;
+  --accent-light: #f5d07a;
+
+  /* Warm neutral surfaces (a hint of green-tinted paper) */
+  --surface:      #f6f7f3;   /* app background */
+  --surface-card: #ffffff;   /* raised cards */
+  --surface-sunk: #eef1ea;   /* inset wells, track fills */
+
+  /* Ink */
+  --ink:          #1c231f;
+  --ink-soft:     #55604f;
+  --ink-faint:    #8a9383;
+
+  /* Hairlines & elevation */
+  --line:         #e4e8dd;
+  --line-strong:  #d6dccb;
+  --shadow-sm:    0 1px 2px rgba(20,40,25,.05), 0 1px 3px rgba(20,40,25,.05);
+  --shadow-md:    0 2px 4px rgba(20,40,25,.05), 0 6px 16px -6px rgba(20,40,25,.12);
+  --shadow-lg:    0 12px 32px -12px rgba(15,74,40,.28), 0 4px 10px -6px rgba(20,40,25,.14);
+}
+
 @layer base {
-  body { @apply bg-gray-50 text-gray-800 font-sans antialiased; }
-  h1, h2, h3 { @apply font-display tracking-tight; }
+  body {
+    background-color: var(--surface);
+    color: var(--ink);
+    @apply font-sans antialiased;
+  }
+  h1, h2, h3 { @apply font-display tracking-tight; color: var(--ink); }
+
+  /* Nicer default focus ring across the app */
+  *:focus-visible {
+    outline: 2px solid var(--brand-light);
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+  ::selection { background: rgba(45,158,95,.22); }
 }
 
 @layer components {
+
+  /* ── Buttons ─────────────────────────────────────────────── */
   .btn-primary {
-    @apply bg-primary text-white px-4 py-2 rounded-lg font-medium
-           hover:bg-primary-dark transition-colors disabled:opacity-50;
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg
+           text-sm font-semibold text-white transition-all duration-150
+           disabled:opacity-50 disabled:pointer-events-none;
+    background: linear-gradient(180deg, var(--brand-light), var(--brand));
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.18), 0 1px 2px rgba(15,74,40,.3);
   }
+  .btn-primary:hover { filter: brightness(1.04); box-shadow: inset 0 1px 0 rgba(255,255,255,.18), 0 4px 12px -4px rgba(15,74,40,.5); }
+  .btn-primary:active { filter: brightness(.97); transform: translateY(.5px); }
+
   .btn-outline {
-    @apply border border-primary text-primary px-4 py-2 rounded-lg font-medium
-           hover:bg-primary hover:text-white transition-colors;
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg
+           text-sm font-semibold transition-all duration-150;
+    color: var(--brand-dark);
+    background: var(--surface-card);
+    border: 1px solid var(--line-strong);
+    box-shadow: var(--shadow-sm);
   }
-  .card { @apply bg-white rounded-xl shadow-sm border border-gray-100 p-5; }
-  .badge-approved  { @apply bg-green-100 text-green-700 text-xs px-2 py-0.5 rounded-full font-medium; }
-  .badge-restricted{ @apply bg-orange-100 text-orange-700 text-xs px-2 py-0.5 rounded-full font-medium; }
-  .badge-banned    { @apply bg-red-100 text-red-700 text-xs px-2 py-0.5 rounded-full font-medium; }
-  .badge-unknown   { @apply bg-gray-100 text-gray-600 text-xs px-2 py-0.5 rounded-full font-medium; }
-  .badge-fungi     { @apply bg-amber-100 text-amber-700 text-xs px-2 py-0.5 rounded-full; }
-  .badge-bacteria  { @apply bg-blue-100 text-blue-700 text-xs px-2 py-0.5 rounded-full; }
-  .badge-virus     { @apply bg-purple-100 text-purple-700 text-xs px-2 py-0.5 rounded-full; }
-  .badge-pest      { @apply bg-red-100 text-red-700 text-xs px-2 py-0.5 rounded-full; }
-  .badge-nematode  { @apply bg-pink-100 text-pink-700 text-xs px-2 py-0.5 rounded-full; }
-  .badge-abiotic   { @apply bg-sky-100 text-sky-700 text-xs px-2 py-0.5 rounded-full; }
-  .badge-oomycete  { @apply bg-teal-100 text-teal-700 text-xs px-2 py-0.5 rounded-full; }
+  .btn-outline:hover { border-color: var(--brand-light); color: var(--brand); background: #f3f8f4; }
+
+  /* ── Cards ───────────────────────────────────────────────── */
+  .card {
+    background: var(--surface-card);
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow-sm);
+    @apply rounded-2xl p-5 transition-shadow duration-200;
+  }
+  .card-hover:hover { box-shadow: var(--shadow-md); }
+
+  /* Subtle section eyebrow label */
+  .eyebrow {
+    @apply text-[11px] font-semibold uppercase tracking-[.14em];
+    color: var(--brand);
+  }
+
+  /* ── Inputs ──────────────────────────────────────────────── */
+  .input-shell {
+    background: var(--surface-card);
+    border: 1px solid var(--line-strong);
+    box-shadow: var(--shadow-sm);
+    @apply rounded-xl transition-all duration-150;
+  }
+  .input-shell:focus-within {
+    border-color: var(--brand-light);
+    box-shadow: 0 0 0 3px rgba(45,158,95,.15);
+  }
+
+  /* ── Badges (consistent pill: same radius, weight, tracking) ─ */
+  .badge-approved, .badge-restricted, .badge-banned, .badge-unknown,
+  .badge-fungi, .badge-bacteria, .badge-virus, .badge-pest,
+  .badge-nematode, .badge-abiotic, .badge-oomycete {
+    @apply inline-flex items-center text-[11px] font-semibold leading-none
+           px-2 py-1 rounded-md tracking-wide capitalize;
+  }
+  .badge-approved  { @apply bg-green-100  text-green-800; }
+  .badge-restricted{ @apply bg-amber-100  text-amber-800; }
+  .badge-banned    { @apply bg-red-100    text-red-700; }
+  .badge-unknown   { @apply bg-gray-100   text-gray-600; }
+  .badge-fungi     { @apply bg-amber-100  text-amber-800; }
+  .badge-bacteria  { @apply bg-sky-100    text-sky-800; }
+  .badge-virus     { @apply bg-violet-100 text-violet-800; }
+  .badge-pest      { @apply bg-rose-100   text-rose-800; }
+  .badge-nematode  { @apply bg-pink-100   text-pink-800; }
+  .badge-abiotic   { @apply bg-cyan-100   text-cyan-800; }
+  .badge-oomycete  { @apply bg-teal-100   text-teal-800; }
+
+  /* ── Branded dark sidebar surface (deep green, not cold gray) ─ */
+  .sidebar-shell {
+    background:
+      radial-gradient(120% 60% at 0% 0%, rgba(45,158,95,.10), transparent 60%),
+      linear-gradient(180deg, var(--brand-deep), #071f12);
+    color: #eef3ec;
+  }
+  .sidebar-line { border-color: rgba(255,255,255,.08); }
+  .nav-item {
+    @apply flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all duration-150;
+    color: rgba(233,241,231,.68);
+  }
+  .nav-item:hover { background: rgba(255,255,255,.06); color: #fff; }
+  .nav-item-active {
+    background: linear-gradient(90deg, rgba(45,158,95,.30), rgba(45,158,95,.10));
+    color: #fff; font-weight: 600;
+    box-shadow: inset 2px 0 0 var(--accent);
+  }
+
+  /* Soft crop-tile gradient for empty image states */
+  .crop-tile {
+    background:
+      radial-gradient(90% 90% at 30% 20%, rgba(255,255,255,.6), transparent 55%),
+      linear-gradient(135deg, #eaf3ea, #dcebd8);
+    @apply flex items-center justify-center;
+  }
 }

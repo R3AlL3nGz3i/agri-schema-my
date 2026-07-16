@@ -94,11 +94,11 @@ const baseHBar = (categories) => ({
 
 function FilterPills({ options, value, onChange }) {
   return (
-    <div className="flex gap-1 bg-gray-100 p-1 rounded-lg">
+    <div className="flex gap-1 p-1 rounded-lg" style={{ background: "var(--surface-sunk)" }}>
       {options.map(o => (
         <button key={o} onClick={() => onChange(o)}
           className={`px-3 py-1 rounded-md text-xs font-medium transition-colors
-            ${value === o ? "bg-white text-gray-800 shadow-sm" : "text-gray-500 hover:text-gray-700"}`}>
+            ${value === o ? "bg-white text-[var(--ink)] shadow-sm" : "text-[var(--ink-soft)] hover:text-[var(--ink)]"}`}>
           {o}
         </button>
       ))}
@@ -146,7 +146,7 @@ export default function Analytics() {
   // State horizontal bar
   const stateOptions = {
     ...baseHBar(stateData.map(s => s.state)),
-    colors: ["#3b82f6"],
+    colors: ["#2d9e5f"],
   };
   const stateSeries = [{ name: "Queries", data: stateData.map(s => s.queries) }];
 
@@ -154,7 +154,7 @@ export default function Analytics() {
   const donutOptions = {
     chart:   { toolbar: { show: false } },
     labels:  ["Disease Identified", "Partial Match", "No Match"],
-    colors:  ["#22c55e", "#facc15", "#d1d5db"],
+    colors:  ["#2d9e5f", "#e8b84b", "#d6dccb"],
     legend:  { position: "bottom", fontSize: "11px" },
     tooltip: { theme: "light" },
     dataLabels: { style: { fontSize: "12px" } },
@@ -169,8 +169,9 @@ export default function Analytics() {
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-xl font-bold text-gray-800">Query Analytics</h2>
-            <p className="text-sm text-gray-400 mt-0.5">Real-world usage insights from farmers using AgriScheme</p>
+            <p className="eyebrow">Usage insights</p>
+            <h2 className="text-2xl font-bold text-[var(--ink)]">Query Analytics</h2>
+            <p className="text-sm text-[var(--ink-soft)] mt-0.5">Real-world usage insights from farmers using AgriScheme</p>
           </div>
           <div className="hidden md:flex items-center gap-2 bg-amber-50 border border-amber-200 px-3 py-1.5 rounded-full">
             <Smartphone size={13} className="text-amber-500" />
@@ -181,20 +182,20 @@ export default function Analytics() {
         {/* KPI cards */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {[
-            { label: "Total Queries",      value: "1,324", delta: "+18% this week",     icon: Search,    color: "text-primary",    bg: "bg-primary/10" },
-            { label: "Unique Farmers",     value: "487",   delta: "+31 new this week",  icon: Users,     color: "text-blue-500",   bg: "bg-blue-50"    },
-            { label: "Avg. Daily Queries", value: "101",   delta: "Peak: Thu 143",      icon: TrendingUp,color: "text-purple-500", bg: "bg-purple-50"  },
-            { label: "Diagnosis Rate",     value: "74%",   delta: "Disease identified", icon: Clock,     color: "text-green-500",  bg: "bg-green-50"   },
-          ].map(({ label, value, delta, icon: Icon, color, bg }) => (
-            <div key={label} className="card hover:shadow-md transition-shadow">
+            { label: "Total Queries",      value: "1,324", delta: "+18% this week",     icon: Search },
+            { label: "Unique Farmers",     value: "487",   delta: "+31 new this week",  icon: Users },
+            { label: "Avg. Daily Queries", value: "101",   delta: "Peak: Thu 143",      icon: TrendingUp },
+            { label: "Diagnosis Rate",     value: "74%",   delta: "Disease identified", icon: Clock },
+          ].map(({ label, value, delta, icon: Icon }) => (
+            <div key={label} className="card card-hover">
               <div className="flex items-center justify-between mb-3">
-                <div className={`w-9 h-9 rounded-lg ${bg} flex items-center justify-center`}>
-                  <Icon size={17} className={color} />
+                <div className="w-9 h-9 rounded-lg crop-tile ring-1 ring-black/5 flex items-center justify-center">
+                  <Icon size={17} className="text-primary" />
                 </div>
               </div>
-              <p className="text-2xl font-bold text-gray-800">{value}</p>
-              <p className="text-xs font-medium text-gray-600 mt-0.5">{label}</p>
-              <p className="text-xs text-gray-400 mt-0.5">{delta}</p>
+              <p className="text-2xl font-bold text-[var(--ink)] tabular-nums">{value}</p>
+              <p className="text-xs font-medium text-[var(--ink-soft)] mt-0.5">{label}</p>
+              <p className="text-xs text-[var(--ink-faint)] mt-0.5">{delta}</p>
             </div>
           ))}
         </div>
@@ -203,7 +204,7 @@ export default function Analytics() {
         <div className="grid md:grid-cols-3 gap-6">
           <div className="card md:col-span-2">
             <div className="flex flex-wrap items-center justify-between gap-3 mb-2">
-              <h3 className="font-semibold text-gray-700">Query Volume</h3>
+              <h3 className="font-semibold text-[var(--ink)]">Query Volume</h3>
               <div className="flex gap-2 flex-wrap">
                 <FilterPills
                   options={["weekly","monthly"]}
@@ -221,7 +222,7 @@ export default function Analytics() {
           </div>
 
           <div className="card">
-            <h3 className="font-semibold text-gray-700 mb-2">Diagnosis Outcome</h3>
+            <h3 className="font-semibold text-[var(--ink)] mb-2">Diagnosis Outcome</h3>
             <ReactApexChart type="donut" height={220} series={donutSeries} options={donutOptions} />
             <div className="mt-3 p-3 bg-green-50 rounded-xl border border-green-100">
               <p className="text-xs text-green-700 font-medium">74% success rate</p>
@@ -234,7 +235,7 @@ export default function Analytics() {
         <div className="grid md:grid-cols-2 gap-6">
           <div className="card">
             <div className="flex flex-wrap items-center justify-between gap-3 mb-2">
-              <h3 className="font-semibold text-gray-700">Entries by Crop</h3>
+              <h3 className="font-semibold text-[var(--ink)]">Entries by Crop</h3>
               <span className="text-xs text-green-700 font-medium bg-green-50 border border-green-200 px-2 py-0.5 rounded-full">Live KB</span>
             </div>
             <ReactApexChart type="bar" height={220} series={cropSeries} options={cropOptions} />
@@ -244,7 +245,7 @@ export default function Analytics() {
             <div className="flex flex-wrap items-center justify-between gap-3 mb-2">
               <div className="flex items-center gap-2">
                 <MapPin size={14} className="text-primary" />
-                <h3 className="font-semibold text-gray-700">Queries by State</h3>
+                <h3 className="font-semibold text-[var(--ink)]">Queries by State</h3>
               </div>
               <FilterPills options={["All Time","This Month"]} value={statePeriod} onChange={setStatePeriod} />
             </div>
@@ -257,7 +258,7 @@ export default function Analytics() {
           <div className="px-5 py-4 border-b flex items-center justify-between">
             <div className="flex items-center gap-2">
               <Search size={15} className="text-primary" />
-              <h3 className="font-semibold text-gray-700">Top Farmer Search Queries</h3>
+              <h3 className="font-semibold text-[var(--ink)]">Top Farmer Search Queries</h3>
             </div>
             <span className="text-xs text-gray-400">{totalQueries} total searches</span>
           </div>
@@ -273,8 +274,8 @@ export default function Analytics() {
               {TOP_QUERIES.map(({ query, count, trend }, i) => (
                 <tr key={query} className="hover:bg-gray-50 transition-colors">
                   <td className="px-5 py-3 text-xs text-gray-400 font-medium">{i + 1}</td>
-                  <td className="px-5 py-3 font-medium text-gray-800 capitalize">{query}</td>
-                  <td className="px-5 py-3 text-sm font-bold text-gray-700">{count}</td>
+                  <td className="px-5 py-3 font-medium text-[var(--ink)] capitalize">{query}</td>
+                  <td className="px-5 py-3 text-sm font-bold text-[var(--ink)] tabular-nums">{count}</td>
                   <td className="px-5 py-3">
                     <span className={`text-xs font-medium ${trend.startsWith("+") ? "text-green-500" : "text-red-400"}`}>
                       {trend}
@@ -282,11 +283,11 @@ export default function Analytics() {
                   </td>
                   <td className="px-5 py-3 w-36">
                     <div className="flex items-center gap-2">
-                      <div className="flex-1 bg-gray-100 rounded-full h-1.5">
-                        <div className="bg-blue-400 h-1.5 rounded-full"
-                          style={{ width: `${(count / TOP_QUERIES[0].count) * 100}%` }} />
+                      <div className="flex-1 rounded-full h-1.5" style={{ background: "var(--surface-sunk)" }}>
+                        <div className="h-1.5 rounded-full"
+                          style={{ width: `${(count / TOP_QUERIES[0].count) * 100}%`, background: "var(--brand-light)" }} />
                       </div>
-                      <span className="text-xs text-gray-400 w-8">
+                      <span className="text-xs text-[var(--ink-faint)] w-8 tabular-nums">
                         {Math.round((count / totalQueries) * 100)}%
                       </span>
                     </div>

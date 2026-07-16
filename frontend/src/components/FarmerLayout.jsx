@@ -22,17 +22,19 @@ export default function FarmerLayout({ children, title = "AgriScheme" }) {
   const handleLogout = () => { logout(); navigate("/"); };
 
   const Sidebar = ({ mobile = false }) => (
-    <div className={`flex flex-col h-full bg-gray-900 text-white
+    <div className={`sidebar-shell flex flex-col h-full
       ${mobile ? "w-72" : "w-64"}`}>
 
       {/* Logo */}
-      <div className="flex items-center justify-between px-4 py-4 border-b border-gray-700">
+      <div className="flex items-center justify-between px-4 py-4 border-b sidebar-line">
         <Link to="/" className="flex items-center gap-2">
-          <Leaf size={20} className="text-accent" />
-          <span className="font-bold text-lg">AgriScheme</span>
+          <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-white/10 ring-1 ring-white/10">
+            <Leaf size={17} className="text-accent" />
+          </span>
+          <span className="font-bold text-lg tracking-tight">AgriScheme</span>
         </Link>
         {mobile && (
-          <button onClick={() => setOpen(false)} className="text-gray-400 hover:text-white">
+          <button onClick={() => setOpen(false)} className="text-white/50 hover:text-white">
             <X size={20} />
           </button>
         )}
@@ -43,7 +45,7 @@ export default function FarmerLayout({ children, title = "AgriScheme" }) {
         <Link
           to="/farmer/scan"
           onClick={() => setOpen(false)}
-          className="flex items-center gap-2 w-full bg-primary hover:bg-primary-dark text-white px-3 py-2.5 rounded-lg text-sm font-medium transition-colors"
+          className="btn-primary w-full"
         >
           <Plus size={16} /> New Scan
         </Link>
@@ -58,10 +60,7 @@ export default function FarmerLayout({ children, title = "AgriScheme" }) {
               key={to}
               to={to}
               onClick={() => setOpen(false)}
-              className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-colors
-                ${active
-                  ? "bg-gray-700 text-white font-medium"
-                  : "text-gray-400 hover:bg-gray-800 hover:text-white"}`}
+              className={`nav-item ${active ? "nav-item-active" : ""}`}
             >
               <Icon size={16} />
               {label}
@@ -72,11 +71,11 @@ export default function FarmerLayout({ children, title = "AgriScheme" }) {
         {/* Admin shortcut */}
         {isAdmin && (
           <>
-            <div className="border-t border-gray-700 my-2" />
+            <div className="border-t sidebar-line my-2" />
             <Link
               to="/admin"
               onClick={() => setOpen(false)}
-              className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-amber-400 hover:bg-gray-800 transition-colors"
+              className="nav-item text-accent hover:text-accent"
             >
               <LayoutDashboard size={16} />
               Admin Portal
@@ -86,21 +85,21 @@ export default function FarmerLayout({ children, title = "AgriScheme" }) {
       </nav>
 
       {/* User section at bottom */}
-      <div className="border-t border-gray-700 p-3">
+      <div className="border-t sidebar-line p-3">
         {user ? (
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2 min-w-0">
-              <div className="w-7 h-7 rounded-full bg-primary flex items-center justify-center shrink-0">
+              <div className="w-8 h-8 rounded-full bg-white/10 ring-1 ring-white/10 flex items-center justify-center shrink-0 text-accent">
                 <User size={14} />
               </div>
               <div className="min-w-0">
                 <p className="text-sm font-medium truncate">{user.name}</p>
-                <p className="text-xs text-gray-400 capitalize">{user.role}</p>
+                <p className="text-xs text-white/50 capitalize">{user.role}</p>
               </div>
             </div>
             <button
               onClick={handleLogout}
-              className="text-gray-400 hover:text-white p-1.5 rounded hover:bg-gray-700 transition-colors"
+              className="text-white/50 hover:text-white p-1.5 rounded-lg hover:bg-white/10 transition-colors"
               title="Sign out"
             >
               <LogOut size={15} />
@@ -109,7 +108,7 @@ export default function FarmerLayout({ children, title = "AgriScheme" }) {
         ) : (
           <Link
             to="/login"
-            className="flex items-center gap-2 text-gray-400 hover:text-white text-sm transition-colors"
+            className="flex items-center gap-2 text-white/60 hover:text-white text-sm transition-colors"
           >
             <LogIn size={15} /> Sign in
           </Link>
@@ -138,7 +137,7 @@ export default function FarmerLayout({ children, title = "AgriScheme" }) {
       {/* Main content */}
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Top bar — mobile only */}
-        <header className="md:hidden bg-gray-900 text-white px-4 py-3 flex items-center justify-between shrink-0">
+        <header className="sidebar-shell md:hidden text-white px-4 py-3 flex items-center justify-between shrink-0">
           <button onClick={() => setOpen(true)} className="text-gray-300 hover:text-white">
             <Menu size={22} />
           </button>

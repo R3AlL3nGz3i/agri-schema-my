@@ -36,13 +36,15 @@ export default function AppLayout({ children, title = "AgriScheme" }) {
 
   // ── Sidebar content ───────────────────────────────────────
   const SidebarContent = () => (
-    <div className="flex flex-col h-full w-64 bg-gray-900 text-white">
+    <div className="sidebar-shell flex flex-col h-full w-64">
 
       {/* Logo */}
-      <div className="flex items-center justify-between px-4 py-4 border-b border-gray-700 shrink-0">
+      <div className="flex items-center justify-between px-4 py-4 border-b sidebar-line shrink-0">
         <Link to="/" onClick={close} className="flex items-center gap-2">
-          <Leaf size={20} className="text-accent" />
-          <span className="font-bold text-base">AgriScheme</span>
+          <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-white/10 ring-1 ring-white/10">
+            <Leaf size={17} className="text-accent" />
+          </span>
+          <span className="font-bold text-base tracking-tight">AgriScheme</span>
         </Link>
         <button onClick={close} className="md:hidden text-gray-400 hover:text-white">
           <X size={18} />
@@ -58,8 +60,7 @@ export default function AppLayout({ children, title = "AgriScheme" }) {
             <Link
               to="/farmer/scan"
               onClick={close}
-              className="flex items-center gap-2 w-full bg-primary hover:bg-primary-dark
-                         text-white px-3 py-2.5 rounded-lg text-sm font-medium transition-colors mb-3"
+              className="btn-primary w-full mb-3"
             >
               <Plus size={15} /> New Scan
             </Link>
@@ -69,36 +70,34 @@ export default function AppLayout({ children, title = "AgriScheme" }) {
         {/* ── ADMIN PORTAL section ── */}
         {isAdmin && (
           <>
-            <p className="text-xs text-gray-500 uppercase tracking-wider px-3 pb-2 pt-1">Admin Portal</p>
+            <p className="text-[11px] font-semibold text-white/40 uppercase tracking-[.14em] px-3 pb-2 pt-1">Admin Portal</p>
             {ADMIN_NAV.map(({ to, icon: Icon, label }) => {
               const active = pathname === to;
               return (
                 <Link key={to} to={to} onClick={close}
-                  className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-colors
-                    ${active ? "bg-gray-700 text-white font-medium" : "text-gray-400 hover:bg-gray-800 hover:text-white"}`}>
+                  className={`nav-item ${active ? "nav-item-active" : ""}`}>
                   <Icon size={15} />
                   {label}
                 </Link>
               );
             })}
-            <div className="border-t border-gray-700 my-3" />
+            <div className="border-t sidebar-line my-3" />
           </>
         )}
 
         {/* ── FARMER PORTAL section (admin sees this too) ── */}
         {isAdmin && (
-          <p className="text-xs text-gray-500 uppercase tracking-wider px-3 pb-2">Farmer Portal</p>
+          <p className="text-[11px] font-semibold text-white/40 uppercase tracking-[.14em] px-3 pb-2">Farmer Portal</p>
         )}
         {!isAdmin && (
-          <p className="text-xs text-gray-500 uppercase tracking-wider px-3 pb-2">Farmer Assistant</p>
+          <p className="text-[11px] font-semibold text-white/40 uppercase tracking-[.14em] px-3 pb-2">Farmer Assistant</p>
         )}
 
         {FARMER_NAV.map(({ to, icon: Icon, label }) => {
           const active = pathname === to;
           return (
             <Link key={to} to={to} onClick={close}
-              className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-colors
-                ${active ? "bg-gray-700 text-white font-medium" : "text-gray-400 hover:bg-gray-800 hover:text-white"}`}>
+              className={`nav-item ${active ? "nav-item-active" : ""}`}>
               <Icon size={15} />
               {label}
             </Link>
@@ -107,15 +106,14 @@ export default function AppLayout({ children, title = "AgriScheme" }) {
 
         {/* Admin: New Scan button under farmer section */}
         {isAdmin && (
-          <Link to="/farmer/scan" onClick={close}
-            className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-gray-400 hover:bg-gray-800 hover:text-white transition-colors">
+          <Link to="/farmer/scan" onClick={close} className="nav-item">
             <Plus size={15} /> New Scan
           </Link>
         )}
 
         {/* Guest history note */}
         {isGuest && pathname === "/farmer/history" && (
-          <div className="mx-3 mt-2 p-3 bg-gray-800 rounded-lg text-xs text-gray-400">
+          <div className="mx-3 mt-2 p-3 bg-white/5 border border-white/10 rounded-lg text-xs text-white/60">
             Sign in to save history permanently.
           </div>
         )}
@@ -123,11 +121,11 @@ export default function AppLayout({ children, title = "AgriScheme" }) {
         {/* Recent history in sidebar — logged-in users */}
         {(isUser || isAdmin) && chatHistory.length > 0 && pathname !== "/farmer/history" && (
           <>
-            <div className="border-t border-gray-700 my-3" />
-            <p className="text-xs text-gray-500 uppercase tracking-wider px-3 pb-1">Recent</p>
+            <div className="border-t sidebar-line my-3" />
+            <p className="text-[11px] font-semibold text-white/40 uppercase tracking-[.14em] px-3 pb-1">Recent</p>
             {chatHistory.slice(0, 5).map((h, i) => (
               <div key={i}
-                className="flex items-center gap-2 px-3 py-2 rounded-lg text-xs text-gray-500 hover:bg-gray-800 hover:text-gray-300 cursor-default transition-colors">
+                className="flex items-center gap-2 px-3 py-2 rounded-lg text-xs text-white/50 hover:bg-white/5 hover:text-white/80 cursor-default transition-colors">
                 <Camera size={12} className="shrink-0" />
                 <span className="truncate">{h.label}</span>
               </div>
@@ -137,26 +135,26 @@ export default function AppLayout({ children, title = "AgriScheme" }) {
       </nav>
 
       {/* Bottom user section */}
-      <div className="border-t border-gray-700 p-3 shrink-0">
+      <div className="border-t sidebar-line p-3 shrink-0">
         {user ? (
           <div className="flex items-center justify-between gap-2">
             <div className="flex items-center gap-2 min-w-0">
-              <div className="w-7 h-7 rounded-full bg-primary flex items-center justify-center shrink-0">
-                <User size={13} />
+              <div className="w-8 h-8 rounded-full bg-white/10 ring-1 ring-white/10 flex items-center justify-center shrink-0 text-accent">
+                <User size={14} />
               </div>
               <div className="min-w-0">
                 <p className="text-sm font-medium text-white truncate">{user.name}</p>
-                <p className="text-xs text-gray-400 capitalize">{user.role}</p>
+                <p className="text-xs text-white/50 capitalize">{user.role}</p>
               </div>
             </div>
             <button onClick={handleLogout} title="Sign out"
-              className="text-gray-400 hover:text-white p-1.5 rounded hover:bg-gray-700 transition-colors shrink-0">
+              className="text-white/50 hover:text-white p-1.5 rounded-lg hover:bg-white/10 transition-colors shrink-0">
               <LogOut size={14} />
             </button>
           </div>
         ) : (
           <Link to="/login" onClick={close}
-            className="flex items-center gap-2 text-gray-400 hover:text-white text-sm transition-colors">
+            className="flex items-center gap-2 text-white/60 hover:text-white text-sm transition-colors">
             <LogIn size={14} /> Sign in
           </Link>
         )}
@@ -165,7 +163,7 @@ export default function AppLayout({ children, title = "AgriScheme" }) {
   );
 
   return (
-    <div className="flex h-screen bg-gray-50 overflow-hidden">
+    <div className="flex h-screen overflow-hidden" style={{ background: "var(--surface)" }}>
 
       {/* Desktop sidebar */}
       <aside className="hidden md:flex shrink-0">
@@ -184,7 +182,7 @@ export default function AppLayout({ children, title = "AgriScheme" }) {
       <div className="flex-1 flex flex-col overflow-hidden">
 
         {/* Mobile top bar */}
-        <header className="md:hidden bg-gray-900 text-white px-4 py-3 flex items-center justify-between shrink-0">
+        <header className="sidebar-shell md:hidden text-white px-4 py-3 flex items-center justify-between shrink-0">
           <button onClick={() => setOpen(true)} className="text-gray-300 hover:text-white">
             <Menu size={22} />
           </button>
@@ -202,9 +200,9 @@ export default function AppLayout({ children, title = "AgriScheme" }) {
 
         {/* Admin top bar — desktop */}
         {isAdminPage && (
-          <header className="hidden md:flex bg-white border-b px-6 py-3 items-center justify-between shrink-0">
-            <h1 className="text-sm font-medium text-gray-500">Admin / Researcher Portal</h1>
-            <span className="text-xs bg-primary/10 text-primary px-2 py-1 rounded-full font-medium">
+          <header className="hidden md:flex px-6 py-3 items-center justify-between shrink-0 bg-white/70 backdrop-blur border-b" style={{ borderColor: "var(--line)" }}>
+            <h1 className="text-sm font-medium" style={{ color: "var(--ink-soft)" }}>Admin / Researcher Portal</h1>
+            <span className="text-xs bg-primary/10 text-primary px-2.5 py-1 rounded-full font-semibold">
               {user?.name}
             </span>
           </header>
