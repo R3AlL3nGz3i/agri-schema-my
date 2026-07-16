@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useApp } from "../../context/AppContext";
 import AppLayout from "../../components/AppLayout";
-import { Camera, Search, Leaf, Sprout } from "lucide-react";
+import { Camera, Search, Leaf, Sprout, Store, MessageCircle, Lock } from "lucide-react";
 
 const CROPS = ["Paddy","Durian","Banana","Chilli","Tomato","Rubber","Oil Palm","Cocoa"];
 
@@ -63,6 +63,12 @@ export default function FarmerHome() {
           </Link>
         </div>
 
+        {/* Member spaces are visible in guest mode but require sign-in. */}
+        <div className="grid grid-cols-2 gap-4 w-full mb-8">
+          <MemberCard to="/marketplace" icon={Store} title="Marketplace" description="Buy agricultural products from trusted sellers" locked={!user} />
+          <MemberCard to="/community" icon={MessageCircle} title="Community" description="Ask questions and share solutions" locked={!user} />
+        </div>
+
         {/* Suggestion prompts */}
         <div className="w-full mb-8">
           <p className="text-xs font-medium text-gray-400 mb-3 uppercase tracking-wide">Try asking about</p>
@@ -103,5 +109,18 @@ export default function FarmerHome() {
         </p>
       </div>
     </AppLayout>
+  );
+}
+
+function MemberCard({ to, icon: Icon, title, description, locked }) {
+  return (
+    <Link to={to} className="group relative bg-white border border-gray-200 hover:border-primary hover:shadow-md rounded-2xl p-4 transition-all">
+      <div className="flex items-center justify-between mb-3">
+        <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center"><Icon size={20} className="text-primary" /></div>
+        {locked && <span className="inline-flex items-center gap-1 text-[10px] text-gray-400 bg-gray-100 px-2 py-1 rounded-full"><Lock size={10} /> Sign in</span>}
+      </div>
+      <p className="font-semibold text-gray-800 text-sm">{title}</p>
+      <p className="text-xs text-gray-400 mt-1">{description}</p>
+    </Link>
   );
 }

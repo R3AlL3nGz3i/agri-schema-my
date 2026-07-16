@@ -95,7 +95,7 @@ export default function FarmerLayout({ children, title = "AgriScheme" }) {
               </div>
               <div className="min-w-0">
                 <p className="text-sm font-medium truncate">{user.name}</p>
-                <p className="text-xs text-gray-400 capitalize">{user.role}</p>
+                <p className="text-xs text-gray-400 capitalize">{user.role === "user" ? "Farmer" : user.role}</p>
               </div>
             </div>
             <button

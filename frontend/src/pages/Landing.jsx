@@ -24,7 +24,7 @@ export default function Landing() {
                 <span>{user.name}</span>
                 <span className={`text-xs px-1.5 py-0.5 rounded-full font-medium
                   ${isAdmin ? "bg-accent text-primary-dark" : "bg-white/20 text-white"}`}>
-                  {user.role}
+                  {user.role === "user" ? "Farmer" : user.role}
                 </span>
               </div>
               <button
@@ -114,7 +114,7 @@ export default function Landing() {
           )}
         </div>
 
-        {/* Marketplace — buyer & seller portal (embedded route) */}
+        {/* Marketplace — Farmer accounts use the buyer shopping view. */}
         <Link
           to="/marketplace"
           className="w-full max-w-2xl bg-white/10 hover:bg-white/20 border border-white/15 rounded-2xl p-5 flex items-center gap-4 text-left transition-colors group"
@@ -125,7 +125,7 @@ export default function Landing() {
           <div className="flex-1">
             <h2 className="text-lg font-bold text-white">AgriScheme Marketplace</h2>
             <p className="text-green-100 text-sm">
-              Buy fresh produce direct from Malaysian farms, or sell your harvest — the buyer &amp; seller portal.
+              Shop for fresh produce and agricultural products from Malaysian sellers.
             </p>
           </div>
           <span className="text-accent font-medium text-sm group-hover:translate-x-0.5 transition-transform">Open →</span>
