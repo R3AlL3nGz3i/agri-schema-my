@@ -3,6 +3,7 @@ AgriSchema-MY REST API.
 Query the Malaysian agriculture knowledge base by crop and symptom.
 """
 import json
+import logging
 import sys
 from pathlib import Path
 from typing import Optional
@@ -61,6 +62,39 @@ class QueryResult(BaseModel):
     relevance_score: float
 
 
+class AskRequest(BaseModel):
+    question: str
+    crop: Optional[str] = None
+    n_results: int = 5
+
+
+class AskResponse(BaseModel):
+    answer: str
+    grounded: bool
+    results: list[QueryResult]
+
+
+def _run_query(crop: Optional[str], symptom: Optional[str], n_results: int) -> list[QueryResult]:
+    """Shared retrieval → QueryResult mapping used by /query and /ask."""
+    results = vector_query(crop=crop, symptom=symptom, n_results=n_results)
+    output = []
+    for r in results:
+        meta = r["metadata"]
+        output.append(QueryResult(
+            disease_name=meta.get("disease_name", "unknown"),
+            local_name=meta.get("local_name", ""),
+            crop=meta.get("crop", "unknown"),
+            pathogen_category=meta.get("pathogen_type", "unknown"),
+            confidence=meta.get("confidence_score", 0.0),
+            professor_verdict=meta.get("professor_verdict", "pending"),
+            symptoms_summary=r["document"],
+            treatments=json.loads(meta.get("treatment_compounds", "[]")),
+            citations=json.loads(meta.get("citations", "[]")),
+            relevance_score=round(1 - r["distance"], 3)
+        ))
+    return output
+
+
 @app.get("/")
 def root():
     return {
@@ -87,25 +121,36 @@ def query_diseases(req: QueryRequest):
     if not req.crop and not req.symptom:
         raise HTTPException(status_code=400, detail="Provide at least one of: crop, symptom")
 
-    results = vector_query(crop=req.crop, symptom=req.symptom, n_results=req.n_results)
+    return _run_query(req.crop, req.symptom, req.n_results)
 
-    output = []
-    for r in results:
-        meta = r["metadata"]
-        output.append(QueryResult(
-            disease_name=meta.get("disease_name", "unknown"),
-            local_name=meta.get("local_name", ""),
-            crop=meta.get("crop", "unknown"),
-            pathogen_category=meta.get("pathogen_type", "unknown"),
-            confidence=meta.get("confidence_score", 0.0),
-            professor_verdict=meta.get("professor_verdict", "pending"),
-            symptoms_summary=r["document"],
-            treatments=json.loads(meta.get("treatment_compounds", "[]")),
-            citations=json.loads(meta.get("citations", "[]")),
-            relevance_score=round(1 - r["distance"], 3)
-        ))
 
-    return output
+@app.post("/ask", response_model=AskResponse)
+def ask(req: AskRequest):
+    """
+    Grounded chatbot answer. Retrieves matching entries from the knowledge base,
+    then asks an OpenAI model to answer USING ONLY those entries (never outside
+    knowledge). Returns the answer plus the source entries as evidence.
+
+    Degrades gracefully: if the answer layer is unavailable (no key / no package /
+    API error), returns the retrieved results with grounded=False and a note, so
+    search still works.
+    """
+    if not req.question or not req.question.strip():
+        raise HTTPException(status_code=400, detail="Provide a question")
+
+    results = _run_query(req.crop, req.question, req.n_results)
+
+    from pipeline.rag_answer import answer as generate_answer
+    try:
+        gen = generate_answer(req.question, [r.model_dump() for r in results])
+    except Exception as e:  # key/package/API failure — degrade, don't 500
+        logging.getLogger("api").warning("Grounded answer unavailable: %s", e)
+        note = ("I found matching entries below, but the AI answer layer is "
+                "unavailable right now. See the verified results.") if results else (
+                "That crop or disease isn't in the AgriScheme knowledge base yet.")
+        return AskResponse(answer=note, grounded=False, results=results)
+
+    return AskResponse(answer=gen["answer"], grounded=gen["grounded"], results=results)
 
 
 @app.get("/crops")

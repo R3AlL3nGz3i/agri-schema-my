@@ -2,10 +2,10 @@ import { useState, useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import AppLayout from "../../components/AppLayout";
 import { useApp } from "../../context/AppContext";
-import { queryDisease } from "../../api";
+import { askDisease } from "../../api";
 import { MyStatusBadge, PathogenBadge, ConfidenceBar } from "../../components/Badges";
 import { titleCaseDisease, cleanSymptoms } from "../../utils/format";
-import { Search, Send, Loader, Sprout } from "lucide-react";
+import { Search, Send, Loader, Sprout, ShieldCheck } from "lucide-react";
 
 const CROPS = ["paddy","durian","banana","chilli","tomato","rubber","oil_palm","cocoa"];
 const QUICK = [
@@ -49,11 +49,13 @@ export default function FarmerSearch() {
     push("user", label);
     setLoading(true);
     try {
-      const r = await queryDisease({ crop: c || undefined, symptom: s || undefined, n_results: 6 });
-      if (r.data.length === 0) {
-        push("assistant", "No results found. Try a different crop or symptom.");
+      const question = s || `Common diseases and treatments for ${(c || "").replace("_"," ")}`;
+      const r = await askDisease({ question, crop: c || undefined, n_results: 6 });
+      const { answer, grounded, results } = r.data;
+      if (!results || results.length === 0) {
+        push("assistant", answer || "No results found. Try a different crop or symptom.");
       } else {
-        push("assistant", null, { results: r.data });
+        push("assistant", answer, { results, grounded });
         addHistory({ label, ts: Date.now() });
       }
     } catch {
@@ -85,16 +87,22 @@ export default function FarmerSearch() {
               )}
               <div className={`max-w-[85%] flex flex-col gap-2 ${msg.role === "user" ? "items-end" : "items-start"}`}>
                 {msg.content && (
-                  <div className={`rounded-2xl px-4 py-3 text-sm leading-relaxed
+                  <div className={`rounded-2xl px-4 py-3 text-sm leading-relaxed whitespace-pre-wrap
                     ${msg.role === "user"
                       ? "bg-primary text-white rounded-tr-sm shadow-[var(--shadow-sm)]"
                       : "bg-white border border-[var(--line)] text-[var(--ink)] rounded-tl-sm shadow-[var(--shadow-sm)]"}`}>
                     {msg.content}
                   </div>
                 )}
+                {msg.role === "assistant" && msg.grounded && (
+                  <p className="flex items-center gap-1.5 text-[11px] font-medium text-[var(--ink-soft)] px-1">
+                    <ShieldCheck size={12} className="text-primary" />
+                    Answer grounded in professor-verified entries only
+                  </p>
+                )}
                 {msg.results && (
                   <div className="bg-white border border-[var(--line)] rounded-2xl rounded-tl-sm shadow-[var(--shadow-md)] p-4 space-y-2.5 w-full">
-                    <p className="eyebrow">{msg.results.length} results found</p>
+                    <p className="eyebrow">Verified sources · {msg.results.length}</p>
                     {msg.results.map((r, j) => (
                       <div key={j} className="rounded-xl border border-[var(--line)] bg-white p-3.5 transition-all hover:border-[var(--brand-light)] hover:shadow-[var(--shadow-md)]">
                         <div className="flex items-start justify-between gap-3 mb-1.5">

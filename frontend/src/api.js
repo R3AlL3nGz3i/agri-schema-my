@@ -12,6 +12,7 @@ export const getStats    = ()           => api.get("/stats");
 export const getAggregates = ()         => api.get("/aggregates");
 export const getReviews    = ()         => api.get("/reviews");
 export const queryDisease = (payload)   => api.post("/query", payload);
+export const askDisease   = (payload)   => api.post("/ask", payload);
 export const diagnoseImage = (formData) =>
   api.post("/diagnose", formData, { headers: { "Content-Type": "multipart/form-data" } });
 
