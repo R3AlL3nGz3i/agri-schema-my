@@ -1,0 +1,133 @@
+# Per-source registry for the vision dataset.
+#
+# The KEY of each entry is the <source_dataset> directory name you use under
+#   data/vision/images/<crop>/<class>/<KEY>/*.jpg
+# build_manifest.py reads url / license / (optional) organ from here to fill the
+# manifest. split_dataset.py groups by this same key so one source never straddles
+# splits.
+#
+# HONESTY: fill `license` from the actual dataset page before you publish anything;
+# entries marked `verify: true` still need you to confirm the exact licence/terms
+# under your own Kaggle/Mendeley/Dataverse account. `flags` carry known label-noise
+# and lab-vs-field caveats through to the DATA_CARD.
+#
+# Add a new key here whenever you introduce a new source folder.
+
+sources:
+  # ---------- Tier A: good public FIELD data ----------
+  paddy_doctor:
+    name: Paddy Doctor (Petchiammal et al.)
+    url: https://www.kaggle.com/datasets/imbikramsaha/paddy-doctor
+    license: "CC BY-SA 4.0"
+    type: field
+    verify: true
+    covers: [paddy/rice_blast, paddy/bacterial_leaf_blight, paddy/rice_tungro, paddy/healthy]
+    notes: >-
+      Real field paddy leaf images, India. Pulled the Kaggle competition mirror
+      (imbikramsaha/paddy-doctor, ~1GB, train_images/<class>). Mirror is tagged CC0
+      on Kaggle but the canonical Paddy Doctor release (paddydoctor.github.io) is
+      CC BY-SA 4.0 — keeping the stricter CC BY-SA 4.0 for attribution safety.
+      Used classes: blast->rice_blast, bacterial_leaf_blight, tungro->rice_tungro,
+      normal->healthy. sheath_blight is NOT in this dataset.
+
+  sethy_rice_mendeley:
+    name: Sethy rice leaf disease (Mendeley)
+    url: https://data.mendeley.com/datasets/fwcj7stb8r
+    license: "CC BY 4.0"
+    type: field
+    verify: true
+    covers: [paddy/rice_blast, paddy/bacterial_leaf_blight, paddy/rice_tungro]
+    notes: Field rice leaf images, India.
+
+  tanzania_banana_dataverse:
+    name: Tanzania banana disease (Harvard Dataverse)
+    url: https://dataverse.harvard.edu/
+    license: "CC BY 4.0"
+    type: field
+    verify: true
+    covers: [banana/sigatoka_leaf_spot, banana/fusarium_wilt]
+    flags: [race1_not_tr4]
+    notes: ~16k field banana images, Tanzania. Fusarium imagery is Race 1, NOT TR4.
+
+  nmaist_banana_zenodo:
+    name: NM-AIST banana disease (Zenodo)
+    url: https://zenodo.org/
+    license: "CC BY 4.0"
+    type: field
+    verify: true
+    covers: [banana/sigatoka_leaf_spot, banana/fusarium_wilt]
+    flags: [race1_not_tr4]
+    notes: ~11.7k field banana images. Fusarium imagery is Race 1, NOT TR4.
+
+  plantvillage:
+    name: PlantVillage
+    url: https://www.tensorflow.org/datasets/catalog/plant_village
+    license: "CC0 1.0"
+    type: lab
+    covers: [tomato/early_blight, tomato/late_blight, tomato/tomato_yellow_leaf_curl]
+    flags: [lab_bias]
+    notes: >-
+      LAB single-leaf-on-plain-background. Strong generalisation risk to field
+      photos — ALWAYS mix with PlantDoc/field images; never train on this alone.
+
+  plantdoc:
+    name: PlantDoc
+    url: https://github.com/pratikkayal/PlantDoc-Dataset
+    license: "CC BY 4.0"
+    type: field
+    verify: true
+    covers: [tomato/early_blight, tomato/late_blight]
+    notes: Field-condition leaf images; use to counter PlantVillage lab bias.
+
+  # ---------- Tier B: partial / small / lab-only (supplement with field/web) ----------
+  mendeley_sheath_blight:
+    name: Rice sheath blight (Mendeley hx6f852hw4)
+    url: https://data.mendeley.com/datasets/hx6f852hw4
+    license: "CC BY 4.0"
+    type: lab
+    verify: true
+    covers: [paddy/sheath_blight]
+
+  mendeley_chilli_wzc6r6w5w5:
+    name: Chilli leaf disease (Mendeley wzc6r6w5w5, v3)
+    url: https://data.mendeley.com/datasets/wzc6r6w5w5/3
+    license: "CC BY 4.0"
+    type: lab   # phone photos but of DETACHED leaves on plain white paper (spot-checked) — plain-bg bias
+    verify: true
+    covers: [chilli/anthracnose, chilli/healthy]
+    notes: >-
+      Field chilli phone photos. USED: Anthracnose->anthracnose (347),
+      Fresh Leaf->healthy (432). The set also ships "Cercospora Leaf Spot" and
+      "Leaf Curl Disease" (not KB slugs — dropped). It has NO powdery_mildew class.
+      NOTE: the earlier plan pointed chilli/powdery_mildew at Mendeley tm3v4zmh7c,
+      but that dataset actually contains Bacterial_Spot/Cercospora/Curl_Virus/Healthy
+      and NO powdery_mildew — so chilli/powdery_mildew has no confirmed public source
+      and is a Tier-C GAP alongside chilli/bacterial_wilt.
+
+  # bdrubberleaf (Mendeley 4kjz78m7x5 v4) was pulled but is UNUSABLE for v1:
+  # its classes are Anthracnose / Dry_Leaf / Healthy / Leaf_Spot — it has NO
+  # powdery_mildew (the earlier plan's claim was wrong) and none of its disease
+  # classes map to rubber's KB slugs (powdery_mildew, pink_disease). Only "Healthy"
+  # matched, which can't train a classifier alone. Rubber is therefore UNBUILDABLE
+  # in v1 (both rubber disease classes are Tier-C gaps). Source left unregistered.
+
+  # ---------- Tier C: GAP — original field / licensed-web collection ----------
+  field_collection:
+    name: Original field collection (this project)
+    url: ""
+    license: "CC BY 4.0"
+    type: field
+    notes: >-
+      Your own geotagged field photos. Preferred source for every Tier-C gap:
+      banana_bunchy_top, chilli/bacterial_wilt, tomato/bacterial_canker,
+      rubber/pink_disease, cocoa/vascular_streak_dieback, paddy/false_smut (panicle).
+
+  web_licensed:
+    name: Licensed web collection (iNaturalist / Plantwise / extension libraries)
+    url: ""
+    license: "PER-IMAGE — record individually"
+    type: web
+    verify: true
+    notes: >-
+      Only CC-licensed / permission-granted images. Each image's real licence must
+      be recorded; do NOT bulk-assign one licence to this folder.

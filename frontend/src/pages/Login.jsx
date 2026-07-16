@@ -1,17 +1,28 @@
 import { useState, useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 import { useApp } from "../context/AppContext";
-import { Leaf, Eye, EyeOff, Loader, AlertCircle, UserCircle, ShieldCheck } from "lucide-react";
-import api from "../api";
+import { Leaf, Eye, EyeOff, Loader, AlertCircle, LogIn, UserCircle } from "lucide-react";
+
+const ADMIN_EMAIL = "admin@agrischeme.my";
+const SELLER_EMAIL = "seller@agrischeme.my";
+const RESEARCHER_EMAIL = "researcher@agrischeme.my";
+
+const landingForRole = (role) => {
+  if (role === "admin" || role === "researcher") return "/admin";
+  if (role === "seller") return "/marketplace";
+  return "/";
+};
 
 export default function Login() {
-  const { login, user, isAdmin } = useApp();
+  const { login, user } = useApp();
   const navigate = useNavigate();
+  const location = useLocation();
+  const returnTo = location.state?.from?.pathname;
 
   // Redirect already-logged-in users away from login page
   useEffect(() => {
-    if (user) navigate(isAdmin ? "/admin" : "/farmer", { replace: true });
-  }, [user]);
+    if (user) navigate(returnTo || landingForRole(user.role), { replace: true });
+  }, [user, navigate, returnTo]);
 
   const [tab, setTab]           = useState("login");   // "login" | "signup"
   const [email, setEmail]       = useState("");
@@ -19,44 +30,37 @@ export default function Login() {
   const [name, setName]         = useState("");
   const [confirmPw, setConfirmPw] = useState("");
   const [showPw, setShowPw]     = useState(false);
-  const [loadingRole, setLoadingRole] = useState(null); // "user" | "admin" | "signup"
+  const [loadingRole, setLoadingRole] = useState(null); // "login" | "signup"
   const [error, setError]       = useState("");
-  const [success, setSuccess]   = useState("");
 
-  // ── Login as specific role ──────────────────────────────
-  const handleLogin = async (requestedRole) => {
+  // Demo role recognition. Production authentication must resolve this server-side.
+  const handleLogin = () => {
     if (!email || !password) { setError("Please enter email and password."); return; }
-    setError(""); setLoadingRole(requestedRole);
+    setError(""); setLoadingRole("login");
 
-    try {
-      const res = await api.post("/auth/login", { email, password, requested_role: requestedRole });
-      login(res.data.user);
-      if (requestedRole === "admin") navigate("/admin", { replace: true });
-      else navigate("/farmer", { replace: true });
-    } catch (err) {
-      setError(err.response?.data?.detail || "Login failed. Please try again.");
-    } finally {
-      setLoadingRole(null);
-    }
+    const displayName = name || email.split("@")[0];
+    const normalisedEmail = email.trim().toLowerCase();
+    const role = normalisedEmail === ADMIN_EMAIL
+      ? "admin"
+      : normalisedEmail === SELLER_EMAIL
+        ? "seller"
+        : normalisedEmail === RESEARCHER_EMAIL ? "researcher" : "user";
+    login({ name: displayName, email, role });
+    navigate(returnTo || landingForRole(role), { replace: true });
+    setLoadingRole(null);
   };
 
-  // ── Signup ──────────────────────────────────────────────
-  const handleSignup = async (e) => {
+  // ── Signup (client-side only, always a farmer account) ──
+  const handleSignup = (e) => {
     e.preventDefault();
     if (!name || !email || !password || !confirmPw) { setError("All fields are required."); return; }
     if (password !== confirmPw) { setError("Passwords do not match."); return; }
     if (password.length < 6)   { setError("Password must be at least 6 characters."); return; }
     setError(""); setLoadingRole("signup");
 
-    try {
-      const res = await api.post("/auth/signup", { name, email, password });
-      login(res.data.user);
-      navigate("/farmer", { replace: true });
-    } catch (err) {
-      setError(err.response?.data?.detail || "Signup failed. Please try again.");
-    } finally {
-      setLoadingRole(null);
-    }
+    login({ name, email, role: "user" });
+    navigate(returnTo || "/", { replace: true });
+    setLoadingRole(null);
   };
 
   const isLoading = loadingRole !== null;
@@ -82,7 +86,7 @@ export default function Login() {
             {["login", "signup"].map(t => (
               <button
                 key={t}
-                onClick={() => { setTab(t); setError(""); setSuccess(""); }}
+                onClick={() => { setTab(t); setError(""); }}
                 className={`flex-1 py-3.5 text-sm font-semibold transition-colors
                   ${tab === t
                     ? "text-primary border-b-2 border-primary bg-white"
@@ -103,7 +107,7 @@ export default function Login() {
                     Sign up free
                   </button>
                   {" · "}
-                  <Link to="/farmer" className="text-primary font-medium hover:underline">
+                  <Link to="/" className="text-primary font-medium hover:underline">
                     Continue as guest
                   </Link>
                 </p>
@@ -127,7 +131,7 @@ export default function Login() {
                       type={showPw ? "text" : "password"}
                       value={password}
                       onChange={e => setPassword(e.target.value)}
-                      onKeyDown={e => e.key === "Enter" && handleLogin("user")}
+                      onKeyDown={e => e.key === "Enter" && handleLogin()}
                       placeholder="••••••••"
                       className="w-full border rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary pr-10"
                     />
@@ -148,39 +152,27 @@ export default function Login() {
                   </div>
                 )}
 
-                {/* Two login buttons */}
-                <div className="grid grid-cols-2 gap-3 pt-1">
-                  <button
-                    onClick={() => handleLogin("user")}
-                    disabled={isLoading}
-                    className="flex items-center justify-center gap-2 bg-primary text-white py-2.5 rounded-lg font-medium text-sm hover:bg-primary-dark transition-colors disabled:opacity-50"
-                  >
-                    {loadingRole === "user"
-                      ? <Loader size={15} className="animate-spin" />
-                      : <UserCircle size={17} />}
-                    Sign in as User
-                  </button>
-
-                  <button
-                    onClick={() => handleLogin("admin")}
-                    disabled={isLoading}
-                    className="flex items-center justify-center gap-2 bg-primary-dark text-white py-2.5 rounded-lg font-medium text-sm hover:bg-black/80 transition-colors disabled:opacity-50 border border-primary"
-                  >
-                    {loadingRole === "admin"
-                      ? <Loader size={15} className="animate-spin" />
-                      : <ShieldCheck size={17} />}
-                    Sign in as Admin
-                  </button>
-                </div>
+                <button
+                  onClick={handleLogin}
+                  disabled={isLoading}
+                  className="btn-primary w-full py-2.5 flex items-center justify-center gap-2"
+                >
+                  {loadingRole === "login"
+                    ? <Loader size={16} className="animate-spin" />
+                    : <LogIn size={17} />}
+                  Sign In
+                </button>
 
                 <p className="text-xs text-gray-400 text-center">
-                  Each account is either a User or Admin — not both.
+                  Your account role is recognised automatically after sign-in.
                 </p>
 
                 {/* Demo hint */}
                 <div className="p-3 bg-gray-50 rounded-lg text-xs text-gray-500 space-y-1">
                   <p className="font-medium text-gray-600">Demo credentials:</p>
                   <p>🛡️ Admin: <span className="font-mono">admin@agrischeme.my</span> / <span className="font-mono">admin123</span></p>
+                  <p>🌾 Seller: <span className="font-mono">seller@agrischeme.my</span> / <span className="font-mono">seller123</span></p>
+                  <p>🔬 Researcher: <span className="font-mono">researcher@agrischeme.my</span> / <span className="font-mono">researcher123</span></p>
                 </div>
               </div>
             )}
@@ -189,7 +181,7 @@ export default function Login() {
             {tab === "signup" && (
               <form onSubmit={handleSignup} className="space-y-4">
                 <p className="text-gray-500 text-sm">
-                  Create a free user account. Already have one?{" "}
+                  Create a free farmer account. Already have one?{" "}
                   <button type="button" onClick={() => setTab("login")} className="text-primary font-medium hover:underline">
                     Sign in
                   </button>
@@ -268,7 +260,7 @@ export default function Login() {
                 </button>
 
                 <p className="text-xs text-gray-400 text-center">
-                  New accounts are registered as User only. Admin access is granted by the system administrator.
+                  New accounts are registered as Farmer accounts. Admin access is granted by the system administrator.
                 </p>
               </form>
             )}

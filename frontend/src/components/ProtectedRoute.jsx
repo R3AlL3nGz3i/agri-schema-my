@@ -9,11 +9,11 @@ export function RequireAuth({ children }) {
   return children;
 }
 
-// Requires admin role specifically
-export function RequireAdmin({ children }) {
+// Research pages are available to approved researchers and the super admin.
+export function RequireResearchAccess({ children }) {
   const { user } = useApp();
   const location = useLocation();
   if (!user) return <Navigate to="/login" state={{ from: location }} replace />;
-  if (user.role !== "admin") return <Navigate to="/" replace />;
+  if (!['admin', 'researcher'].includes(user.role)) return <Navigate to="/" replace />;
   return children;
 }

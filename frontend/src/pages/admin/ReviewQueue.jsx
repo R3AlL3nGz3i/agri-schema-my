@@ -1,115 +1,22 @@
-import { useState } from "react";
+import { useState, useEffect, Fragment } from "react";
 import AppLayout from "../../components/AppLayout";
 import { MyStatusBadge, PathogenBadge, ConfidenceBar } from "../../components/Badges";
-import { CheckCircle, XCircle, Edit3, ChevronDown, ChevronUp, AlertTriangle, Clock } from "lucide-react";
-
-const MOCK_QUEUE = [
-  {
-    id: 1,
-    title: "Efficacy of Bacillus subtilis as biological control against Magnaporthe oryzae in Malaysian paddy fields",
-    authors: ["Ahmad, M.Z.", "Lim, K.H.", "Rashid, N.A."],
-    year: 2022,
-    publisher: "Journal of Plant Pathology",
-    doi: "10.1007/s42161-022-01234-5",
-    crop: "paddy",
-    disease: "Rice Blast",
-    pathogen_category: "fungi",
-    pathogen_name: "Magnaporthe oryzae",
-    intervention: "Biological control — Bacillus subtilis",
-    active_ingredient: "Bacillus subtilis",
-    my_status: "MY_approved",
-    confidence: { crop: 0.96, pathogen: 0.93, my_status: 0.81 },
-    snippets: [
-      "Bacillus subtilis strain B-21 significantly reduced blast severity by 74% under field conditions.",
-      "Field trials conducted in Kedah and Kelantan showed consistent suppression across two seasons.",
-    ],
-  },
-  {
-    id: 2,
-    title: "Chlorpyrifos application for brown planthopper control in lowland rice: residue analysis and efficacy",
-    authors: ["Tan, S.L.", "Mohd Yusof, A."],
-    year: 2019,
-    publisher: "Crop Protection",
-    doi: "10.1016/j.cropro.2019.05.012",
-    crop: "paddy",
-    disease: "Brown Planthopper",
-    pathogen_category: "pest",
-    pathogen_name: "Nilaparvata lugens",
-    intervention: "Chemical — Chlorpyrifos 50% EC",
-    active_ingredient: "Chlorpyrifos",
-    my_status: "MY_banned",
-    confidence: { crop: 0.98, pathogen: 0.95, my_status: 0.88 },
-    snippets: [
-      "Chlorpyrifos at 500 mL/ha provided 89% mortality of BPH nymphs within 48 hours.",
-      "Residue levels exceeded MRL in grain samples collected 14 days post-application.",
-    ],
-  },
-  {
-    id: 3,
-    title: "Phytophthora palmivora management in durian orchards using metalaxyl-M and copper-based fungicides",
-    authors: ["Cheah, L.H.", "Wong, P.W.", "Ibrahim, R."],
-    year: 2021,
-    publisher: "Scientia Horticulturae",
-    doi: "10.1016/j.scienta.2021.110234",
-    crop: "durian",
-    disease: "Phytophthora Root Rot",
-    pathogen_category: "oomycete",
-    pathogen_name: "Phytophthora palmivora",
-    intervention: "Chemical — Metalaxyl-M + Mancozeb",
-    active_ingredient: "Metalaxyl-M",
-    my_status: "MY_restricted",
-    confidence: { crop: 0.91, pathogen: 0.89, my_status: 0.74 },
-    snippets: [
-      "Metalaxyl-M at 2 g a.i./L showed complete suppression of mycelial growth in vitro.",
-      "Field application required DOA permit due to restricted status under LRMP circular 2020.",
-    ],
-  },
-  {
-    id: 4,
-    title: "Colletotrichum acutatum causing anthracnose on chilli pepper in Peninsular Malaysia: pathogenicity and fungicide screening",
-    authors: ["Nurul Ain, M.", "Salleh, B."],
-    year: 2023,
-    publisher: "Australasian Plant Pathology",
-    doi: "10.1007/s13313-023-00912-3",
-    crop: "chilli",
-    disease: "Anthracnose",
-    pathogen_category: "fungi",
-    pathogen_name: "Colletotrichum acutatum",
-    intervention: "Chemical — Azoxystrobin + Difenoconazole",
-    active_ingredient: "Azoxystrobin",
-    my_status: "MY_approved",
-    confidence: { crop: 0.97, pathogen: 0.94, my_status: 0.86 },
-    snippets: [
-      "Azoxystrobin 200 SC at 0.5 mL/L provided 91% disease control in greenhouse trials.",
-      "Registered under DOA Malaysia for use on chilli with 3-day PHI.",
-    ],
-  },
-  {
-    id: 5,
-    title: "Fusarium oxysporum f. sp. cubense tropical race 4 detection and management in banana plantations",
-    authors: ["Ong, M.C.", "Faridah, Q.Z.", "Latiffah, Z."],
-    year: 2020,
-    publisher: "Plant Disease",
-    doi: "10.1094/PDIS-08-20-1823-RE",
-    crop: "banana",
-    disease: "Fusarium Wilt (Panama Disease TR4)",
-    pathogen_category: "fungi",
-    pathogen_name: "Fusarium oxysporum f. sp. cubense TR4",
-    intervention: "Cultural + Biological — Trichoderma spp.",
-    active_ingredient: null,
-    my_status: "unknown",
-    confidence: { crop: 0.99, pathogen: 0.97, my_status: 0.52 },
-    snippets: [
-      "TR4 confirmed in Johor and Sabah plantations using PCR-based detection.",
-      "No chemical cure available — Trichoderma-based biocontrol showed 43% suppression in nursery trials.",
-    ],
-  },
-];
+import { getReviews } from "../../api";
+import { CheckCircle, XCircle, Edit3, ChevronDown, ChevronUp, AlertTriangle, Clock, Loader } from "lucide-react";
 
 export default function ReviewQueue() {
-  const [queue, setQueue]     = useState(MOCK_QUEUE);
+  const [queue, setQueue]       = useState([]);
+  const [loading, setLoading]   = useState(true);
+  const [error, setError]       = useState("");
   const [expanded, setExpanded] = useState(null);
-  const [filter, setFilter]   = useState("all"); // all | pending | approved | flagged
+  const [filter, setFilter]     = useState("all"); // all | pending | approved | flagged
+
+  useEffect(() => {
+    getReviews()
+      .then(r => setQueue(r.data))
+      .catch(() => setError("Could not load review queue. Is the API running on :8000?"))
+      .finally(() => setLoading(false));
+  }, []);
 
   const handleDecision = (id, decision) => {
     setQueue(prev => prev.map(p =>
@@ -160,7 +67,20 @@ export default function ReviewQueue() {
           ))}
         </div>
 
+        {/* Loading / error */}
+        {loading && (
+          <div className="card flex items-center justify-center gap-2 py-12 text-gray-400 text-sm">
+            <Loader size={16} className="animate-spin" /> Loading professor reviews…
+          </div>
+        )}
+        {error && !loading && (
+          <div className="card flex items-center justify-center gap-2 py-12 text-red-500 text-sm">
+            <AlertTriangle size={16} /> {error}
+          </div>
+        )}
+
         {/* Table */}
+        {!loading && !error && (
         <div className="card p-0 overflow-hidden">
           <table className="w-full text-sm">
             <thead className="bg-gray-50 border-b">
@@ -176,18 +96,18 @@ export default function ReviewQueue() {
             </thead>
             <tbody className="divide-y divide-gray-50">
               {filtered.map(paper => (
-                <>
-                  <tr key={paper.id}
+                <Fragment key={paper.id}>
+                  <tr
                     className={`hover:bg-gray-50 transition-colors
                       ${paper.decision === "approve" ? "bg-green-50/40" : ""}
                       ${paper.decision === "reject"  ? "bg-red-50/40"   : ""}`}>
                     <td className="px-4 py-3 max-w-xs">
                       <p className="font-medium text-gray-800 line-clamp-2 text-xs leading-relaxed">{paper.title}</p>
-                      <p className="text-xs text-gray-400 mt-0.5">{paper.authors[0]} et al. · {paper.year}</p>
+                      <p className="text-xs text-gray-400 mt-0.5">{paper.authors[0] ?? paper.reviewed_by ?? "Unknown"} · {paper.year ?? "—"}</p>
                     </td>
                     <td className="px-4 py-3">
                       <p className="text-xs font-medium text-gray-700 capitalize">{paper.crop}</p>
-                      <p className="text-xs text-gray-400">{paper.disease}</p>
+                      <p className="text-xs text-gray-400 capitalize">{paper.disease_display}</p>
                     </td>
                     <td className="px-4 py-3">
                       <PathogenBadge type={paper.pathogen_category} />
@@ -223,7 +143,7 @@ export default function ReviewQueue() {
 
                   {/* Expanded review card */}
                   {expanded === paper.id && (
-                    <tr key={`${paper.id}-detail`}>
+                    <tr>
                       <td colSpan={7} className="px-4 py-4 bg-gray-50 border-t border-gray-100">
                         <div className="grid md:grid-cols-2 gap-6">
                           {/* Left — paper details */}
@@ -319,7 +239,7 @@ export default function ReviewQueue() {
                       </td>
                     </tr>
                   )}
-                </>
+                </Fragment>
               ))}
             </tbody>
           </table>
@@ -327,10 +247,11 @@ export default function ReviewQueue() {
           {filtered.length === 0 && (
             <div className="text-center py-12 text-gray-400">
               <CheckCircle size={32} className="mx-auto mb-2 opacity-30" />
-              <p className="text-sm">No papers in this category.</p>
+              <p className="text-sm">No reviews in this category.</p>
             </div>
           )}
         </div>
+        )}
       </div>
     </AppLayout>
   );

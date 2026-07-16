@@ -1,0 +1,41 @@
+{
+  "crop": "paddy",
+  "classes": {
+    "rice_blast": 0,
+    "bacterial_leaf_blight": 1,
+    "sheath_blight": 2,
+    "rice_tungro": 3,
+    "healthy": 4
+  },
+  "num_classes": 5,
+  "counts": {
+    "rice_blast": {
+      "train": 1369,
+      "val": 293,
+      "test": 294
+    },
+    "bacterial_leaf_blight": {
+      "train": 656,
+      "val": 141,
+      "test": 140
+    },
+    "sheath_blight": {
+      "train": 190,
+      "val": 41,
+      "test": 41
+    },
+    "rice_tungro": {
+      "train": 955,
+      "val": 205,
+      "test": 205
+    },
+    "healthy": {
+      "train": 1086,
+      "val": 233,
+      "test": 233
+    }
+  },
+  "excluded_taxonomy_classes": [
+    "false_smut"
+  ]
+}

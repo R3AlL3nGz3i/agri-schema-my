@@ -2,6 +2,7 @@ import { useState } from "react";
 import AppLayout from "../../components/AppLayout";
 import { queryDisease } from "../../api";
 import { MyStatusBadge, PathogenBadge, ConfidenceBar } from "../../components/Badges";
+import { titleCaseDisease, cleanSymptoms } from "../../utils/format";
 import { Search, Loader } from "lucide-react";
 
 const CROPS = ["","paddy","durian","banana","chilli","tomato","rubber","oil_palm","cocoa"];
@@ -74,11 +75,11 @@ export default function EvidenceSearch() {
               <div className="flex items-start justify-between gap-4">
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-1 flex-wrap">
-                    <span className="font-semibold text-gray-800">{r.disease_name}</span>
+                    <span className="font-semibold text-gray-800">{titleCaseDisease(r.disease_name)}</span>
                     {r.local_name && <span className="text-gray-400 text-sm">({r.local_name})</span>}
                     <PathogenBadge type={r.pathogen_category} />
                   </div>
-                  <p className="text-sm text-gray-500 mb-2 line-clamp-2">{r.symptoms_summary}</p>
+                  <p className="text-sm text-gray-500 mb-2 line-clamp-2">{cleanSymptoms(r.symptoms_summary)}</p>
                   <div className="flex flex-wrap gap-2 text-xs text-gray-400">
                     <span>🌿 {r.crop}</span>
                     {r.citations?.slice(0,2).map((c,j) => (

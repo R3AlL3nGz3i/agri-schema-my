@@ -1,0 +1,8 @@
+{
+  "rice_blast": 0,
+  "bacterial_leaf_blight": 1,
+  "sheath_blight": 2,
+  "rice_tungro": 3,
+  "false_smut": 4,
+  "healthy": 5
+}

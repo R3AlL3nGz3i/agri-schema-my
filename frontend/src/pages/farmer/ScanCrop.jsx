@@ -97,59 +97,66 @@ export default function ScanCrop() {
                 {msg.content && (
                   <div className={`rounded-2xl px-4 py-3 text-sm leading-relaxed
                     ${msg.role === "user"
-                      ? "bg-primary text-white rounded-tr-sm"
-                      : "bg-white border border-gray-100 text-gray-800 rounded-tl-sm shadow-sm"}`}>
+                      ? "bg-primary text-white rounded-tr-sm shadow-[var(--shadow-sm)]"
+                      : "bg-white border border-[var(--line)] text-[var(--ink)] rounded-tl-sm shadow-[var(--shadow-sm)]"}`}>
                     {msg.content}
                   </div>
                 )}
                 {msg.image && (
-                  <img src={msg.image} alt="crop" className="max-h-52 rounded-2xl rounded-tr-sm object-cover border shadow-sm" />
+                  <img src={msg.image} alt="crop" className="max-h-52 rounded-2xl rounded-tr-sm object-cover border border-[var(--line)] shadow-[var(--shadow-md)]" />
                 )}
                 {msg.results && (
-                  <div className="bg-white border border-gray-100 rounded-2xl rounded-tl-sm shadow-sm p-4 space-y-4 w-full max-w-sm">
-                    <p className="text-sm font-semibold text-gray-700">Here's what I found:</p>
-                    <div className="border-l-4 border-primary pl-3">
-                      <div className="flex items-center gap-2 flex-wrap mb-1">
-                        <span className="font-bold text-gray-800 text-sm">{msg.results[0].disease_name}</span>
+                  <div className="bg-white border border-[var(--line)] rounded-2xl rounded-tl-sm shadow-[var(--shadow-md)] p-4 space-y-4 w-full max-w-sm">
+                    <p className="eyebrow">Here's what I found</p>
+                    {/* Primary diagnosis */}
+                    <div className="rounded-xl crop-tile ring-1 ring-[var(--line)] p-3.5">
+                      <div className="flex items-center gap-2 flex-wrap mb-2">
+                        <span className="font-bold text-[var(--ink)] text-[15px]">{msg.results[0].disease_name}</span>
                         <PathogenBadge type={msg.results[0].pathogen_category} />
                       </div>
                       <ConfidenceBar value={msg.results[0].relevance_score} />
-                      <p className="text-xs text-gray-500 mt-1 line-clamp-2">{msg.results[0].symptoms_summary}</p>
+                      <p className="text-xs text-[var(--ink-soft)] mt-2 line-clamp-2 leading-relaxed">{msg.results[0].symptoms_summary}</p>
                     </div>
                     {msg.results.length > 1 && (
                       <div>
-                        <p className="text-xs text-gray-400 mb-1.5">Other possibilities:</p>
-                        {msg.results.slice(1, 3).map((r, j) => (
-                          <div key={j} className="flex items-center justify-between py-1">
-                            <div className="flex items-center gap-2">
-                              <PathogenBadge type={r.pathogen_category} />
-                              <span className="text-xs text-gray-600">{r.disease_name}</span>
+                        <p className="eyebrow mb-2">Other possibilities</p>
+                        <div className="space-y-1.5">
+                          {msg.results.slice(1, 3).map((r, j) => (
+                            <div key={j} className="flex items-center justify-between gap-3 rounded-lg border border-[var(--line)] px-2.5 py-1.5">
+                              <div className="flex items-center gap-2 min-w-0">
+                                <PathogenBadge type={r.pathogen_category} />
+                                <span className="text-xs text-[var(--ink)] truncate">{r.disease_name}</span>
+                              </div>
+                              <div className="w-20 shrink-0"><ConfidenceBar value={r.relevance_score} /></div>
                             </div>
-                            <ConfidenceBar value={r.relevance_score} />
-                          </div>
-                        ))}
+                          ))}
+                        </div>
                       </div>
                     )}
-                    <div className="flex items-center gap-2 pt-1 border-t border-gray-50">
-                      <span className="text-xs text-gray-400">Malaysia status:</span>
+                    <div className="flex items-center gap-2 pt-1 border-t border-[var(--line)]">
+                      <span className="text-xs font-medium text-[var(--ink-soft)]">Malaysia status:</span>
                       <MyStatusBadge status={
                         msg.results[0].professor_verdict === "PASS"   ? "MY_approved"   :
                         msg.results[0].professor_verdict === "FLAG"   ? "MY_restricted" :
                         msg.results[0].professor_verdict === "REJECT" ? "MY_banned"     : "unknown"
                       } />
                     </div>
-                    <div className="bg-green-50 rounded-xl p-3">
-                      <p className="text-xs font-semibold text-green-800 mb-2">✅ Immediate actions:</p>
-                      <ul className="space-y-1">
+                    <div className="rounded-xl p-3 border border-green-200 bg-green-50">
+                      <p className="text-xs font-semibold text-green-800 mb-2 flex items-center gap-1.5">
+                        <span className="w-1.5 h-1.5 rounded-full bg-green-500" /> Immediate actions
+                      </p>
+                      <ul className="space-y-1.5">
                         {ACTIONS.slice(0, 3).map((a, j) => (
-                          <li key={j} className="text-xs text-green-700 flex gap-1.5"><span>•</span>{a}</li>
+                          <li key={j} className="text-xs text-green-800/90 flex gap-2 leading-relaxed">
+                            <span className="text-green-500 mt-px">›</span>{a}
+                          </li>
                         ))}
                       </ul>
                     </div>
-                    <p className="text-xs text-orange-600 bg-orange-50 rounded-lg p-2">
+                    <p className="text-xs text-amber-800 bg-amber-50 border border-amber-200 rounded-lg p-2.5 leading-relaxed">
                       ⚠️ AI-assisted screening only. Consult a certified agronomist for confirmation.
                     </p>
-                    <button onClick={handleReset} className="btn-outline w-full text-sm py-2 flex items-center justify-center gap-2">
+                    <button onClick={handleReset} className="btn-outline w-full">
                       <Plus size={14} /> New scan
                     </button>
                   </div>
@@ -177,11 +184,11 @@ export default function ScanCrop() {
 
         {/* Input area */}
         {step !== "done" && (
-          <div className="border-t bg-white px-4 py-4 max-w-2xl mx-auto w-full shrink-0">
+          <div className="border-t border-[var(--line)] bg-white/80 backdrop-blur px-4 py-4 max-w-2xl mx-auto w-full shrink-0">
             {step === "idle" && (
               <button
                 onClick={() => fileRef.current.click()}
-                className="w-full flex items-center justify-center gap-2 border-2 border-dashed border-gray-200 hover:border-primary rounded-xl py-4 text-sm text-gray-400 hover:text-primary transition-colors"
+                className="w-full flex items-center justify-center gap-2 border-2 border-dashed border-[var(--line-strong)] hover:border-[var(--brand-light)] hover:bg-[#f3f8f4] rounded-xl py-5 text-sm font-medium text-[var(--ink-soft)] hover:text-[var(--brand-dark)] transition-all"
               >
                 <ImagePlus size={18} /> Upload crop photo
               </button>
@@ -189,30 +196,40 @@ export default function ScanCrop() {
             {step === "details" && (
               <div className="space-y-3">
                 <select value={crop} onChange={e => setCrop(e.target.value)}
-                  className="w-full border rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary">
+                  className="input-shell w-full px-3 py-2.5 text-sm text-[var(--ink)] focus:outline-none capitalize">
                   <option value="">Select crop *</option>
                   {CROPS.map(c => <option key={c} value={c}>{c.replace("_"," ")}</option>)}
                 </select>
-                <div className="flex flex-wrap gap-2">
-                  {PARTS.map(p => (
-                    <button key={p} onClick={() => setPart(p === part ? "" : p)}
-                      className={`px-3 py-1 rounded-full text-xs border transition-colors
-                        ${part === p ? "bg-primary text-white border-primary" : "border-gray-200 text-gray-500 hover:border-primary"}`}>
-                      {p}
-                    </button>
-                  ))}
+                <div>
+                  <p className="eyebrow mb-1.5">Affected part</p>
+                  <div className="flex flex-wrap gap-2">
+                    {PARTS.map(p => (
+                      <button key={p} onClick={() => setPart(p === part ? "" : p)}
+                        className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-all
+                          ${part === p
+                            ? "bg-primary text-white border-primary shadow-[var(--shadow-sm)]"
+                            : "bg-white border-[var(--line-strong)] text-[var(--ink-soft)] hover:border-[var(--brand-light)] hover:text-primary"}`}>
+                        {p}
+                      </button>
+                    ))}
+                  </div>
                 </div>
-                <div className="flex flex-wrap gap-2">
-                  {DURATIONS.map(d => (
-                    <button key={d} onClick={() => setDuration(d === duration ? "" : d)}
-                      className={`px-3 py-1 rounded-full text-xs border transition-colors
-                        ${duration === d ? "bg-primary text-white border-primary" : "border-gray-200 text-gray-500 hover:border-primary"}`}>
-                      {d}
-                    </button>
-                  ))}
+                <div>
+                  <p className="eyebrow mb-1.5">How long</p>
+                  <div className="flex flex-wrap gap-2">
+                    {DURATIONS.map(d => (
+                      <button key={d} onClick={() => setDuration(d === duration ? "" : d)}
+                        className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-all
+                          ${duration === d
+                            ? "bg-primary text-white border-primary shadow-[var(--shadow-sm)]"
+                            : "bg-white border-[var(--line-strong)] text-[var(--ink-soft)] hover:border-[var(--brand-light)] hover:text-primary"}`}>
+                        {d}
+                      </button>
+                    ))}
+                  </div>
                 </div>
                 <button onClick={handleAnalyse} disabled={loading || !crop}
-                  className="btn-primary w-full flex items-center justify-center gap-2 py-2.5">
+                  className="btn-primary w-full py-2.5">
                   {loading ? <Loader size={16} className="animate-spin" /> : <Send size={16} />}
                   Analyse Disease
                 </button>

@@ -2,9 +2,10 @@ import { useState, useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import AppLayout from "../../components/AppLayout";
 import { useApp } from "../../context/AppContext";
-import { queryDisease } from "../../api";
+import { askDisease } from "../../api";
 import { MyStatusBadge, PathogenBadge, ConfidenceBar } from "../../components/Badges";
-import { Search, Send, Loader, Sprout } from "lucide-react";
+import { titleCaseDisease, cleanSymptoms } from "../../utils/format";
+import { Search, Send, Loader, Sprout, ShieldCheck } from "lucide-react";
 
 const CROPS = ["paddy","durian","banana","chilli","tomato","rubber","oil_palm","cocoa"];
 const QUICK = [
@@ -48,11 +49,13 @@ export default function FarmerSearch() {
     push("user", label);
     setLoading(true);
     try {
-      const r = await queryDisease({ crop: c || undefined, symptom: s || undefined, n_results: 6 });
-      if (r.data.length === 0) {
-        push("assistant", "No results found. Try a different crop or symptom.");
+      const question = s || `Common diseases and treatments for ${(c || "").replace("_"," ")}`;
+      const r = await askDisease({ question, crop: c || undefined, n_results: 6 });
+      const { answer, grounded, results } = r.data;
+      if (!results || results.length === 0) {
+        push("assistant", answer || "No results found. Try a different crop or symptom.");
       } else {
-        push("assistant", null, { results: r.data });
+        push("assistant", answer, { results, grounded });
         addHistory({ label, ts: Date.now() });
       }
     } catch {
@@ -84,22 +87,28 @@ export default function FarmerSearch() {
               )}
               <div className={`max-w-[85%] flex flex-col gap-2 ${msg.role === "user" ? "items-end" : "items-start"}`}>
                 {msg.content && (
-                  <div className={`rounded-2xl px-4 py-3 text-sm leading-relaxed
+                  <div className={`rounded-2xl px-4 py-3 text-sm leading-relaxed whitespace-pre-wrap
                     ${msg.role === "user"
-                      ? "bg-primary text-white rounded-tr-sm"
-                      : "bg-white border border-gray-100 text-gray-800 rounded-tl-sm shadow-sm"}`}>
+                      ? "bg-primary text-white rounded-tr-sm shadow-[var(--shadow-sm)]"
+                      : "bg-white border border-[var(--line)] text-[var(--ink)] rounded-tl-sm shadow-[var(--shadow-sm)]"}`}>
                     {msg.content}
                   </div>
                 )}
+                {msg.role === "assistant" && msg.grounded && (
+                  <p className="flex items-center gap-1.5 text-[11px] font-medium text-[var(--ink-soft)] px-1">
+                    <ShieldCheck size={12} className="text-primary" />
+                    Answer grounded in professor-verified entries only
+                  </p>
+                )}
                 {msg.results && (
-                  <div className="bg-white border border-gray-100 rounded-2xl rounded-tl-sm shadow-sm p-4 space-y-3 w-full">
-                    <p className="text-xs text-gray-400">{msg.results.length} results found</p>
+                  <div className="bg-white border border-[var(--line)] rounded-2xl rounded-tl-sm shadow-[var(--shadow-md)] p-4 space-y-2.5 w-full">
+                    <p className="eyebrow">Verified sources · {msg.results.length}</p>
                     {msg.results.map((r, j) => (
-                      <div key={j} className="border border-gray-100 rounded-xl p-3 hover:border-primary/30 transition-colors">
-                        <div className="flex items-start justify-between gap-2 mb-1">
-                          <div>
-                            <span className="font-semibold text-gray-800 text-sm">{r.disease_name}</span>
-                            {r.local_name && <span className="text-gray-400 text-xs ml-1">({r.local_name})</span>}
+                      <div key={j} className="rounded-xl border border-[var(--line)] bg-white p-3.5 transition-all hover:border-[var(--brand-light)] hover:shadow-[var(--shadow-md)]">
+                        <div className="flex items-start justify-between gap-3 mb-1.5">
+                          <div className="min-w-0">
+                            <span className="font-semibold text-[var(--ink)] text-[15px] leading-snug">{titleCaseDisease(r.disease_name)}</span>
+                            {r.local_name && <span className="text-[var(--ink-soft)] text-xs ml-1.5 italic">{r.local_name}</span>}
                           </div>
                           <MyStatusBadge status={
                             r.professor_verdict === "PASS"   ? "MY_approved"   :
@@ -107,12 +116,17 @@ export default function FarmerSearch() {
                             r.professor_verdict === "REJECT" ? "MY_banned"     : "unknown"
                           } />
                         </div>
-                        <div className="flex items-center gap-2 mb-2">
+                        <div className="flex items-center gap-2 mb-2.5">
                           <PathogenBadge type={r.pathogen_category} />
-                          <span className="text-xs text-gray-400 capitalize">{r.crop}</span>
+                          <span className="text-xs font-medium text-[var(--ink-soft)] capitalize">{r.crop}</span>
                         </div>
-                        <p className="text-xs text-gray-500 line-clamp-2 mb-2">{r.symptoms_summary}</p>
-                        <ConfidenceBar value={r.relevance_score} />
+                        <p className="text-[13px] leading-relaxed text-[var(--ink-soft)] line-clamp-2 mb-3">{cleanSymptoms(r.symptoms_summary)}</p>
+                        <div className="pt-2.5 border-t border-[var(--line)]">
+                          <div className="flex items-center justify-between mb-1">
+                            <span className="text-[10px] font-semibold uppercase tracking-[.1em] text-[var(--ink-soft)]">Match</span>
+                          </div>
+                          <ConfidenceBar value={r.relevance_score} />
+                        </div>
                       </div>
                     ))}
                   </div>
@@ -139,9 +153,10 @@ export default function FarmerSearch() {
           {/* Quick suggestions on first load */}
           {messages.length === 1 && (
             <div className="flex flex-col gap-2 mt-2">
+              <p className="eyebrow mb-1">Try a search</p>
               {QUICK.map((q, i) => (
                 <button key={i} onClick={() => doSearch("", q)}
-                  className="text-left bg-white border border-gray-100 hover:border-primary rounded-xl px-4 py-2.5 text-sm text-gray-600 hover:text-primary transition-colors">
+                  className="text-left bg-white border border-[var(--line)] hover:border-[var(--brand-light)] hover:bg-[#f3f8f4] rounded-xl px-4 py-2.5 text-sm text-[var(--ink-soft)] hover:text-[var(--brand-dark)] transition-all shadow-[var(--shadow-sm)]">
                   {q}
                 </button>
               ))}
@@ -151,25 +166,25 @@ export default function FarmerSearch() {
         </div>
 
         {/* Input bar */}
-        <div className="border-t bg-white px-4 py-3 max-w-2xl mx-auto w-full shrink-0">
+        <div className="border-t border-[var(--line)] bg-white/80 backdrop-blur px-4 py-3 max-w-2xl mx-auto w-full shrink-0">
           <div className="flex gap-2 items-center">
             <select value={crop} onChange={e => setCrop(e.target.value)}
-              className="border rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary bg-gray-50 shrink-0">
+              className="input-shell px-3 py-2.5 text-sm text-[var(--ink)] focus:outline-none shrink-0 capitalize">
               <option value="">All crops</option>
               {CROPS.map(c => <option key={c} value={c}>{c.replace("_"," ")}</option>)}
             </select>
-            <div className="flex-1 flex items-center gap-2 border rounded-xl px-3 py-2.5 focus-within:ring-2 focus-within:ring-primary bg-white">
-              <Search size={14} className="text-gray-400 shrink-0" />
+            <div className="input-shell flex-1 flex items-center gap-2 px-3 py-2.5">
+              <Search size={15} className="text-[var(--ink-soft)] shrink-0" />
               <input
                 value={input}
                 onChange={e => setInput(e.target.value)}
                 onKeyDown={e => e.key === "Enter" && !e.shiftKey && handleSend()}
                 placeholder="Describe symptom or disease name..."
-                className="flex-1 text-sm outline-none bg-transparent"
+                className="flex-1 text-sm outline-none bg-transparent placeholder:text-[var(--ink-soft)]"
               />
             </div>
             <button onClick={handleSend} disabled={loading || (!input.trim() && !crop)}
-              className="bg-primary hover:bg-primary-dark text-white p-2.5 rounded-xl transition-colors disabled:opacity-40 shrink-0">
+              className="btn-primary p-2.5 shrink-0">
               {loading ? <Loader size={16} className="animate-spin" /> : <Send size={16} />}
             </button>
           </div>
