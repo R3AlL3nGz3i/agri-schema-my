@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import {
-  ArrowLeft, Award, BadgeCheck, Bell, BookOpen, Camera, CheckCircle2, ChevronRight,
+  ArrowLeft, BadgeCheck, Bell, BookOpen, Camera, CheckCircle2, ChevronRight,
   CircleHelp, Clock, Coins, Flag, Image as ImageIcon, Leaf, MapPin, MessageCircle,
   Search, Send, ShieldCheck, SlidersHorizontal, Sparkles, ThumbsDown,
   ThumbsUp, UserRound, Users, X,
@@ -328,30 +328,18 @@ function CommunityHome({
 
   return (
     <>
-      <section className="border-b border-emerald-900/10 bg-gradient-to-br from-emerald-950 via-emerald-900 to-green-700 px-4 py-9 text-white sm:py-12">
+      <section className="border-b border-[var(--line)] bg-white px-4 py-7 sm:py-9">
         <div className="mx-auto max-w-6xl">
-          <div className="mb-3 flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-emerald-200">
+          <div className="mb-2 flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.14em] text-[var(--brand)]">
             <Users size={15} /> AgriScheme Community
           </div>
-          <div className="flex flex-col justify-between gap-5 lg:flex-row lg:items-end">
-            <div>
-              <h1 className="max-w-2xl text-3xl font-bold tracking-tight sm:text-4xl">Find an answer before starting a new question.</h1>
-              <p className="mt-2 max-w-2xl text-sm leading-6 text-emerald-100 sm:text-base">
-                Search solved crop cases, compare field observations, and ask growers or researchers when you still need help.
-              </p>
-            </div>
-            <div className="flex items-center gap-3 rounded-2xl border border-white/15 bg-white/10 px-4 py-3 backdrop-blur-sm lg:min-w-64">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-300 text-emerald-950"><Coins size={20} /></div>
-              <div>
-                <p className="text-xs text-emerald-200">Your Agri Points</p>
-                <p className="text-xl font-bold">{community.credits} <span className="text-xs font-medium text-emerald-200">· {creditProgress.name}</span></p>
-              </div>
-            </div>
+          <div>
+            <h1 className="max-w-2xl text-2xl font-bold tracking-tight text-[var(--ink)] sm:text-3xl">Find an answer before asking a question</h1>
           </div>
 
-          <div className="mt-7 max-w-4xl">
-            <div className="flex min-w-0 items-center gap-3 rounded-2xl border border-white/20 bg-white px-4 shadow-xl shadow-emerald-950/20 focus-within:ring-4 focus-within:ring-white/20">
-              <Search size={20} className="shrink-0" />
+          <div className="mt-5 max-w-4xl">
+            <div className="flex min-w-0 items-center gap-3 rounded-xl border border-[var(--line)] bg-white px-4 shadow-sm focus-within:border-[var(--brand-light)] focus-within:ring-2 focus-within:ring-emerald-100">
+              <Search size={19} className="shrink-0 text-[var(--ink-soft)]" />
               <input
                 value={query}
                 onChange={(event) => {
@@ -368,7 +356,7 @@ function CommunityHome({
             </div>
 
             {searched && (
-              <div className="mt-2 overflow-hidden rounded-2xl border border-slate-200 bg-white text-slate-700 shadow-2xl shadow-emerald-950/25">
+              <div className="mt-2 overflow-hidden rounded-xl border border-slate-200 bg-white text-slate-700 shadow-lg">
                 <div className="border-b border-slate-100 px-4 py-2.5 text-[11px] font-semibold uppercase tracking-wider text-slate-400">
                   Suggested Community discussions
                 </div>
@@ -394,16 +382,6 @@ function CommunityHome({
                 </button>
               </div>
             )}
-          </div>
-          <div className="mt-3 flex flex-wrap gap-2">
-            {COMMUNITY_CROPS.slice(1).map((crop) => (
-              <button key={crop} onClick={() => setCropFilter(cropFilter === crop ? "All crops" : crop)}
-                aria-pressed={cropFilter === crop}
-                title={cropFilter === crop ? `Clear ${crop} filter` : `Filter by ${crop}`}
-                className={`rounded-full border px-3 py-1.5 text-xs transition-colors ${cropFilter === crop ? "border-amber-300 bg-amber-300 text-emerald-950" : "border-white/20 bg-white/10 text-emerald-50 hover:bg-white/20"}`}>
-                {crop}
-              </button>
-            ))}
           </div>
         </div>
       </section>
@@ -491,21 +469,14 @@ function CommunitySidebar({ community, creditProgress, onOpen }) {
   const unanswered = community.questions.filter((question) => question.status === "open").slice(0, 3);
   return (
     <aside className="space-y-4">
-      <section className="rounded-2xl border border-emerald-100 bg-white p-5 shadow-sm">
+      <section className="rounded-xl border border-slate-200 bg-white p-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2"><Coins size={18} className="text-amber-500" /><h3 className="font-semibold text-slate-800">Agri Points</h3></div>
           <span className="text-xl font-bold text-emerald-800">{community.credits}</span>
         </div>
-        <div className="mt-4 flex items-center justify-between text-xs"><span className="font-semibold text-slate-700">{creditProgress.name}</span><span className="text-slate-400">{creditProgress.remaining} to next level</span></div>
+        <div className="mt-3 flex items-center justify-between text-xs"><span className="font-semibold text-slate-700">{creditProgress.name}</span><span className="text-slate-400">{creditProgress.remaining} to next level</span></div>
         <div className="mt-2 h-2 overflow-hidden rounded-full bg-emerald-100"><div className="h-full rounded-full bg-emerald-600" style={{ width: `${creditProgress.percent}%` }} /></div>
         <p className="mt-3 text-xs leading-5 text-slate-500">Agri Points recognise helpful answers and accepted solutions. Posting alone does not earn points.</p>
-        <div className="mt-4 border-t border-slate-100 pt-3">
-          <p className="mb-2 text-[11px] font-semibold uppercase tracking-wider text-slate-400">Recent activity</p>
-          {community.creditLedger.slice(0, 3).map((entry) => (
-            <div key={entry.id} className="flex items-center justify-between py-1.5 text-xs"><span className="text-slate-600">{entry.label}</span><span className="font-bold text-emerald-700">+{entry.amount}</span></div>
-          ))}
-        </div>
-        <div className="mt-3 rounded-xl bg-amber-50 p-3 text-xs text-amber-800"><Award size={14} className="mb-1" />Earn Agri Points by sharing useful, trusted farming knowledge.</div>
       </section>
 
       <section className="rounded-2xl border border-slate-200 bg-white p-5">

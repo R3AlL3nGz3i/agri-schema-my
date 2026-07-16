@@ -71,11 +71,11 @@ const SELLER_VIEW_REPLACEMENTS = [
 
 const BUYER_ONLY_REPLACEMENTS = [
   [
-    String.raw`<button sc-camel-on-click=\"{{ setSellerMode }}\" style=\"{{ sellTabStyle }}\">Sell<\u002Fbutton>`,
+    String.raw`<button sc-camel-on-click=\"{{ setSellerMode }}\" style=\"{{ sellTabStyle }}\">Sell</button>`,
     "",
   ],
   [
-    String.raw`<button sc-camel-on-click=\"{{ goOnboard }}\" style=\"height:42px;padding:0 18px;border:none;border-radius:10px;background:#1a6b3c;color:#fff;font-weight:600;font-size:13.5px;cursor:pointer;\" style-hover=\"background:#0f4a28;\">Sign up<\u002Fbutton>`,
+    String.raw`<button sc-camel-on-click=\"{{ goOnboard }}\" style=\"height:42px;padding:0 18px;border:none;border-radius:10px;background:#1a6b3c;color:#fff;font-weight:600;font-size:13.5px;cursor:pointer;\" style-hover=\"background:#0f4a28;\">Sign up</button>`,
     "",
   ],
   [
@@ -149,8 +149,10 @@ function getSellerFreeShippingPanel() {
 function getCheckoutKarmaPanel() {
   return encodeBundledMarkup(String.raw`
             <div style=\"margin:13px 0;padding:12px;border:1px solid #fde68a;border-radius:10px;background:#fffbeb;\">
-              <div style=\"display:flex;align-items:center;justify-content:space-between;gap:10px;\"><div><div style=\"font-size:12.5px;font-weight:700;color:#92400e;\">Use Agri Points<\u002Fdiv><div style=\"font-size:10.5px;color:#a16207;margin-top:2px;\">Balance: {{ karmaCredits }} · Maximum: {{ checkoutKarmaMax }}<\u002Fdiv><\u002Fdiv><button sc-camel-on-click=\"{{ useMaximumKarma }}\" style=\"height:30px;padding:0 10px;border:1px solid #f59e0b;border-radius:7px;background:#fff;color:#92400e;font-size:11px;font-weight:700;cursor:pointer;\">Use max<\u002Fbutton><\u002Fdiv>
-              <input type=\"number\" min=\"0\" value=\"{{ checkoutKarma }}\" sc-camel-on-change=\"{{ onCheckoutKarma }}\" style=\"width:100%;height:38px;margin-top:9px;border:1px solid #fcd34d;border-radius:8px;padding:0 10px;background:#fff;font-size:13px;outline:none;\">
+              <div style=\"display:flex;align-items:center;justify-content:space-between;gap:12px;\"><div style=\"font-size:12.5px;font-weight:700;color:#92400e;white-space:nowrap;\">Redeem Agri Points<\u002Fdiv><button sc-camel-on-click=\"{{ useMaximumKarma }}\" style=\"height:30px;padding:0 11px;border:1px solid #f59e0b;border-radius:7px;background:#fff;color:#92400e;font-size:11px;font-weight:700;white-space:nowrap;cursor:pointer;\">Use maximum<\u002Fbutton><\u002Fdiv>
+              <div style=\"display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:9px;\"><div style=\"padding:7px 9px;border:1px solid #fde68a;border-radius:7px;background:#fff;\"><div style=\"font-size:9.5px;color:#a16207;text-transform:uppercase;letter-spacing:.04em;white-space:nowrap;\">Available<\u002Fdiv><div style=\"font-size:13px;font-weight:800;color:#92400e;margin-top:2px;\">{{ karmaCredits }}<\u002Fdiv><\u002Fdiv><div style=\"padding:7px 9px;border:1px solid #fde68a;border-radius:7px;background:#fff;\"><div style=\"font-size:9.5px;color:#a16207;text-transform:uppercase;letter-spacing:.04em;white-space:nowrap;\">Maximum<\u002Fdiv><div style=\"font-size:13px;font-weight:800;color:#92400e;margin-top:2px;\">{{ checkoutKarmaMax }}<\u002Fdiv><\u002Fdiv><\u002Fdiv>
+              <input type=\"number\" min=\"0\" max=\"{{ checkoutKarmaMax }}\" value=\"{{ checkoutKarma }}\" sc-camel-on-change=\"{{ onCheckoutKarma }}\" style=\"width:100%;height:38px;margin-top:9px;border:1px solid #fcd34d;border-radius:8px;padding:0 10px;background:#fff;font-size:13px;outline:none;\">
+              <div style=\"font-size:10.5px;color:#a16207;margin-top:6px;line-height:1.45;\">Maximum is your full points balance or 50% of the product subtotal, whichever is lower.<\u002Fdiv>
               <div style=\"display:flex;justify-content:space-between;margin-top:7px;font-size:10.5px;color:#a16207;\"><span>Reserved until payment succeeds<\u002Fspan><span>{{ checkoutKarmaDiscount }} discount<\u002Fspan><\u002Fdiv>
             <\u002Fdiv>`);
 }
@@ -162,7 +164,11 @@ function addBuyerSidebar(html, profile) {
   );
   const productDetailMarker = String.raw`  <!-- ============ PRODUCT DETAIL ============ -->`;
   const sellerOrdersMarker = String.raw`            <!-- Orders -->`;
-  const checkoutFulfillRow = String.raw`            <div style=\"display:flex;justify-content:space-between;font-size:13.5px;margin-bottom:8px;color:#4b5563;\"><span>{{ fulfillLabel }}<\u002Fspan><span>{{ fulfillCost }}<\u002Fspan><\u002Fdiv>`;
+  // The pulled Marketplace bundle stores closing tags literally in its outer
+  // JSON string. HY previously searched for unicode-escaped closing tags, so
+  // the checkout redemption panel was never inserted even though its logic
+  // was present.
+  const checkoutFulfillRow = String.raw`            <div style=\"display:flex;justify-content:space-between;font-size:13.5px;margin-bottom:8px;color:#4b5563;\"><span>{{ fulfillLabel }}</span><span>{{ fulfillCost }}</span></div>`;
   const withRewardScreens = withSidebar
     .replace(
       productDetailMarker,
@@ -188,7 +194,7 @@ function addBuyerSidebar(html, profile) {
     )
     .replace(
       String.raw`    const sellerTabDefs = [['dash', 'Dashboard'], ['listings', 'Listings'], ['new', 'New listing'], ['orders', 'Orders']];`,
-      String.raw`    const sellerTabDefs = [['dash', 'Dashboard'], ['listings', 'Listings'], ['new', 'New listing'], ['shipping', 'Free shipping'], ['orders', 'Orders']];\n    const shippingPromo = s.shippingPromotions.find(promo => promo.slotsRemaining > 0 && s.cart.some(item => item.id === promo.productId));\n    const payableBeforeKarma = subtotalN + (shippingPromo ? 0 : fSel.cost);\n    const availableWalletKarma = Math.max(0, ${profile.credits} - s.sellerPromoKarmaSpent - s.buyerKarmaSpent);\n    const maxCheckoutKarma = Math.max(0, Math.min(availableWalletKarma, Math.floor(payableBeforeKarma * ${MAX_KARMA_DISCOUNT_RATE} * ${KARMA_PER_RINGGIT})));\n    const checkoutKarma = Math.max(0, Math.min(maxCheckoutKarma, parseInt(s.checkoutKarma, 10) || 0));\n    const karmaDiscount = checkoutKarma / ${KARMA_PER_RINGGIT};\n    const sellerAvailableKarma = availableWalletKarma;\n    const sellerPromoSlotLimit = Math.floor(sellerAvailableKarma / ${SELLER_SHIPPING_SLOT_COST});\n    const sellerSelectedSlots = Math.max(0, Math.min(sellerPromoSlotLimit, parseInt(s.promoSlots, 10) || 0));\n    const buyerTabStyle = (active) => 'display:flex;align-items:center;gap:10px;text-align:left;height:40px;padding:0 12px;border:none;border-radius:9px;font-size:13.5px;font-weight:' + (active ? '600' : '500') + ';cursor:pointer;width:100%;background:' + (active ? '#374151' : 'none') + ';color:' + (active ? '#fff' : '#9ca3af') + ';';\n    const buyerDotStyle = (active) => 'width:6px;height:6px;border-radius:999px;flex:none;background:' + (active ? '#e8b84b' : '#4b5563') + ';';`,
+      String.raw`    const sellerTabDefs = [['dash', 'Dashboard'], ['listings', 'Listings'], ['new', 'New listing'], ['shipping', 'Free shipping'], ['orders', 'Orders']];\n    const shippingPromo = s.shippingPromotions.find(promo => promo.slotsRemaining > 0 && s.cart.some(item => item.id === promo.productId));\n    const payableBeforeKarma = subtotalN + (shippingPromo ? 0 : fSel.cost);\n    const availableWalletKarma = Math.max(0, ${profile.credits} - s.sellerPromoKarmaSpent - s.buyerKarmaSpent);\n    const subtotalRedemptionLimit = Math.floor(subtotalN * ${MAX_KARMA_DISCOUNT_RATE} * ${KARMA_PER_RINGGIT});\n    const maxCheckoutKarma = Math.max(0, Math.min(availableWalletKarma, subtotalRedemptionLimit));\n    const checkoutKarma = Math.max(0, Math.min(maxCheckoutKarma, parseInt(s.checkoutKarma, 10) || 0));\n    const karmaDiscount = checkoutKarma / ${KARMA_PER_RINGGIT};\n    const sellerAvailableKarma = availableWalletKarma;\n    const sellerPromoSlotLimit = Math.floor(sellerAvailableKarma / ${SELLER_SHIPPING_SLOT_COST});\n    const sellerSelectedSlots = Math.max(0, Math.min(sellerPromoSlotLimit, parseInt(s.promoSlots, 10) || 0));\n    const buyerTabStyle = (active) => 'display:flex;align-items:center;gap:10px;text-align:left;height:40px;padding:0 12px;border:none;border-radius:9px;font-size:13.5px;font-weight:' + (active ? '600' : '500') + ';cursor:pointer;width:100%;background:' + (active ? '#374151' : 'none') + ';color:' + (active ? '#fff' : '#9ca3af') + ';';\n    const buyerDotStyle = (active) => 'width:6px;height:6px;border-radius:999px;flex:none;background:' + (active ? '#e8b84b' : '#4b5563') + ';';`,
     )
     .replace(
       String.raw`      goCart: () => this.setState({ screen: 'cart' }),\n      goCheckout: () => this.setState({ screen: 'checkout' }),`,
