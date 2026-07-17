@@ -103,7 +103,6 @@ export default function ReviewQueue() {
                       ${paper.decision === "reject"  ? "bg-red-50/40"   : ""}`}>
                     <td className="px-4 py-3 max-w-xs">
                       <p className="font-medium text-gray-800 line-clamp-2 text-xs leading-relaxed">{paper.title}</p>
-                      <p className="text-xs text-gray-400 mt-0.5">{paper.authors[0] ?? "Unknown"} · {paper.year ?? "—"}</p>
                     </td>
                     <td className="px-4 py-3">
                       <p className="text-xs font-medium text-gray-700 capitalize">{paper.crop}</p>
@@ -150,8 +149,6 @@ export default function ReviewQueue() {
                             <div>
                               <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Paper Details</p>
                               <p className="text-sm font-medium text-gray-800">{paper.title}</p>
-                              <p className="text-xs text-gray-500 mt-1">{paper.authors.join(", ")} · {paper.publisher} · {paper.year}</p>
-                              <p className="text-xs text-blue-500 mt-0.5">DOI: {paper.doi}</p>
                             </div>
                             <div className="grid grid-cols-2 gap-3 text-xs">
                               <div className="bg-white rounded-lg p-2.5 border">
