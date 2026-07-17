@@ -1,9 +1,9 @@
 import { useState } from "react";
 import AppLayout from "../../components/AppLayout";
-import { askDisease } from "../../api";
-import { MyStatusBadge, PathogenBadge, ConfidenceBar } from "../../components/Badges";
+import { askDisease, diseaseImageUrl } from "../../api";
+import { MyStatusBadge, PathogenBadge } from "../../components/Badges";
 import { titleCaseDisease, cleanSymptoms } from "../../utils/format";
-import { Search, Loader, ShieldCheck, Info } from "lucide-react";
+import { Search, Loader } from "lucide-react";
 
 const CROPS = ["","paddy","durian","banana","chilli","tomato","rubber","oil_palm","cocoa"];
 
@@ -12,19 +12,17 @@ export default function EvidenceSearch() {
   const [symptom, setSymptom] = useState("");
   const [results, setResults] = useState([]);
   const [answer, setAnswer]   = useState("");
-  const [grounded, setGrounded] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError]     = useState("");
 
   const handleSearch = async () => {
     if (!crop && !symptom) { setError("Enter a crop or symptom."); return; }
-    setError(""); setLoading(true); setAnswer(""); setGrounded(false);
+    setError(""); setLoading(true); setAnswer("");
     // /ask needs a question; when only a crop is chosen, ask for its known diseases.
     const question = symptom || `Common diseases and treatments for ${crop.replace("_"," ")}`;
     try {
       const r = await askDisease({ crop: crop || undefined, question, n_results: 10 });
       setAnswer(r.data.answer || "");
-      setGrounded(!!r.data.grounded);
       setResults(r.data.results || []);
     } catch {
       setError("Search failed. Make sure the backend is running.");
@@ -72,23 +70,10 @@ export default function EvidenceSearch() {
         {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
       </div>
 
-      {/* AI evidence summary (grounded in the KB entries below) */}
+      {/* AI evidence summary */}
       {answer && (
-        <div className="card mb-6 border-l-4" style={{ borderLeftColor: grounded ? "#16a34a" : "#9ca3af" }}>
-          <div className="flex items-center gap-2 mb-2">
-            {grounded
-              ? <ShieldCheck size={16} className="text-green-600" />
-              : <Info size={16} className="text-gray-400" />}
-            <span className="text-xs font-semibold uppercase tracking-wide text-gray-500">
-              {grounded ? "Grounded AI summary" : "AI summary unavailable"}
-            </span>
-          </div>
+        <div className="card mb-6">
           <p className="text-sm text-gray-700 whitespace-pre-line">{answer}</p>
-          {grounded && (
-            <p className="text-[11px] text-gray-400 mt-2">
-              Generated from the verified knowledge-base entries below. Not a substitute for the source records.
-            </p>
-          )}
         </div>
       )}
 
@@ -99,6 +84,13 @@ export default function EvidenceSearch() {
           {results.map((r, i) => (
             <div key={i} className="card hover:shadow-md transition-shadow">
               <div className="flex items-start justify-between gap-4">
+                <img
+                  src={diseaseImageUrl(r.crop, r.disease_name)}
+                  alt={`${r.crop} ${r.disease_name} example`}
+                  loading="lazy"
+                  onError={e => { e.currentTarget.style.display = "none"; }}
+                  className="w-20 h-20 rounded-lg object-cover flex-shrink-0 border border-gray-100"
+                />
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-1 flex-wrap">
                     <span className="font-semibold text-gray-800">{titleCaseDisease(r.disease_name)}</span>
@@ -115,7 +107,6 @@ export default function EvidenceSearch() {
                 </div>
                 <div className="text-right space-y-2 min-w-[120px]">
                   <MyStatusBadge status={r.professor_verdict === "PASS" ? "MY_approved" : "unknown"} />
-                  <ConfidenceBar value={r.relevance_score} />
                 </div>
               </div>
             </div>

@@ -77,6 +77,55 @@ def _format_sources(results: list[dict]) -> str:
     return "\n\n".join(blocks)
 
 
+PLAIN_PROMPT = """You are AgriScheme's crop assistant for Malaysian farmers.
+
+Using ONLY the numbered SOURCES, reply in 2-3 short, simple sentences a farmer can
+act on right away:
+1. what the problem most likely is (use the plain disease name, no Latin/scientific words),
+2. what to do about it (name the main treatment; if the source gives its Malaysia legal
+   status, add it in plain words like "approved for use in Malaysia"),
+3. one short prevention or next-step tip only if a source supports it.
+
+Hard rules:
+- Use ONLY the SOURCES. Never invent a disease, treatment, dose, or status.
+- If the SOURCES don't cover it, say so in one sentence and suggest asking a local
+  agronomist. Do not guess.
+- Plain everyday words, short sentences. No jargon, no headings, no citations like [1],
+  no bullet points. Just a calm, direct answer.
+"""
+
+
+def plain_answer(question: str, results: list[dict]) -> str:
+    """Short, plain-language farmer summary grounded in the retrieved entries.
+
+    Never raises: falls back to a simple template built from the top entry if the
+    LLM layer is unavailable, so the farmer always gets a readable answer.
+    """
+    if not results:
+        return ("I couldn't find this in the verified knowledge base yet. "
+                "Please check with your nearest DOA office or a local agronomist.")
+
+    top = results[0]
+    try:
+        from pipeline import llm
+        sources = _format_sources(results[:3])
+        user_msg = f"Farmer's question: {question}\n\nSOURCES:\n{sources}"
+        text = llm.complete(PLAIN_PROMPT, user_msg, max_tokens=180, temperature=0.2).strip()
+        if text:
+            return text
+    except Exception as e:  # LLM unavailable — degrade to a template, never fail
+        logger.warning("Plain answer unavailable, using template: %s", e)
+
+    name = (top.get("local_name") or top.get("disease_name") or "a crop problem")
+    treatments = top.get("treatments") or []
+    if treatments:
+        return (f"This looks most like {name}. A commonly used treatment is "
+                f"{treatments[0]} — follow the label instructions and remove badly "
+                f"affected parts. Check with a local agronomist before spraying.")
+    return (f"This looks most like {name}. Remove badly affected parts and keep the "
+            f"area clean. Check with a local agronomist for the right treatment.")
+
+
 def answer(question: str, results: list[dict]) -> dict:
     """Generate a grounded answer from the retrieved entries.
 

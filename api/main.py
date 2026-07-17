@@ -4,6 +4,7 @@ Query the Malaysian agriculture knowledge base by crop and symptom.
 """
 import json
 import logging
+import re
 import sys
 from pathlib import Path
 from typing import Optional
@@ -11,11 +12,17 @@ from typing import Optional
 import yaml
 from fastapi import FastAPI, File, Form, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import Response
 from pydantic import BaseModel
 
 sys.path.append(str(Path(__file__).parent.parent))
 
 DATA_DIR = Path(__file__).resolve().parent.parent / "data"
+IMAGES_DIR = (DATA_DIR / "vision" / "images").resolve()
+_IMAGE_SUFFIXES = {".jpg", ".jpeg", ".png"}
+_SLUG_RE = re.compile(r"^[a-z0-9_]+$")
+_representative_image_cache: dict[tuple[str, str], Optional[Path]] = {}
+_thumbnail_cache: dict[tuple[str, str], Optional[bytes]] = {}
 
 from pipeline.embedder import query as vector_query
 from pipeline.validator import validate_all
@@ -66,6 +73,7 @@ class AskRequest(BaseModel):
     question: str
     crop: Optional[str] = None
     n_results: int = 5
+    plain: bool = False         # True -> short, plain farmer summary (no citations)
 
 
 class AskResponse(BaseModel):
@@ -76,6 +84,7 @@ class AskResponse(BaseModel):
 
 class DiagnoseResponse(BaseModel):
     observation: str
+    advice: str = ""            # short, plain-language "what it is + what to do"
     crop: Optional[str] = None
     crop_source: str            # "farmer" | "vision" | "unknown"
     assessable: bool
@@ -133,6 +142,56 @@ def query_diseases(req: QueryRequest):
     return _run_query(req.crop, req.symptom, req.n_results)
 
 
+def _representative_image(crop: str, disease: str) -> Optional[Path]:
+    """A single stable example image for a crop/disease, or None if we have none."""
+    key = (crop, disease)
+    if key in _representative_image_cache:
+        return _representative_image_cache[key]
+    result: Optional[Path] = None
+    if _SLUG_RE.match(crop) and _SLUG_RE.match(disease):
+        folder = (IMAGES_DIR / crop / disease).resolve()
+        if folder.is_dir() and str(folder).startswith(str(IMAGES_DIR)):
+            # images live in nested source subfolders, so walk recursively
+            imgs = sorted(p for p in folder.rglob("*") if p.suffix.lower() in _IMAGE_SUFFIXES)
+            result = imgs[0] if imgs else None
+    _representative_image_cache[key] = result
+    return result
+
+
+def _thumbnail_bytes(crop: str, disease: str) -> Optional[bytes]:
+    """Resized JPEG (max 480px) of the representative image, cached in memory."""
+    key = (crop, disease)
+    if key in _thumbnail_cache:
+        return _thumbnail_cache[key]
+    src = _representative_image(crop, disease)
+    data: Optional[bytes] = None
+    if src:
+        from io import BytesIO
+        from PIL import Image, ImageOps
+        img = ImageOps.exif_transpose(Image.open(src)).convert("RGB")
+        img.thumbnail((480, 480))
+        buf = BytesIO()
+        img.save(buf, format="JPEG", quality=80)
+        data = buf.getvalue()
+    _thumbnail_cache[key] = data
+    return data
+
+
+@app.get("/disease-image")
+def disease_image(crop: str, disease: str):
+    """
+    Serve one real example photo (resized thumbnail) for a crop/disease so
+    researchers can eyeball the symptoms. Only ~10 of 23 KB diseases have a
+    training-image folder; the rest legitimately return 404 (no fabricated
+    stand-in image).
+    """
+    thumb = _thumbnail_bytes(crop.strip().lower(), disease.strip().lower())
+    if not thumb:
+        raise HTTPException(status_code=404, detail="No example image for this crop/disease")
+    return Response(content=thumb, media_type="image/jpeg",
+                    headers={"Cache-Control": "public, max-age=86400"})
+
+
 @app.post("/ask", response_model=AskResponse)
 def ask(req: AskRequest):
     """
@@ -148,10 +207,17 @@ def ask(req: AskRequest):
         raise HTTPException(status_code=400, detail="Provide a question")
 
     results = _run_query(req.crop, req.question, req.n_results)
+    dumped = [r.model_dump() for r in results]
+
+    if req.plain:
+        # Short, plain farmer summary. plain_answer never raises (templates on failure).
+        from pipeline.rag_answer import plain_answer
+        return AskResponse(answer=plain_answer(req.question, dumped),
+                           grounded=bool(results), results=results)
 
     from pipeline.rag_answer import answer as generate_answer
     try:
-        gen = generate_answer(req.question, [r.model_dump() for r in results])
+        gen = generate_answer(req.question, dumped)
     except Exception as e:  # key/package/API failure — degrade, don't 500
         logging.getLogger("api").warning("Grounded answer unavailable: %s", e)
         note = ("I found matching entries below, but the AI answer layer is "
@@ -226,8 +292,13 @@ async def diagnose(
     query_symptom = " ".join(part for part in [obs["symptoms"], written_note] if part)
     results = _run_query(resolved_crop, query_symptom, 5)
 
+    # Short, plain-language "what it is + what to do". Never raises (templates on failure).
+    from pipeline.rag_answer import plain_answer
+    advice = plain_answer(query_symptom, [r.model_dump() for r in results]) if results else ""
+
     return DiagnoseResponse(
         observation=obs["symptoms"],
+        advice=advice,
         crop=resolved_crop,
         crop_source=crop_source,
         assessable=True,

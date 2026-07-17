@@ -1,6 +1,6 @@
 import { useState, useEffect, Fragment } from "react";
 import AppLayout from "../../components/AppLayout";
-import { MyStatusBadge, PathogenBadge, ConfidenceBar } from "../../components/Badges";
+import { MyStatusBadge, PathogenBadge } from "../../components/Badges";
 import { getReviews } from "../../api";
 import { CheckCircle, XCircle, Edit3, ChevronDown, ChevronUp, AlertTriangle, Clock, Loader } from "lucide-react";
 
@@ -103,7 +103,7 @@ export default function ReviewQueue() {
                       ${paper.decision === "reject"  ? "bg-red-50/40"   : ""}`}>
                     <td className="px-4 py-3 max-w-xs">
                       <p className="font-medium text-gray-800 line-clamp-2 text-xs leading-relaxed">{paper.title}</p>
-                      <p className="text-xs text-gray-400 mt-0.5">{paper.authors[0] ?? paper.reviewed_by ?? "Unknown"} · {paper.year ?? "—"}</p>
+                      <p className="text-xs text-gray-400 mt-0.5">{paper.authors[0] ?? "Unknown"} · {paper.year ?? "—"}</p>
                     </td>
                     <td className="px-4 py-3">
                       <p className="text-xs font-medium text-gray-700 capitalize">{paper.crop}</p>
@@ -116,8 +116,7 @@ export default function ReviewQueue() {
                       <MyStatusBadge status={paper.my_status} />
                     </td>
                     <td className="px-4 py-3 w-28">
-                      <ConfidenceBar value={paper.confidence.my_status} />
-                      <p className="text-xs text-gray-400 mt-0.5">{Math.round(paper.confidence.my_status * 100)}%</p>
+                      <p className="text-xs text-gray-400">{Math.round(paper.confidence.my_status * 100)}%</p>
                     </td>
                     <td className="px-4 py-3">
                       {paper.decision ? (
@@ -158,12 +157,10 @@ export default function ReviewQueue() {
                               <div className="bg-white rounded-lg p-2.5 border">
                                 <p className="text-gray-400 mb-0.5">Detected Crop</p>
                                 <p className="font-medium capitalize text-gray-700">{paper.crop}</p>
-                                <ConfidenceBar value={paper.confidence.crop} />
                               </div>
                               <div className="bg-white rounded-lg p-2.5 border">
                                 <p className="text-gray-400 mb-0.5">Pathogen Category</p>
                                 <PathogenBadge type={paper.pathogen_category} />
-                                <ConfidenceBar value={paper.confidence.pathogen} />
                               </div>
                               <div className="bg-white rounded-lg p-2.5 border">
                                 <p className="text-gray-400 mb-0.5">Pathogen Name</p>

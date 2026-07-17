@@ -1,12 +1,11 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import {
-  Camera, HelpCircle, ImagePlus, Leaf, Loader, Send, Sprout, Users, X,
+  Camera, ChevronRight, HelpCircle, ImagePlus, Leaf, Loader, Send, Sprout, Users, X,
 } from "lucide-react";
 import AppLayout from "../../components/AppLayout";
-import { ConfidenceBar } from "../../components/Badges";
 import { useApp } from "../../context/AppContext";
-import { queryDisease, diagnoseImage } from "../../api";
+import { askDisease, diagnoseImage } from "../../api";
 
 const CROPS = ["paddy", "durian", "banana", "chilli", "tomato", "rubber", "oil_palm", "cocoa"];
 const CROP_ALIASES = [
@@ -55,9 +54,20 @@ function VerdictBadge({ verdict }) {
 }
 
 function ResultCards({ results }) {
+  const [open, setOpen] = useState(false);
+  const top = results[0];
   return (
-    <div className="space-y-3 w-full">
-      <p className="eyebrow">Verified sources · {results.length}</p>
+    <div className="w-full">
+      <button
+        onClick={() => setOpen((value) => !value)}
+        className="inline-flex items-center gap-1 text-xs text-[var(--ink-faint)] hover:text-[var(--brand)] transition-colors"
+      >
+        <ChevronRight size={13} className={`transition-transform ${open ? "rotate-90" : ""}`} />
+        {open ? "Hide" : "See"} verified details · {results.length}
+        {!open && top && <span className="text-[var(--ink-soft)]"> · {top.disease_name}</span>}
+      </button>
+      {open && (
+    <div className="space-y-3 w-full mt-3">
       {results.map((result, index) => (
         <article key={`${result.disease_name}-${index}`} className="border border-[var(--line)] rounded-xl p-4 bg-white shadow-[var(--shadow-sm)] transition-all hover:border-[var(--brand-light)] hover:shadow-[var(--shadow-md)]">
           <div className="flex items-start justify-between gap-3 mb-2">
@@ -70,7 +80,6 @@ function ResultCards({ results }) {
             <VerdictBadge verdict={result.professor_verdict} />
           </div>
           <p className="text-xs leading-relaxed text-[var(--ink-soft)] mb-3">{result.symptoms_summary}</p>
-          <ConfidenceBar value={result.relevance_score} />
           {result.treatments?.length > 0 && (
             <div className="mt-3 pt-3 border-t border-[var(--line)]">
               <p className="text-[11px] font-semibold uppercase tracking-wide text-[var(--ink-faint)] mb-1">Knowledge-base treatments</p>
@@ -79,6 +88,8 @@ function ResultCards({ results }) {
           )}
         </article>
       ))}
+    </div>
+      )}
     </div>
   );
 }
@@ -141,21 +152,21 @@ export default function ChatAssistant() {
         results = data.results || [];
         if (!data.assessable) {
           note = `${data.observation}`;
-        } else if (results.length) {
-          note = `From your photo I can see: ${data.observation} Here are the closest verified matches from the knowledge base.`;
+        } else if (data.advice) {
+          note = data.advice;
         } else {
           note = `From your photo I can see: ${data.observation} I couldn’t find a close match in the verified knowledge base — add the crop name or a written symptom and I’ll try again.`;
         }
       } else {
-        const { data } = await queryDisease({
+        const { data } = await askDisease({
           crop: selectedCrop || undefined,
-          symptom: text || undefined,
+          question: text || undefined,
           n_results: 5,
+          plain: true,
         });
-        results = data || [];
-        note = results.length
-          ? `I’ll keep this context for your follow-up questions.`
-          : `I could not find a close match. Try adding the crop name and describing colour, shape, location, and how quickly the symptom spread.`;
+        results = data.results || [];
+        note = data.answer
+          || `I could not find a close match. Try adding the crop name and describing colour, shape, location, and how quickly the symptom spread.`;
       }
       appendConversationMessages(conversationId, [{
         id: messageId(),
