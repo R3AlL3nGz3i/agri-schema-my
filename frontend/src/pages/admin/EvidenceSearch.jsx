@@ -2,6 +2,7 @@ import { useState } from "react";
 import AppLayout from "../../components/AppLayout";
 import { askDisease, diseaseImageUrl } from "../../api";
 import { MyStatusBadge, PathogenBadge } from "../../components/Badges";
+import AnswerText from "../../components/AnswerText";
 import { titleCaseDisease, cleanSymptoms } from "../../utils/format";
 import { Search, Loader } from "lucide-react";
 
@@ -73,7 +74,7 @@ export default function EvidenceSearch() {
       {/* AI evidence summary */}
       {answer && (
         <div className="card mb-6">
-          <p className="text-sm text-gray-700 whitespace-pre-line">{answer}</p>
+          <AnswerText text={answer} />
         </div>
       )}
 

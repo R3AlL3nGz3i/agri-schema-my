@@ -13,6 +13,10 @@ disease:
       when moist
     - Initial small water-soaked spots on fruit surface that enlarge and darken; twig
       dieback and leaf spotting in heavy infections
+    - Early foliar phase, appearing before or alongside fruit rot in warm humid weather
+      as small circular to irregular brown-to-grey leaf spots with a darker margin and
+      a pale tan centre, sometimes with tip or margin dieback — distinct spots, not a
+      general yellowing of the whole leaf
     growth: Most economically important disease of chilli in Malaysia; causes both
       field and postharvest fruit rot, with reported yield losses commonly 20-50%
       and up to 80% under prolonged wet-season conditions, severely reducing marketable
@@ -109,7 +113,7 @@ disease:
     role: Malaysian plant protection and pesticide regulatory authority
     url: https://www.doa.gov.my
   confidence_score: 0.78
-  last_updated: '2026-05-20'
+  last_updated: '2026-07-18'
 _source_file: seed_generator
 professor_review:
   verdict: PASS
