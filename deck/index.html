@@ -1,0 +1,973 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AgriSchema-MY — Trustworthy Crop-Disease Diagnosis</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;0,8..60,700;1,8..60,400&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ===========================================================
+       Deck framework — DO NOT EDIT the rules in this <style> block.
+       =========================================================== */
+    :root {
+      /* SLOT: theme tokens */
+      --bg: #f6f7f3;
+      --fg: #1c231f;
+      --paper: #f6f7f3;
+      --ink: #1c231f;
+      --primary: #1a6b3c;
+      --secondary: #2d9e5f;
+      --gold: #e8b84b;
+      --muted: #5b6b60;
+      --border: #d9ded1;
+      --surface: #ffffff;
+      --accent: #1a6b3c;
+      --shell: #0c1c12;
+      --font-display: 'Source Serif 4', Georgia, 'Times New Roman', serif;
+      --font-body: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+      --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: var(--shell);
+      color: var(--fg);
+      font: 18px/1.5 var(--font-body);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    .deck-shell { position: fixed; inset: 0; overflow: hidden; }
+    .deck-stage {
+      width: 1920px;
+      height: 1080px;
+      background: var(--bg);
+      position: relative;
+      transform-origin: top left;
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.35);
+    }
+    .slide { position: absolute; inset: 0; overflow: hidden; }
+    .slide:not(.active) { display: none !important; }
+    :where(.slide.active) { display: flex; flex-direction: column; }
+
+    .deck-counter {
+      position: fixed;
+      bottom: 22px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: rgba(10, 14, 26, 0.92);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      padding: 6px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: #fff;
+      font: 12px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+      letter-spacing: 0.18em;
+      z-index: 1000;
+    }
+    .deck-counter button {
+      width: 36px; height: 36px;
+      background: transparent;
+      color: #fff;
+      border: 0;
+      border-radius: 50%;
+      font-size: 18px;
+      line-height: 1;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      transition: background 0.15s;
+    }
+    .deck-counter button:hover { background: rgba(255, 255, 255, 0.12); }
+    .deck-counter button[disabled] { opacity: 0.3; cursor: default; }
+    .deck-counter .deck-count { padding: 0 14px; letter-spacing: 0.22em; }
+    .deck-counter .deck-count .total { color: rgba(255, 255, 255, 0.5); }
+    .deck-hint {
+      position: fixed;
+      bottom: 26px;
+      right: 28px;
+      color: rgba(255, 255, 255, 0.4);
+      font: 11px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      z-index: 999;
+      pointer-events: none;
+    }
+
+    @media print {
+      @page { size: 1920px 1080px; margin: 0; }
+      html, body {
+        width: 1920px !important;
+        height: auto !important;
+        overflow: visible !important;
+        background: #fff !important;
+      }
+      .deck-shell { position: static !important; display: block !important; inset: auto !important; }
+      .deck-stage {
+        width: 1920px !important;
+        height: auto !important;
+        transform: none !important;
+        box-shadow: none !important;
+        position: static !important;
+      }
+      .slide {
+        display: flex !important;
+        position: relative !important;
+        inset: auto !important;
+        width: 1920px !important;
+        height: 1080px !important;
+        page-break-after: always;
+        break-after: page;
+      }
+      .slide:last-child { page-break-after: auto; break-after: auto; }
+      .deck-counter, .deck-hint { display: none !important; }
+    }
+  </style>
+  <style>
+    /* SLOT: per-deck styles — AgriSchema-MY editorial-green system */
+
+    .slot {
+      flex: 1;
+      width: 100%;
+      height: 100%;
+      padding: 96px 150px 104px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      color: var(--ink);
+    }
+    .slide.s-dark { background: radial-gradient(115% 130% at 78% 8%, #23824b 0%, #17603a 42%, #0f4b2c 100%); }
+    .slide.s-dark .slot { color: #eef4ec; }
+
+    /* wordmark + slide chrome */
+    .brandbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+    .wordmark { display: flex; align-items: center; gap: 14px; }
+    .wordmark svg { width: 30px; height: 30px; }
+    .wordmark .name {
+      font: 600 22px/1 var(--font-mono);
+      letter-spacing: 0.14em;
+      color: var(--primary);
+    }
+    .s-dark .wordmark .name { color: #cfe9d5; }
+    .tag {
+      font: 500 18px/1 var(--font-mono);
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .s-dark .tag { color: rgba(232, 244, 232, 0.6); }
+
+    .eyebrow {
+      font: 600 22px/1 var(--font-mono);
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--secondary);
+      display: inline-flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .eyebrow::before {
+      content: "";
+      width: 46px; height: 2px;
+      background: var(--gold);
+      display: inline-block;
+    }
+    .s-dark .eyebrow { color: var(--gold); }
+    .s-dark .eyebrow::before { background: rgba(232, 184, 75, 0.9); }
+
+    h1, h2, h3 { font-family: var(--font-display); font-weight: 600; letter-spacing: -0.01em; }
+    .lead { font-family: var(--font-body); color: var(--muted); }
+    .s-dark .lead { color: rgba(238, 244, 236, 0.82); }
+    .gold { color: var(--gold); }
+    .grn { color: var(--primary); }
+    .s-dark .grn { color: #8fe0ab; }
+    b, strong { font-weight: 700; }
+    em { font-style: italic; }
+
+    /* ---------- Slide 1 : Title ---------- */
+    .s-title .slot { justify-content: space-between; padding: 110px 150px 100px; }
+    .s-title .hero { margin-top: auto; }
+    .s-title h1 {
+      font-size: 210px;
+      line-height: 0.94;
+      color: #f4f8f2;
+      letter-spacing: -0.03em;
+    }
+    .s-title h1 .my { color: var(--gold); }
+    .s-title .sub {
+      font-family: var(--font-display);
+      font-size: 46px;
+      line-height: 1.28;
+      color: #dbeee1;
+      max-width: 1180px;
+      margin-top: 40px;
+    }
+    .s-title .meta {
+      display: flex;
+      gap: 90px;
+      margin-top: auto;
+      padding-top: 64px;
+      border-top: 1px solid rgba(207, 233, 213, 0.28);
+    }
+    .s-title .meta .k {
+      font: 500 17px/1 var(--font-mono);
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: rgba(232, 184, 75, 0.9);
+      margin-bottom: 14px;
+    }
+    .s-title .meta .v { font-family: var(--font-display); font-size: 34px; color: #eef4ec; }
+
+    /* ---------- shared big content ---------- */
+    .headline { font-size: 100px; line-height: 1.02; letter-spacing: -0.025em; }
+    .headline-sm { font-size: 78px; line-height: 1.04; letter-spacing: -0.02em; }
+    .body { margin-top: 30px; }
+
+    /* ---------- Slide 2 : Problem ---------- */
+    .s-problem h2 { margin-top: 40px; max-width: 1400px; }
+    .s-problem .lead { font-size: 33px; line-height: 1.5; max-width: 1080px; margin-top: 34px; }
+    .chain {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr auto 1fr;
+      align-items: stretch;
+      gap: 0;
+      margin-top: auto;
+    }
+    .chain .node {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 34px 36px;
+      min-height: 232px;
+      display: flex;
+      flex-direction: column;
+    }
+    .chain .node .step {
+      font: 600 16px/1 var(--font-mono);
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .chain .node .big { font-family: var(--font-display); font-size: 40px; line-height: 1.1; margin-top: 18px; color: var(--ink); }
+    .chain .node .note { font-size: 22px; color: var(--muted); margin-top: auto; line-height: 1.4; }
+    .chain .node.warn { border-color: rgba(232, 184, 75, 0.55); background: #fdf6e4; }
+    .chain .node.warn .big { color: #a6791a; }
+    .chain .node.bad { background: var(--primary); border-color: var(--primary); }
+    .chain .node.bad .step { color: rgba(238, 244, 236, 0.7); }
+    .chain .node.bad .big { color: #fff; }
+    .chain .node.bad .note { color: rgba(238, 244, 236, 0.85); }
+    .chain .arrow {
+      display: grid;
+      place-items: center;
+      width: 64px;
+      color: var(--secondary);
+      font-size: 40px;
+    }
+    .bad-list { display: flex; flex-direction: column; gap: 10px; margin-top: 16px; }
+    .bad-list span { font-family: var(--font-body); font-size: 22px; font-weight: 600; color: #fff; }
+
+    /* ---------- Slide 3 : Thesis ---------- */
+    .s-thesis .slot { justify-content: center; align-items: flex-start; }
+    .s-thesis .eyebrow { margin-bottom: 60px; }
+    .s-thesis .big {
+      font-family: var(--font-display);
+      font-size: 148px;
+      line-height: 1.0;
+      letter-spacing: -0.035em;
+      color: #f4f8f2;
+      max-width: 1560px;
+    }
+    .s-thesis .big .hl { color: var(--gold); }
+    .s-thesis .foot {
+      margin-top: 64px;
+      font-family: var(--font-display);
+      font-size: 42px;
+      font-style: italic;
+      color: #cfe9d5;
+    }
+    .s-thesis .shieldwm { position: absolute; right: 80px; bottom: 60px; width: 380px; height: 380px; opacity: 0.10; }
+
+    /* ---------- Slide 4 : Pipeline ---------- */
+    .s-pipe h2 { font-size: 60px; line-height: 1.06; margin-top: 30px; max-width: 1500px; }
+    .pipe {
+      display: grid;
+      grid-template-columns: 1fr auto 1.15fr auto 1.15fr auto 1.15fr;
+      align-items: stretch;
+      margin-top: auto;
+      gap: 0;
+    }
+    .stage {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px 30px;
+      display: flex;
+      flex-direction: column;
+      min-height: 452px;
+    }
+    .stage .role {
+      font: 600 16px/1 var(--font-mono);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .stage .verb { font-family: var(--font-display); font-size: 52px; line-height: 1; margin-top: 14px; color: var(--primary); }
+    .stage .verb.mut { color: var(--muted); font-size: 30px; }
+    .stage .desc { font-size: 22px; line-height: 1.44; color: var(--ink); margin-top: 20px; }
+    .stage .never {
+      margin-top: auto;
+      font: 500 18px/1.4 var(--font-mono);
+      letter-spacing: 0.02em;
+      color: #a6791a;
+      background: #fdf6e4;
+      border-radius: 10px;
+      padding: 14px 16px;
+    }
+    .stage.photo { background: var(--primary); border-color: var(--primary); align-items: center; justify-content: center; text-align: center; }
+    .stage.photo .role { color: rgba(238,244,236,0.75); }
+    .stage.photo .leaf { width: 120px; height: 120px; margin: 18px 0; }
+    .stage.photo .cap { font-family: var(--font-display); font-size: 30px; color: #fff; line-height: 1.2; }
+    .pipe .arrow { display: grid; place-items: center; width: 60px; color: var(--secondary); font-size: 44px; }
+    .cite { color: var(--secondary); font-weight: 700; }
+
+    /* ---------- Slide 5 : Safety stack ---------- */
+    .s-safety h2 { font-size: 58px; margin-top: 24px; }
+    .gates { display: flex; flex-direction: column; gap: 22px; margin-top: 40px; }
+    .gate {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 34px 40px;
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      gap: 40px;
+      align-items: center;
+    }
+    .gate .lbl .n { font: 600 16px/1 var(--font-mono); letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); }
+    .gate .lbl h3 { font-size: 40px; line-height: 1.05; margin-top: 12px; color: var(--ink); }
+    .gate .lbl .kind { font-size: 20px; color: var(--muted); margin-top: 10px; font-family: var(--font-mono); letter-spacing: 0.04em; }
+    .gate ul { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 14px 44px; }
+    .gate li { font-size: 23px; line-height: 1.36; padding-left: 30px; position: relative; color: var(--ink); }
+    .gate li::before { content: ""; position: absolute; left: 0; top: 11px; width: 13px; height: 13px; border-radius: 3px; background: var(--secondary); }
+    .gate li b { color: var(--primary); }
+    .gate.g1 { border-left: 8px solid var(--primary); }
+    .gate.g2 { border-left: 8px solid var(--secondary); }
+    .guarantee {
+      margin-top: auto;
+      background: var(--primary);
+      border-radius: 16px;
+      padding: 30px 44px;
+      display: flex;
+      align-items: center;
+      gap: 26px;
+    }
+    .guarantee svg { width: 46px; height: 46px; flex: none; }
+    .guarantee .t { color: #fff; font-family: var(--font-display); font-size: 40px; line-height: 1.1; }
+    .guarantee .t .gold { color: var(--gold); }
+
+    /* ---------- Slide 6 : Verifiable data ---------- */
+    .s-data .grid { display: grid; grid-template-columns: 0.94fr 1.06fr; gap: 70px; margin-top: 36px; flex: 1; align-items: start; }
+    .yaml {
+      background: #10261a;
+      border-radius: 16px;
+      padding: 34px 38px;
+      font: 500 24px/1.62 var(--font-mono);
+      color: #cfe9d5;
+      box-shadow: 0 24px 60px rgba(15, 40, 24, 0.22);
+    }
+    .yaml .top { display: flex; gap: 9px; margin-bottom: 22px; }
+    .yaml .top i { width: 13px; height: 13px; border-radius: 50%; display: inline-block; }
+    .yaml .key { color: #7fc79a; }
+    .yaml .str { color: #e8b84b; }
+    .yaml .tru { color: #6fe08f; font-weight: 600; }
+    .yaml .pass { color: #6fe08f; font-weight: 700; }
+    .yaml .ind { padding-left: 34px; }
+    .data-right { display: flex; flex-direction: column; height: 100%; }
+    .verdicts { display: flex; flex-direction: column; gap: 16px; }
+    .vrow { display: flex; align-items: center; gap: 20px; }
+    .vpill { font: 700 18px/1 var(--font-mono); letter-spacing: 0.12em; padding: 12px 18px; border-radius: 8px; min-width: 116px; text-align: center; }
+    .vpill.pass { background: var(--primary); color: #fff; }
+    .vpill.flag { background: var(--gold); color: #4a3a10; }
+    .vpill.rej { background: #b23b2e; color: #fff; }
+    .vrow .vd { font-size: 24px; color: var(--ink); }
+    .vrow .vd b { color: var(--primary); }
+    .stats { display: grid; grid-template-columns: repeat(3, 1fr); margin-top: auto; border-top: 2px solid var(--border); padding-top: 34px; }
+    .stats .st { padding-right: 20px; }
+    .stats .st:not(:first-child) { border-left: 1px solid var(--border); padding-left: 40px; }
+    .stats .num { font-family: var(--font-display); font-size: 118px; line-height: 0.9; color: var(--primary); letter-spacing: -0.03em; }
+    .stats .lb { font: 600 20px/1.2 var(--font-mono); letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-top: 16px; }
+
+    /* ---------- Slide 7 : Product ---------- */
+    .s-product .grid { display: grid; grid-template-columns: 1fr 720px; gap: 80px; margin-top: 36px; flex: 1; align-items: center; }
+    .feat { list-style: none; display: flex; flex-direction: column; gap: 30px; margin-top: 12px; }
+    .feat li { display: flex; gap: 24px; }
+    .feat .ic { width: 54px; height: 54px; flex: none; border-radius: 12px; background: #e7f1ea; display: grid; place-items: center; }
+    .feat .ic svg { width: 28px; height: 28px; }
+    .feat h3 { font-family: var(--font-body); font-weight: 700; font-size: 30px; color: var(--ink); }
+    .feat p { font-size: 23px; color: var(--muted); line-height: 1.4; margin-top: 6px; }
+    .mock {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      padding: 30px;
+      box-shadow: 0 30px 70px rgba(26, 107, 60, 0.14);
+    }
+    .mock .exlbl { font: 600 14px/1 var(--font-mono); letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); text-align: right; margin-bottom: 12px; }
+    .mock .photo { height: 210px; border-radius: 18px; background: linear-gradient(135deg, #2d9e5f, #1a6b3c); display: grid; place-items: center; position: relative; overflow: hidden; }
+    .mock .photo svg { width: 96px; height: 96px; opacity: 0.9; }
+    .mock .photo .ph { position: absolute; bottom: 14px; left: 18px; font: 500 15px/1 var(--font-mono); color: rgba(255,255,255,0.85); letter-spacing: 0.08em; }
+    .mock .dx { margin-top: 22px; display: flex; align-items: baseline; justify-content: space-between; }
+    .mock .dx .name { font-family: var(--font-display); font-size: 36px; color: var(--ink); }
+    .mock .dx .name small { display: block; font-family: var(--font-mono); font-size: 15px; color: var(--muted); letter-spacing: 0.1em; margin-top: 4px; }
+    .bar { height: 12px; border-radius: 6px; background: #e7f1ea; margin-top: 18px; overflow: hidden; }
+    .bar i { display: block; height: 100%; background: var(--secondary); border-radius: 6px; }
+    .barcap { display: flex; justify-content: space-between; font: 500 15px/1 var(--font-mono); color: var(--muted); margin-top: 10px; letter-spacing: 0.06em; }
+    .srccards { margin-top: 22px; display: flex; flex-direction: column; gap: 12px; }
+    .srccard { border: 1px solid var(--border); border-radius: 12px; padding: 16px 18px; display: flex; align-items: center; gap: 16px; }
+    .srccard .idx { font: 700 18px/1 var(--font-mono); color: var(--secondary); }
+    .srccard .txt { font-size: 19px; color: var(--ink); flex: 1; }
+    .badge { font: 700 13px/1 var(--font-mono); letter-spacing: 0.08em; padding: 7px 12px; border-radius: 999px; }
+    .badge.v { background: #e7f1ea; color: var(--primary); }
+    .badge.r { background: #fdf6e4; color: #a6791a; }
+    .guest { margin-top: 20px; text-align: center; font: 500 17px/1 var(--font-mono); letter-spacing: 0.1em; color: var(--secondary); }
+
+    /* ---------- Slide 8 : Beyond ---------- */
+    .s-beyond .cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 34px; margin-top: auto; }
+    .pillar {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 42px 40px;
+      min-height: 470px;
+      display: flex;
+      flex-direction: column;
+      border-top: 6px solid var(--secondary);
+    }
+    .pillar .ic { width: 66px; height: 66px; border-radius: 15px; background: #e7f1ea; display: grid; place-items: center; }
+    .pillar .ic svg { width: 34px; height: 34px; }
+    .pillar h3 { font-size: 42px; line-height: 1.05; margin-top: 30px; color: var(--ink); }
+    .pillar p { font-size: 24px; line-height: 1.46; color: var(--muted); margin-top: 20px; }
+    .pillar .chip { margin-top: auto; font: 600 17px/1 var(--font-mono); letter-spacing: 0.06em; color: var(--primary); background: #e7f1ea; align-self: flex-start; padding: 12px 18px; border-radius: 999px; }
+
+    /* ---------- Slide 9 : Architecture ---------- */
+    .s-arch .grid { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 70px; margin-top: 40px; flex: 1; align-items: center; }
+    .stacklist { display: flex; flex-direction: column; gap: 18px; }
+    .srow { display: grid; grid-template-columns: 220px 1fr; gap: 30px; align-items: center; background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 26px 32px; }
+    .srow .layer { font: 600 16px/1 var(--font-mono); letter-spacing: 0.16em; text-transform: uppercase; color: var(--secondary); }
+    .srow .tech { font-family: var(--font-display); font-size: 30px; color: var(--ink); }
+    .srow .tech small { font-family: var(--font-mono); font-size: 18px; color: var(--muted); display: block; margin-top: 6px; letter-spacing: 0.02em; }
+    .degrade {
+      background: radial-gradient(120% 130% at 80% 0%, #23824b, #124a2b);
+      border-radius: 20px;
+      padding: 50px 46px;
+      color: #eef4ec;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      justify-content: center;
+    }
+    .degrade .k { font: 600 18px/1 var(--font-mono); letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); }
+    .degrade h3 { font-size: 54px; line-height: 1.06; color: #fff; margin-top: 22px; }
+    .degrade p { font-size: 26px; line-height: 1.5; color: rgba(238,244,236,0.9); margin-top: 24px; }
+    .degrade .pills { display: flex; gap: 14px; margin-top: 32px; flex-wrap: wrap; }
+    .degrade .pill { font: 600 17px/1 var(--font-mono); letter-spacing: 0.04em; background: rgba(255,255,255,0.12); border: 1px solid rgba(232,184,75,0.4); color: #eef4ec; padding: 12px 18px; border-radius: 999px; }
+
+    /* ---------- Slide 10 : Why it matters ---------- */
+    .s-why .cols { display: grid; grid-template-columns: repeat(2, 1fr); gap: 28px 34px; margin-top: auto; }
+    .why {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 38px 42px;
+      display: flex;
+      gap: 30px;
+      align-items: flex-start;
+    }
+    .why .no { font-family: var(--font-display); font-size: 52px; line-height: 0.9; color: var(--gold); flex: none; width: 70px; }
+    .why h3 { font-size: 36px; color: var(--ink); }
+    .why p { font-size: 23px; line-height: 1.44; color: var(--muted); margin-top: 12px; }
+
+    /* ---------- Slide 11 : Roadmap ---------- */
+    .s-road .track { display: grid; grid-template-columns: repeat(5, 1fr); margin-top: auto; position: relative; gap: 0; }
+    .s-road .track::before { content: ""; position: absolute; top: 20px; left: 5%; right: 5%; height: 3px; background: var(--border); }
+    .stop { position: relative; padding: 0 22px; }
+    .stop .dot { width: 42px; height: 42px; border-radius: 50%; background: var(--surface); border: 3px solid var(--secondary); display: grid; place-items: center; position: relative; z-index: 2; }
+    .stop .dot i { width: 14px; height: 14px; border-radius: 50%; background: var(--secondary); display: block; }
+    .stop.now .dot { border-color: var(--primary); background: var(--primary); }
+    .stop.now .dot i { background: var(--gold); }
+    .stop .ph { font: 600 15px/1 var(--font-mono); letter-spacing: 0.14em; text-transform: uppercase; color: var(--secondary); margin-top: 26px; }
+    .stop.now .ph { color: var(--primary); }
+    .stop h3 { font-size: 32px; line-height: 1.12; color: var(--ink); margin-top: 14px; }
+    .stop p { font-size: 20px; line-height: 1.4; color: var(--muted); margin-top: 12px; }
+
+    /* ---------- Slide 12 : Close ---------- */
+    .s-close .slot { justify-content: center; align-items: flex-start; }
+    .s-close .eyebrow { margin-bottom: 54px; }
+    .s-close .big { font-family: var(--font-display); font-size: 116px; line-height: 1.0; letter-spacing: -0.03em; color: #f4f8f2; max-width: 1560px; }
+    .s-close .big .hl { color: var(--gold); }
+    .s-close .cta { margin-top: 66px; display: flex; align-items: center; gap: 40px; }
+    .s-close .cta .btn { font-family: var(--font-body); font-weight: 700; font-size: 30px; color: #0f4b2c; background: var(--gold); padding: 24px 44px; border-radius: 14px; }
+    .s-close .cta .note { font-family: var(--font-display); font-style: italic; font-size: 32px; color: #cfe9d5; }
+    .s-close .wm { position: absolute; right: 90px; bottom: 90px; width: 300px; height: 300px; opacity: 0.12; }
+
+    .footline {
+      position: absolute;
+      left: 150px;
+      right: 150px;
+      bottom: 44px;
+      display: flex;
+      justify-content: space-between;
+      font: 500 15px/1 var(--font-mono);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .s-dark .footline { color: rgba(238,244,236,0.5); }
+  </style>
+</head>
+<body>
+  <div class="deck-shell">
+    <div class="deck-stage" id="deck-stage">
+
+      <!-- ============ SLIDE 1 — TITLE ============ -->
+      <section class="slide active s-title s-dark" data-screen-label="01 Title">
+        <div class="slot">
+          <div class="brandbar">
+            <div class="wordmark">
+              <svg viewBox="0 0 32 32" fill="none"><path d="M16 3C9 8 5 14 6 24c0 0 8 3 14-4 5-6 4-13-4-17Z" fill="#e8b84b"/><path d="M8 23C10 16 13 11 20 8" stroke="#0f4b2c" stroke-width="1.6" stroke-linecap="round"/></svg>
+              <span class="name" style="color:#cfe9d5">AGRISCHEMA-MY</span>
+            </div>
+            <span class="tag">Crop-Disease Knowledge Base · Malaysia</span>
+          </div>
+          <div class="hero">
+            <h1>AgriSchema<span class="my">-MY</span></h1>
+            <p class="sub">Trustworthy crop-disease diagnosis for Malaysian smallholders.</p>
+          </div>
+          <div class="meta">
+            <div>
+              <div class="k">Team</div>
+              <div class="v">[ your team name ]</div>
+            </div>
+            <div>
+              <div class="k">Presented at</div>
+              <div class="v">[ hackathon · 2025 ]</div>
+            </div>
+            <div>
+              <div class="k">Thesis</div>
+              <div class="v">Honest grounding, by design</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ SLIDE 2 — PROBLEM ============ -->
+      <section class="slide s-problem" data-screen-label="02 Problem">
+        <div class="slot">
+          <div class="brandbar">
+            <span class="eyebrow">The Problem</span>
+            <span class="tag">Why off-the-shelf AI is dangerous here</span>
+          </div>
+          <h2 class="headline-sm">A wrong diagnosis is a<br><span class="grn">wrong pesticide.</span></h2>
+          <p class="lead">Smallholders can't reliably identify crop disease on their own. Off-the-shelf AI apps answer with total confidence — and <b>hallucinate diseases and dosages</b> that don't exist. In the field, that guess becomes a purchase, a spray, and a consequence.</p>
+          <div class="chain">
+            <div class="node">
+              <div class="step">Input</div>
+              <div class="big">A photo of a sick leaf</div>
+              <div class="note">Farmer needs an answer, fast.</div>
+            </div>
+            <div class="arrow">→</div>
+            <div class="node warn">
+              <div class="step">Generic AI</div>
+              <div class="big">Hallucinated disease &amp; dosage</div>
+              <div class="note">Invented name. Invented mixing rate. Stated with confidence.</div>
+            </div>
+            <div class="arrow">→</div>
+            <div class="node bad">
+              <div class="step">Consequence</div>
+              <div class="bad-list">
+                <span>Crop loss — wrong treatment</span>
+                <span>Health risk — mis-dosed spray</span>
+                <span>Legal risk — banned / restricted compound</span>
+              </div>
+              <div class="note">Malaysia bans &amp; restricts specific pesticide compounds.</div>
+            </div>
+          </div>
+          <div class="footline"><span>AgriSchema-MY</span><span>The Problem</span></div>
+        </div>
+      </section>
+
+      <!-- ============ SLIDE 3 — THESIS ============ -->
+      <section class="slide s-thesis s-dark" data-screen-label="03 Thesis">
+        <div class="slot">
+          <span class="eyebrow">Our Thesis</span>
+          <div class="big">An AI that can't <span class="hl">hallucinate</span> can't harm the farmer.</div>
+          <div class="foot">So we built one that literally can't invent a disease or a dosage.</div>
+          <svg class="shieldwm" viewBox="0 0 100 100" fill="none"><path d="M50 6 88 20v30c0 24-17 38-38 44C29 88 12 74 12 50V20L50 6Z" fill="#e8b84b"/><path d="M34 50l11 11 22-24" stroke="#0f4b2c" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+      </section>
+
+      <!-- ============ SLIDE 4 — PIPELINE ============ -->
+      <section class="slide s-pipe" data-screen-label="04 Honest Grounding">
+        <div class="slot">
+          <div class="brandbar">
+            <span class="eyebrow">How Honest Grounding Works</span>
+            <span class="tag">Photo → describe → diagnose → summarize</span>
+          </div>
+          <h2>Three roles, and none of them are allowed to guess.</h2>
+          <div class="pipe">
+            <div class="stage photo">
+              <div class="role">1 · Input</div>
+              <svg class="leaf" viewBox="0 0 32 32" fill="none"><path d="M16 3C9 8 5 14 6 24c0 0 8 3 14-4 5-6 4-13-4-17Z" fill="#e8b84b"/><path d="M8 23C10 16 13 11 20 8" stroke="#0f4b2c" stroke-width="1.6" stroke-linecap="round"/></svg>
+              <div class="cap">Farmer's leaf photo</div>
+            </div>
+            <div class="arrow">→</div>
+            <div class="stage">
+              <div class="role">2 · Vision</div>
+              <div class="verb">DESCRIBES</div>
+              <div class="desc">Reports only what it sees — lesions, yellowing, spotting. It never names the disease and only <em>guesses the crop</em>.</div>
+              <div class="never">Cannot name a disease</div>
+            </div>
+            <div class="arrow">→</div>
+            <div class="stage">
+              <div class="role">3 · Knowledge Base</div>
+              <div class="verb">DIAGNOSES</div>
+              <div class="desc">Retrieves and matches those symptoms against professor-verified entries. The diagnosis comes from the KB, not the model.</div>
+              <div class="never">Only verified entries can match</div>
+            </div>
+            <div class="arrow">→</div>
+            <div class="stage">
+              <div class="role">4 · LLM</div>
+              <div class="verb">SUMMARIZES</div>
+              <div class="desc">Restates retrieved facts, cites <span class="cite">[1][2]</span>, and <b>declines</b> when the KB doesn't cover the case.</div>
+              <div class="never">No source → no answer</div>
+            </div>
+          </div>
+          <div class="footline"><span>AgriSchema-MY</span><span>How Honest Grounding Works</span></div>
+        </div>
+      </section>
+
+      <!-- ============ SLIDE 5 — SAFETY STACK ============ -->
+      <section class="slide s-safety" data-screen-label="05 Safety Stack">
+        <div class="slot">
+          <div class="brandbar">
+            <span class="eyebrow">The Safety Stack</span>
+            <span class="tag">Two layers · no REJECT ever ships</span>
+          </div>
+          <h2>Two review gates every entry must pass.</h2>
+          <div class="gates">
+            <div class="gate g1">
+              <div class="lbl">
+                <div class="n">Layer 1</div>
+                <h3>Compliance gate</h3>
+                <div class="kind">deterministic</div>
+              </div>
+              <ul>
+                <li>Banned / restricted <b>denylist</b> with salt-form matching</li>
+                <li><b>MRL &amp; PHI</b> checks against limits</li>
+                <li>Required <b>Bahasa Malaysia</b> fields present</li>
+                <li><b>REJECT is a hard block</b> — never embedded</li>
+              </ul>
+            </div>
+            <div class="gate g2">
+              <div class="lbl">
+                <div class="n">Layer 2</div>
+                <h3>Grounded review</h3>
+                <div class="kind">retrieval-grounded</div>
+              </div>
+              <ul>
+                <li>Every dosage / PHI / registration claim must <b>cite a retrieved MARDI passage</b></li>
+                <li>Ungrounded claim → <b>FLAG</b>, not PASS</li>
+                <li>No matching passage → the claim does not ship</li>
+                <li>Passing entries carry their citations forward</li>
+              </ul>
+            </div>
+          </div>
+          <div class="guarantee">
+            <svg viewBox="0 0 100 100" fill="none"><path d="M50 6 88 20v30c0 24-17 38-38 44C29 88 12 74 12 50V20L50 6Z" fill="#e8b84b"/><path d="M34 50l11 11 22-24" stroke="#0f4b2c" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <div class="t">Guarantee: <span class="gold">no REJECT entry ever ships</span> to a farmer.</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ SLIDE 6 — VERIFIABLE DATA ============ -->
+      <section class="slide s-data" data-screen-label="06 Verifiable Data">
+        <div class="slot">
+          <div class="brandbar">
+            <span class="eyebrow">Verifiable Data</span>
+            <span class="tag">Every field is checkable · example entry</span>
+          </div>
+          <div class="grid">
+            <div class="yaml">
+              <div class="top"><i style="background:#ff5f57"></i><i style="background:#febc2e"></i><i style="background:#28c840"></i></div>
+              <div><span class="key">disease:</span> <span class="str">bacterial_leaf_blight</span></div>
+              <div><span class="key">crop:</span> <span class="str">rice</span></div>
+              <div><span class="key">dosage_grounding:</span></div>
+              <div class="ind"><span class="key">verified:</span> <span class="tru">true</span></div>
+              <div class="ind"><span class="key">cites:</span> <span class="str">[MARDI-114, MARDI-227]</span></div>
+              <div><span class="key">phi_days:</span> <span class="str">14</span></div>
+              <div><span class="key">phi_source:</span> <span class="str">DOA pesticide registry (reg. no.)</span></div>
+              <div><span class="key">bm_fields:</span> <span class="tru">complete</span></div>
+              <div><span class="key">professor_verdict:</span> <span class="pass">PASS</span></div>
+            </div>
+            <div class="data-right">
+              <div class="verdicts">
+                <div class="vrow"><span class="vpill pass">PASS</span><span class="vd"><b>Grounded &amp; compliant</b> — ships to farmers</span></div>
+                <div class="vrow"><span class="vpill flag">FLAG</span><span class="vd">Ungrounded claim — held for review</span></div>
+                <div class="vrow"><span class="vpill rej">REJECT</span><span class="vd">Banned / non-compliant — <b>hard blocked</b></span></div>
+              </div>
+              <div class="stats">
+                <div class="st"><div class="num">23</div><div class="lb">Diseases</div></div>
+                <div class="st"><div class="num">8</div><div class="lb">Crops</div></div>
+                <div class="st"><div class="num">654</div><div class="lb">MARDI grounding passages</div></div>
+              </div>
+            </div>
+          </div>
+          <div class="footline"><span>AgriSchema-MY</span><span>Verifiable Data</span></div>
+        </div>
+      </section>
+
+      <!-- ============ SLIDE 7 — PRODUCT ============ -->
+      <section class="slide s-product" data-screen-label="07 Farmer Experience">
+        <div class="slot">
+          <div class="brandbar">
+            <span class="eyebrow">Product · Farmer Experience</span>
+            <span class="tag">Verified sources · no login needed</span>
+          </div>
+          <div class="grid">
+            <div>
+              <h2 class="headline-sm" style="font-size:56px">Answers a farmer<br>can actually trust.</h2>
+              <ul class="feat">
+                <li>
+                  <div class="ic"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="6" width="18" height="13" rx="2" stroke="#1a6b3c" stroke-width="1.8"/><circle cx="12" cy="12.5" r="3.4" stroke="#1a6b3c" stroke-width="1.8"/><path d="M8 6l1.5-2h5L16 6" stroke="#1a6b3c" stroke-width="1.8"/></svg></div>
+                  <div><h3>Photo or text diagnosis</h3><p>Snap the leaf or describe the symptoms — either path lands on the same verified diagnosis.</p></div>
+                </li>
+                <li>
+                  <div class="ic"><svg viewBox="0 0 24 24" fill="none"><path d="M6 4h9l3 3v13H6z" stroke="#1a6b3c" stroke-width="1.8"/><path d="M9 12l2 2 4-4" stroke="#2d9e5f" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+                  <div><h3>Verified source cards</h3><p>Confidence bars plus regulatory badges — every claim traces to a MARDI passage and DOA registration.</p></div>
+                </li>
+                <li>
+                  <div class="ic"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="#1a6b3c" stroke-width="1.8"/><path d="M5 20c0-4 3.2-6 7-6s7 2 7 6" stroke="#1a6b3c" stroke-width="1.8"/></svg></div>
+                  <div><h3>Guest-friendly</h3><p>No account, no barrier. A farmer gets a grounded answer on the first tap.</p></div>
+                </li>
+              </ul>
+            </div>
+            <div class="mock">
+              <div class="exlbl">Example result</div>
+              <div class="photo">
+                <svg viewBox="0 0 32 32" fill="none"><path d="M16 3C9 8 5 14 6 24c0 0 8 3 14-4 5-6 4-13-4-17Z" fill="#ffffff" opacity="0.92"/><path d="M8 23C10 16 13 11 20 8" stroke="#1a6b3c" stroke-width="1.6" stroke-linecap="round"/></svg>
+                <span class="ph">rice · leaf · uploaded</span>
+              </div>
+              <div class="dx">
+                <div class="name">Bacterial Leaf Blight<small>DIAGNOSED FROM KB — NOT INVENTED</small></div>
+              </div>
+              <div class="bar"><i style="width:82%"></i></div>
+              <div class="barcap"><span>Symptom match</span><span>strong</span></div>
+              <div class="srccards">
+                <div class="srccard"><span class="idx">[1]</span><span class="txt">MARDI-114 · treatment &amp; PHI</span><span class="badge v">MARDI verified</span></div>
+                <div class="srccard"><span class="idx">[2]</span><span class="txt">Pesticide reg. · 14-day PHI</span><span class="badge r">DOA registered</span></div>
+              </div>
+              <div class="guest">↳ No login required</div>
+            </div>
+          </div>
+          <div class="footline"><span>AgriSchema-MY</span><span>Farmer Experience</span></div>
+        </div>
+      </section>
+
+      <!-- ============ SLIDE 8 — BEYOND ============ -->
+      <section class="slide s-beyond" data-screen-label="08 Beyond Diagnosis">
+        <div class="slot">
+          <div class="brandbar">
+            <span class="eyebrow">Beyond Diagnosis</span>
+            <span class="tag">A platform, not a single answer</span>
+          </div>
+          <h2 class="headline-sm" style="font-size:58px">Diagnosis is the entry point.</h2>
+          <div class="cols">
+            <div class="pillar">
+              <div class="ic"><svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16l-1.3 9.5a2 2 0 0 1-2 1.7H7.3a2 2 0 0 1-2-1.7L4 7Z" stroke="#1a6b3c" stroke-width="1.8"/><path d="M9 7V5.5A3 3 0 0 1 15 5.5V7" stroke="#1a6b3c" stroke-width="1.8"/></svg></div>
+              <h3>Marketplace</h3>
+              <p>Farmers earn <b style="color:var(--primary)">Agri Points</b> for verified contributions and redeem them as cash vouchers.</p>
+              <span class="chip">Agri Points → cash vouchers</span>
+            </div>
+            <div class="pillar">
+              <div class="ic"><svg viewBox="0 0 24 24" fill="none"><path d="M4 5h16v10H9l-5 4V5Z" stroke="#1a6b3c" stroke-width="1.8" stroke-linejoin="round"/></svg></div>
+              <h3>Community Q&amp;A</h3>
+              <p>Growers ask, share, and compare cases — grounded answers stay linked to the verified knowledge base.</p>
+              <span class="chip">Peer knowledge, sourced</span>
+            </div>
+            <div class="pillar">
+              <div class="ic"><svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="6" stroke="#1a6b3c" stroke-width="1.8"/><path d="M20 20l-4-4" stroke="#1a6b3c" stroke-width="1.8" stroke-linecap="round"/><path d="M8.5 11l2 2 3.5-3.5" stroke="#2d9e5f" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+              <h3>Research portal</h3>
+              <p>A human-in-the-loop review queue where experts triage flagged banned AIs and ungrounded claims.</p>
+              <span class="chip">Human-in-the-loop review</span>
+            </div>
+          </div>
+          <div class="footline"><span>AgriSchema-MY</span><span>Beyond Diagnosis</span></div>
+        </div>
+      </section>
+
+      <!-- ============ SLIDE 9 — ARCHITECTURE ============ -->
+      <section class="slide s-arch" data-screen-label="09 Architecture">
+        <div class="slot">
+          <div class="brandbar">
+            <span class="eyebrow">Architecture &amp; Stack</span>
+            <span class="tag">Local-first · provider-agnostic</span>
+          </div>
+          <div class="grid">
+            <div class="stacklist">
+              <div class="srow"><span class="layer">API</span><span class="tech">FastAPI<small>diagnosis, retrieval &amp; review endpoints</small></span></div>
+              <div class="srow"><span class="layer">Retrieval</span><span class="tech">ChromaDB · all-MiniLM<small>local embeddings — free, no API key</small></span></div>
+              <div class="srow"><span class="layer">Reasoning</span><span class="tech">Swappable LLM<small>OpenAI / Gemini — summarize only</small></span></div>
+              <div class="srow"><span class="layer">Client</span><span class="tech">React + Vite<small>guest-friendly farmer UI</small></span></div>
+            </div>
+            <div class="degrade">
+              <div class="k">Graceful degradation</div>
+              <h3>KB search works with zero LLM or API keys.</h3>
+              <p>Lose the model, lose your keys, go offline — retrieval against verified entries still returns a grounded diagnosis. The LLM is an optional summarizer, never a dependency.</p>
+              <div class="pills"><span class="pill">No API key</span><span class="pill">No LLM</span><span class="pill">Still diagnoses</span></div>
+            </div>
+          </div>
+          <div class="footline"><span>AgriSchema-MY</span><span>Architecture &amp; Stack</span></div>
+        </div>
+      </section>
+
+      <!-- ============ SLIDE 10 — WHY IT MATTERS ============ -->
+      <section class="slide s-why" data-screen-label="10 Why It Matters">
+        <div class="slot">
+          <div class="brandbar">
+            <span class="eyebrow">Why It Matters</span>
+            <span class="tag">Trust as an engineering property</span>
+          </div>
+          <h2 class="headline-sm" style="font-size:58px">Grounding isn't a feature — it's the moat.</h2>
+          <div class="cols">
+            <div class="why"><div class="no">01</div><div><h3>Trust by construction</h3><p>The system can only repeat verified facts, so farmers can act on the answer without second-guessing it.</p></div></div>
+            <div class="why"><div class="no">02</div><div><h3>Liability reduction</h3><p>A hard compliance gate means banned and restricted compounds can never be recommended.</p></div></div>
+            <div class="why"><div class="no">03</div><div><h3>DOA / MARDI alignment</h3><p>Every claim traces back to authoritative Malaysian agricultural sources by design.</p></div></div>
+            <div class="why"><div class="no">04</div><div><h3>Scales without retraining</h3><p>New verified entries just get ingested — no model retraining, no drift, no new hallucination surface.</p></div></div>
+          </div>
+          <div class="footline"><span>AgriSchema-MY</span><span>Why It Matters</span></div>
+        </div>
+      </section>
+
+      <!-- ============ SLIDE 11 — ROADMAP ============ -->
+      <section class="slide s-road" data-screen-label="11 Roadmap">
+        <div class="slot">
+          <div class="brandbar">
+            <span class="eyebrow">Roadmap</span>
+            <span class="tag">From verified core to national reach</span>
+          </div>
+          <h2 class="headline-sm" style="font-size:58px">Widen the verified base, then reach the field.</h2>
+          <div class="track">
+            <div class="stop now"><div class="dot"><i></i></div><div class="ph">Now</div><h3>More crops &amp; diseases</h3><p>Grow beyond 8 crops and 23 diseases — every addition still professor-verified.</p></div>
+            <div class="stop"><div class="dot"><i></i></div><div class="ph">Next</div><h3>Registration allowlist</h3><p>Authoritative allowlist of registered products, not just a denylist.</p></div>
+            <div class="stop"><div class="dot"><i></i></div><div class="ph">Then</div><h3>Live DOA integration</h3><p>Pull registration &amp; PHI data directly from DOA systems.</p></div>
+            <div class="stop"><div class="dot"><i></i></div><div class="ph">Field</div><h3>Mobile app</h3><p>Native capture and diagnosis in the farmer's hand.</p></div>
+            <div class="stop"><div class="dot"><i></i></div><div class="ph">Reach</div><h3>Offline-first</h3><p>Full KB diagnosis with no connectivity, syncing when back online.</p></div>
+          </div>
+          <div class="footline"><span>AgriSchema-MY</span><span>Roadmap</span></div>
+        </div>
+      </section>
+
+      <!-- ============ SLIDE 12 — CLOSE ============ -->
+      <section class="slide s-close s-dark" data-screen-label="12 Close">
+        <div class="slot">
+          <span class="eyebrow">The Ask</span>
+          <div class="big">An AI that can't <span class="hl">hallucinate</span> can't harm the farmer.</div>
+          <div class="cta">
+            <span class="btn">Try AgriSchema-MY</span>
+            <span class="note">Help us take grounded diagnosis to every smallholder in Malaysia.</span>
+          </div>
+          <svg class="wm" viewBox="0 0 100 100" fill="none"><path d="M50 6 88 20v30c0 24-17 38-38 44C29 88 12 74 12 50V20L50 6Z" fill="#e8b84b"/><path d="M34 50l11 11 22-24" stroke="#0f4b2c" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <div class="footline"><span>AgriSchema-MY</span><span>Trustworthy crop-disease diagnosis · Malaysia</span></div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <!-- Framework chrome — DO NOT EDIT below this line. -->
+  <nav class="deck-counter" role="navigation" aria-label="Deck navigation">
+    <button type="button" id="deck-prev" aria-label="Previous slide">‹</button>
+    <span class="deck-count"><span id="deck-cur">01</span> <span class="total">/ <span id="deck-total">01</span></span></span>
+    <button type="button" id="deck-next" aria-label="Next slide">›</button>
+  </nav>
+  <div class="deck-hint">← / → · space</div>
+
+  <script>
+    (function () {
+      var stage = document.getElementById('deck-stage');
+      var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+      var prev = document.getElementById('deck-prev');
+      var next = document.getElementById('deck-next');
+      var cur = document.getElementById('deck-cur');
+      var total = document.getElementById('deck-total');
+      var STORE = 'deck:idx:' + (location.pathname || '/');
+      var idx = 0;
+
+      function fit() {
+        var sw = window.innerWidth;
+        var sh = window.innerHeight;
+        var pad = 32;
+        var s = Math.min((sw - pad) / 1920, (sh - pad) / 1080);
+        if (!isFinite(s) || s <= 0) s = 1;
+        var tx = (sw - 1920 * s) / 2;
+        var ty = (sh - 1080 * s) / 2;
+        stage.style.transform = 'translate(' + tx + 'px,' + ty + 'px) scale(' + s + ')';
+      }
+
+      function pad2(n) { return (n < 10 ? '0' : '') + n; }
+      function paint() {
+        slides.forEach(function (el, i) { el.classList.toggle('active', i === idx); });
+        if (cur) cur.textContent = pad2(idx + 1);
+        if (total) total.textContent = pad2(slides.length);
+        if (prev) prev.toggleAttribute('disabled', idx <= 0);
+        if (next) next.toggleAttribute('disabled', idx >= slides.length - 1);
+      }
+      function go(i) {
+        idx = Math.max(0, Math.min(slides.length - 1, i));
+        paint();
+        try { localStorage.setItem(STORE, String(idx)); } catch (_) {}
+      }
+      function onKey(e) {
+        var t = e.target;
+        if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable)) return;
+        if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') { e.preventDefault(); go(idx + 1); }
+        else if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); go(idx - 1); }
+        else if (e.key === 'Home') { e.preventDefault(); go(0); }
+        else if (e.key === 'End') { e.preventDefault(); go(slides.length - 1); }
+      }
+      window.addEventListener('keydown', onKey, true);
+      document.addEventListener('keydown', onKey, true);
+      if (prev) prev.addEventListener('click', function () { go(idx - 1); });
+      if (next) next.addEventListener('click', function () { go(idx + 1); });
+
+      document.body.setAttribute('tabindex', '-1');
+      document.body.style.outline = 'none';
+      function focusDeck() { try { window.focus(); document.body.focus({ preventScroll: true }); } catch (_) {} }
+      document.addEventListener('mousedown', focusDeck);
+      window.addEventListener('load', focusDeck);
+
+      try {
+        var saved = parseInt(localStorage.getItem(STORE) || '0', 10);
+        if (!isNaN(saved) && saved >= 0 && saved < slides.length) idx = saved;
+      } catch (_) {}
+
+      window.addEventListener('resize', fit);
+      fit();
+      paint();
+      focusDeck();
+    })();
+  </script>
+</body>
+</html>
