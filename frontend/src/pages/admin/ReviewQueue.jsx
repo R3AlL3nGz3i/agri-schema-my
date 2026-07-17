@@ -1,11 +1,12 @@
 import { useState, useEffect, Fragment } from "react";
 import AppLayout from "../../components/AppLayout";
 import { MyStatusBadge, PathogenBadge } from "../../components/Badges";
-import { getReviews } from "../../api";
-import { CheckCircle, XCircle, ChevronDown, ChevronUp, AlertTriangle, Clock, Loader } from "lucide-react";
+import { getReviews, getSources, sourcePdfUrl } from "../../api";
+import { CheckCircle, XCircle, ChevronDown, ChevronUp, AlertTriangle, Clock, Loader, FileText } from "lucide-react";
 
 export default function ReviewQueue() {
   const [queue, setQueue]       = useState([]);
+  const [sources, setSources]   = useState([]);
   const [loading, setLoading]   = useState(true);
   const [error, setError]       = useState("");
   const [expanded, setExpanded] = useState(null);
@@ -16,6 +17,7 @@ export default function ReviewQueue() {
       .then(r => setQueue(r.data))
       .catch(() => setError("Could not load review queue. Is the API running on :8000?"))
       .finally(() => setLoading(false));
+    getSources().then(r => setSources(r.data || [])).catch(() => {});
   }, []);
 
   const handleDecision = (id, decision) => {
@@ -233,6 +235,24 @@ export default function ReviewQueue() {
                                     <span key={`c${i}`} className="text-xs text-gray-500 bg-white border rounded-full px-2 py-0.5">
                                       {c}
                                     </span>
+                                  ))}
+                                </div>
+                              </div>
+                            )}
+
+                            {/* Retrievable primary-source documents — open before approving */}
+                            {sources.length > 0 && (
+                              <div>
+                                <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">Source Documents</p>
+                                <p className="text-[11px] text-gray-400 mb-2">Open the original MARDI bulletins to verify the evidence before approving.</p>
+                                <div className="space-y-1.5">
+                                  {sources.map((s, i) => (
+                                    <a key={i} href={sourcePdfUrl(s.file)} target="_blank" rel="noreferrer"
+                                      className="flex items-center gap-2 text-xs text-primary bg-white hover:bg-primary/5 border rounded-lg px-3 py-2 transition-colors">
+                                      <FileText size={13} className="shrink-0" />
+                                      <span className="flex-1 truncate">{s.file.replace(/^mardi_\d+_/, "").replace(/_/g, " ").replace(/\.pdf$/, "")}</span>
+                                      <span className="text-gray-400">{s.size_kb} KB</span>
+                                    </a>
                                   ))}
                                 </div>
                               </div>

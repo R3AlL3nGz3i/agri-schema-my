@@ -398,12 +398,28 @@ def list_diseases(crop: str):
     for f in sorted(disease_dir.glob("*.yaml")):
         entry = yaml.safe_load(f.read_text(encoding="utf-8"))
         d = entry.get("disease", {})
+        review = entry.get("professor_review") or {}
+
+        # Executive summary: the first couple of observed visual symptoms.
+        symptoms = d.get("symptoms")
+        if isinstance(symptoms, dict):
+            visual = symptoms.get("visual") or []
+            summary = "; ".join(visual[:2]) if visual else ""
+        else:
+            summary = symptoms or ""
+
         diseases.append({
+            "slug": f.stem,                       # matches /disease-image?disease=<slug>
             "name": d.get("name"),
             "local_name": d.get("local_name"),
             "confidence_score": d.get("confidence_score"),
-            "professor_verdict": entry.get("professor_review", {}).get("verdict", "pending"),
+            "professor_verdict": review.get("verdict", "pending"),
+            "review_date": review.get("date"),    # approval / review date
             "pathogen_type": d.get("pathogen", {}).get("type"),
+            "pathogen_name": (d.get("pathogen") or {}).get("species"),
+            "summary": summary,
+            "source_citations": d.get("source_citations") or [],
+            "authorities": d.get("authorities") or [],
         })
 
     return {"crop": crop, "diseases": diseases, "total": len(diseases)}
