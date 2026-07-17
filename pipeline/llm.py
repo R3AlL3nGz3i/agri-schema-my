@@ -19,7 +19,7 @@ from pathlib import Path
 _PROJECT_ROOT = Path(__file__).resolve().parent.parent
 
 OPENAI_MODEL = "gpt-4o-mini"
-GEMINI_MODEL = "gemini-2.0-flash"
+GEMINI_MODEL = "gemini-flash-latest"
 
 _PLACEHOLDERS = ("sk-...", "your-", "AIza...", "changeme")
 
@@ -91,10 +91,12 @@ def _gemini_client():
 
 def _gemini_text(system: str, user: str, max_tokens: int, temperature: float) -> str:
     from google.genai import types
-    resp = _gemini_client().models.generate_content(
+    client = _gemini_client()  # keep a reference: a temporary gets GC'd mid-call, closing httpx
+    resp = client.models.generate_content(
         model=GEMINI_MODEL, contents=user,
         config=types.GenerateContentConfig(
-            system_instruction=system, max_output_tokens=max_tokens, temperature=temperature),
+            system_instruction=system, max_output_tokens=max_tokens, temperature=temperature,
+            thinking_config=types.ThinkingConfig(thinking_budget=0)),
     )
     return (resp.text or "").strip()
 
@@ -102,11 +104,13 @@ def _gemini_text(system: str, user: str, max_tokens: int, temperature: float) ->
 def _gemini_vision(system: str, user_text: str, image_bytes: bytes, mime: str,
                    max_tokens: int, temperature: float) -> str:
     from google.genai import types
-    resp = _gemini_client().models.generate_content(
+    client = _gemini_client()  # keep a reference: a temporary gets GC'd mid-call, closing httpx
+    resp = client.models.generate_content(
         model=GEMINI_MODEL,
         contents=[types.Part.from_bytes(data=image_bytes, mime_type=mime), user_text],
         config=types.GenerateContentConfig(
-            system_instruction=system, max_output_tokens=max_tokens, temperature=temperature),
+            system_instruction=system, max_output_tokens=max_tokens, temperature=temperature,
+            thinking_config=types.ThinkingConfig(thinking_budget=0)),
     )
     return (resp.text or "").strip()
 
