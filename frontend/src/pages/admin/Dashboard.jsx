@@ -4,16 +4,16 @@ import AppLayout from "../../components/AppLayout";
 import { getStats, getAggregates } from "../../api";
 import {
   FileText, Clock, AlertTriangle, CheckCircle,
-  TrendingUp, Database, ArrowUpRight, ShieldCheck,
+  Database, ArrowUpRight, ShieldCheck,
 } from "lucide-react";
 
 const MOCK_ACTIVITY = [
-  { action: "Paper approved",    detail: "Rice blast — Magnaporthe oryzae",      time: "2 min ago",  color: "bg-green-500" },
-  { action: "New paper ingested",detail: "Chilli anthracnose — Colletotrichum",  time: "18 min ago", color: "bg-blue-500"  },
+  { action: "Entry approved",    detail: "Rice blast — Magnaporthe oryzae",      time: "2 min ago",  color: "bg-green-500" },
+  { action: "New entry ingested",detail: "Chilli anthracnose — Colletotrichum",  time: "18 min ago", color: "bg-blue-500"  },
   { action: "MY Banned flagged", detail: "Chlorpyrifos detected in treatment",   time: "1 hr ago",   color: "bg-red-500"   },
-  { action: "Paper rejected",    detail: "Insufficient evidence — Durian canker",time: "3 hr ago",   color: "bg-gray-400"  },
-  { action: "Paper approved",    detail: "Banana fusarium wilt — FOC TR4",       time: "5 hr ago",   color: "bg-green-500" },
-  { action: "New paper ingested",detail: "Oil palm Ganoderma BSR — G. boninense",time: "7 hr ago",   color: "bg-blue-500"  },
+  { action: "Entry rejected",    detail: "Insufficient evidence — Durian canker",time: "3 hr ago",   color: "bg-gray-400"  },
+  { action: "Entry approved",    detail: "Banana fusarium wilt — FOC TR4",       time: "5 hr ago",   color: "bg-green-500" },
+  { action: "New entry ingested",detail: "Oil palm Ganoderma BSR — G. boninense",time: "7 hr ago",   color: "bg-blue-500"  },
 ];
 
 const MONTHLY = [
@@ -98,12 +98,11 @@ export default function AdminDashboard() {
     }));
 
   const statCards = [
-    { label: "Papers Collected", value: stats?.total_entries ?? 284, delta: "+42 this month",   icon: FileText,      color: "text-primary",      bg: "bg-primary/10"    },
-    { label: "Pending Review",   value: stats?.professor_flag ?? 18, delta: "Needs attention",  icon: Clock,         color: "text-yellow-500",   bg: "bg-yellow-50"     },
-    { label: "MY Banned Alerts", value: stats?.professor_reject ?? 5,delta: "Flagged by AI",    icon: AlertTriangle, color: "text-red-500",      bg: "bg-red-50"        },
-    { label: "Schema Valid",     value: stats?.schema_valid ?? 261,  delta: "92% pass rate",    icon: CheckCircle,   color: "text-green-500",    bg: "bg-green-50"      },
-    { label: "Crops Covered",    value: stats?.crops_total ?? 8,     delta: "8 Malaysian crops", icon: Database,      color: "text-purple-500",   bg: "bg-purple-50"     },
-    { label: "Ingested (Jun)",   value: 42,                          delta: "+11% vs May",       icon: TrendingUp,    color: "text-blue-500",     bg: "bg-blue-50"       },
+    { label: "KB Entries",       value: stats?.total_entries ?? "—",   delta: `${stats?.professor_pass ?? 0} professor-passed`, icon: FileText,      color: "text-primary",    bg: "bg-primary/10"  },
+    { label: "Pending Review",   value: stats?.professor_flag ?? "—",  delta: "Flagged for review",   icon: Clock,         color: "text-yellow-500", bg: "bg-yellow-50"   },
+    { label: "MY Banned Alerts", value: stats?.professor_reject ?? "—",delta: "Rejected entries",     icon: AlertTriangle, color: "text-red-500",    bg: "bg-red-50"      },
+    { label: "Schema Valid",     value: stats?.schema_valid ?? "—",    delta: `${stats?.schema_errors ?? 0} schema errors`, icon: CheckCircle,   color: "text-green-500",  bg: "bg-green-50"    },
+    { label: "Crops Covered",    value: stats?.crops_total ?? "—",     delta: "Malaysian crops",      icon: Database,      color: "text-purple-500", bg: "bg-purple-50"   },
   ];
 
   return (
@@ -126,7 +125,7 @@ export default function AdminDashboard() {
         </div>
 
         {/* KPI cards */}
-        <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-4">
           {statCards.map(({ label, value, delta, icon: Icon, color, bg }) => (
             <div key={label} className="card card-hover flex flex-col gap-3">
               <div className="flex items-center justify-between">

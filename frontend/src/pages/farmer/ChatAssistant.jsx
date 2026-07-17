@@ -152,10 +152,11 @@ export default function ChatAssistant() {
         results = data.results || [];
         if (!data.assessable) {
           note = `${data.observation}`;
-        } else if (data.advice) {
-          note = data.advice;
         } else {
-          note = `From your photo I can see: ${data.observation} I couldn’t find a close match in the verified knowledge base — add the crop name or a written symptom and I’ll try again.`;
+          const seen = `From your photo I can see: ${data.observation}`;
+          note = data.advice
+            ? `${seen}\n\n${data.advice}`
+            : `${seen}\n\nI couldn’t find a close match in the verified knowledge base — add the crop name or a written symptom and I’ll try again.`;
         }
       } else {
         const { data } = await askDisease({
@@ -394,7 +395,7 @@ export default function ChatAssistant() {
                     <div className="inline-flex items-center gap-1.5 text-xs text-[var(--ink-soft)] bg-[var(--surface-sunk)] rounded-lg px-3 py-2"><Camera size={13} /> Photo attached in original session</div>
                   )}
                   {message.content && (
-                    <div className={`rounded-2xl px-4 py-3 text-sm leading-relaxed shadow-[var(--shadow-sm)] ${message.role === "user" ? "bg-primary text-white rounded-tr-sm" : "bg-white border border-[var(--line)] text-[var(--ink)] rounded-tl-sm"}`}>
+                    <div className={`rounded-2xl px-4 py-3 text-sm leading-relaxed whitespace-pre-line shadow-[var(--shadow-sm)] ${message.role === "user" ? "bg-primary text-white rounded-tr-sm" : "bg-white border border-[var(--line)] text-[var(--ink)] rounded-tl-sm"}`}>
                       {message.content}
                     </div>
                   )}

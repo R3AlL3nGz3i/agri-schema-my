@@ -12,7 +12,7 @@ from typing import Optional
 import yaml
 from fastapi import FastAPI, File, Form, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import Response
+from fastapi.responses import Response, FileResponse
 from pydantic import BaseModel
 
 sys.path.append(str(Path(__file__).parent.parent))
@@ -56,6 +56,13 @@ class TreatmentSummary(BaseModel):
     regulatory_status: str
 
 
+class Authority(BaseModel):
+    name: str
+    role: Optional[str] = None
+    url: Optional[str] = None
+    taxon: Optional[str] = None
+
+
 class QueryResult(BaseModel):
     disease_name: str
     local_name: str
@@ -65,7 +72,8 @@ class QueryResult(BaseModel):
     professor_verdict: str
     symptoms_summary: str
     treatments: list[str]
-    citations: list[str]
+    citations: list[str]            # real institutional source strings from the YAML
+    authorities: list[Authority] = []  # named references with clickable URLs
     relevance_score: float
 
 
@@ -92,12 +100,39 @@ class DiagnoseResponse(BaseModel):
     results: list[QueryResult]
 
 
+_refs_cache: dict[tuple[str, str], dict] = {}
+
+
+def _disease_refs(crop: str, disease: str) -> dict:
+    """Real references for a crop/disease, read straight from the YAML on disk.
+
+    Returns {"citations": [...], "authorities": [...]} so the GUI shows curated,
+    clickable sources instead of fabricated paper metadata. Sourced from the YAML
+    (not stale vector metadata) so it always matches the reviewed entry.
+    """
+    key = (crop, disease)
+    if key in _refs_cache:
+        return _refs_cache[key]
+    refs = {"citations": [], "authorities": []}
+    if _SLUG_RE.match(crop or "") and _SLUG_RE.match(disease or ""):
+        yaml_path = DATA_DIR / "crops" / crop / "diseases" / f"{disease}.yaml"
+        if yaml_path.exists():
+            d = (yaml.safe_load(yaml_path.read_text(encoding="utf-8")) or {}).get("disease", {})
+            refs = {
+                "citations": d.get("source_citations") or [],
+                "authorities": d.get("authorities") or [],
+            }
+    _refs_cache[key] = refs
+    return refs
+
+
 def _run_query(crop: Optional[str], symptom: Optional[str], n_results: int) -> list[QueryResult]:
     """Shared retrieval → QueryResult mapping used by /query and /ask."""
     results = vector_query(crop=crop, symptom=symptom, n_results=n_results)
     output = []
     for r in results:
         meta = r["metadata"]
+        refs = _disease_refs(meta.get("crop", ""), meta.get("disease_name", ""))
         output.append(QueryResult(
             disease_name=meta.get("disease_name", "unknown"),
             local_name=meta.get("local_name", ""),
@@ -107,7 +142,8 @@ def _run_query(crop: Optional[str], symptom: Optional[str], n_results: int) -> l
             professor_verdict=meta.get("professor_verdict", "pending"),
             symptoms_summary=r["document"],
             treatments=json.loads(meta.get("treatment_compounds", "[]")),
-            citations=json.loads(meta.get("citations", "[]")),
+            citations=refs["citations"],
+            authorities=[Authority(**a) for a in refs["authorities"] if isinstance(a, dict) and a.get("name")],
             relevance_score=round(1 - r["distance"], 3)
         ))
     return output
@@ -190,6 +226,40 @@ def disease_image(crop: str, disease: str):
         raise HTTPException(status_code=404, detail="No example image for this crop/disease")
     return Response(content=thumb, media_type="image/jpeg",
                     headers={"Cache-Control": "public, max-age=86400"})
+
+
+PDFS_DIR = DATA_DIR / "raw" / "pdfs"
+
+
+@app.get("/sources")
+def sources():
+    """
+    List the stored primary-source documents (MARDI bulletins) that back the
+    Layer-2 corpus, so a reviewer can see and retrieve the original PDFs before
+    trusting an entry. Filenames only — content is served by /source-pdf.
+    """
+    if not PDFS_DIR.exists():
+        return []
+    return [
+        {"file": p.name, "size_kb": round(p.stat().st_size / 1024)}
+        for p in sorted(PDFS_DIR.glob("*.pdf"))
+    ]
+
+
+@app.get("/source-pdf")
+def source_pdf(file: str):
+    """
+    Serve one stored source PDF for provenance retrieval. Whitelisted to files
+    that actually live in data/raw/pdfs/ (basename only, no path traversal), so
+    a professor can open the original document before approving an entry.
+    """
+    name = Path(file).name  # strip any directory components
+    if not name.endswith(".pdf"):
+        raise HTTPException(status_code=400, detail="Not a PDF")
+    path = PDFS_DIR / name
+    if not path.exists() or path.parent != PDFS_DIR:
+        raise HTTPException(status_code=404, detail="Source document not found")
+    return FileResponse(path, media_type="application/pdf", filename=name)
 
 
 @app.post("/ask", response_model=AskResponse)
@@ -454,21 +524,19 @@ def reviews():
             "adjusted_confidence": adjusted_confidence,
             "issues": issues,
             "notes": review.get("notes"),
-            "reviewed_by": reviewed_by,
+            "reviewed_by": reviewed_by,       # AI QA reviewer (e.g. "Opus 4.6 …"), shown honestly
             "review_date": review_date,
             "confidence": {
                 "crop": confidence_score,
                 "pathogen": confidence_score,
                 "my_status": adjusted_confidence,
             },
-            "snippets": snippets,
+            "snippets": snippets,             # reviewer notes / flagged issues (not paper excerpts)
             "active_ingredient": active_ingredient,
             "intervention": f"{active_ingredient} — {method}" if active_ingredient and method else (active_ingredient or "Cultural / Biological"),
-            "title": f"{disease_display} review — {crop}",
-            "authors": [reviewed_by] if reviewed_by else [],
-            "year": int(str(review_date)[:4]) if review_date else None,
-            "publisher": "Professor Review",
-            "doi": None,
+            # Real, curated references from the disease YAML — no fabricated paper metadata.
+            "source_citations": d.get("source_citations") or [],
+            "authorities": d.get("authorities") or [],
         })
 
     return out

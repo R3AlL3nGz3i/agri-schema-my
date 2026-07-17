@@ -2,7 +2,7 @@ import { useState, useEffect, Fragment } from "react";
 import AppLayout from "../../components/AppLayout";
 import { MyStatusBadge, PathogenBadge } from "../../components/Badges";
 import { getReviews } from "../../api";
-import { CheckCircle, XCircle, Edit3, ChevronDown, ChevronUp, AlertTriangle, Clock, Loader } from "lucide-react";
+import { CheckCircle, XCircle, ChevronDown, ChevronUp, AlertTriangle, Clock, Loader } from "lucide-react";
 
 export default function ReviewQueue() {
   const [queue, setQueue]       = useState([]);
@@ -85,7 +85,7 @@ export default function ReviewQueue() {
           <table className="w-full text-sm">
             <thead className="bg-gray-50 border-b">
               <tr>
-                <th className="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">Paper</th>
+                <th className="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">KB Entry</th>
                 <th className="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">Crop / Disease</th>
                 <th className="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">Category</th>
                 <th className="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">MY Status</th>
@@ -102,7 +102,8 @@ export default function ReviewQueue() {
                       ${paper.decision === "approve" ? "bg-green-50/40" : ""}
                       ${paper.decision === "reject"  ? "bg-red-50/40"   : ""}`}>
                     <td className="px-4 py-3 max-w-xs">
-                      <p className="font-medium text-gray-800 line-clamp-2 text-xs leading-relaxed">{paper.title}</p>
+                      <p className="font-medium text-gray-800 text-xs leading-relaxed capitalize">{paper.disease_display}</p>
+                      <p className="text-[11px] text-gray-400 italic">{paper.pathogen_name}</p>
                     </td>
                     <td className="px-4 py-3">
                       <p className="text-xs font-medium text-gray-700 capitalize">{paper.crop}</p>
@@ -147,8 +148,11 @@ export default function ReviewQueue() {
                           {/* Left — paper details */}
                           <div className="space-y-3">
                             <div>
-                              <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Paper Details</p>
-                              <p className="text-sm font-medium text-gray-800">{paper.title}</p>
+                              <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Knowledge Base Entry</p>
+                              <p className="text-sm font-medium text-gray-800 capitalize">{paper.disease_display} — {paper.crop}</p>
+                              {paper.reviewed_by && (
+                                <p className="text-[11px] text-gray-400 mt-0.5">AI QA review · {paper.reviewed_by.split(" (")[0]}</p>
+                              )}
                             </div>
                             <div className="grid grid-cols-2 gap-3 text-xs">
                               <div className="bg-white rounded-lg p-2.5 border">
@@ -196,30 +200,58 @@ export default function ReviewQueue() {
                             </div>
 
                             <div>
-                              <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">Evidence Snippets</p>
+                              <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">Reviewer Notes</p>
                               <div className="space-y-2">
+                                {paper.snippets.length === 0 && (
+                                  <p className="text-xs text-gray-400">No notes — entry passed review cleanly.</p>
+                                )}
                                 {paper.snippets.map((s, i) => (
-                                  <div key={i} className="bg-white border rounded-lg px-3 py-2 text-xs text-gray-600 italic">
-                                    "{s}"
+                                  <div key={i} className="bg-white border rounded-lg px-3 py-2 text-xs text-gray-600">
+                                    {s}
                                   </div>
                                 ))}
                               </div>
                             </div>
 
-                            {/* Action buttons */}
+                            {(paper.authorities?.length > 0 || paper.source_citations?.length > 0) && (
+                              <div>
+                                <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">References</p>
+                                <div className="flex flex-wrap gap-1.5">
+                                  {paper.authorities?.map((a, i) =>
+                                    a.url ? (
+                                      <a key={`a${i}`} href={a.url} target="_blank" rel="noreferrer"
+                                        className="inline-flex items-center gap-1 text-xs text-primary bg-primary/5 hover:bg-primary/10 border border-primary/20 rounded-full px-2 py-0.5">
+                                        {a.name}{a.role && <span className="text-gray-400"> · {a.role}</span>}
+                                      </a>
+                                    ) : (
+                                      <span key={`a${i}`} className="text-xs text-gray-500 bg-white border rounded-full px-2 py-0.5">
+                                        {a.name}{a.role && <span className="text-gray-400"> · {a.role}</span>}
+                                      </span>
+                                    )
+                                  )}
+                                  {paper.source_citations?.map((c, i) => (
+                                    <span key={`c${i}`} className="text-xs text-gray-500 bg-white border rounded-full px-2 py-0.5">
+                                      {c}
+                                    </span>
+                                  ))}
+                                </div>
+                              </div>
+                            )}
+
+                            {/* Action buttons — session-only demo, not yet persisted to disk */}
                             {!paper.decision && (
-                              <div className="flex gap-3 pt-1">
-                                <button onClick={() => handleDecision(paper.id, "approve")}
-                                  className="flex-1 flex items-center justify-center gap-2 bg-green-500 hover:bg-green-600 text-white py-2 rounded-lg text-sm font-medium transition-colors">
-                                  <CheckCircle size={15} /> Approve
-                                </button>
-                                <button onClick={() => handleDecision(paper.id, "reject")}
-                                  className="flex-1 flex items-center justify-center gap-2 bg-red-500 hover:bg-red-600 text-white py-2 rounded-lg text-sm font-medium transition-colors">
-                                  <XCircle size={15} /> Reject
-                                </button>
-                                <button className="flex items-center justify-center gap-2 border border-gray-200 hover:border-primary text-gray-600 hover:text-primary px-4 py-2 rounded-lg text-sm transition-colors">
-                                  <Edit3 size={15} /> Edit
-                                </button>
+                              <div className="pt-1">
+                                <div className="flex gap-3">
+                                  <button onClick={() => handleDecision(paper.id, "approve")}
+                                    className="flex-1 flex items-center justify-center gap-2 bg-green-500 hover:bg-green-600 text-white py-2 rounded-lg text-sm font-medium transition-colors">
+                                    <CheckCircle size={15} /> Approve
+                                  </button>
+                                  <button onClick={() => handleDecision(paper.id, "reject")}
+                                    className="flex-1 flex items-center justify-center gap-2 bg-red-500 hover:bg-red-600 text-white py-2 rounded-lg text-sm font-medium transition-colors">
+                                    <XCircle size={15} /> Reject
+                                  </button>
+                                </div>
+                                <p className="text-[11px] text-gray-400 mt-1.5">Decisions are kept for this session only — not yet written back to the knowledge base.</p>
                               </div>
                             )}
                             {paper.decision && (

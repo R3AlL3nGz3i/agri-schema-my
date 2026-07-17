@@ -98,12 +98,34 @@ export default function EvidenceSearch() {
                     <PathogenBadge type={r.pathogen_category} />
                   </div>
                   <p className="text-sm text-gray-500 mb-2 line-clamp-2">{cleanSymptoms(r.symptoms_summary)}</p>
-                  <div className="flex flex-wrap gap-2 text-xs text-gray-400">
+                  <div className="flex flex-wrap items-center gap-2 text-xs text-gray-400 mb-2">
                     <span>🌿 {r.crop}</span>
-                    {r.citations?.slice(0,2).map((c,j) => (
-                      <span key={j} className="truncate max-w-xs">📄 {c}</span>
-                    ))}
                   </div>
+                  {(r.authorities?.length > 0 || r.citations?.length > 0) && (
+                    <div className="border-t border-gray-100 pt-2">
+                      <p className="text-[11px] font-medium text-gray-400 uppercase tracking-wide mb-1">Sources &amp; authorities</p>
+                      <div className="flex flex-wrap gap-1.5">
+                        {r.authorities?.map((a, j) =>
+                          a.url ? (
+                            <a key={`a${j}`} href={a.url} target="_blank" rel="noreferrer"
+                              className="inline-flex items-center gap-1 text-xs text-primary bg-primary/5 hover:bg-primary/10 border border-primary/20 rounded-full px-2 py-0.5">
+                              {a.name}
+                              {a.role && <span className="text-gray-400">· {a.role}</span>}
+                            </a>
+                          ) : (
+                            <span key={`a${j}`} className="text-xs text-gray-500 bg-gray-50 border rounded-full px-2 py-0.5">
+                              {a.name}{a.role && <span className="text-gray-400"> · {a.role}</span>}
+                            </span>
+                          )
+                        )}
+                        {r.citations?.map((c, j) => (
+                          <span key={`c${j}`} className="text-xs text-gray-500 bg-gray-50 border rounded-full px-2 py-0.5 truncate max-w-xs">
+                            {c}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </div>
                 <div className="text-right space-y-2 min-w-[120px]">
                   <MyStatusBadge status={r.professor_verdict === "PASS" ? "MY_approved" : "unknown"} />

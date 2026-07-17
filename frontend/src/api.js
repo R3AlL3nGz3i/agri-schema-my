@@ -10,6 +10,11 @@ const api = axios.create({
 export const diseaseImageUrl = (crop, disease) =>
   `${BASE_URL}/disease-image?crop=${encodeURIComponent(crop)}&disease=${encodeURIComponent(disease)}`;
 
+export const sourcePdfUrl = (file) =>
+  `${BASE_URL}/source-pdf?file=${encodeURIComponent(file)}`;
+
+export const getSources = () => api.get("/sources");
+
 export const getCrops    = ()           => api.get("/crops");
 export const getDiseases = (crop)       => api.get(`/crops/${crop}/diseases`);
 export const getDisease  = (crop, name) => api.get(`/crops/${crop}/diseases/${name}`);
