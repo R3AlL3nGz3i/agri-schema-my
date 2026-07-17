@@ -14,6 +14,7 @@ pipeline/vision_diagnose.py stay provider-agnostic. Gemini's free tier
 """
 import base64
 import os
+import time
 from pathlib import Path
 
 _PROJECT_ROOT = Path(__file__).resolve().parent.parent
@@ -89,10 +90,26 @@ def _gemini_client():
     return genai.Client(api_key=_load_key(["GEMINI_API_KEY", "GOOGLE_API_KEY"], "GEMINI_API_KEY"))
 
 
+def _gemini_generate(client, **kwargs):
+    """generate_content with a bounded retry on transient 503/UNAVAILABLE overloads."""
+    delays = [1, 2, 4]  # last attempt has no trailing sleep
+    for attempt, delay in enumerate(delays):
+        try:
+            return client.models.generate_content(**kwargs)
+        except Exception as e:  # noqa: BLE001 - only retry the transient overload case
+            msg = str(e)
+            transient = "503" in msg or "UNAVAILABLE" in msg or "overloaded" in msg.lower()
+            if transient and attempt < len(delays) - 1:
+                time.sleep(delay)
+                continue
+            raise
+
+
 def _gemini_text(system: str, user: str, max_tokens: int, temperature: float) -> str:
     from google.genai import types
     client = _gemini_client()  # keep a reference: a temporary gets GC'd mid-call, closing httpx
-    resp = client.models.generate_content(
+    resp = _gemini_generate(
+        client,
         model=GEMINI_MODEL, contents=user,
         config=types.GenerateContentConfig(
             system_instruction=system, max_output_tokens=max_tokens, temperature=temperature,
@@ -105,7 +122,8 @@ def _gemini_vision(system: str, user_text: str, image_bytes: bytes, mime: str,
                    max_tokens: int, temperature: float) -> str:
     from google.genai import types
     client = _gemini_client()  # keep a reference: a temporary gets GC'd mid-call, closing httpx
-    resp = client.models.generate_content(
+    resp = _gemini_generate(
+        client,
         model=GEMINI_MODEL,
         contents=[types.Part.from_bytes(data=image_bytes, mime_type=mime), user_text],
         config=types.GenerateContentConfig(
