@@ -201,13 +201,6 @@ export default function AppLayout({ children, title = "AgriScheme" }) {
           );
         })}
 
-        {isAdminPage && (
-          <button onClick={() => handleNewChat()}
-            className="flex items-center gap-3 w-full px-3 py-2.5 rounded-lg text-sm text-gray-400 hover:bg-gray-800 hover:text-white transition-colors">
-            <Plus size={15} /> New chat
-          </button>
-        )}
-
         <div className="border-t border-gray-700 my-3" />
         {user ? (
           <>
@@ -250,17 +243,9 @@ export default function AppLayout({ children, title = "AgriScheme" }) {
                     <button onClick={() => handleRenameFolder(group)} className="p-1.5 text-slate-500 hover:text-white" title="Rename folder"><Pencil size={12} /></button>
                     <button onClick={() => handleDeleteFolder(group)} className="p-1.5 text-slate-500 hover:text-red-400" title="Delete folder"><Trash2 size={12} /></button>
                   </div>
-                  {!collapsed && (
+                  {!collapsed && group.chats.length > 0 && (
                     <div className="pt-1 space-y-0.5">
-                      {group.chats.length > 0 ? (
-                        group.chats.map((chat) => <ChatRow key={chat.id} chat={chat} inset />)
-                      ) : (
-                        <button onClick={() => handleNewChat(group.id)}
-                          className="w-full flex items-center justify-center gap-2 rounded-lg border border-dashed border-slate-700 px-3 py-3 text-xs text-slate-500 hover:border-emerald-500 hover:text-emerald-300 hover:bg-emerald-500/5">
-                          <span className="w-6 h-6 rounded-full bg-slate-800 flex items-center justify-center"><Plus size={14} /></span>
-                          Start a chat in this folder
-                        </button>
-                      )}
+                      {group.chats.map((chat) => <ChatRow key={chat.id} chat={chat} inset />)}
                     </div>
                   )}
                 </div>
@@ -339,19 +324,7 @@ export default function AppLayout({ children, title = "AgriScheme" }) {
 
         {!isAdminPage && (
           <header className="hidden md:flex bg-white border-b px-6 py-2.5 items-center justify-between shrink-0">
-            <nav className="flex items-center gap-1">
-              {FARMER_NAV.map(({ to, icon: Icon, label, requiresAuth }) => {
-                const active = to === "/" ? pathname === "/" || pathname.startsWith("/chat/") : pathname === to;
-                return (
-                  <Link key={to} to={to}
-                    className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-colors ${active ? "bg-[var(--surface-sunk)] text-[var(--brand-dark)] font-semibold" : "text-[var(--ink-soft)] hover:bg-[var(--surface-sunk)] hover:text-[var(--ink)]"}`}>
-                    <Icon size={15} />
-                    <span>{label}</span>
-                    {isGuest && requiresAuth && <Lock size={12} className="text-[var(--ink-faint)]" />}
-                  </Link>
-                );
-              })}
-            </nav>
+            <h1 className="text-sm font-medium text-[var(--ink-soft)]">{title}</h1>
             {isGuest ? (
               <Link to="/login" className="btn-primary inline-flex items-center gap-2 text-sm py-2"><LogIn size={14} /> Sign in</Link>
             ) : (

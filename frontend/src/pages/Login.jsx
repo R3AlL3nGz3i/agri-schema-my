@@ -163,10 +163,6 @@ export default function Login() {
                   Sign In
                 </button>
 
-                <p className="text-xs text-gray-400 text-center">
-                  Your account role is recognised automatically after sign-in.
-                </p>
-
                 {/* Demo hint */}
                 <div className="p-3 bg-gray-50 rounded-lg text-xs text-gray-500 space-y-1">
                   <p className="font-medium text-gray-600">Demo credentials:</p>
@@ -260,16 +256,12 @@ export default function Login() {
                 </button>
 
                 <p className="text-xs text-gray-400 text-center">
-                  New accounts are registered as Farmer accounts. Admin access is granted by the system administrator.
+                  New accounts are Farmer accounts.
                 </p>
               </form>
             )}
           </div>
         </div>
-
-        <p className="text-center mt-6 text-green-200 text-sm">
-          <Link to="/" className="hover:text-white">← Back to home</Link>
-        </p>
       </div>
     </div>
   );

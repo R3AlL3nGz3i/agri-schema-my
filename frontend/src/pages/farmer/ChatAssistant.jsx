@@ -79,9 +79,6 @@ function ResultCards({ results }) {
           )}
         </article>
       ))}
-      <p className="text-[11px] text-[var(--ink-faint)]">
-        These are evidence matches, not a confirmed diagnosis. Consult a local agriculture professional before treatment.
-      </p>
     </div>
   );
 }
@@ -142,15 +139,12 @@ export default function ChatAssistant() {
         if (text) form.append("note", text);
         const { data } = await diagnoseImage(form);
         results = data.results || [];
-        const cropTag = data.crop
-          ? `[${cropLabel(data.crop)}${data.crop_source === "vision" ? " · detected from photo" : ""}] — `
-          : "[Crop unknown] — ";
         if (!data.assessable) {
-          note = `${cropTag}${data.observation}`;
+          note = `${data.observation}`;
         } else if (results.length) {
-          note = `${cropTag}From your photo I can see: ${data.observation} Here are the closest verified matches from the knowledge base.`;
+          note = `From your photo I can see: ${data.observation} Here are the closest verified matches from the knowledge base.`;
         } else {
-          note = `${cropTag}From your photo I can see: ${data.observation} I couldn’t find a close match in the verified knowledge base — add the crop name or a written symptom and I’ll try again.`;
+          note = `From your photo I can see: ${data.observation} I couldn’t find a close match in the verified knowledge base — add the crop name or a written symptom and I’ll try again.`;
         }
       } else {
         const { data } = await queryDisease({
@@ -159,10 +153,9 @@ export default function ChatAssistant() {
           n_results: 5,
         });
         results = data || [];
-        const cropNote = selectedCrop ? `[${cropLabel(selectedCrop)}] — ` : "[All crops] — ";
         note = results.length
-          ? `${cropNote}I’ll keep this context for your follow-up questions.`
-          : `${cropNote}I could not find a close match. Try adding the crop name and describing colour, shape, location, and how quickly the symptom spread.`;
+          ? `I’ll keep this context for your follow-up questions.`
+          : `I could not find a close match. Try adding the crop name and describing colour, shape, location, and how quickly the symptom spread.`;
       }
       appendConversationMessages(conversationId, [{
         id: messageId(),
@@ -176,7 +169,7 @@ export default function ChatAssistant() {
       appendConversationMessages(conversationId, [{
         id: messageId(),
         role: "assistant",
-        content: `${selectedCrop ? `[${cropLabel(selectedCrop)}] — ` : ""}I could not reach the crop knowledge service. Please make sure the backend is running and try again.`,
+        content: `I could not reach the crop knowledge service. Please make sure the backend is running and try again.`,
         createdAt: Date.now(),
       }]);
     } finally {
@@ -202,8 +195,8 @@ export default function ChatAssistant() {
       id: messageId(),
       role: "assistant",
       content: previousContext?.status === "identifying"
-        ? "[Crop unknown] — I’ve added that to this identification case. Attach a clear photo of the plant and I’ll identify the crop and read its symptoms for you."
-        : "[Crop unknown] — No problem. Attach a clear, well-lit photo — a whole-plant shot plus a close-up of the affected leaf, fruit, or stem — and I’ll identify the crop and check its symptoms against the verified knowledge base. You can also describe its leaves, fruit, and where it grows.",
+        ? "I’ve added that to this identification case. Attach a clear photo of the plant and I’ll identify the crop and read its symptoms for you."
+        : "Attach a clear photo of the plant and I’ll identify the crop. You can also describe its leaves, fruit, and where it grows.",
       clarification: "crop-identification",
       createdAt: Date.now(),
     }]);
@@ -267,7 +260,7 @@ export default function ChatAssistant() {
       appendConversationMessages(activeConversation.id, [{
         id: messageId(),
         role: "assistant",
-        content: `[${cropLabel(rememberedCrop)} → ${cropLabel(detectedCrop)}] — You mentioned a different crop. Which crop should I use for this conversation?`,
+        content: `You mentioned a different crop. Which crop should I use for this conversation?`,
         clarification: "crop-switch",
         detectedCrop,
         rememberedCrop,
@@ -282,7 +275,7 @@ export default function ChatAssistant() {
       appendConversationMessages(activeConversation.id, [{
         id: messageId(),
         role: "assistant",
-        content: "[Crop needed] — Those symptoms can affect several crops. Which crop are you diagnosing?",
+        content: "Those symptoms can affect several crops. Which crop are you diagnosing?",
         clarification: "crop",
         createdAt: Date.now(),
       }]);
@@ -317,7 +310,7 @@ export default function ChatAssistant() {
       appendConversationMessages(conversation.id, [{
         id: messageId(),
         role: "assistant",
-        content: `[${cropLabel(selectedCrop)}] — The crop has been confirmed. Tell me what looks unhealthy or what you would like to know about it.`,
+        content: `The crop has been confirmed. Tell me what looks unhealthy or what you would like to know about it.`,
         createdAt: Date.now(),
       }]);
     }
@@ -374,11 +367,6 @@ export default function ChatAssistant() {
                     </button>
                   ))}
                 </div>
-                {!user && (
-                  <p className="mt-5 text-xs text-amber-700 bg-amber-50 border border-amber-100 rounded-lg px-3 py-2">
-                    Guest chats last for this session. Sign in to save chats and organize them into folders.
-                  </p>
-                )}
               </div>
             )}
 
