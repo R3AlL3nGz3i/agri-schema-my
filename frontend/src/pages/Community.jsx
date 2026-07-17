@@ -33,6 +33,12 @@ const EMPTY_FORM = {
 
 const normaliseEmail = (value) => value?.trim().toLowerCase() || "";
 
+// Agri Points earned in the Community are spendable in the Marketplace
+// (see marketplaceRewardsStore: KARMA_PER_RINGGIT). Both read the same
+// per-user community wallet, so awards here flow straight to checkout.
+const ANSWER_REWARD = 5;
+const ACCEPT_REWARD = 15;
+
 export default function Community() {
   const { user, isAdmin } = useApp();
   const [community, setCommunity] = useState(() => loadCommunityState(user));
@@ -211,13 +217,18 @@ export default function Community() {
     };
     commit((current) => ({
       ...current,
+      credits: current.credits + ANSWER_REWARD,
+      creditLedger: [
+        { id: createCommunityId("credit"), amount: ANSWER_REWARD, label: "Answer contributed", createdAt: new Date().toISOString() },
+        ...current.creditLedger,
+      ],
       questions: current.questions.map((question) => question.id === selectedQuestion.id
         ? { ...question, answers: [...question.answers, newAnswer] }
         : question),
       follows: current.follows.includes(selectedQuestion.id) ? current.follows : [...current.follows, selectedQuestion.id],
     }));
     setAnswer("");
-    flash("Answer posted. You will be notified about replies.");
+    flash(`Answer posted. +${ANSWER_REWARD} Agri Points added — spend them in the Marketplace.`);
   };
 
   const acceptAnswer = (answerId) => {
@@ -232,8 +243,20 @@ export default function Community() {
       flash("You cannot accept your own answer.");
       return;
     }
+    // The answerer earns the reward. Wallets are per-user and local, so we can
+    // only credit the balance when the accepted answer is the current user's.
+    const rewardsCurrentUser = normaliseEmail(selectedAnswer?.authorEmail) === normaliseEmail(user?.email);
     commit((current) => ({
       ...current,
+      ...(rewardsCurrentUser
+        ? {
+          credits: current.credits + ACCEPT_REWARD,
+          creditLedger: [
+            { id: createCommunityId("credit"), amount: ACCEPT_REWARD, label: "Accepted solution", createdAt: new Date().toISOString() },
+            ...current.creditLedger,
+          ],
+        }
+        : {}),
       questions: current.questions.map((question) => question.id === selectedQuestion.id
         ? {
           ...question,
@@ -243,7 +266,9 @@ export default function Community() {
         }
         : question),
     }));
-    flash("Solution accepted. The answerer receives 15 Agri Points.");
+    flash(rewardsCurrentUser
+      ? `Solution accepted. +${ACCEPT_REWARD} Agri Points added to your balance.`
+      : `Solution accepted. The answerer earns ${ACCEPT_REWARD} Agri Points.`);
   };
 
   return (
@@ -498,7 +523,7 @@ function CommunitySidebar({ community, creditProgress, onOpen }) {
         </div>
         <div className="mt-4 flex items-center justify-between text-xs"><span className="font-semibold text-[var(--ink-soft)]">{creditProgress.name}</span><span className="text-[var(--ink-faint)]">{creditProgress.remaining} to next level</span></div>
         <div className="mt-2 h-2 overflow-hidden rounded-full bg-[var(--surface-sunk)]"><div className="h-full rounded-full bg-[var(--brand)]" style={{ width: `${creditProgress.percent}%` }} /></div>
-        <p className="mt-3 text-xs leading-5 text-[var(--ink-soft)]">Agri Points recognise helpful answers and accepted solutions. Posting alone does not earn points.</p>
+        <p className="mt-3 text-xs leading-5 text-[var(--ink-soft)]">Earn Agri Points by answering questions and having your solutions accepted, then spend them for discounts in the Marketplace.</p>
         <div className="mt-4 border-t border-[var(--line)] pt-3">
           <p className="mb-2 text-[11px] font-semibold uppercase tracking-wider text-[var(--ink-faint)]">Recent activity</p>
           {community.creditLedger.slice(0, 3).map((entry) => (
