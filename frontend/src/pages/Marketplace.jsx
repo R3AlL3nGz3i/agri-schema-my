@@ -4,13 +4,14 @@ import { Leaf, ArrowLeft } from "lucide-react";
 import { MARKETPLACE_B64 } from "../marketplaceData";
 import { useApp } from "../context/AppContext";
 import {
+  VOUCHER_TIERS,
+  createVoucher,
   getCreditProgress,
   loadCommunityState,
   saveCommunityState,
 } from "../services/communityStore";
 import {
   KARMA_PER_RINGGIT,
-  MAX_KARMA_DISCOUNT_RATE,
   SELLER_SHIPPING_SLOT_COST,
   createShippingPromotion,
   loadMarketplaceRewards,
@@ -94,7 +95,7 @@ function getKarmaCard() {
     <div style=\"font-size:11.5px;color:#fff;font-weight:600;margin-top:6px;\">{{ karmaLevel }}<\u002Fdiv>
     <div style=\"height:5px;background:#374151;border-radius:999px;overflow:hidden;margin-top:8px;\"><div style=\"{{ karmaProgressStyle }}\"><\u002Fdiv><\u002Fdiv>
     <div style=\"font-size:10.5px;color:#9ca3af;margin-top:6px;\">{{ karmaCreditLabel }}<\u002Fdiv>
-    <div style=\"margin-top:9px;padding-top:9px;border-top:1px solid #374151;color:#9ca3af;font-size:10.5px;line-height:1.45;\">Use Agri Points at checkout. ${KARMA_PER_RINGGIT} Agri Points = RM1, up to 50% of the payable amount.<\u002Fdiv>
+    <div style=\"margin-top:9px;padding-top:9px;border-top:1px solid #374151;color:#9ca3af;font-size:10.5px;line-height:1.45;\">Redeem Agri Points into cash vouchers in the Vouchers tab, then apply one at checkout. ${KARMA_PER_RINGGIT} Agri Points = RM1.<\u002Fdiv>
   <\u002Fdiv>`);
 }
 
@@ -111,6 +112,7 @@ function getBuyerSidebar(profile) {
         <p style=\"font-size:11px;color:#6b7280;text-transform:uppercase;letter-spacing:.06em;padding:8px 12px 4px;margin:0;\">Buyer Portal<\u002Fp>
         <button sc-camel-on-click=\"{{ goBrowse }}\" style=\"{{ buyerHomeTabStyle }}\"><span style=\"{{ buyerHomeDotStyle }}\"><\u002Fspan>Marketplace home<\u002Fbutton>
         <button sc-camel-on-click=\"{{ goFreeShipping }}\" style=\"{{ buyerShippingTabStyle }}\"><span style=\"{{ buyerShippingDotStyle }}\"><\u002Fspan>Free shipping<\u002Fbutton>
+        <button sc-camel-on-click=\"{{ goVouchers }}\" style=\"{{ buyerVoucherTabStyle }}\"><span style=\"{{ buyerVoucherDotStyle }}\"><\u002Fspan>Vouchers<\u002Fbutton>
       <\u002Fnav>
       ${getKarmaCard()}
       <div style=\"border-top:1px solid #374151;padding:14px;\"><div style=\"display:flex;align-items:center;gap:9px;min-width:0;\"><div style=\"width:30px;height:30px;border-radius:999px;background:#1a6b3c;display:flex;align-items:center;justify-content:center;flex:none;color:#fff;font-size:12px;font-weight:700;\">${profile.initial}<\u002Fdiv><div style=\"min-width:0;\"><p style=\"font-size:13px;font-weight:600;margin:0;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;\">${profile.name}<\u002Fp><p style=\"font-size:11.5px;color:#9ca3af;margin:0;\">${profile.roleLabel}<\u002Fp><\u002Fdiv><\u002Fdiv><\u002Fdiv>
@@ -132,6 +134,23 @@ function getBuyerFreeShippingScreen() {
   <\u002Fsc-if>`);
 }
 
+function getBuyerVoucherScreen() {
+  const tierCards = VOUCHER_TIERS.map((tier) => String.raw`<div style=\"background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:18px;display:flex;flex-direction:column;\"><div style=\"font-size:20px;font-weight:800;color:#1a6b3c;\">RM${tier.value} voucher<\u002Fdiv><div style=\"font-size:12.5px;color:#6b7280;margin-top:3px;\">Redeem RM${tier.value} &middot; ${tier.cost} pts<\u002Fdiv><sc-if value=\"{{ voucherCanRedeem${tier.value} }}\" hint-placeholder-val=\"{{ true }}\"><button sc-camel-on-click=\"{{ voucherRedeem${tier.value} }}\" style=\"width:100%;height:40px;margin-top:14px;border:none;border-radius:9px;background:#1a6b3c;color:#fff;font-size:13px;font-weight:700;cursor:pointer;\">Redeem<\u002Fbutton><\u002Fsc-if><sc-if value=\"{{ voucherCannotRedeem${tier.value} }}\" hint-placeholder-val=\"{{ false }}\"><button disabled style=\"width:100%;height:40px;margin-top:14px;border:none;border-radius:9px;background:#e5e7eb;color:#9ca3af;font-size:13px;font-weight:700;cursor:not-allowed;\">Not enough points<\u002Fbutton><\u002Fsc-if><\u002Fdiv>`).join("");
+  return encodeBundledMarkup(String.raw`
+  <!-- ============ VOUCHERS ============ -->
+  <sc-if value=\"{{ isVouchers }}\" hint-placeholder-val=\"{{ false }}\">
+    <main data-screen-label=\"Vouchers\" style=\"flex:1;margin-left:248px;\">
+      <div style=\"max-width:1120px;margin:0 auto;padding:34px 24px;\">
+        <div style=\"margin-bottom:22px;\"><h1 style=\"font-size:26px;font-weight:700;color:#111827;margin:0;\">Cash vouchers<\u002Fh1><p style=\"font-size:14px;color:#6b7280;margin:6px 0 0;\">Redeem your Agri Points into fixed cash vouchers, then apply one at checkout for a direct discount.<\u002Fp><\u002Fdiv>
+        <div style=\"display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;padding:12px 16px;border-radius:12px;background:#f9fafb;border:1px solid #e5e7eb;\"><span style=\"font-size:13px;color:#6b7280;\">Agri Points balance<\u002Fspan><strong style=\"font-size:17px;color:#1a6b3c;\">{{ karmaCredits }}<\u002Fstrong><\u002Fdiv>
+        <div style=\"display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;\">${tierCards}<\u002Fdiv>
+        <div style=\"margin-top:26px;\"><div style=\"font-size:14px;font-weight:700;color:#111827;margin-bottom:10px;\">Your vouchers<\u002Fdiv><sc-if value=\"{{ buyerVouchersEmpty }}\" hint-placeholder-val=\"{{ true }}\"><div style=\"padding:28px 16px;border:1px dashed #d1d5db;border-radius:12px;background:#fff;color:#9ca3af;font-size:13px;text-align:center;\">No vouchers yet. Redeem points above to create one.<\u002Fdiv><\u002Fsc-if><sc-if value=\"{{ buyerVouchersAvailable }}\" hint-placeholder-val=\"{{ false }}\"><div style=\"display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;\"><sc-for list=\"{{ buyerVouchers }}\" as=\"v\" hint-placeholder-count=\"2\"><div style=\"display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px;border:1px solid #bbf7d0;border-radius:12px;background:#fff;\"><span style=\"font-size:17px;font-weight:800;color:#1a6b3c;\">{{ v.valueLabel }}<\u002Fspan><span style=\"padding:4px 9px;border-radius:999px;background:#dcfce7;color:#15803d;font-size:11px;font-weight:700;\">Active<\u002Fspan><\u002Fdiv><\u002Fsc-for><\u002Fdiv><\u002Fsc-if>
+      <\u002Fdiv>
+      <\u002Fdiv>
+    <\u002Fmain>
+  <\u002Fsc-if>`);
+}
+
 function getSellerFreeShippingPanel() {
   return encodeBundledMarkup(String.raw`
             <!-- Seller free shipping -->
@@ -146,27 +165,28 @@ function getSellerFreeShippingPanel() {
             <\u002Fsc-if>`);
 }
 
-function getCheckoutKarmaPanel() {
+function getCheckoutVoucherPanel() {
   return encodeBundledMarkup(String.raw`
-            <div style=\"margin:13px 0;padding:12px;border:1px solid #fde68a;border-radius:10px;background:#fffbeb;\">
-              <div style=\"display:flex;align-items:center;justify-content:space-between;gap:10px;\"><div><div style=\"font-size:12.5px;font-weight:700;color:#92400e;\">Use Agri Points<\u002Fdiv><div style=\"font-size:10.5px;color:#a16207;margin-top:2px;\">Balance: {{ karmaCredits }} · Maximum: {{ checkoutKarmaMax }}<\u002Fdiv><\u002Fdiv><button sc-camel-on-click=\"{{ useMaximumKarma }}\" style=\"height:30px;padding:0 10px;border:1px solid #f59e0b;border-radius:7px;background:#fff;color:#92400e;font-size:11px;font-weight:700;cursor:pointer;\">Use max<\u002Fbutton><\u002Fdiv>
-              <input type=\"number\" min=\"0\" value=\"{{ checkoutKarma }}\" sc-camel-on-change=\"{{ onCheckoutKarma }}\" style=\"width:100%;height:38px;margin-top:9px;border:1px solid #fcd34d;border-radius:8px;padding:0 10px;background:#fff;font-size:13px;outline:none;\">
-              <div style=\"display:flex;justify-content:space-between;margin-top:7px;font-size:10.5px;color:#a16207;\"><span>Reserved until payment succeeds<\u002Fspan><span>{{ checkoutKarmaDiscount }} discount<\u002Fspan><\u002Fdiv>
+            <div style=\"margin:13px 0;padding:12px;border:1px solid #bbf7d0;border-radius:10px;background:#f0fdf4;\">
+              <div style=\"font-size:12.5px;font-weight:700;color:#15803d;\">Apply a cash voucher<\u002Fdiv>
+              <select value=\"{{ selectedVoucherId }}\" sc-camel-on-change=\"{{ onSelectVoucher }}\" style=\"width:100%;height:38px;margin-top:9px;border:1px solid #bbf7d0;border-radius:8px;padding:0 10px;background:#fff;font-size:13px;outline:none;\"><option value=\"\">No voucher<\u002Foption><sc-for list=\"{{ voucherOptions }}\" as=\"v\" hint-placeholder-count=\"2\"><option value=\"{{ v.value }}\">{{ v.label }}<\u002Foption><\u002Fsc-for><\u002Fselect>
+              <div style=\"display:flex;justify-content:space-between;margin-top:7px;font-size:10.5px;color:#15803d;\"><span>Redeem vouchers in the Vouchers tab<\u002Fspan><span>{{ checkoutVoucherDiscount }} discount<\u002Fspan><\u002Fdiv>
             <\u002Fdiv>`);
 }
 
 function addBuyerSidebar(html, profile) {
+  const voucherRedeemBindings = VOUCHER_TIERS.map((tier) => String.raw`\n      voucherCanRedeem${tier.value}: availableWalletKarma >= ${tier.cost},\n      voucherCannotRedeem${tier.value}: availableWalletKarma < ${tier.cost},\n      voucherRedeem${tier.value}: () => { if (availableWalletKarma < ${tier.cost}) return; window.parent.postMessage({ type: '${MARKETPLACE_REWARD_MESSAGE}', action: 'redeem-voucher', value: ${tier.value}, cost: ${tier.cost} }, '*'); this.setState(st => ({ vouchers: st.vouchers.concat([{ id: 'local-voucher-' + Date.now(), value: ${tier.value}, status: 'active', createdAt: new Date().toISOString() }]), voucherKarmaSpent: st.voucherKarmaSpent + ${tier.cost} })); },`).join("");
   const withSidebar = html.replace(
     BUYER_NAV_MARKER,
     `${BUYER_NAV_MARKER}${getBuyerSidebar(profile)}`,
   );
   const productDetailMarker = String.raw`  <!-- ============ PRODUCT DETAIL ============ -->`;
   const sellerOrdersMarker = String.raw`            <!-- Orders -->`;
-  const checkoutFulfillRow = String.raw`            <div style=\"display:flex;justify-content:space-between;font-size:13.5px;margin-bottom:8px;color:#4b5563;\"><span>{{ fulfillLabel }}<\u002Fspan><span>{{ fulfillCost }}<\u002Fspan><\u002Fdiv>`;
+  const checkoutFulfillRow = String.raw`<div style=\"display:flex;justify-content:space-between;font-size:13.5px;margin-bottom:8px;color:#4b5563;\"><span>{{ fulfillLabel }}</span><span>{{ fulfillCost }}</span></div>`;
   const withRewardScreens = withSidebar
     .replace(
       productDetailMarker,
-      encodeBundledMarkup(`${getBuyerFreeShippingScreen()}\n${productDetailMarker}`),
+      encodeBundledMarkup(`${getBuyerFreeShippingScreen()}\n${getBuyerVoucherScreen()}\n${productDetailMarker}`),
     )
     .replace(
       sellerOrdersMarker,
@@ -174,7 +194,7 @@ function addBuyerSidebar(html, profile) {
     )
     .replace(
       checkoutFulfillRow,
-      encodeBundledMarkup(`${checkoutFulfillRow}\n${getCheckoutKarmaPanel()}`),
+      encodeBundledMarkup(`${checkoutFulfillRow}\n${getCheckoutVoucherPanel()}`),
     );
   const sellerFooter = String.raw`        <div style=\"border-top:1px solid #374151;padding:14px;\">`;
   const withSellerKarma = withRewardScreens.replace(
@@ -184,27 +204,27 @@ function addBuyerSidebar(html, profile) {
   const withRewardState = withSellerKarma
     .replace(
       String.raw`    extraListings: []\n  };`,
-      String.raw`    extraListings: [],\n    checkoutKarma: '0',\n    buyerKarmaSpent: 0,\n    shippingPromotions: ${encodeBundledJsValue(profile.promotions)},\n    promoProductId: '3',\n    promoSlots: '1',\n    sellerPromoKarmaSpent: 0\n  };`,
+      String.raw`    extraListings: [],\n    vouchers: ${encodeBundledJsValue(profile.vouchers)},\n    selectedVoucherId: '',\n    voucherKarmaSpent: 0,\n    shippingPromotions: ${encodeBundledJsValue(profile.promotions)},\n    promoProductId: '3',\n    promoSlots: '1',\n    sellerPromoKarmaSpent: 0\n  };`,
     )
     .replace(
       String.raw`    const sellerTabDefs = [['dash', 'Dashboard'], ['listings', 'Listings'], ['new', 'New listing'], ['orders', 'Orders']];`,
-      String.raw`    const sellerTabDefs = [['dash', 'Dashboard'], ['listings', 'Listings'], ['new', 'New listing'], ['shipping', 'Free shipping'], ['orders', 'Orders']];\n    const shippingPromo = s.shippingPromotions.find(promo => promo.slotsRemaining > 0 && s.cart.some(item => item.id === promo.productId));\n    const payableBeforeKarma = subtotalN + (shippingPromo ? 0 : fSel.cost);\n    const availableWalletKarma = Math.max(0, ${profile.credits} - s.sellerPromoKarmaSpent - s.buyerKarmaSpent);\n    const maxCheckoutKarma = Math.max(0, Math.min(availableWalletKarma, Math.floor(payableBeforeKarma * ${MAX_KARMA_DISCOUNT_RATE} * ${KARMA_PER_RINGGIT})));\n    const checkoutKarma = Math.max(0, Math.min(maxCheckoutKarma, parseInt(s.checkoutKarma, 10) || 0));\n    const karmaDiscount = checkoutKarma / ${KARMA_PER_RINGGIT};\n    const sellerAvailableKarma = availableWalletKarma;\n    const sellerPromoSlotLimit = Math.floor(sellerAvailableKarma / ${SELLER_SHIPPING_SLOT_COST});\n    const sellerSelectedSlots = Math.max(0, Math.min(sellerPromoSlotLimit, parseInt(s.promoSlots, 10) || 0));\n    const buyerTabStyle = (active) => 'display:flex;align-items:center;gap:10px;text-align:left;height:40px;padding:0 12px;border:none;border-radius:9px;font-size:13.5px;font-weight:' + (active ? '600' : '500') + ';cursor:pointer;width:100%;background:' + (active ? '#374151' : 'none') + ';color:' + (active ? '#fff' : '#9ca3af') + ';';\n    const buyerDotStyle = (active) => 'width:6px;height:6px;border-radius:999px;flex:none;background:' + (active ? '#e8b84b' : '#4b5563') + ';';`,
+      String.raw`    const sellerTabDefs = [['dash', 'Dashboard'], ['listings', 'Listings'], ['new', 'New listing'], ['shipping', 'Free shipping'], ['orders', 'Orders']];\n    const shippingPromo = s.shippingPromotions.find(promo => promo.slotsRemaining > 0 && s.cart.some(item => item.id === promo.productId));\n    const payableBeforeVoucher = subtotalN + (shippingPromo ? 0 : fSel.cost);\n    const availableWalletKarma = Math.max(0, ${profile.credits} - s.sellerPromoKarmaSpent - s.voucherKarmaSpent);\n    const appliedVoucher = s.vouchers.find(v => v.status === 'active' && v.id === s.selectedVoucherId);\n    const voucherDiscount = appliedVoucher ? Math.min(appliedVoucher.value, payableBeforeVoucher) : 0;\n    const sellerAvailableKarma = availableWalletKarma;\n    const sellerPromoSlotLimit = Math.floor(sellerAvailableKarma / ${SELLER_SHIPPING_SLOT_COST});\n    const sellerSelectedSlots = Math.max(0, Math.min(sellerPromoSlotLimit, parseInt(s.promoSlots, 10) || 0));\n    const buyerTabStyle = (active) => 'display:flex;align-items:center;gap:10px;text-align:left;height:40px;padding:0 12px;border:none;border-radius:9px;font-size:13.5px;font-weight:' + (active ? '600' : '500') + ';cursor:pointer;width:100%;background:' + (active ? '#374151' : 'none') + ';color:' + (active ? '#fff' : '#9ca3af') + ';';\n    const buyerDotStyle = (active) => 'width:6px;height:6px;border-radius:999px;flex:none;background:' + (active ? '#e8b84b' : '#4b5563') + ';';`,
     )
     .replace(
       String.raw`      goCart: () => this.setState({ screen: 'cart' }),\n      goCheckout: () => this.setState({ screen: 'checkout' }),`,
-      String.raw`      goCart: () => this.setState({ screen: 'cart' }),\n      goFreeShipping: () => this.setState({ screen: 'freeShipping' }),\n      buyerHomeTabStyle: buyerTabStyle(s.screen !== 'freeShipping'),\n      buyerShippingTabStyle: buyerTabStyle(s.screen === 'freeShipping'),\n      buyerHomeDotStyle: buyerDotStyle(s.screen !== 'freeShipping'),\n      buyerShippingDotStyle: buyerDotStyle(s.screen === 'freeShipping'),\n      karmaCredits: availableWalletKarma,\n      karmaLevel: '${profile.creditLevel}',\n      karmaProgressStyle: 'height:100%;width:${profile.creditPercent}%;background:#e8b84b;border-radius:999px;',\n      karmaCreditLabel: '${profile.creditLabel}',\n      checkoutKarma: String(checkoutKarma),\n      checkoutKarmaMax: String(maxCheckoutKarma),\n      checkoutKarmaDiscount: this.fmt(karmaDiscount),\n      onCheckoutKarma: (e) => this.setState({ checkoutKarma: String(Math.max(0, Math.min(maxCheckoutKarma, parseInt(e.target.value, 10) || 0))) }),\n      useMaximumKarma: () => this.setState({ checkoutKarma: String(maxCheckoutKarma) }),\n      goCheckout: () => this.setState({ screen: 'checkout', checkoutKarma: '0' }),`,
+      String.raw`      goCart: () => this.setState({ screen: 'cart' }),\n      goFreeShipping: () => this.setState({ screen: 'freeShipping' }),\n      goVouchers: () => this.setState({ screen: 'vouchers' }),\n      buyerHomeTabStyle: buyerTabStyle(s.screen !== 'freeShipping' && s.screen !== 'vouchers'),\n      buyerShippingTabStyle: buyerTabStyle(s.screen === 'freeShipping'),\n      buyerVoucherTabStyle: buyerTabStyle(s.screen === 'vouchers'),\n      buyerHomeDotStyle: buyerDotStyle(s.screen !== 'freeShipping' && s.screen !== 'vouchers'),\n      buyerShippingDotStyle: buyerDotStyle(s.screen === 'freeShipping'),\n      buyerVoucherDotStyle: buyerDotStyle(s.screen === 'vouchers'),\n      karmaCredits: availableWalletKarma,\n      karmaLevel: '${profile.creditLevel}',\n      karmaProgressStyle: 'height:100%;width:${profile.creditPercent}%;background:#e8b84b;border-radius:999px;',\n      karmaCreditLabel: '${profile.creditLabel}',${voucherRedeemBindings}\n      buyerVouchers: s.vouchers.filter(v => v.status === 'active').map(v => ({ id: v.id, valueLabel: 'RM' + v.value })),\n      buyerVouchersEmpty: !s.vouchers.some(v => v.status === 'active'),\n      buyerVouchersAvailable: s.vouchers.some(v => v.status === 'active'),\n      voucherOptions: s.vouchers.filter(v => v.status === 'active').map(v => ({ value: v.id, label: 'RM' + v.value + ' voucher' })),\n      selectedVoucherId: appliedVoucher ? s.selectedVoucherId : '',\n      onSelectVoucher: (e) => this.setState({ selectedVoucherId: e.target.value }),\n      checkoutVoucherDiscount: this.fmt(voucherDiscount),\n      goCheckout: () => this.setState({ screen: 'checkout', selectedVoucherId: '' }),`,
     )
     .replace(
       String.raw`      isProduct: s.screen === 'product',`,
-      String.raw`      isProduct: s.screen === 'product',\n      isFreeShipping: s.screen === 'freeShipping',\n      freeShippingProducts: s.shippingPromotions.filter(promo => promo.slotsRemaining > 0).map(promo => { const product = all.find(p => p.id === promo.productId); if (!product) return null; return Object.assign(this.decorate(product), { slotsLabel: promo.slotsRemaining + ' order slot' + (promo.slotsRemaining === 1 ? '' : 's') + ' left' }); }).filter(Boolean),\n      freeShippingEmpty: !s.shippingPromotions.some(promo => promo.slotsRemaining > 0 && all.some(p => p.id === promo.productId)),\n      freeShippingAvailable: s.shippingPromotions.some(promo => promo.slotsRemaining > 0 && all.some(p => p.id === promo.productId)),`,
+      String.raw`      isProduct: s.screen === 'product',\n      isFreeShipping: s.screen === 'freeShipping',\n      isVouchers: s.screen === 'vouchers',\n      freeShippingProducts: s.shippingPromotions.filter(promo => promo.slotsRemaining > 0).map(promo => { const product = all.find(p => p.id === promo.productId); if (!product) return null; return Object.assign(this.decorate(product), { slotsLabel: promo.slotsRemaining + ' order slot' + (promo.slotsRemaining === 1 ? '' : 's') + ' left' }); }).filter(Boolean),\n      freeShippingEmpty: !s.shippingPromotions.some(promo => promo.slotsRemaining > 0 && all.some(p => p.id === promo.productId)),\n      freeShippingAvailable: s.shippingPromotions.some(promo => promo.slotsRemaining > 0 && all.some(p => p.id === promo.productId)),`,
     )
     .replace(
       String.raw`      fulfillCost: fSel.cost === 0 ? 'Free' : this.fmt(fSel.cost),\n      subtotal: this.fmt(subtotalN),\n      total: this.fmt(subtotalN + fSel.cost),`,
-      String.raw`      fulfillCost: shippingPromo ? 'Free (seller sponsored)' : (fSel.cost === 0 ? 'Free' : this.fmt(fSel.cost)),\n      subtotal: this.fmt(subtotalN),\n      total: this.fmt(Math.max(0, payableBeforeKarma - karmaDiscount)),`,
+      String.raw`      fulfillCost: shippingPromo ? 'Free (seller sponsored)' : (fSel.cost === 0 ? 'Free' : this.fmt(fSel.cost)),\n      subtotal: this.fmt(subtotalN),\n      total: this.fmt(Math.max(0, payableBeforeVoucher - voucherDiscount)),`,
     )
     .replace(
       String.raw`      placeOrder: () => this.setState({ screen: 'confirm', cart: [] }),`,
-      String.raw`      placeOrder: () => {\n        if (shippingPromo) window.parent.postMessage({ type: '${MARKETPLACE_REWARD_MESSAGE}', action: 'claim-free-shipping', promotionId: shippingPromo.id, productId: shippingPromo.productId }, '*');\n        if (checkoutKarma > 0) window.parent.postMessage({ type: '${MARKETPLACE_REWARD_MESSAGE}', action: 'capture-checkout-karma', karma: checkoutKarma, sellerEmail: shippingPromo ? shippingPromo.sellerEmail : 'seller@agrischeme.my' }, '*');\n        this.setState(st => ({ screen: 'confirm', cart: [], checkoutKarma: '0', buyerKarmaSpent: st.buyerKarmaSpent + checkoutKarma }));\n      },`,
+      String.raw`      placeOrder: () => {\n        if (shippingPromo) window.parent.postMessage({ type: '${MARKETPLACE_REWARD_MESSAGE}', action: 'claim-free-shipping', promotionId: shippingPromo.id, productId: shippingPromo.productId }, '*');\n        if (appliedVoucher) window.parent.postMessage({ type: '${MARKETPLACE_REWARD_MESSAGE}', action: 'apply-voucher', voucherId: appliedVoucher.id }, '*');\n        this.setState(st => ({ screen: 'confirm', cart: [], selectedVoucherId: '', vouchers: appliedVoucher ? st.vouchers.map(v => v.id === appliedVoucher.id ? Object.assign({}, v, { status: 'used' }) : v) : st.vouchers }));\n      },`,
     )
     .replace(
       String.raw`      isSellerOrders: s.sellerTab === 'orders',`,
@@ -245,8 +265,6 @@ export default function Marketplace() {
   const community = useMemo(() => loadCommunityState(user), [user]);
   const marketplaceRewards = useMemo(() => loadMarketplaceRewards(), []);
   const creditProgress = useMemo(() => getCreditProgress(community.credits), [community.credits]);
-  const redeemedCredits = community.credits;
-  const redeemedProgress = creditProgress;
   const profile = useMemo(() => ({
     name: escapeMarkupText(user?.name || "Guest Farmer"),
     email: escapeMarkupText(user?.email || "guest@example.com"),
@@ -259,13 +277,13 @@ export default function Marketplace() {
       ? `${creditProgress.remaining} Agri Points to next level`
       : "Highest community level reached",
     canRedeem: Boolean(user),
-    cashVoucherRedeemed: false,
-    redeemedCredits,
-    redeemedLevel: redeemedProgress.name,
-    redeemedPercent: redeemedProgress.percent,
-    redeemedLabel: redeemedProgress.remaining
-      ? `${redeemedProgress.remaining} Agri Points to next level`
-      : "Highest community level reached",
+    vouchers: (community.vouchers || [])
+      .filter((voucher) => voucher.status === "active")
+      .map((voucher) => ({
+        id: escapeMarkupText(String(voucher.id).slice(0, 80)),
+        value: Number(voucher.value),
+        status: "active",
+      })),
     promotions: (marketplaceRewards.promotions || []).map((promotion) => ({
       id: escapeMarkupText(String(promotion.id).slice(0, 80)),
       sellerEmail: escapeMarkupText(String(promotion.sellerEmail || "").slice(0, 120)),
@@ -277,7 +295,7 @@ export default function Marketplace() {
       isMine: Boolean(user?.email && promotion.sellerEmail === user.email),
     })),
     sellerShippingSlotLimit: Math.floor(community.credits / SELLER_SHIPPING_SLOT_COST),
-  }), [community.credits, creditProgress, marketplaceRewards.promotions, redeemedCredits, redeemedProgress, user]);
+  }), [community, creditProgress, marketplaceRewards.promotions, user]);
   const source = useMemo(() => getMarketplaceSource(canSell, profile), [canSell, profile]);
 
   useEffect(() => {
@@ -291,36 +309,33 @@ export default function Marketplace() {
       const current = loadCommunityState(user);
       const action = event.data.action;
 
-      if (action === "capture-checkout-karma") {
-        const karma = Math.max(0, Math.min(current.credits, Math.floor(Number(event.data.karma) || 0)));
-        if (!karma) return;
-        const sellerEmail = String(event.data.sellerEmail || "seller@agrischeme.my")
-          .trim()
-          .toLowerCase()
-          .slice(0, 120);
-        const sellerAccount = { email: sellerEmail };
-        const sellerCommunity = loadCommunityState(sellerAccount);
-        const createdAt = new Date().toISOString();
+      if (action === "redeem-voucher") {
+        const cost = Math.floor(Number(event.data.cost) || 0);
+        const value = Math.floor(Number(event.data.value) || 0);
+        const tier = VOUCHER_TIERS.find((t) => t.value === value && t.cost === cost);
+        if (!tier || current.credits < cost) return;
 
         saveCommunityState(user, {
           ...current,
-          credits: current.credits - karma,
+          credits: current.credits - cost,
+          vouchers: [...(current.vouchers || []), createVoucher(value)],
           creditLedger: [{
-            id: `credit-checkout-${Date.now()}`,
-            amount: -karma,
-            label: `Marketplace checkout discount (RM${(karma / KARMA_PER_RINGGIT).toFixed(2)})`,
-            createdAt,
+            id: `credit-voucher-${Date.now()}`,
+            amount: -cost,
+            label: `Redeemed RM${value} voucher`,
+            createdAt: new Date().toISOString(),
           }, ...(current.creditLedger || [])],
         });
-        saveCommunityState(sellerAccount, {
-          ...sellerCommunity,
-          credits: sellerCommunity.credits + karma,
-          creditLedger: [{
-            id: `credit-sale-${Date.now()}`,
-            amount: karma,
-            label: "Agri Points received from a successful Marketplace order",
-            createdAt,
-          }, ...(sellerCommunity.creditLedger || [])],
+        return;
+      }
+
+      if (action === "apply-voucher") {
+        const voucherId = String(event.data.voucherId || "");
+        saveCommunityState(user, {
+          ...current,
+          vouchers: (current.vouchers || []).map((voucher) =>
+            voucher.id === voucherId ? { ...voucher, status: "used" } : voucher,
+          ),
         });
         return;
       }

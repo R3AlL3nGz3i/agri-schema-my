@@ -5,6 +5,12 @@ export const TEST_AGRI_POINT_BALANCE = 2000;
 export const COMMUNITY_CROPS = ["All crops", "Paddy", "Chilli", "Durian", "Tomato", "Unknown crop"];
 export const COMMUNITY_TOPICS = ["All topics", "Disease", "Pest", "Identification", "Soil", "Weather", "Marketplace"];
 
+export const VOUCHER_TIERS = [
+  { value: 1, cost: 100 },
+  { value: 5, cost: 500 },
+  { value: 10, cost: 1000 },
+];
+
 const seedQuestions = [
   {
     id: "community-paddy-brown-spots",
@@ -179,6 +185,7 @@ export function createCommunityState() {
     votes: {},
     follows: [],
     meToo: [],
+    vouchers: [],
   };
 }
 
@@ -192,11 +199,12 @@ export function loadCommunityState(user) {
           ...state,
           credits: TEST_AGRI_POINT_BALANCE,
           testBalanceVersion: TEST_BALANCE_VERSION,
+          vouchers: state.vouchers || [],
         };
         localStorage.setItem(storageKey(user), JSON.stringify(migratedState));
         return migratedState;
       }
-      return state;
+      return { ...state, vouchers: state.vouchers || [] };
     }
   } catch {
     // Use the seeded prototype if browser storage is unavailable or corrupted.
@@ -214,6 +222,15 @@ export function saveCommunityState(user, state) {
 
 export function createCommunityId(prefix) {
   return `${prefix}-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+}
+
+export function createVoucher(value) {
+  return {
+    id: createCommunityId("voucher"),
+    value,
+    status: "active",
+    createdAt: new Date().toISOString(),
+  };
 }
 
 export function getCreditLevel(credits) {
