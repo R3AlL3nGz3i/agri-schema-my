@@ -1,0 +1,23 @@
+# Keep the committed Gemini key out of the image — use a host secret instead.
+.env
+
+.git
+.venv
+__pycache__
+*.pyc
+*.log
+
+# Rebuilt inside the image.
+data/chroma/
+
+# Frontend is deployed separately to GitHub Pages.
+frontend/node_modules
+frontend/dist
+
+# Large / non-runtime assets.
+data/raw/
+data/vision/images/
+deck/slides/
+deck/*.pptx
+.gstack/
+.claude/
