@@ -168,7 +168,7 @@ over CORS — there is no static mount on the backend.
 
 ```bash
 cd frontend
-npm install
+npm ci
 npm run dev            # → http://localhost:5173
 # API base URL defaults to http://localhost:8000; override with VITE_API_URL
 ```
@@ -181,46 +181,116 @@ label rate, PPE and PHI — "AI-assisted screening only."
 
 **Admin flow** (login): Dashboard, Evidence Search, Knowledge Base, Review Queue, Analytics.
 
-**Honest status of the GUI (frontend is ahead of the backend):**
+**Honest status of the GUI:**
 
-- The working end-to-end path today is **text/symptom search → `POST /query`**. Both the farmer
-  Scan/Search screens and the admin Evidence Search use it.
-- `ScanCrop` uploads an image, but image diagnosis calls `POST /diagnose` and login calls
-  `POST /auth/login` / `POST /auth/signup` — **these endpoints are not implemented in
-  `api/main.py` yet**. So photo diagnosis and role auth are front-end scaffolding pending backend
-  work; the search flow is what actually runs against the current API.
+- Knowledge-base retrieval works through `POST /query` without an AI key. Grounded chatbot
+  answers (`POST /ask`) and photo diagnosis (`POST /diagnose`) require the OpenAI or Gemini
+  provider configured in `.env`.
+- Login, signup, roles and marketplace state are client-side demonstration features. They are not
+  production authentication or persistent server-side accounts.
 - The search UI communicates honesty via the MY-status badge + the label-first safety note rather
   than per-dose/PHI verification badges. The granular `verified` flags are exposed through the
   full-entry endpoint, not the search results.
 
 ---
 
-## Quickstart
+## Setup for judges
+
+### Prerequisites
+
+- Git
+- Python 3.10–3.12
+- Node.js 20.19+ or 22.12+
+- Internet access for dependency installation and the first embedding-model download
+
+AgriSchema-MY runs as two local processes: the FastAPI backend on port `8000` and the Vite
+frontend on port `5173`.
+
+### 1. Clone and configure the backend
 
 ```bash
-# 1. Backend
 git clone https://github.com/R3AlL3nGz3i/agri-schema-my.git
 cd agri-schema-my
-python3 -m venv .venv && source .venv/bin/activate      # Python 3.14
-pip install -r requirements.txt                         # fastapi, uvicorn, chromadb,
-                                                        # pdfplumber, pyyaml, anthropic, ...
-echo "ANTHROPIC_API_KEY=sk-..." > .env                  # only needed for seed/review, NOT serving
-python run_pipeline.py --embed                          # build the ChromaDB vector store
-uvicorn api.main:app --port 8000                        # serve
 
-# sanity check
-curl localhost:8000/health     # {"status":"ok"}
-curl localhost:8000/stats      # 23 entries, verdict tallies
+python3 -m venv .venv
+source .venv/bin/activate       # macOS/Linux
+pip install -r requirements.txt
 
-# 2. Frontend (separate terminal)
-cd frontend && npm install && npm run dev               # open http://localhost:5173
+cp .env.example .env
 ```
 
-Then run a search (e.g. "rice blast disease in paddy") and confirm a result renders with its
-pathogen badge, relevance bar, MY-status badge, citations and the label-first safety note.
+On Windows PowerShell, activate the environment with:
 
-`ANTHROPIC_API_KEY` is only required to (re)generate or review entries; serving the committed data
-and running the honesty tests need no key.
+```powershell
+.venv\Scripts\Activate.ps1
+```
+
+For the complete chatbot and photo-diagnosis demo, edit the repository-root `.env` and configure
+one provider:
+
+```dotenv
+# Option A: Gemini
+LLM_PROVIDER=gemini
+GEMINI_API_KEY=your_key_here
+
+# Option B: OpenAI
+# LLM_PROVIDER=openai
+# OPENAI_API_KEY=your_key_here
+```
+
+Do not commit real API keys. `ANTHROPIC_API_KEY` is only needed to regenerate or professor-review
+knowledge entries; it is not required to serve the app. Basic `POST /query` knowledge-base search
+also works without an AI key.
+
+### 2. Build the vector store and start the API
+
+Run these commands from the repository root with the virtual environment active:
+
+```bash
+python run_pipeline.py --embed
+uvicorn api.main:app --port 8000
+```
+
+The first embed may take longer while ChromaDB downloads its default embedding model. Verify the
+backend in another terminal:
+
+```bash
+curl http://localhost:8000/health    # expected: {"status":"ok"}
+curl http://localhost:8000/stats     # knowledge-base statistics
+```
+
+Interactive API documentation is available at <http://localhost:8000/docs>.
+
+### 3. Start the frontend
+
+Open a second terminal:
+
+```bash
+cd agri-schema-my/frontend
+npm ci
+npm run dev
+```
+
+Open <http://localhost:5173>. The frontend uses `http://localhost:8000` by default. To use a
+different backend URL, copy `frontend/.env.example` to `frontend/.env` and change `VITE_API_URL`.
+
+### 4. Demo accounts
+
+| Role | Email | Password |
+|---|---|---|
+| Admin | `admin@agrischeme.my` | `admin123` |
+| Researcher | `researcher@agrischeme.my` | `researcher123` |
+| Seller | `seller@agrischeme.my` | `seller123` |
+
+Farmers can continue as guests or create a local demonstration account. Demo authentication and
+marketplace data are stored in the browser and are not production security or persistent
+server-side storage.
+
+### 5. Suggested judge check
+
+Search for `rice blast disease in paddy` and confirm that the result displays its pathogen,
+relevance, Malaysian status, citations and label-first pesticide safety note. With an AI provider
+configured, judges can also test the grounded chat response and upload a crop photo for screening.
 
 ---
 
